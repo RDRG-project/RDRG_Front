@@ -33,9 +33,11 @@ function TopBar({path} : Props) {
     <>
       <div className="logo-container">RDRG</div>
       <div className='top-bar-container'>
-      <div className="top-bar-title">{ path }</div>
-        <div className="sign-in-button" onClick={onLogInClickHandler}>로그인</div>
-        <div className="sign-up-button" onClick={onSignUpClickHandler}>회원가입</div>
+        <div className="top-bar-title">{ path }</div>
+        <div className="top-bar-right">
+          <div className="sign-in-button" onClick={onLogInClickHandler}>로그인</div>
+          <div className="sign-up-button" onClick={onSignUpClickHandler}>회원가입</div>
+        </div>
       </div>
     </>
   );
@@ -44,8 +46,8 @@ function TopBar({path} : Props) {
 //                    component                    //
 function TopNavigation ({path} : Props) {
 
-  const rentClass = `side-navigation-item${path === '대여' ? ' active' : ''}`
-  const customerSupportClass = `side-navigation-item${path === '고객지원' ? ' active' : ''}`
+  const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
+  const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
 
   //                    function                    //
   const navigator = useNavigate();
@@ -56,9 +58,13 @@ function TopNavigation ({path} : Props) {
 
   //                    render                    //
   return (
-    <div className='top-navigator'>
-        <div className={rentClass} onClick={onRentClickHandler}>대여</div>
-        <div className={customerSupportClass} onClick={onCustomerSupportClickHandler}>고객지원</div>
+    <div className='top-navigation-container'>
+        <div className={rentClass} onClick={onRentClickHandler}>
+          <div className="top-navigation-title">대여</div>
+        </div>
+        <div className={customerSupportClass} onClick={onCustomerSupportClickHandler}>
+          <div className="top-navigation-title">고객지원</div>
+        </div>
     </div>
   )
 }
