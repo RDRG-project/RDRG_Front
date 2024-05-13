@@ -1,0 +1,57 @@
+#wrapper{
+  display: grid;
+  grid-template: 
+    "logo topBar" 77px
+    "tapNavigation main" minmax(944px, auto)  
+    /257px minmax(1182px, 1fr);
+}
+
+.main-container{
+  grid-area: main;
+  padding: 24px;
+  min-width: 1182px;
+  background-color: rgba(238,238,238,0.5);
+}
+
+.logo-container{
+  grid-area: logo;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-bottom:  1px solid rgba(233,236,239,1);
+
+  font-size: 24px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 173%;
+  color: rgba(64,64,64,1);
+}
+
+.top-bar-container{
+  grid-area: topBar;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 24px;
+
+  border-left:  1px solid rgba(233,236,239,1);
+  border-bottom:  1px solid rgba(233,236,239,1);
+}
+
+.top-bar-title{
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: rgba(64,64,64,1);
+}
+
+.top-bar-right{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
