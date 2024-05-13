@@ -1,9 +1,12 @@
 #wrapper{
   display: grid;
   grid-template: 
-    "logo topBar" 77px
-    "tapNavigation main" minmax(944px, auto)  
-    /257px minmax(1182px, 1fr);
+  "logo topBar" 77px 
+  "tapNavigation tapNavigation" 80px
+  "main main" 800px
+  "footer footer" 200px
+  /400px 1fr;
+  row-gap : 16px
 }
 
 .main-container{
@@ -54,4 +57,28 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.top-navigation-container{
+  grid-area: tapNavigation;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.top-navigation-title{
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.top-navigation-item{
+  border-radius: 6px;
+  padding: 8px 24px;
+
+  display: flex;
+  align-items: center;
+  gap : 16px;
 }
