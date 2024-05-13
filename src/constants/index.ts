@@ -1,15 +1,19 @@
 // description : Navigation URL PATH
 export const SNS_PATH = '/sns/:accessToken/:expires';
-export const AUTH_PATH = '/rdrg/authentication';
-export const HOME_PATH = '/rdrg/home';
-export const RENT_PATH = '/rdrg/rent';
-export const CUSTOMER_SUPPORT_PATH = '/customer-support';
+export const RDRG_PATH = '/rdrg' // 공통 레이아웃
+export const HOME_PATH = 'home' // 홈화면
+export const AUTH_PATH = 'authentication'; //로그인 화면
+export const SIGN_UP_PATH = 'sign-up'; //회원가입화면
+export const RENT_PATH = 'rent'; // 대여화면
+export const CUSTOMER_SUPPORT_PATH = 'customer-support'; //고객지원 화면
 
 // description : Navigation 절대 URL PATH
-export const HOME_ABSOLUTE_PATH = HOME_PATH;
-export const RENT_ABSOLUTE_PATH = RENT_PATH;
-export const CUSTOMER_SUPPORT_ABSOLUTE_PATH = CUSTOMER_SUPPORT_PATH;
-export const AUTH_ABSOLUTE_PATH = AUTH_PATH;
+export const RDRG_ABSOLUTE_PATH = RDRG_PATH; // 공통 레이아웃 절대 경로
+export const HOME_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}`; // 홈화면 절대경로
+export const AUTH_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${AUTH_PATH}`; // 로그인 화면 절대경로
+export const SIGN_UP_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${SIGN_UP_PATH}`; // 회원가입 화면 절대경로
+export const RENT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${RENT_PATH}`; // 대여화면 절대경로
+export const CUSTOMER_SUPPORT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}`; // 고객지원 화면 절대경로
 
 // description : API URL PATH
 export const SERVER_DOMAIN_URL = 'http://localhost:4500';

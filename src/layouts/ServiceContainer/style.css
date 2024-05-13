@@ -5,15 +5,13 @@
   "tapNavigation tapNavigation" 80px
   "main main" 800px
   "footer footer" 200px
-  /400px 1fr;
-  row-gap : 16px
+  /200px 1fr;
 }
 
 .main-container{
   grid-area: main;
-  padding: 24px;
   min-width: 1182px;
-  background-color: rgba(238,238,238,0.5);
+  background-color: rgba(255,100,150,1);
 }
 
 .logo-container{
@@ -61,10 +59,9 @@
 
 .top-navigation-container{
   grid-area: tapNavigation;
-  padding: 16px 12px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-around;
+  background-color: rgba(181, 176, 171, 1);
 }
 
 .top-navigation-title{
@@ -81,4 +78,10 @@
   display: flex;
   align-items: center;
   gap : 16px;
+}
+
+.foot-bar{
+  grid-area: footer;
+  min-width: 1182px;
+  background-color: rgba(138,138,13,1);
 }
