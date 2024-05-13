@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './style.css'
 import { useCookies } from 'react-cookie';
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from '../../constants';
+import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, SIGN_UP_ABSOLUTE_PATH } from '../../constants';
 import path from 'path';
 
 //                    type                    //
@@ -25,7 +25,7 @@ function TopBar({path} : Props) {
   };
 
   const onSignUpClickHandler = () => {
-    navigator(AUTH_ABSOLUTE_PATH);
+    navigator(SIGN_UP_ABSOLUTE_PATH);
   };
 
   //                    render                    //
@@ -94,6 +94,12 @@ export default function HomeContainer() {
       <TopNavigation path={path}/>
       <div className='main-container'>
         <Outlet />
+      </div>
+      <div className='foot-bar'>
+        <div>회사정보</div>
+        <div>상호 : RDRG 주식회사 대표 : 최지상 사업자 등록번호 : 111-11-11111</div>
+        <div>대표번호 : 1111-1111 팩스번호 : 11-1111-1111 메일 : email@email.com</div>
+        <div>주소 : 부산광역시 부산진구 중앙대로 668 4층 </div>
       </div>
     </div>
   );
