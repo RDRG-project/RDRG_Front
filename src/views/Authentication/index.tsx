@@ -47,7 +47,8 @@ function SnsContainer({ title }: SnsContainerProps) {
 
     //                    event handler                    //
     const onSnsButtonClickHandler = (type: 'kakao' | 'naver') => {
-        window.location.href = 'http://localhost:4000/api/v1/auth/oauth2/' + type;
+        // window.location.href = 'http://localhost:4000/api/v1/auth/oauth2/' + type;    -- 링크연결 
+        
     };
 
     //                    render                    //
@@ -140,8 +141,9 @@ function SignIn({ onLinkClickHandler }: Props) {
             <div className="authentication-input-container">
                 <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} />
                 <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} onKeydownHandler={onPasswordKeydownHandler} message={message} error />
-                <div><input type="checkbox"/>아이디 정보 저장</div>
+
             </div>
+            <div className='checkbox-container'><input type="checkbox"/>아이디 저장</div>
             <div className="authentication-button-container">
                 <button className="primary-button full-width" onClick={onSignInButtonClickHandler}>로그인</button>
                 <div className="text-link" onClick={onLinkClickHandler}>회원가입</div>
@@ -374,25 +376,31 @@ export function SignUp({ onLinkClickHandler }: Props) {
     //                    render                    //
     return (
         <div className="authentication-contents">
-            <SnsContainer title="SNS 회원가입" />
-            <div className="short-divider"></div>
             <div className="authentication-input-container">
-                <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} buttonTitle="중복 확인" buttonStatus={idButtonStatus} onButtonClickHandler={onIdButtonClickHandler} message={idMessage} error={isIdError} />
+                <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} 
+                buttonTitle="중복 확인" buttonStatus={idButtonStatus} onButtonClickHandler={onIdButtonClickHandler} message={idMessage} error={isIdError} />
 
-                <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} message={passwordMessage} error />
+                <InputBox  label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" 
+                onChangeHandler={onPasswordChangeHandler} message={passwordMessage} error />
 
-                <InputBox label="비밀번호 확인" type="password" value={passwordCheck} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordCheckChangeHandler} message={passwordCheckMessage} error />
+                <InputBox label="비밀번호 확인" type="password" value={passwordCheck} placeholder="비밀번호를 입력해주세요" 
+                onChangeHandler={onPasswordCheckChangeHandler} message={passwordCheckMessage} error />
 
-                <InputBox label="이메일" type="text" value={email} placeholder="이메일을 입력해주세요" onChangeHandler={onEmailChangeHandler} buttonTitle="이메일 인증" buttonStatus={emailButtonStatus} onButtonClickHandler={onEmailButtonClickHandler} message={emailMessage} error={isEmailError} />
+                <InputBox label="이메일" type="text" value={email} placeholder="이메일을 입력해주세요" 
+                onChangeHandler={onEmailChangeHandler} buttonTitle="이메일 인증" buttonStatus={emailButtonStatus} 
+                onButtonClickHandler={onEmailButtonClickHandler} message={emailMessage} error={isEmailError} />
 
                 {isEmailCheck && 
-                <InputBox label="인증번호" type="text" value={authNumber} placeholder="인증번호 4자리를 입력해주세요" onChangeHandler={onAuthNumberChangeHandler} buttonTitle="인증 확인" buttonStatus={authNumberButtonStatus} onButtonClickHandler={onAuthNumberButtonClickHandler} message={authNumberMessage} error={isAuthNumberError} />}
-
+                <InputBox label="인증번호" type="text" value={authNumber} placeholder="인증번호 4자리를 입력해주세요" 
+                onChangeHandler={onAuthNumberChangeHandler} buttonTitle="인증 확인" buttonStatus={authNumberButtonStatus} 
+                onButtonClickHandler={onAuthNumberButtonClickHandler} message={authNumberMessage} error={isAuthNumberError} />}
             </div>
             <div className="authentication-button-container">
                 <div className={signUpButtonClass} onClick={onSignUpButtonClickHandler}>회원가입</div>
                 <div className="text-link" onClick={onLinkClickHandler}>로그인</div>
             </div>
+            <div className="short-divider"></div>
+            <SnsContainer title="SNS 회원가입" />
         </div>
     );
 }
