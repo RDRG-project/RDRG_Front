@@ -6,12 +6,13 @@
     min-height: 1024px;
 }
 
+
 .authentication-box {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:normal;
     
-    min-width: 610px;
+    min-width: 600px;
 }
 
 .authentication-container {
@@ -20,18 +21,19 @@
     align-items: center;
     gap: 24px;
 
-    width: 380px;
+    width: 100%;
 }
 
 .authentication-title {
     color: rgba(64, 64, 64, 1);
+    font-size: 50px;
 }
 
 .authentication-contents {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 10px;
 
     width: 100%;
 }
@@ -40,16 +42,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 14px;
-
-    width: 100%;
-}
-
-
-.authentication-input-container {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    gap: 10px;
 
     width: 100%;
 }
@@ -57,8 +50,7 @@
 .authentication-button-container {    
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 16px;
+    align-items: center;    
 
     width: 100%;
     height: 100%;
@@ -68,7 +60,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 10px; 
 }
 
 .sns-button-container {
@@ -83,4 +75,14 @@
 
 .naver-button {
     background-image: url('../../assets/image/naver-button.png');
+}
+
+/* ----------------------------------------------------------- */
+.checkbox-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 5px;
 }
