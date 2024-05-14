@@ -69,7 +69,7 @@ function TopNavigation ({path} : Props) {
   )
 }
 
-export default function HomeContainer() {
+export default function RdrgContainer() {
 
   //                    state                    //
   const { pathname } = useLocation();

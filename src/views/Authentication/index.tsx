@@ -417,7 +417,7 @@ export default function Authentication() {
             <div className="authentication-box">
                 <div className="authentication-container">
                     <div className="authentication-title h1">
-                        {"RDRD"}
+                        {"RDRG"}
                     </div>
                     { AuthenticationContents }
                 </div>
