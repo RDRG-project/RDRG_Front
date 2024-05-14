@@ -1,24 +1,25 @@
 #wrapper{
-  display: grid;
-  grid-template: 
-  "logo topBar" 77px 
-  "tapNavigation tapNavigation" 80px
-  "main main" 800px
-  "footer footer" 200px
-  /200px 1fr;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .main-container{
-  grid-area: main;
   min-width: 1182px;
+  height: 800px;
 }
 
 .logo-container{
-  grid-area: logo;
-
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  padding: 8px 24px; 
 
   border-bottom:  1px solid rgba(233,236,239,1);
 
@@ -30,8 +31,6 @@
 }
 
 .top-bar-container{
-  grid-area: topBar;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,10 +56,11 @@
 }
 
 .top-navigation-container{
-  grid-area: tapNavigation;
   display: flex;
   justify-content: space-around;
   background-color: rgba(181, 176, 171, 1);
+
+  height: 70px;
 }
 
 .top-navigation-title{
@@ -80,7 +80,7 @@
 }
 
 .foot-bar{
-  grid-area: footer;
   min-width: 1182px;
+  height: 100px;
   background-color: rgba(138,138,13,1);
 }

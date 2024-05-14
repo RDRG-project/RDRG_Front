@@ -30,7 +30,7 @@ function TopBar({path} : Props) {
 
   //                    render                    //
   return (
-    <>
+    <div className='top-bar'>
       <div className="logo-container">RDRG</div>
       <div className='top-bar-container'>
         <div className="top-bar-title">{ path }</div>
@@ -39,7 +39,7 @@ function TopBar({path} : Props) {
           <div className="sign-up-button" onClick={onSignUpClickHandler}>회원가입</div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
