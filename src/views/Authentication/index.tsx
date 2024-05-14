@@ -132,15 +132,18 @@ function SignIn({ onLinkClickHandler }: Props) {
         
     };
 
+    
+
     //                    render                    //
     return (
         <div className="authentication-contents">
             <div className="authentication-input-container">
                 <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} />
                 <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} onKeydownHandler={onPasswordKeydownHandler} message={message} error />
+                <div><input type="checkbox"/>아이디 정보 저장</div>
             </div>
             <div className="authentication-button-container">
-                <div className="primary-button full-width" onClick={onSignInButtonClickHandler}>로그인</div>
+                <button className="primary-button full-width" onClick={onSignInButtonClickHandler}>로그인</button>
                 <div className="text-link" onClick={onLinkClickHandler}>회원가입</div>
             </div>
             <div className="short-divider"></div>
@@ -149,8 +152,10 @@ function SignIn({ onLinkClickHandler }: Props) {
     );
 }
 
+
+
 //                    component                    //
-function SignUp({ onLinkClickHandler }: Props) {
+export function SignUp({ onLinkClickHandler }: Props) {
 
     //                    state                    //
     const [id, setId] = useState<string>('');
@@ -392,6 +397,7 @@ function SignUp({ onLinkClickHandler }: Props) {
     );
 }
 
+
 //                    component                    //
 export default function Authentication() {
 
@@ -425,3 +431,4 @@ export default function Authentication() {
         </div>
     );
 }
+
