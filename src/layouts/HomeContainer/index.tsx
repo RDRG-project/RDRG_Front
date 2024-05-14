@@ -17,84 +17,82 @@ interface Props {
 function TopBar({path} : Props) {
 
   //                    function                    //
-  const navigator = useNavigate();
+    const navigator = useNavigate();
 
   //                    event handler                    //
-  const onLogInClickHandler = () => {
-    navigator(AUTH_ABSOLUTE_PATH);
-  };
+    const onLogInClickHandler = () => {navigator(AUTH_ABSOLUTE_PATH);
+    };
 
-  const onSignUpClickHandler = () => {
-    navigator(SIGN_UP_ABSOLUTE_PATH);
-  };
+    const onSignUpClickHandler = () => {navigator(SIGN_UP_ABSOLUTE_PATH);
+    };
 
   //                    render                    //
-  return (
+    return (
     <div className='top-bar'>
-      <div className="logo-container">RDRG</div>
-      <div className='top-bar-container'>
+        <div className="logo-container">RDRG</div>
+        <div className='top-bar-container'>
         <div className="top-bar-title">{ path }</div>
         <div className="top-bar-right">
-          <div className="sign-in-button" onClick={onLogInClickHandler}>로그인</div>
-          <div className="sign-up-button" onClick={onSignUpClickHandler}>회원가입</div>
+            <div className="sign-in-button" onClick={onLogInClickHandler}>로그인</div>
+            <div className="sign-up-button" onClick={onSignUpClickHandler}>회원가입</div>
         </div>
-      </div>
+        </div>
     </div>
-  );
+    );
 }
 
 //                    component                    //
 function TopNavigation ({path} : Props) {
 
-  const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
-  const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
+    const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
+    const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
 
-  //                    function                    //
-  const navigator = useNavigate();
+    //                    function                    //
+    const navigator = useNavigate();
 
   //                    event handler                    //
-  const onRentClickHandler = () => {navigator(RENT_ABSOLUTE_PATH)};
-  const onCustomerSupportClickHandler = () => {navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH)};
+    const onRentClickHandler = () => {navigator(RENT_ABSOLUTE_PATH)};
+    const onCustomerSupportClickHandler = () => {navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH)};
 
-  //                    render                    //
-  return (
+    //                    render                    //
+    return (
     <div className='top-navigation-container'>
         <div className={rentClass} onClick={onRentClickHandler}>
-          <div className="top-navigation-title">대여</div>
+            <div className="top-navigation-title">대여</div>
         </div>
         <div className={customerSupportClass} onClick={onCustomerSupportClickHandler}>
-          <div className="top-navigation-title">고객지원</div>
+            <div className="top-navigation-title">고객지원</div>
         </div>
     </div>
-  )
+    )
 }
 
 export default function RdrgContainer() {
 
-  //                    state                    //
-  const { pathname } = useLocation();
-  const [path, setPath] = useState<Path>('');
+    //                    state                    //
+    const { pathname } = useLocation();
+    const [path, setPath] = useState<Path>('');
 
-  //                    function                    //
-  const navigator = useNavigate();
+    //                    function                    //
+    const navigator = useNavigate();
 
-  //                    effect                    //
-  useEffect(() => {
+    //                    effect                    //
+    useEffect(() => {
     const path = 
-      pathname === RENT_ABSOLUTE_PATH ? '대여' :
-      pathname === CUSTOMER_SUPPORT_ABSOLUTE_PATH ? '고객지원' : '';
+        pathname === RENT_ABSOLUTE_PATH ? '대여' :
+        pathname === CUSTOMER_SUPPORT_ABSOLUTE_PATH ? '고객지원' : '';
 
     setPath(path);
-  },[pathname]);
+    },[pathname]);
 
-  //                    render                    //
-  return (
+    //                    render                    //
+    return (
     <div id='wrapper'>
-      <TopBar path = {path}/>
-      <TopNavigation path={path}/>
-      <div className='main-container'>
+        <TopBar path = {path}/>
+        <TopNavigation path={path}/>
+        <div className='main-container'>
         <Outlet />
-      </div>
+        </div>
       <div className='foot-bar'>
         <div>회사정보</div>
         <div>상호 : RDRG 주식회사 대표 : 최지상 사업자 등록번호 : 111-11-11111</div>
@@ -102,5 +100,5 @@ export default function RdrgContainer() {
         <div>주소 : 부산광역시 부산진구 중앙대로 668 4층 </div>
       </div>
     </div>
-  );
+    );
 }

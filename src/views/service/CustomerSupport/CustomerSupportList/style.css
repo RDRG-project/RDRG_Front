@@ -1,0 +1,118 @@
+#cs-list-wrapper {
+    margin: 0 auto;
+    max-width: 1136px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.cs-list-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.cs-list-size-text {
+    font-size: 20px;
+    font-weight: 600;
+
+    color: rgba(138,146,166,1);
+}
+
+.cs-list-size-text .emphasis {
+    color: rgba(64,64,64,1);
+}
+
+.cs-list-top-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cs-list-top-admin-text {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 25px;
+
+    color: rgba(64,64,64,1);
+}
+
+.cs-list-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 1px solid rgba(180,180,180,1);
+    border-radius: 8px;
+
+    background-color: rgba(255,255,255,1);
+}
+
+.cs-list-table-th {
+    display: flex;
+    align-items: center;
+    gap: 60px; 
+    padding: 15px 24px;
+}
+
+.cs-list-table-reception-number {
+    width: px;
+}
+
+.cs-list-table-status {
+    width: 45px;
+}
+
+.cs-list-table-title {
+    width: 349px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cs-list-table-writer-id {
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cs-list-table-write-date {
+    width: 50px;
+}
+
+.cs-list-bottom {
+    display: flex;
+    justify-content: center;
+}
+
+.cs-list-pagination {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.cs-list-page-left {
+    width: 40px;
+    height: 40px;
+
+    background-image: url('../../../../assets/image/page-left.png');
+    background-size: 100% 100%;
+
+    cursor: pointer;
+}
+
+.cs-list-page-right {
+    width: 40px;
+    height: 40px;
+
+    background-image: url('../../../../assets/image/page-right.png');
+    background-size: 100% 100%;
+
+    cursor: pointer;
+}
+.cs-list-page-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
