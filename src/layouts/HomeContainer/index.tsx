@@ -89,11 +89,11 @@ export default function RdrgContainer() {
 
     //                    render                    //
     return (
-    <div id='wrapper'>
+    <div id='rdrg-wrapper'>
         <TopBar />
         <TopNavigation path={path}/>
         <div className='main-container'>
-        <Outlet />
+          <Outlet />
         </div>
         <div className='foot-bar'>
             <div>회사정보</div>
