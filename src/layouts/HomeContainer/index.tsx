@@ -14,7 +14,7 @@ interface Props {
 }
 
 //                    component                    //
-function TopBar({path} : Props) {
+function TopBar() {
 
   //                    function                    //
     const navigator = useNavigate();
@@ -29,14 +29,13 @@ function TopBar({path} : Props) {
   //                    render                    //
     return (
     <div className='top-bar'>
-        <div className="logo-container">RDRG</div>
-        <div className='top-bar-container'>
-        <div className="top-bar-title">{ path }</div>
+      <div className="logo-container">RDRG</div>
+      <div className='top-bar-container'>
         <div className="top-bar-right">
-            <div className="sign-in-button" onClick={onLogInClickHandler}>로그인</div>
-            <div className="sign-up-button" onClick={onSignUpClickHandler}>회원가입</div>
+          <div className="sign-in-button" onClick={onLogInClickHandler}>로그인</div>
+          <div className="sign-up-button" onClick={onSignUpClickHandler}>회원가입</div>
         </div>
-        </div>
+      </div>
     </div>
     );
 }
@@ -58,10 +57,10 @@ function TopNavigation ({path} : Props) {
     return (
     <div className='top-navigation-container'>
         <div className={rentClass} onClick={onRentClickHandler}>
-            <div className="top-navigation-title">대여</div>
+          <div className="top-navigation-title">대여</div>
         </div>
         <div className={customerSupportClass} onClick={onCustomerSupportClickHandler}>
-            <div className="top-navigation-title">고객지원</div>
+          <div className="top-navigation-title">고객지원</div>
         </div>
     </div>
     )
@@ -88,7 +87,7 @@ export default function RdrgContainer() {
     //                    render                    //
     return (
     <div id='wrapper'>
-        <TopBar path = {path}/>
+        <TopBar />
         <TopNavigation path={path}/>
         <div className='main-container'>
         <Outlet />
