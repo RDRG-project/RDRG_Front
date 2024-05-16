@@ -10,23 +10,23 @@ type Path = '대여' | '고객지원' | '';
 
 //                    interface                    //
 interface Props {
-  path : Path;
+    path : Path;
 }
 
 //                    component                    //
 function TopBar({path} : Props) {
 
-  //                    function                    //
-    const navigator = useNavigate();
+    //                    function                    //
+        const navigator = useNavigate();
 
-  //                    event handler                    //
+    //                    event handler                    //
     const onLogInClickHandler = () => {navigator(AUTH_ABSOLUTE_PATH);
     };
 
     const onSignUpClickHandler = () => {navigator(SIGN_UP_ABSOLUTE_PATH);
     };
 
-  //                    render                    //
+    //                    render                    //
     return (
     <div className='top-bar'>
         <div className="logo-container">RDRG</div>
@@ -93,12 +93,12 @@ export default function RdrgContainer() {
         <div className='main-container'>
         <Outlet />
         </div>
-      <div className='foot-bar'>
-        <div>회사정보</div>
-        <div>상호 : RDRG 주식회사 대표 : 최지상 사업자 등록번호 : 111-11-11111</div>
-        <div>대표번호 : 1111-1111 팩스번호 : 11-1111-1111 메일 : email@email.com</div>
-        <div>주소 : 부산광역시 부산진구 중앙대로 668 4층 </div>
-      </div>
+        <div className='foot-bar'>
+            <div>회사정보</div>
+            <div>상호 : RDRG 주식회사 대표 : 최지상 사업자 등록번호 : 111-11-11111</div>
+            <div>대표번호 : 1111-1111 팩스번호 : 11-1111-1111 메일 : email@email.com</div>
+            <div>주소 : 부산광역시 부산진구 중앙대로 668 4층 </div>
+        </div>
     </div>
     );
 }
