@@ -1,6 +1,7 @@
 #wrapper{
   display: flex;
   flex-direction: column;
+  gap : 10px
 }
 
 .top-bar{
@@ -82,5 +83,5 @@
 .foot-bar{
   min-width: 1182px;
   height: 100px;
-  background-color: rgba(138,138,13,1);
+  background-color: rgba(181, 176, 171, 1);
 }
