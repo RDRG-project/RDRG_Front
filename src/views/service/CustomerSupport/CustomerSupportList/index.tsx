@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import './style.css'
 import { BoardListItem } from 'src/types';
 import { useNavigate } from 'react-router';
-import { COUNT_PER_PAGE, COUNT_PER_SECTION, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
+import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
 import useUserStore from 'src/stores/user.store';
 import { useCookies } from 'react-cookie';
-import { GetSearchBoardListResponseDto } from 'src/apis/board/dto/response';
-import ResponseDto from 'src/apis/response.dto';
 
 //                    component                    //
 function ListItem ({ 
@@ -21,7 +19,7 @@ function ListItem ({
     const navigator = useNavigate();
 
     //                    event handler                    //
-    const onClickHandler = () => navigator(CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH(receptionNumber));
+    const onClickHandler = () => navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
 
     //                    render                    //
     return (
@@ -58,8 +56,6 @@ export default function CustomerSupportList() {
     const [currentSection, setCurrentSection] = useState<number>(1);
     const [isToggleOn, setToggleOn] = useState<boolean>(false);
 
-    const [searchWord, setSearchWord] = useState<string>('');
-
     //                    function                    //
     const navigator = useNavigate();
 
@@ -82,48 +78,10 @@ export default function CustomerSupportList() {
         setPageList(pageList);
     };
 
-    const changeBoardList = (boardList: BoardListItem[]) => {
-        if (isToggleOn) boardList = boardList.filter(board => !board.status);
-        setBoardList(boardList);
-
-        const totalLength = boardList.length;
-        setTotalLength(totalLength);
-
-        const totalPage = Math.floor((totalLength - 1) / COUNT_PER_PAGE) + 1;
-        setTotalPage(totalPage);
-
-        const totalSection = Math.floor((totalPage - 1) / COUNT_PER_SECTION) + 1;
-        setTotalSection(totalSection);
-
-        changePage(boardList, totalLength);
-
-        changeSection(totalPage);
-    };
-
-    const getSearchBoardListResponse = (result: GetSearchBoardListResponseDto | ResponseDto | null) => {
-
-        const message =
-            !result ? '서버에 문제가 있습니다.' :
-            result.code === 'VF' ? '검색어를 입력하세요.' : 
-            result.code === 'AF' ? '인증에 실패했습니다.' :
-            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
-
-        if (!result || result.code !== 'SU') {
-            alert(message);
-            if (result?.code === 'AF') navigator(HOME_ABSOLUTE_PATH);
-            return;
-        }
-
-        const { boardList } = result as GetSearchBoardListResponseDto;
-        changeBoardList(boardList);
-        
-        setCurrentPage(!boardList.length ? 0 : 1);
-        setCurrentSection(!boardList.length ? 0 : 1);
-    };
     //                    event handler                    //
     const onWriteButtonClickHandler = () => {
-        if (loginUserRole !== 'ROLE_USER') return alert('로그인 해주세요');
-        navigator(HOME_ABSOLUTE_PATH);
+        // if (loginUserRole !== 'ROLE_USER') return alert('로그인 해주세요');
+        navigator(CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH);
     };
     
     const onToggleClickHandler = () => {
@@ -165,13 +123,13 @@ export default function CustomerSupportList() {
             <div className='cs-list-top'>
                 <div className='cs-list-size-text'>전체 <span className='emphasis'>건</span> | 페이지 <span className='emphasis'>/</span></div>
                 <div className='cs-list-top-right'>
-                    {loginUserRole === 'ROLE_USER' ?
+                    {/* {loginUserRole === 'ROLE_USER' ? */}
                     <div className='primary-button' onClick={onWriteButtonClickHandler}>글쓰기</div> :
                     <>
                     <div className={toggleClass} onClick={onToggleClickHandler}></div>
                     <div className='cs-list-top-admin-text'>미완료 보기</div>
                     </>
-                    }
+                    {/* } */}
                 </div>
             </div>
             <div className='cs-list-table'>

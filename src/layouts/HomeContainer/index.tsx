@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './style.css'
 import { useCookies } from 'react-cookie';
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, SIGN_UP_ABSOLUTE_PATH } from '../../constants';
+import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, SIGN_UP_ABSOLUTE_PATH } from '../../constants';
 import path from 'path';
 
 //                    type                    //
@@ -26,10 +26,13 @@ function TopBar() {
     const onSignUpClickHandler = () => {navigator(SIGN_UP_ABSOLUTE_PATH);
     };
 
+    const onLogoClickHandler = () => {navigator(HOME_ABSOLUTE_PATH);
+    };
+
     //                    render                    //
     return (
     <div className='top-bar'>
-      <div className="logo-container">RDRG</div>
+      <div className="logo-container" onClick={onLogoClickHandler}>RDRG</div>
       <div className='top-bar-container'>
         <div className="top-bar-right">
           <div className="sign-in-button" onClick={onLogInClickHandler}>로그인</div>
