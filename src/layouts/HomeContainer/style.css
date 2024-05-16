@@ -1,86 +1,89 @@
 #wrapper{
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .top-bar{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .main-container{
-  min-width: 1182px;
-  height: 800px;
+    min-width: 1182px;
+    height: 800px;
 }
 
 .logo-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  padding: 8px 24px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 8px 24px; 
 
-  border-bottom:  1px solid rgba(233,236,239,1);
+    border-bottom:  1px solid rgba(233,236,239,1);
 
-  font-size: 24px;
-  font-weight: 700;
-  font-style: normal;
-  line-height: 173%;
-  color: rgba(64,64,64,1);
+    font-size: 24px;
+    font-weight: 700;
+    font-style: normal;
+    line-height: 173%;
+    color: rgba(64,64,64,1);
 }
 
 .top-bar-container{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-  padding: 0 24px;
+    padding: 0 24px;
 
-  border-left:  1px solid rgba(233,236,239,1);
-  border-bottom:  1px solid rgba(233,236,239,1);
+    border-left:  1px solid rgba(233,236,239,1);
+    border-bottom:  1px solid rgba(233,236,239,1);
 }
 
 .top-bar-title{
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  color: rgba(64,64,64,1);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    color: rgba(64,64,64,1);
 }
 
 .top-bar-right{
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .top-navigation-container{
-  display: flex;
-  justify-content: space-around;
-  background-color: rgba(181, 176, 171, 1);
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(181, 176, 171, 1);
 
-  height: 70px;
+    height: 70px;
 }
 
 .top-navigation-title{
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.top-navigation-title:hover{
+    cursor: pointer;
 }
 
 .top-navigation-item{
-  border-radius: 6px;
-  padding: 8px 24px;
+    border-radius: 6px;
+    padding: 8px 24px;
 
-  display: flex;
-  align-items: center;
-  gap : 16px;
+    display: flex;
+    align-items: center;
+    gap : 16px;
 }
 
 .foot-bar{
-  min-width: 1182px;
-  height: 100px;
-  background-color: rgba(138,138,13,1);
+    min-width: 1182px;
+    height: 100px;
+    background-color: rgba(138,138,13,1);
 }
