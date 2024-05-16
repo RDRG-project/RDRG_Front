@@ -1,7 +1,13 @@
-#wrapper{
+#rdrg-wrapper{
   display: flex;
   flex-direction: column;
   gap : 10px
+}
+
+.main-container{
+    display: flex;
+    min-width: 1182px;
+    height: 800px;
 }
 
 .top-bar{
@@ -10,10 +16,7 @@
     justify-content: space-between;
 }
 
-.main-container{
-    min-width: 1182px;
-    height: 800px;
-}
+
 
 .logo-container{
     display: flex;
