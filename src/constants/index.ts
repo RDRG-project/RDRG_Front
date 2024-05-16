@@ -20,6 +20,7 @@ export const RENT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${RENT_PATH}`; // 대�
 
 export const CUSTOMER_SUPPORT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}`; // 고객지원 화면 절대경로
 
+export const CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH = (receptionNumber: string | number) => `${RDRG_PATH}/${CUSTOMER_SUPPORT_PATH}/${receptionNumber}`;
 export const MYPAGE_PROFILE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PROFILE_PATH}`; // 프로필 화면 절대경로
 export const MYPAGE_RENT_DETAIL_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_RENT_DETAIL_PATH}`; // 대여내역 화면 절대경로
 export const MYPAGE_UNREGISTER_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_UNREGISTER_PATH}`; // 회원탈퇴 화면 절대경로
@@ -43,4 +44,8 @@ export const GET_BOARD_LIST_URL = `${CUSTOMER_SUPPORT_BOARD_MODULE_URL}/list`;
 export const GET_BOARD_URL = (receptionNumber: number | string) => `${CUSTOMER_SUPPORT_BOARD_MODULE_URL}/${receptionNumber}`;
 export const PUT_BOARD_URL = (receptionNumber: number | string) => `${CUSTOMER_SUPPORT_BOARD_MODULE_URL}/${receptionNumber}`;
 export const DELETE_BOARD_URL = (receptionNumber: number | string) => `${CUSTOMER_SUPPORT_BOARD_MODULE_URL}/${receptionNumber}`;
+
+// description: 게시물 상수
+export const COUNT_PER_PAGE = 5;
+export const COUNT_PER_SECTION = 5;
 
