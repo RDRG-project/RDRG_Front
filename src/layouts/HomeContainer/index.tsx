@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './style.css'
-import { useCookies } from 'react-cookie';
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, SIGN_UP_ABSOLUTE_PATH } from '../../constants';
+import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, SIGN_UP_ABSOLUTE_PATH } from '../../constants';
 import path from 'path';
 
 //                    type                    //
-type Path = '대여' | '고객지원' | '';
+type Path = '대여' | '고객지원' | '마이페이지' |'';
 
 //                    interface                    //
 interface Props {
@@ -48,6 +47,7 @@ function TopNavigation ({path} : Props) {
 
     const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
     const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
+    const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
 
     //                    function                    //
     const navigator = useNavigate();
@@ -55,6 +55,7 @@ function TopNavigation ({path} : Props) {
   //                    event handler                    //
     const onRentClickHandler = () => {navigator(RENT_ABSOLUTE_PATH)};
     const onCustomerSupportClickHandler = () => {navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH)};
+    const onMypageClickHandler = () => {navigator(MYPAGE_PROFILE_ABSOLUTE_PATH)};
 
     //                    render                    //
     return (
@@ -64,6 +65,9 @@ function TopNavigation ({path} : Props) {
         </div>
         <div className={customerSupportClass} onClick={onCustomerSupportClickHandler}>
           <div className="top-navigation-title">고객지원</div>
+        </div>
+        <div className={mypageSupportClass} onClick={onMypageClickHandler}>
+          <div className="top-navigation-title">마이페이지</div>
         </div>
     </div>
     )
@@ -82,7 +86,8 @@ export default function RdrgContainer() {
     useEffect(() => {
     const path = 
         pathname === RENT_ABSOLUTE_PATH ? '대여' :
-        pathname === CUSTOMER_SUPPORT_ABSOLUTE_PATH ? '고객지원' : '';
+        pathname === CUSTOMER_SUPPORT_ABSOLUTE_PATH ? '고객지원' :
+        pathname === MYPAGE_PROFILE_ABSOLUTE_PATH ? '마이페이지' : '';
 
     setPath(path);
     },[pathname]);
