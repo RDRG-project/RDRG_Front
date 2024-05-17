@@ -1,5 +1,9 @@
 #mypage-profile-wrapper{
-  gap : 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  margin: 0 auto;
 }
 
 .profile-title{
@@ -9,10 +13,48 @@
   line-height: 175%;
 }
 
+.profile-detail{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-detail-content{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.profile-detail-title{
+  width: 150px;
+}
+
 .profile-button-container{
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.profile-detail-password-input-container{
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 10px;
+}
+
+.input {
+  flex-grow: 1;
+  border: 1px solid rgba(238, 238, 238, 1);
+  border-radius: 6px;
+  outline: none;
+  padding: 8px 16px;
+  background-color: rgba(255, 255, 255, 1);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 175%;
+  color: rgba(35, 45, 66, 1);
 }
 
 /* 회원탈퇴 버튼 */
