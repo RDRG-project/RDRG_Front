@@ -1,0 +1,54 @@
+#rent-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    gap: 30px;
+    min-width: 500px;
+    margin: 50px 0px;
+    height: 700px;
+}
+
+.rent-left-side {
+    
+    background-color: rgba(100,100,100,1);
+}
+
+.rent-left-side-rental {
+
+    width: 350px;
+
+    font-size: 30px;
+}
+.rent-left-side-return {
+    width: 350px;
+
+    font-size: 30px;
+}
+.rent-left-side-date{
+    width: 350px;
+
+    font-size: 30px;
+}
+
+.rent-item {
+    width: 500px;
+
+    font-size: 30px;
+
+
+    background-color: rgba(255,100,100,1);
+}
+
+.rent-right-side {
+    width: 300px;
+    background-color: rgba(100,200,100,1);
+}
+
+.rent-right-side-basket {
+    font-size: 30px;
+}
+
+.rent-right-sid-payment {
+    font-size: 30px;
+}
