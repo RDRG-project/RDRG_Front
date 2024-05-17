@@ -73,15 +73,15 @@ export default function MypageProfile() {
     <div id='mypage-profile-wrapper'>
       <div className='profile-title'>프로필 관리</div>
       <div className='profile-detail'>
-        <div className='profile-detail-id'>
+        <div className='profile-detail-content'>
           <div className='profile-detail-title'>아이디</div>
-          <div>예시:홍길동</div>
+          <div>홍길동</div>
         </div>
-        <div className='profile-detail-email'>
+        <div className='profile-detail-content'>
           <div className='profile-detail-title'>이메일</div>
-          <div>예시:email@email.com</div>
+          <div>email@email.com</div>
         </div>
-        <div className='profile-detail-password'>
+        <div className='profile-detail-content'>
           <div className='profile-detail-title'>비밀번호</div>
           <div className='profile-detail-password-input-container'>
             <InputBox label="현재 비밀번호" type="password" value={password} placeholder="현재 비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} message={message} error />

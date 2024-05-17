@@ -12,6 +12,7 @@ export const CUSTOMER_SUPPORT_UPDATE_PATH = 'update/:receptionNumber'; // 문의
 
 export const RENT_PATH = 'rent'; // 대여화면
 
+export const MYPAGE_PATH = 'mypage'; //마이페이지 화면
 export const MYPAGE_PROFILE_PATH = 'mypage/profile'; //프로필 화면
 export const MYPAGE_RENT_DETAIL_PATH = 'mypage/rent-detail'; //대여내역 화면
 export const MYPAGE_UNREGISTER_PATH = 'mypage/unregister'; //회원탈퇴 화면
@@ -29,9 +30,9 @@ export const CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH = (receptionNumber: string | 
 
 export const RENT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${RENT_PATH}`; // 대여화면 절대경로
 
-export const MYPAGE_PROFILE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PROFILE_PATH}`; // 프로필 화면 절대경로
-export const MYPAGE_RENT_DETAIL_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_RENT_DETAIL_PATH}`; // 대여내역 화면 절대경로
-export const MYPAGE_UNREGISTER_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_UNREGISTER_PATH}`; // 회원탈퇴 화면 절대경로
+export const MYPAGE_PROFILE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_PROFILE_PATH}`; // 프로필 화면 절대경로
+export const MYPAGE_RENT_DETAIL_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_RENT_DETAIL_PATH}`; // 대여내역 화면 절대경로
+export const MYPAGE_UNREGISTER_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_UNREGISTER_PATH}`; // 회원탈퇴 화면 절대경로
 
 // description : API URL PATH
 // 도메인 및 기본 경로
