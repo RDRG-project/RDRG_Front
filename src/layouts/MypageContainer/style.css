@@ -1,0 +1,48 @@
+    #mypage-wrapper{
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-template-rows: auto;
+    max-height: 800px;
+    grid-template-areas: "sidenav main";
+        }
+
+  .side-navigation-container{
+    grid-area: sidenav;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .side-navigation-item{
+    border-radius: 6px;
+    padding: 8px 24px;
+  
+    display: flex;
+    align-items: center;
+    gap : 16px;
+  
+    color : rgba(138,146,166,1);
+  }
+
+  .side-navigation-item:hover{
+    cursor: pointer;
+    opacity: 0.85;
+  }
+  
+  .side-navigation-item.active{
+    background-color: rgba(58,87,232,1);
+    color:rgba(255,255,255,1);
+  }
+  
+  .side-navigation-title{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .mypage-main-container{
+    grid-area: main;
+    padding: 24px;
+  }
