@@ -20,7 +20,7 @@ export default function MypageUnRegister() {
         <div className='unregister-contents'>
             <div className='unregister-contents-title'>회원 탈퇴</div>
             <div className='unregister-contents-text'>
-                <div><br/><ul><li> 회원탈퇴 전, 유의사항을 확인해주시기 바랍니다.</li></ul></div>
+                <div><br/><ul><li>회원탈퇴 전, 유의사항을 확인해주시기 바랍니다.</li></ul></div>
                 <div className='unregister-contents-text-detail'> 
                 - 회원탈퇴 시 회원전용 웹 서비스 이용이 불가합니다.<br/>
                 - 상법 및 '전자상거래 등에서 소비자 보호에 관한 법률' 등 관련 법령의 규정에 의하여 다음과 같이 ‘거래 관련 관리의무 관계 확인’ 등을 이유로 일정 기간 보관됩니다.
