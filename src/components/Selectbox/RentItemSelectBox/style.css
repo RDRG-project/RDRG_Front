@@ -1,0 +1,101 @@
+.select-it-box {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    border: 1px solid rgb(209, 188, 188);
+    border-radius: 6px;
+    padding: 8px 16px;
+    
+
+    background-color: rgb(209, 188, 188);
+}
+
+.select-it-none {
+    flex-grow: 1;
+    
+    /* font-family: Inter; */
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 175%;
+
+    color: rgb(17, 15, 15);
+}
+
+.select-it-item {
+    flex-grow: 1;
+    
+    /* font-family: Inter; */
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 175%;
+
+    color: rgb(17, 15, 15);
+}
+
+.select-it {
+    flex-grow: 1;
+    
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 175%;
+
+    color: rgb(33, 33, 34);
+}
+
+.select-open-button {
+    width: 40px;
+    height: 40px;
+
+    background-image: url('../../../assets/image/arrow-drop-down-icon.png');
+    background-size: 100% 100%;
+
+    cursor: pointer;
+}
+
+.select-close-button {
+    width: 40px;
+    height: 40px;
+
+    background-image: url('../../../assets/image/arrow-drop-up-icon.png');
+    background-size: 100% 100%;
+
+    cursor: pointer;
+}
+
+.select-it-list {
+    position: absolute;
+    left: -1px;
+    top: 44px;
+    width: 500px;
+
+    display: inline-block;
+
+    max-height: 144px;
+    overflow-y: scroll;
+
+    background-color: rgb(209, 188, 188);
+
+    -ms-overflow-style: none;
+}
+
+.select-it-list::-webkit-scrollbar {
+    display: none;
+}
+
+.select-it-list-item-box {
+    display: flex;
+
+    border: 1px solid rgb(209, 188, 188);
+    padding: 8px 16px;
+    width: 500px;
+
+    background-color: rgb(209, 188, 188);
+}
+
+.select-it-list-item-box:hover {
+    background-color: rgba(238,238,238,0.2);
+    cursor: pointer;
+}
