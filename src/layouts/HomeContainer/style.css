@@ -1,21 +1,26 @@
 #rdrg-wrapper{
   display: flex;
   flex-direction: column;
-  gap : 10px
+  width: 1920px;
 }
 
 .main-container{
     min-width: 1182px;
-    height: 800px;
+    height: 100%;
 }
 
 .top-bar{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    background-color: rgba(237,226,226,1);
 }
 
-
+.foot-bar{
+    min-width: 1182px;
+    height: 100%;
+    background-color: rgba(237,226,226,1);
+  }
 
 .logo-container{
     display: flex;
@@ -24,56 +29,28 @@
     
     padding: 8px 24px; 
 
-    border-bottom:  1px solid rgba(233,236,239,1);
-
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 700;
     font-style: normal;
-    line-height: 173%;
-    color: rgba(64,64,64,1);
-}
-
-.logo-container:hover {
-    cursor: pointer;
-}
-
-.top-bar-container{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 0 24px;
-
-    border-left:  1px solid rgba(233,236,239,1);
-    border-bottom:  1px solid rgba(233,236,239,1);
-}
-
-.top-bar-title{
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
     line-height: normal;
-    color: rgba(64,64,64,1);
-}
-
-.top-bar-right{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    color: rgba(0,0,0,1);
 }
 
 .top-navigation-container{
     display: flex;
     justify-content: space-around;
-    background-color: rgba(181, 176, 171, 1);
+    gap: 204px;
 
     height: 70px;
 }
 
 .top-navigation-title{
+    color: #000;
+
+    font-family: "Source Sans 3";
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 700;
     line-height: normal;
 }
 .top-navigation-title:hover{
@@ -89,8 +66,23 @@
     gap : 16px;
 }
 
-.foot-bar{
-  min-width: 1182px;
-  height: 100px;
-  background-color: rgba(181, 176, 171, 1);
+.logo-container:hover {
+    cursor: pointer;
 }
+
+.top-bar-title{
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    color: rgba(64,64,64,1);
+}
+
+.top-bar-right{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    gap: 20px;
+}
+
