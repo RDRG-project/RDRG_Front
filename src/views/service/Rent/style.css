@@ -10,7 +10,10 @@
 }
 
 .rent-left-side {
+    display: flex;
+    flex-direction: column;
     
+
     background-color: rgba(100,100,100,1);
 }
 
