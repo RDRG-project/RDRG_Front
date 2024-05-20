@@ -40,7 +40,6 @@
 
 .authentication-input-container {
     display: flex;
-    align-items: center;
     flex-direction: column;
     gap: 14px;
 
@@ -87,11 +86,11 @@
 }
 
 /* ----------------------------------------------------------- */
-.checkbox-container {
+/* .checkbox-container {
     display: flex;
     align-items: flex-start;
 }
 
 .checkbox-container input[type="checkbox"] {
     margin-right: 5px;
-}
+} */
