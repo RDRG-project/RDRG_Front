@@ -9,7 +9,7 @@ interface Prop {
 //                    component                    //
 export default function RentSiteSelectBox({ value, onChange }: Prop) {
 
-    const RentListItem = [
+    const RentSiteListItem = [
         { name : '서울', value: 'SEOUL'},
         { name : '부산', value: 'BUSAN'}
     ];
@@ -23,7 +23,7 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
         setShow(!show);
     };
     const onItemClickHandler = (value: string) => {
-        RentListItem.forEach(item => {
+        RentSiteListItem.forEach(item => {
             if (item.value === value) setName(item.name);
         })
         onChange(value);
@@ -34,14 +34,14 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
     const buttonClass = show ? 'select-close-button' : 'select-open-button';
     return (
         <div className='select-box'>
-            { value === '' ? 
-            <div className='select-none'></div> :
+            {/* { value === '' ?  */}
+            {/* <div className='select-none'></div> : */}
             <div className='select-item'>{name}</div>
-            }  
+            {/* }   */}
             <div className={buttonClass} onClick={onButtonClickHandler}></div>
             {show && 
             <div className='select-list'>
-                {RentListItem.map((item) => 
+                {RentSiteListItem.map((item) => 
                 <div className='select-list-item-box' onClick={() => onItemClickHandler(item.value)}>
                     <div className='select-item'>{item.name}</div>
                 </div>
