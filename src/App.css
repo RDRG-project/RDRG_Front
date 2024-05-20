@@ -68,6 +68,31 @@
     background-color: rgba(217,217,217,1);
 }
 
+.logout-button {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 8px 24px;
+
+    border-radius: 50px;
+
+    border: 1px solid rgba(0,0,0,1);
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 175%;
+
+    color: rgba(0,0,0,1);
+}
+
+.logout-button:hover {
+    cursor: pointer;
+    background-color: rgba(217,217,217,1);
+}
+
 .error-button {
     box-sizing: border-box;
     display: flex;
