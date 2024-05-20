@@ -22,7 +22,7 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
     const onButtonClickHandler = () => {
         setShow(!show);
     };
-    // 요소를 선택하면 색깔이 바뀌고 db에 반납장소를 저장하게 해야함 아래코드는 수정해야함
+    // 요소를 선택하면 색깔이 바뀌고 db에 대여장소를 저장하게 해야함 아래코드는 수정해야함
     const onItemClickHandler = (value: string) => {
         RentSiteListItem.forEach(item => {
             if (item.value === value) setName(item.name);
@@ -37,7 +37,7 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
         <div className='select-box'>
             {/* { value === '' ?  */}
             {/* <div className='select-none'></div> : */}
-            <div className='select-item'>반납지점</div>
+            <div className='select-item'>대여지점</div>
             {/* }   */}
             <div className={buttonClass} onClick={onButtonClickHandler}></div>
             {show && 
