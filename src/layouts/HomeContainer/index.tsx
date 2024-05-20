@@ -13,7 +13,11 @@ interface Props {
 }
 
 //                    component                    //
-function TopBar() {
+function TopBar({path} : Props) {
+
+    const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
+    const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
+    const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
 
     //                    function                    //
         const navigator = useNavigate();
@@ -28,49 +32,31 @@ function TopBar() {
     const onLogoClickHandler = () => {navigator(HOME_ABSOLUTE_PATH);
     };
 
-    //                    render                    //
-    return (
-    <div className='top-bar'>
-      <div className="logo-container" onClick={onLogoClickHandler}>RDRG</div>
-      <div className='top-bar-container'>
-        <div className="top-bar-right">
-          <div className="sign-in-button" onClick={onLogInClickHandler}>로그인</div>
-          <div className="sign-up-button" onClick={onSignUpClickHandler}>회원가입</div>
-        </div>
-      </div>
-    </div>
-    );
-}
-
-//                    component                    //
-function TopNavigation ({path} : Props) {
-
-    const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
-    const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
-    const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
-
-    //                    function                    //
-    const navigator = useNavigate();
-
-  //                    event handler                    //
     const onRentClickHandler = () => {navigator(RENT_ABSOLUTE_PATH)};
     const onCustomerSupportClickHandler = () => {navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH)};
     const onMypageClickHandler = () => {navigator(MYPAGE_PROFILE_ABSOLUTE_PATH)};
 
     //                    render                    //
     return (
-    <div className='top-navigation-container'>
-        <div className={rentClass} onClick={onRentClickHandler}>
-          <div className="top-navigation-title">대여</div>
+      <div className='top-bar'>
+        <div className="logo-container" onClick={onLogoClickHandler}>RDRG</div>
+        <div className='top-navigation-container'>
+          <div className={rentClass} onClick={onRentClickHandler}>
+            <div className="top-navigation-title">대여</div>
+          </div>
+          <div className={customerSupportClass} onClick={onCustomerSupportClickHandler}>
+            <div className="top-navigation-title">고객지원</div>
+          </div>
+          <div className={mypageSupportClass} onClick={onMypageClickHandler}>
+            <div className="top-navigation-title">마이페이지</div>
+          </div>
         </div>
-        <div className={customerSupportClass} onClick={onCustomerSupportClickHandler}>
-          <div className="top-navigation-title">고객지원</div>
+        <div className="top-bar-right">
+          <div className="sign-in-button" onClick={onLogInClickHandler}>로그인</div>
+          <div className="sign-up-button" onClick={onSignUpClickHandler}>회원가입</div>
         </div>
-        <div className={mypageSupportClass} onClick={onMypageClickHandler}>
-          <div className="top-navigation-title">마이페이지</div>
-        </div>
-    </div>
-    )
+      </div>
+    );
 }
 
 export default function RdrgContainer() {
@@ -95,8 +81,7 @@ export default function RdrgContainer() {
     //                    render                    //
     return (
     <div id='rdrg-wrapper'>
-        <TopBar />
-        <TopNavigation path={path}/>
+        <TopBar  path={path}/>
         <div className='main-container'>
           <Outlet />
         </div>
