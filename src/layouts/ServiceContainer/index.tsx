@@ -15,6 +15,7 @@ interface Props {
 //                    component                    //
 function TopBar({ path }: Props) {
 
+    //                    state                    //
     const [cookies, setCookie, removeCookie] = useCookies();
     const { loginUserRole } = useUserStore();
 
