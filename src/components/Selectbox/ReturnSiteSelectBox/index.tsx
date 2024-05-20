@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from "react";
 import './style.css'
 
 interface Prop {
@@ -7,7 +7,7 @@ interface Prop {
 }
 
 //                    component                    //
-export default function RentSiteSelectBox({ value, onChange }: Prop) {
+export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
 
     const RentSiteListItem = [
         { name : '서울', value: 'SEOUL'},
@@ -22,7 +22,8 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
     const onButtonClickHandler = () => {
         setShow(!show);
     };
-    // 요소를 선택하면 색깔이 바뀌고 db에 반납장소를 저장하게 해야함 아래코드는 수정해야함
+
+    // 요소를 선택하면 색깔이 바뀌고 db에 대여장소를 저장하게 해야함 아래코드는 수정해야함
     const onItemClickHandler = (value: string) => {
         RentSiteListItem.forEach(item => {
             if (item.value === value) setName(item.name);
