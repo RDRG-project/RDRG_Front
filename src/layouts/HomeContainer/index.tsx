@@ -29,6 +29,9 @@ function TopBar({path} : Props) {
     const { loginUserRole } = useUserStore();
     const [cookies, setCookie, removeCookie] = useCookies();
 
+    const location = useLocation();
+    const isAuthPage = location.pathname === AUTH_ABSOLUTE_PATH || location.pathname === SIGN_UP_ABSOLUTE_PATH;
+
     //                    function                    //
         const navigator = useNavigate();
 
@@ -70,21 +73,19 @@ function TopBar({path} : Props) {
           </div>
         </div>
         <div className="top-bar-right">
-          {!cookies.accessToken ?
-            ( 
-              <>
-                <div className='sign-in-button' onClick={onLogInClickHandler}>로그인</div>
-                <div className='sign-up-button' onClick={onSignUpClickHandler}>회원가입</div>
-              </>
-            ) :
-            loginUserRole === 'ROLE_ADMIN' ?
-            (
+          {!cookies.accessToken && !isAuthPage ? (
+            <>
+              <div className='sign-in-button' onClick={onLogInClickHandler}>로그인</div>
+              <div className='sign-up-button' onClick={onSignUpClickHandler}>회원가입</div>
+            </>
+            ) : !isAuthPage && loginUserRole === 'ROLE_ADMIN' ? (
             <>
               <div className="top-bar-role">관리자</div>
               <div className="logout-button" onClick={onLogoutClickHandler}>로그아웃</div>
             </>
-            ) : <div className="logout-button" onClick={onLogoutClickHandler}>로그아웃</div>
-          }
+            ) : !isAuthPage ? (
+              <div className="logout-button" onClick={onLogoutClickHandler}>로그아웃</div>
+            ) : null}
         </div>
       </div>
     );
