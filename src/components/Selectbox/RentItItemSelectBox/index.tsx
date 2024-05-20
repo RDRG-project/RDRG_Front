@@ -7,7 +7,7 @@ interface Prop {
 }
 
 //                    component                    //
-export default function RentSelectBox({ value, onChange }: Prop) {
+export default function RentItSelectBox({ value }: Prop) {
 
     const RentItemListItem = [
         { name : '노트북', value: 'noteBook'},
@@ -25,13 +25,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const onButtonClickHandler = () => {
         setSelectItItem(!selectItItem);
     };
-    const onItemClickHandler = (value: string) => {
-        RentItemListItem.forEach(item => {
-            if (item.value === value) setName(item.name);
-        })
-        onChange(value);
-        setSelectItItem(false);
-    };
+    
 
     //                    render                    //
     const buttonClass = selectItItem ? 'select-close-button' : 'select-open-button';
@@ -41,16 +35,8 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             <div className='select-it-none'>기기선택</div> :
             <div className='select-it-item'>{name}</div>
             }
-            <div className={buttonClass} onClick={onButtonClickHandler}></div>
-            {selectItItem && 
-            <div className='select-it-list'>
-                {RentItemListItem.map((item) => 
-                <div className='select-it-list-item-box' onClick={() => onItemClickHandler(item.value)}>
-                    <div className='select-it-item'>{item.name}</div>
-                </div>
-                )}
-            </div>
-            }
+            <div className='select-it-variety' onClick={onButtonClickHandler}></div>
+            <div className='select-it-list'></div>
         </div>
     );
 }

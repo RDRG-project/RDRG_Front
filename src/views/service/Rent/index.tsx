@@ -4,6 +4,7 @@ import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
+import RentItSelectBox from 'src/components/Selectbox/RentItItemSelectBox';
 
 //                    component                    //
 export default function Rent() {
@@ -46,7 +47,7 @@ export default function Rent() {
                 <div className='rent-left-side-date'>날짜 및 시간</div>
             </div>
             <div className='rent-item'>
-                <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} />
+                <RentItSelectBox value={rentItem} onChange={onRentItemChangeHandler} />
             </div>
             <div className='rent-right-side'>
                 <div className='rent-right-side-basket'>장바구니</div>
