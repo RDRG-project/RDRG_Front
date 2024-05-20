@@ -1,9 +1,13 @@
+import React, { useState } from 'react'
 import './style.css'
 
-import React, { useState } from 'react'
+interface Prop {
+    value: string;
+    onChange: (value: string) => void;
+}
 
 //                    component                    //
-export default function RentSelectBox() {
+export default function RentSelectBox({ value, onChange }: Prop) {
 
     const RentItemListItem = [
         { name : '노트북', value: 'noteBook'},
@@ -13,15 +17,39 @@ export default function RentSelectBox() {
     ];
 
     //                    state                    //
-    const [selectItItem, setSelectItItem] = useState<string>('');
+    const [selectItItem, setSelectItItem] = useState<boolean>(false);
+    const [name, setName] = useState<string>('');
 
     //                    event handler                    //
-    const onSelectItemChangeHandler = (selectItItem: string ) => {
-        setSelectItItem(selectItItem);
-    }
+    const onButtonClickHandler = () => {
+        setSelectItItem(!selectItItem);
+    };
+    const onItemClickHandler = (value: string) => {
+        RentItemListItem.forEach(item => {
+            if (item.value === value) setName(item.name);
+        })
+        onChange(value);
+        setSelectItItem(false);
+    };
 
     //                    render                    //
+    const buttonClass = selectItItem ? 'select-close-button' : 'select-open-button';
     return (
-    <div>index</div>
-    )
+        <div className='select-box'>
+            { value === '' ? 
+            <div className='select-none'></div> :
+            <div className='select-item'>{name}</div>
+            }
+            <div className={buttonClass} onClick={onButtonClickHandler}></div>
+            {selectItItem && 
+            <div className='select-list'>
+                {RentItemListItem.map((item) => 
+                <div className='select-list-item-box' onClick={() => onItemClickHandler(item.value)}>
+                    <div className='select-item'>{item.name}</div>
+                </div>
+                )}
+            </div>
+            }
+        </div>
+    );
 }
