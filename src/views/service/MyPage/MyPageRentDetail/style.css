@@ -13,10 +13,10 @@
     line-height: 175%;
 }
 
-.rent-detail-view{
+.rent-detail-view {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 30px;
 
     width: 50%;
 
@@ -26,10 +26,50 @@
     background-color: rgba(100,100,100,0.1);
 }
 
-.rent-detail-view-2 {
-    
+.rent-detail-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 20%;
+
+    background-color: rgba(100,100,100,0.3);
+}
+
+.rent-detail-view-in {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    justify-content:space-around;
+
+    gap: 10px;
 }
 
 .rent-detail-image {
-    background-image: url("../../../../assets/image/ex_macbook_image.png")
+    background-image: url("../../../../assets/image/ex_macbook_image.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+    width: 70%;
+    height: 100px;
+}
+
+.rent-detail-view-3 {
+    font-size: medium;
+    font-weight: 500;
+
+    width: 100%;
+}
+
+.rent-detail-view-4 {
+    font-size:medium;
+    font-weight: 500;
+
+    width: 100%;
+}
+
+
+.box {
+    background-color: rgba(100,100,100,0.3);
 }
