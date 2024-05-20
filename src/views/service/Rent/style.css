@@ -12,9 +12,14 @@
 .rent-left-side {
     display: flex;
     flex-direction: column;
+    gap: 100px;
     
 
-    background-color: rgba(100,100,100,1);
+    background-color: rgb(134, 136, 135);
+}
+
+.rent-left-side-site {
+    gap: 50px;
 }
 
 .rent-left-side-rental {
