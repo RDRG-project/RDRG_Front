@@ -25,6 +25,7 @@ export default function Rent() {
                 <div className='rent-left-side-rental'>대여지점</div>
                     <RentSiteSelectBox value={rentSelect} onChange={onRentChangeHandler} />
                 <div className='rent-left-side-return'>반납지점</div>
+                    <RentSiteSelectBox value={rentSelect} onChange={onRentChangeHandler} />
                 <div className='rent-left-side-date'>날짜 및 시간</div>
             </div>
             <div className='rent-item'>기기 선택</div>
