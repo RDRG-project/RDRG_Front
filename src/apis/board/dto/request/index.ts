@@ -2,6 +2,7 @@
 export interface PostBoardRequestDto {
     title: string;
     contents: string;
+    urlList: string[];
 }
 
 // description: Q&A Comment Request Body DTO //
