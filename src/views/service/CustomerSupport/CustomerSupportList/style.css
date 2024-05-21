@@ -158,8 +158,3 @@
 
     cursor: pointer;
 }
-.cs-list-page-box {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
