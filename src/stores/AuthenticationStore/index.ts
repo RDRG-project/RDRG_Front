@@ -2,17 +2,12 @@ import { create } from 'zustand';
 
 
 interface AuthenticationStore {
-    signIn: string,
-    setSignIn: (signIn: string) => void,
-    signUp: string,
-    setSignUp: (signUp: string) => void,
+    authPage: 'sign-in' | 'sign-up',
+    setAuthPage: (authPage: 'sign-in' | 'sign-up') => void,
 }
 
 const useAuthenticationStore = create<AuthenticationStore>(set => ({
-    signIn: '',
-    setSignIn: (signIn: string) => set(state => ({ ...state, signIn })),
-    signUp: '',
-    setSignUp: (signUp: string) => set(state => ({ ...state, signUp }))
+    authPage: 'sign-in',
+    setAuthPage: (authPage: 'sign-in' | 'sign-up') => set(state => ({ ...state, authPage })),
 }));
-
 export default useAuthenticationStore;

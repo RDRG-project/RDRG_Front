@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import './style.css'
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, SIGN_UP_ABSOLUTE_PATH } from '../../constants';
+import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from '../../constants';
 import path from 'path';
 import useUserStore from 'src/stores/user.store';
 import { useCookies } from 'react-cookie';
 import ResponseDto from 'src/apis/response.dto';
 import { GetSignInUserResponseDto } from 'src/apis/user/dto/response';
 import { getSignInUserRequest } from 'src/apis/user';
+import useAuthenticationStore from 'src/stores/AuthenticationStore';
 
 //                    type                    //
 type Path = '대여' | '고객지원' | '마이페이지' | '';
@@ -25,22 +26,26 @@ function TopBar({path} : Props) {
     const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
 
     //                    state                    //
+
+    const { setAuthPage } = useAuthenticationStore();
     const { loginUserRole } = useUserStore();
     const [cookies, setCookie, removeCookie] = useCookies();
 
     const location = useLocation();
+    const isAuthPage = location.pathname === AUTH_ABSOLUTE_PATH;
 
     //                    function                    //
     const navigator = useNavigate();
-    
-    const isAuthPage = location.pathname === AUTH_ABSOLUTE_PATH || location.pathname === SIGN_UP_ABSOLUTE_PATH;
 
     //                    event handler                    //
     const onLogInClickHandler = () => {
+      setAuthPage('sign-in');
       navigator(AUTH_ABSOLUTE_PATH);
     };
 
-    const onSignUpClickHandler = () => {navigator(SIGN_UP_ABSOLUTE_PATH);
+    const onSignUpClickHandler = () => {
+      setAuthPage('sign-up');
+      navigator(AUTH_ABSOLUTE_PATH);
     };
 
     const onLogoClickHandler = () => {navigator(HOME_ABSOLUTE_PATH);
