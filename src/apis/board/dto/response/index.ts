@@ -14,7 +14,7 @@ export interface GetBoardResponseDto extends ResponseDto {
     status: boolean;
     title: string;
     writerId: string;
-    writeDatetime: string;
+    writerDatetime: string;
     contents: string;
     comment: string | null;
 }
