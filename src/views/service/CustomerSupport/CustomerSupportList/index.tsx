@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 import './style.css'
 import { BoardListItem } from 'src/types';
 import { useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
+import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
 import useUserStore from 'src/stores/user.store';
 import { useCookies } from 'react-cookie';
+import { GetBoardListResponseDto } from 'src/apis/board/dto/response';
+import ResponseDto from 'src/apis/response.dto';
+import { getBoardListRequest } from 'src/apis/board';
 
 //                    component                    //
 function ListItem ({ 
@@ -19,7 +22,7 @@ function ListItem ({
     const navigator = useNavigate();
 
     //                    event handler                    //
-    const onClickHandler = () => navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
+    const onClickHandler = () => navigator(CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH(receptionNumber));
 
     //                    render                    //
     return (
@@ -64,9 +67,9 @@ export default function CustomerSupportList() {
         const startIndex = (currentPage - 1) * COUNT_PER_PAGE;
         let endIndex = currentPage * COUNT_PER_PAGE;
         if (endIndex > totalLength - 1) endIndex = totalLength;
-        const viewList = boardList.slice(startIndex,endIndex);
+        const viewList = boardList.slice(startIndex, endIndex);
         setViewList(viewList);
-    }
+    };
 
     const changeSection = (totalPage: number) => {
         if (!currentSection) return;
@@ -78,21 +81,58 @@ export default function CustomerSupportList() {
         setPageList(pageList);
     };
 
+    const changeBoardList = (boardList: BoardListItem[]) => {
+        if (isToggleOn) boardList = boardList.filter(board => !board.status);
+        setBoardList(boardList);
+
+        const totalLength = boardList.length;
+        setTotalLength(totalLength);
+
+        const totalPage = Math.floor((totalLength - 1) / COUNT_PER_PAGE) + 1;
+        setTotalPage(totalPage);
+
+        const totalSection = Math.floor((totalPage - 1) / COUNT_PER_SECTION) + 1;
+        setTotalSection(totalSection);
+
+        changePage(boardList, totalLength);
+
+        changeSection(totalPage);
+    };
+
+    const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | null) => {
+        const message = 
+            !result ? '서버에 문제가 있습니다.' :
+            result.code === 'AF' ? '인증에 실패했습니다.' : 
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+
+        if (!result || result.code !== 'SU') {
+            alert(message);
+            if (result?.code === 'AF') navigator(AUTH_ABSOLUTE_PATH);
+            return;
+        }
+
+        const { boardList } = result as GetBoardListResponseDto;
+        changeBoardList(boardList);
+
+        setCurrentPage(!boardList.length ? 0 : 1);
+        setCurrentSection(!boardList.length ? 0 : 1);
+    };
+
     //                    event handler                    //
     const onWriteButtonClickHandler = () => {
-        // if (loginUserRole !== 'ROLE_USER') return alert('로그인 해주세요');
+        if (loginUserRole !== 'ROLE_USER') return;
         navigator(CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH);
     };
-    
+
     const onToggleClickHandler = () => {
-        if (loginUserRole !== 'ROLE_ADMIN') return alert('권한이 없습니다.');
+        if (loginUserRole !== 'ROLE_ADMIN') return;
         setToggleOn(!isToggleOn);
     };
 
     const onPageClickHandler = (page: number) => {
         setCurrentPage(page);
-    } 
-    
+    };
+
     const onPreSectionClickHandler = () => {
         if (currentSection <= 1) return;
         setCurrentSection(currentSection - 1);
@@ -106,6 +146,11 @@ export default function CustomerSupportList() {
     };
 
     //                    effect                    //
+    useEffect(() => {
+        if (!cookies.accessToken) return;
+        getBoardListRequest(cookies.accessToken).then(getBoardListResponse);
+    }, []);
+
     useEffect(() => {
         if (!boardList.length) return;
         changePage(boardList, totalLength);
@@ -121,15 +166,15 @@ export default function CustomerSupportList() {
     return (
         <div id= 'cs-list-wrapper'>
             <div className='cs-list-top'>
-                <div className='cs-list-size-text'>전체 <span className='emphasis'>건</span> | 페이지 <span className='emphasis'>/</span></div>
+                <div className='cs-list-size-text'>전체 <span className='emphasis'>{totalLength}건</span> | 페이지 <span className='emphasis'>{currentPage}/{totalPage}</span></div>
                 <div className='cs-list-top-right'>
-                    {/* {loginUserRole === 'ROLE_USER' ? */}
+                    {loginUserRole === 'ROLE_USER' ?
                     <div className='primary-button' onClick={onWriteButtonClickHandler}>글쓰기</div> :
                     <>
                     <div className={toggleClass} onClick={onToggleClickHandler}></div>
                     <div className='cs-list-top-admin-text'>미완료 보기</div>
                     </>
-                    {/* } */}
+                    }
                 </div>
             </div>
             <div className='cs-list-table'>

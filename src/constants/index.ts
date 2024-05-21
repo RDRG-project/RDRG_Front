@@ -54,16 +54,19 @@ export const GET_SIGN_IN_USER_REQUEST_URL = `${SERVER_USER_MODULE_URL}/`;
 // 문의 게시판 반환
 export const SERVER_BOARD_MODULE_URL = `${SERVER_API_URL}/board`;
 export const POST_BOARD_REQUEST_URL = `${SERVER_BOARD_MODULE_URL}/`;
-export const POST_COMMENT_REQUEST_URL = (receptionNumber: number | string) => `${CUSTOMER_SUPPORT_BOARD_MODULE_URL}/${receptionNumber}/comment`;
-export const CUSTOMER_SUPPORT_BOARD_MODULE_URL = `${SERVER_API_URL}/support`;
-export const GET_BOARD_LIST_URL = `${CUSTOMER_SUPPORT_BOARD_MODULE_URL}/list`;
+export const POST_COMMENT_REQUEST_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}/comment`;
+export const GET_BOARD_LIST_URL = `${SERVER_BOARD_MODULE_URL}/list`;
 
 // 게시판 불러오기
-export const GET_BOARD_URL = (receptionNumber: number | string) => `${CUSTOMER_SUPPORT_BOARD_MODULE_URL}/${receptionNumber}`;
+export const GET_BOARD_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}`;
 // 게시판 수정
-export const PUT_BOARD_URL = (receptionNumber: number | string) => `${CUSTOMER_SUPPORT_BOARD_MODULE_URL}/${receptionNumber}`;
+export const PUT_BOARD_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}`;
 // 게시판 삭제
-export const DELETE_BOARD_URL = (receptionNumber: number | string) => `${CUSTOMER_SUPPORT_BOARD_MODULE_URL}/${receptionNumber}`;
+export const DELETE_BOARD_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}`;
+
+// 대여할 기기 리스트 불러오기
+export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;
+export const POST_DEVICE_URL = `${SERVER_DEVICE_MODULE_URL}/`
 
 // description: 게시물 상수
 export const COUNT_PER_PAGE = 5;
