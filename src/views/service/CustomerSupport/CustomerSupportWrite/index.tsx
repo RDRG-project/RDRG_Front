@@ -71,17 +71,22 @@ export default function SupportWrite() {
     },[loginUserRole]);
     
     //                    render                    //
+    
+
     return( 
         <div id="cs-write-wrapper">
             <div className='cs-write-top'>
                 <div className='cs-write-title-box'>
                     <input className='cs-write-title-input' placeholder='제목을 입력해주세요.' value={title} onChange={onTitleChangeHandler}/>
+                    
                 </div>
                 <div className='primary-button' onClick={onPostButtonClickHandler}>올리기</div>
             </div>
             <div className='cs-write-contents-box'>
                 <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요. / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
+                
             </div>
+            <input type="file" multiple={true} className="fileUpload" />
         </div>
         );
 };
