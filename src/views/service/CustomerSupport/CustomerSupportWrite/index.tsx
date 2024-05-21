@@ -57,7 +57,7 @@ export default function SupportWrite() {
         if (!title.trim() || !contents.trim()) return; 
         if (!cookies.accessToken) return;
 
-        const requestBody: PostBoardRequestDto = { title, contents };
+        const requestBody: PostBoardRequestDto = { title, contents, urlList: [] };
 
         postBoardRequest(requestBody, cookies.accessToken).then(postBoardResponse);
     };
