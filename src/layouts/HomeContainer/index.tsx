@@ -152,10 +152,40 @@ export default function RdrgContainer() {
           <Outlet />
         </div>
         <div className='foot-bar'>
-            <div>회사정보</div>
-            <div>상호 : RDRG 주식회사 대표 : 최지상 사업자 등록번호 : 111-11-11111</div>
-            <div>대표번호 : 1111-1111 팩스번호 : 11-1111-1111 메일 : email@email.com</div>
-            <div>주소 : 부산광역시 부산진구 중앙대로 668 4층 </div>
+            <div className='foot-bar-menu'>
+              <div className='foot-bar-menu-title'>회사소개</div>
+              <div className='foot-bar-line'></div>
+              <div className='foot-bar-menu-title'>이용약관</div>
+              <div className='foot-bar-line'></div>
+              <div className='foot-bar-menu-title'>개인정보처리방침</div>
+              <div className='foot-bar-line'></div>
+              <div className='foot-bar-menu-title'>지점안내</div>
+            </div>
+            <div className='foot-bar-content'>
+              <div className='foot-bar-content-information'>
+                <div className='company-title'>(주) RDRG회사</div>
+                <div className='company-information'>
+                  <div className='company-representative'>대표 : RDRG </div>
+                  <div className='foot-bar-line'></div>
+                  <div className='company-address'>부산광역시 부산진구 중앙대로 668</div>
+                  <div className='foot-bar-line'></div>
+                  <div className='company-business-registration-number'>사업자 등록번호 : 222-11-000333</div>
+                </div>
+                <div className='company-information'>
+                  <div className='company-report'>통신판매업신고 : 2024-부산부전동-8888</div>
+                  <div className='foot-bar-line'></div>
+                  <div className='company-email'>E-mail : rdrg@email.com</div>
+                </div>
+                <div className='company-reword'>소비자피해보상</div>
+                <div className='company-reword-content'>고객님은 안전거래를 위해 현금 등으로 결제 시 저희 업체에서 가입한 구매 안전 서비스로 소비자 피해보상 보험 서비스를 이용할 수 있습니다.</div>
+                <div className='company-copyright'>Copyright © 2024RDRG. All Rights Reserved.</div>
+              </div>
+              <div className='customer-service'>
+                <div className='customer-service-title'>고객센터</div>
+                <div className='customer-service-time'>운영시간 : 평일 09:00~18:00</div>
+                <div className='customer-service-shortcut'>고객센터 바로가기</div>
+              </div>
+            </div>
         </div>
     </div>
     );
