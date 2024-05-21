@@ -19,7 +19,7 @@ export default function SupportDetail () {
     const [cookies] = useCookies();
     const [title, setTitle] = useState<string>('');
     const [writerId, setWriterId] = useState<string>('');
-    const [writeDate, setWriteDate] = useState<string>('');
+    const [writeDate, setWriterDate] = useState<string>('');
     const [contents, setContents] = useState<string>('');
     const [status, setStatus] = useState<boolean>(false);
     const [comment, setComment] = useState<string | null>(null);
@@ -46,10 +46,10 @@ export default function SupportDetail () {
             return;
         }
 
-        const { title, writerId, writeDatetime, contents, status, comment } = result as GetBoardResponseDto;
+        const { title, writerId, writerDatetime, contents, status, comment } = result as GetBoardResponseDto;
         setTitle(title);
         setWriterId(writerId);
-        setWriteDate(writeDatetime);
+        setWriterDate(writerDatetime);
         setContents(contents);
         setStatus(status);
         setComment(comment);
