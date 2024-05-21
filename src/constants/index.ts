@@ -4,6 +4,11 @@ export const AUTH_PATH = 'auth'; // 로그인 , 회원가입 화면
 export const RDRG_PATH = '/rdrg' // 공통 레이아웃
 export const HOME_PATH = 'home' // 홈화면
 
+export const HOME_COMPANY_PATH = 'company' // 회사소개
+export const HOME_CLAUSE_PATH = 'clause' // 이용약관
+export const HOME_POLICY_PATH = 'policy' // 개인정보처리방침
+export const HOME_PLACE_PATH = 'place' // 지점안내
+
 export const CUSTOMER_SUPPORT_PATH = 'customer-support'; //고객지원 화면
 export const CUSTOMER_SUPPORT_WRITE_PATH = 'write'; //문의 내역 글쓰기
 export const CUSTOMER_SUPPORT_DETAIL_PATH = ':receptionNumber'; // 문의 내역 상세
@@ -20,6 +25,11 @@ export const MYPAGE_UNREGISTER_PATH = 'mypage/unregister'; //회원탈퇴 화면
 export const RDRG_ABSOLUTE_PATH = RDRG_PATH; // 공통 레이아웃 절대 경로
 export const HOME_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}`; // 홈화면 절대경로
 export const AUTH_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${AUTH_PATH}`; // 로그인 , 회원가입 화면 절대경로
+
+export const HOME_COMPANY_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}/${HOME_COMPANY_PATH}`; // 회사소개 화면 절대경로
+export const HOME_CLAUSE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}/${HOME_CLAUSE_PATH}`;   // 이용약관 화면 절대경로
+export const HOME_POLICY_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}/${HOME_POLICY_PATH}`;   // 개인정보처리방침 화면 절대경로
+export const HOME_PLACE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}/${HOME_PLACE_PATH}`;     // 지점안내 화면 절대경로
 
 export const CUSTOMER_SUPPORT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}`; // 고객지원 화면 절대경로
 export const CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}/${CUSTOMER_SUPPORT_WRITE_PATH}`;
