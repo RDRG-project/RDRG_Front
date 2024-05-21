@@ -15,7 +15,7 @@
     gap: 100px;
     
 
-    background-color: rgb(134, 136, 135);
+    background-color: rgb(218, 216, 216);
 }
 
 .rent-left-side-site {
@@ -45,12 +45,12 @@
     font-size: 30px;
 
 
-    background-color: rgba(255,100,100,1);
+    background-color: rgb(218, 216, 216);
 }
 
 .rent-right-side {
     width: 300px;
-    background-color: rgba(100,200,100,1);
+    background-color: rgb(218, 216, 216);
 }
 
 .rent-right-side-basket {

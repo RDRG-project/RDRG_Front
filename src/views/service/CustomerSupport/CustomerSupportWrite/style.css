@@ -1,6 +1,9 @@
 #cs-write-wrapper {
     display: flex;
     flex-direction: column;
+    
+    width: 1240px;
+    height: 800px;
     gap: 24px;
 }
 
