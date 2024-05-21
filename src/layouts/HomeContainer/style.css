@@ -7,6 +7,7 @@
 .main-container{
     min-width: 1182px;
     height: 100%;
+    background-color: rgba(241,241,241,1);
 }
 
 .top-bar{
@@ -15,12 +16,6 @@
     justify-content: space-between;
     background-color: rgba(237,226,226,1);
 }
-
-.foot-bar{
-    min-width: 1182px;
-    height: 100%;
-    background-color: rgba(237,226,226,1);
-  }
 
 .logo-container{
     display: flex;
@@ -86,3 +81,102 @@
     gap: 20px;
 }
 
+.foot-bar{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    background-color: rgba(255,255,255,1);
+  }
+
+.foot-bar-menu{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 1100px 0px 380px;
+    gap: 20px;
+    height: 70px;
+    margin: 0px;
+
+    border: solid;
+    border-width: 1px 0px;
+    border-color: rgba(219,219,219,1);
+}
+
+.foot-bar-line{
+    border: 1px solid rgba(217,217,217,1);
+    height: 10px;
+}
+
+.foot-bar-menu-title{
+    font-family: "Noto Sans KR";
+    font-size : 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.foot-bar-content{
+    display: flex;
+    height: 150px;
+    gap : 201px;
+    padding: 30px 400px 30px 380px;
+}
+
+.foot-bar-content-information, .customer-service{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.company-title, .customer-service-title{
+    font-family: "Noto Sans KR";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    color: rgba(0,0,0,1);
+}
+
+.company-information{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.company-representative, .company-address, .company-report, .company-email, .company-reword-content,
+.company-copyright{
+    font-family: "Noto Sans KR";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: rgba(80,80,80,1);
+}
+
+.company-business-registration-number{
+    font-family: "Noto Sans KR";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: rgba(25,25,25,1);
+}
+
+.company-reword{
+    font-family: "Noto Sans KR";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    color: rgba(0,0,0,1);
+}
+
+.customer-service-time, .customer-service-shortcut{
+    font-family: "Noto Sans KR";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: rgba(0,0,0,1);
+}
