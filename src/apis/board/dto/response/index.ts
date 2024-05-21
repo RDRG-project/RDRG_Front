@@ -5,16 +5,12 @@ export interface GetBoardListResponseDto extends ResponseDto {
     boardList: BoardListItem[];
 }
 
-export interface GetSearchBoardListResponseDto extends ResponseDto {
-    boardList: BoardListItem[];
-}
-
 export interface GetBoardResponseDto extends ResponseDto {
     receptionNumber: number;
     status: boolean;
     title: string;
     writerId: string;
-    writerDatetime: string;
+    writeDatetime: string;
     contents: string;
     comment: string | null;
 }
