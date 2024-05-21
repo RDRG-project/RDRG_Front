@@ -2,8 +2,7 @@
 export const SNS_PATH = '/sns/:accessToken/:expires'; // sns 화면
 export const RDRG_PATH = '/rdrg' // 공통 레이아웃
 export const HOME_PATH = 'home' // 홈화면
-export const AUTH_PATH = 'sign-in'; //로그인 화면
-export const SIGN_UP_PATH = 'sign-up'; //회원가입화면
+export const AUTH_PATH = 'auth'; // 로그인 , 회원가입 화면
 
 export const CUSTOMER_SUPPORT_PATH = 'customer-support'; //고객지원 화면
 export const CUSTOMER_SUPPORT_WRITE_PATH = 'write'; //문의 내역 글쓰기
@@ -20,8 +19,7 @@ export const MYPAGE_UNREGISTER_PATH = 'mypage/unregister'; //회원탈퇴 화면
 // description : Navigation 절대 URL PATH
 export const RDRG_ABSOLUTE_PATH = RDRG_PATH; // 공통 레이아웃 절대 경로
 export const HOME_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}`; // 홈화면 절대경로
-export const AUTH_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${AUTH_PATH}`; // 로그인 화면 절대경로
-export const SIGN_UP_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${SIGN_UP_PATH}`; // 회원가입 화면 절대경로
+export const AUTH_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${AUTH_PATH}`; // 로그인 , 회원가입 화면 절대경로
 
 export const CUSTOMER_SUPPORT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}`; // 고객지원 화면 절대경로
 export const CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}/${CUSTOMER_SUPPORT_WRITE_PATH}`;
