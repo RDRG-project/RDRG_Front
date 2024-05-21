@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './style.css'
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from '../../constants';
-import path from 'path';
+import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_ABSOLUTE_PATH, HOME_COMPANY_ABSOLUTE_PATH, HOME_PLACE_ABSOLUTE_PATH, HOME_POLICY_ABSOLUTE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from '../../constants';
 import useUserStore from 'src/stores/user.store';
 import { useCookies } from 'react-cookie';
 import ResponseDto from 'src/apis/response.dto';
@@ -144,6 +143,19 @@ export default function RdrgContainer() {
       getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse);
     },[cookies.accessToken]);
 
+    //                event handler               //
+    const onIntroductionClickHandler = () => {navigator(HOME_COMPANY_ABSOLUTE_PATH);
+    }; 
+
+    const onClauseClickHandler = () => {navigator(HOME_CLAUSE_ABSOLUTE_PATH);
+    }; 
+
+    const onPolicyClickHandler = () => {navigator(HOME_POLICY_ABSOLUTE_PATH);
+    };
+
+    const onPlaceClickHandler = () => {navigator(HOME_PLACE_ABSOLUTE_PATH);
+    };
+
     //                    render                    //
     return (
     <div id='rdrg-wrapper'>
@@ -153,13 +165,13 @@ export default function RdrgContainer() {
         </div>
         <div className='foot-bar'>
             <div className='foot-bar-menu'>
-              <div className='foot-bar-menu-title'>회사소개</div>
+              <div className='foot-bar-menu-title' onClick={onIntroductionClickHandler}>회사소개</div>
               <div className='foot-bar-line'></div>
-              <div className='foot-bar-menu-title'>이용약관</div>
+              <div className='foot-bar-menu-title' onClick={onClauseClickHandler}>이용약관</div>
               <div className='foot-bar-line'></div>
-              <div className='foot-bar-menu-title'>개인정보처리방침</div>
+              <div className='foot-bar-menu-title' onClick={onPolicyClickHandler}>개인정보처리방침</div>
               <div className='foot-bar-line'></div>
-              <div className='foot-bar-menu-title'>지점안내</div>
+              <div className='foot-bar-menu-title' onClick={onPlaceClickHandler}>지점안내</div>
             </div>
             <div className='foot-bar-content'>
               <div className='foot-bar-content-information'>
