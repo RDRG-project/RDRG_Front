@@ -3,7 +3,7 @@ import "./style.css";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
 import useUserStore from "src/stores/user.store"
-import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, SIGN_UP_ABSOLUTE_PATH } from "src/constants";
+import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from "src/constants";
 
 type Path = '대여' | '고객지원' | '마이페이지' |'';
 

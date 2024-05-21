@@ -9,7 +9,6 @@ import { SignInResponseDto } from 'src/apis/auth/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import InputBox from 'src/components/Inputbox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
-import { useStore } from 'zustand';
 import useAuthenticationStore from 'src/stores/AuthenticationStore';
 
 //                    component                    //
@@ -412,33 +411,19 @@ export function SignUp({ onLinkClickHandler }: Props) {
 export default function Authentication() {
 
     //                    state                    //
-    const [page, setPage] = useState<AuthPage>('sign-in');
-    // const {signIn, setSignIn} = useAuthenticationStore();
-    // const {signUp, setSignUp} = useAuthenticationStore();
+    const {authPage, setAuthPage} = useAuthenticationStore();
 
     //                    event handler                    //
     const onLinkClickHandler = () => {
-        if (page === 'sign-in') setPage('sign-up');
-        else setPage('sign-in');
+        if (authPage === 'sign-in') setAuthPage('sign-up');
+        else setAuthPage('sign-in');
     }; 
-
-    // const SignInHandler = () => {
-    //     const signIn =
-    //     setSignIn(signIn);
-    //     console.log('로그인:', signIn);
-    // };
-    
-    // const SignUpHandler = () => {
-    //     const signUp =
-    //     setSignUp(signUp);
-    //     console.log('회원가입:', signUp);
-    // };
 
     //                    constant                   //
     const AuthenticationContents = 
-        page === 'sign-in' ? 
+        authPage === 'sign-in' ? 
             <SignIn onLinkClickHandler={onLinkClickHandler} /> : 
-            <SignUp onLinkClickHandler={onLinkClickHandler} />; 
+            <SignUp onLinkClickHandler={onLinkClickHandler} />;
     
     //                    render                    //
     return (
