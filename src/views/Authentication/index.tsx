@@ -172,12 +172,14 @@ export function SignUp({ onLinkClickHandler }: Props) {
     const [authNumberButtonStatus, setAuthNumberButtonStatus] = useState<boolean>(false);
 
     const [isIdCheck, setIdCheck] = useState<boolean>(false);
+    const [isIdPattern, setIdPattern] = useState<boolean>(false);
     const [isPasswordPattern, setPasswordPattern] = useState<boolean>(false);
     const [isEqualPassword, setEqualPassword] = useState<boolean>(false);
     const [isEmailCheck, setEmailCheck] = useState<boolean>(false);
     const [isAuthNumberCheck, setAuthNumberCheck] = useState<boolean>(false);
 
     const [idMessage, setIdMessage] = useState<string>('');
+    const [idCheckMessage, setIdCheckMessage] = useState<string>('');
     const [passwordMessage, setPasswordMessage] = useState<string>('');
     const [passwordCheckMessage, setPasswordCheckMessage] = useState<string>('');
     const [emailMessage, setEmailMessage] = useState<string>('');
@@ -195,7 +197,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
 
         const idMessage = 
             !result ? '서버에 문제가 있습니다.' :
-            result.code === 'VF' ? '아이디는 빈 값 혹은 공백으로만 이루어질 수 없습니다.' :
+            result.code === 'VF' ? '아이디 형식이 아닙니다.' :
             result.code === 'DI' ?  '이미 사용중인 아이디입니다.' :
             result.code === 'DBE' ? '서버에 문제가 있습니다.' :
             result.code === 'SU' ? '사용 가능한 아이디입니다.' : '';
@@ -266,6 +268,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setId(value);
+        // @Pattern(regexp="^[a-zA-Z0-9]{4,12}$") -> back 패턴
         setIdButtonStatus(value !== '');
         setIdCheck(false);
         setIdMessage('');

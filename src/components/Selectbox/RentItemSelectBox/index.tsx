@@ -95,7 +95,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                 <div>테블릿2</div>
                 <div>테블릿3</div>
                 <div>테블릿4</div>
-            {deviceList.filter(item => item.type === 'tab').map(item => 
+                {deviceList.filter(item => item.type === 'tablet').map(item => 
                     <div>{item.name}</div>
                 )}
             </div>
@@ -107,7 +107,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                 <div>게임기2</div>
                 <div>게임기3</div>
                 <div>게임기4</div>
-            {deviceList.filter(item => item.type === 'tab').map(item => 
+                {deviceList.filter(item => item.type === 'gameIt').map(item => 
                     <div>{item.name}</div>
                 )}
             </div>
@@ -119,7 +119,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                 <div>보조배터리2</div>
                 <div>보조배터리3</div>
                 <div>보조배터리4</div>
-            {deviceList.filter(item => item.type === 'tab').map(item => 
+                {deviceList.filter(item => item.type === 'externalBattery').map(item => 
                     <div>{item.name}</div>
                 )}
             </div>
