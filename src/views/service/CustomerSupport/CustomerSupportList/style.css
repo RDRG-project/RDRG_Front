@@ -3,6 +3,7 @@
     max-width: 1136px;
     display: flex;
     flex-direction: column;
+    height: 800px;
     gap: 30px;
 }
 
