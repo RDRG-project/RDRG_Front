@@ -149,7 +149,7 @@ export default function CustomerSupportList() {
     useEffect(() => {
         if (!cookies.accessToken) return;
         getBoardListRequest(cookies.accessToken).then(getBoardListResponse);
-    }, []);
+    }, [isToggleOn]);
 
     useEffect(() => {
         if (!boardList.length) return;
@@ -188,7 +188,6 @@ export default function CustomerSupportList() {
                 {viewList.map(item => <ListItem {...item} />)}
             </div>
             <div className='cs-list-bottom'>
-                <div></div>
                 <div className='cs-list-pagination'>
                     <div className='cs-list-page-left' onClick={onPreSectionClickHandler}></div>
                     <div className='cs-list-page-box'>
