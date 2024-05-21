@@ -330,6 +330,15 @@ export function SignUp({ onLinkClickHandler }: Props) {
         if(!idButtonStatus) return;
         if(!id || !id.trim()) return;
 
+        const idPattern = /^[a-zA-Z0-9]{4,12}$/;
+        const isIdPattern = idPattern.test(id);
+        if (!isIdPattern) {
+            setIdMessage('아이디 형식이 아닙니다.');
+            setIdError(true);
+            setIdCheck(false);
+            return;
+        }
+
         const requestBody: IdCheckRequestDto = { userId: id };
         idCheckRequest(requestBody).then(idCheckResponse);
     };
