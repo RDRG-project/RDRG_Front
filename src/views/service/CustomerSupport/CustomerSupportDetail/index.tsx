@@ -6,7 +6,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { GetBoardResponseDto } from 'src/apis/board/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
-import { deleteBoardRequest, getBoardRequest, postCommentRequest } from 'src/apis/board';
+import { deleteBoardRequest, postCommentRequest, getBoardRequest } from 'src/apis/board';
 import { PostCommentRequestDto } from 'src/apis/board/dto/request';
 
 //                    component                    //
@@ -46,10 +46,10 @@ export default function SupportDetail () {
             return;
         }
 
-        const { title, writerId, writerDatetime, contents, status, comment } = result as GetBoardResponseDto;
+        const { title, writerId, writeDatetime, contents, status, comment } = result as GetBoardResponseDto;
         setTitle(title);
         setWriterId(writerId);
-        setWriterDate(writerDatetime);
+        setWriterDate(writeDatetime);
         setContents(contents);
         setStatus(status);
         setComment(comment);
@@ -127,6 +127,12 @@ export default function SupportDetail () {
     };
 
     //                    effect                    //
+    useEffect(() => {
+        if (!cookies.accessToken || !receptionNumber) return;
+        getBoardRequest(receptionNumber, cookies.accessToken).then(getBoardResponse);
+    }, []);
+
+    //                    render                    //
     const coveredWriterId = writerId !== '' && (writerId[0] + '*'.repeat(writerId.length - 1));
     return (
         <div id='cs-detail-wrapper'>

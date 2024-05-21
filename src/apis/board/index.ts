@@ -21,7 +21,7 @@ export const postCommentRequest = async (receptionNumber: number | string, reque
     return result;
 };
 
-// function: Q&A 전체 리스트 불러오기 API 함수
+// function: Q&A 전체 리스트 불러오기 API 함수()
 export const getBoardListRequest = async (accessToken: string) => {
     const result = await axios.get(GET_BOARD_LIST_URL, bearerAuthorization(accessToken))
         .then(requestHandler<GetBoardListResponseDto>)
@@ -29,7 +29,7 @@ export const getBoardListRequest = async (accessToken: string) => {
     return result;
 };
 
-// function: Q&A 게시물 불러오기 API 함수
+// function: Q&A 게시물 상세내용 불러오기 API 함수
 export const getBoardRequest = async (receptionNumber: number | string, accessToken: string) => {
     const result = await axios.get(GET_BOARD_URL(receptionNumber), bearerAuthorization(accessToken))
         .then(requestHandler<GetBoardResponseDto>)

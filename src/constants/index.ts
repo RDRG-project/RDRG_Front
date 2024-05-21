@@ -1,8 +1,8 @@
 // description : Navigation URL PATH
 export const SNS_PATH = '/sns/:accessToken/:expires'; // sns 화면
+export const AUTH_PATH = 'auth'; // 로그인 , 회원가입 화면
 export const RDRG_PATH = '/rdrg' // 공통 레이아웃
 export const HOME_PATH = 'home' // 홈화면
-export const AUTH_PATH = 'auth'; // 로그인 , 회원가입 화면
 
 export const CUSTOMER_SUPPORT_PATH = 'customer-support'; //고객지원 화면
 export const CUSTOMER_SUPPORT_WRITE_PATH = 'write'; //문의 내역 글쓰기
@@ -23,8 +23,8 @@ export const AUTH_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${AUTH_PATH}`; // 로�
 
 export const CUSTOMER_SUPPORT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}`; // 고객지원 화면 절대경로
 export const CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}/${CUSTOMER_SUPPORT_WRITE_PATH}`;
-export const CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH = (receptionNumber: string | number) => `${CUSTOMER_SUPPORT_PATH}/${CUSTOMER_SUPPORT_DETAIL_PATH}/${receptionNumber}`;
-export const CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH = (receptionNumber: string | number) => `${CUSTOMER_SUPPORT_PATH}/${CUSTOMER_SUPPORT_UPDATE_PATH}/update/${receptionNumber}`;
+export const CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH = (receptionNumber: string | number) => `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}/${receptionNumber}`;
+export const CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH = (receptionNumber: string | number) => `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}/update/${receptionNumber}`;
 
 export const RENT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${RENT_PATH}`; // 대여화면 절대경로
 
