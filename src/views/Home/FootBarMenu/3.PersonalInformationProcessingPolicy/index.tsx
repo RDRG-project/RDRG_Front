@@ -1,7 +1,7 @@
 import React from 'react'
 import './style.css'
 
-export default function TermsAndConditions() {
+export default function PersonalInformationProcessingPolicy() {
 
   return (
     <div className='container'>
