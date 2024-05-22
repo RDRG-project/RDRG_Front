@@ -45,7 +45,6 @@
 
     font-size: 30px;
 
-
     background-color: rgb(218, 216, 216);
 }
 
@@ -54,10 +53,24 @@
     background-color: rgb(218, 216, 216);
 }
 
-.rent-right-side-basket {
+.rent-right-side-top-basket {
+    text-align: center;
     font-size: 30px;
+    height: 60px;
+
+    background-color: rgb(209, 188, 188);
+}
+
+.rent-right-side-basket {
+    
+    font-size: 20px;
+}
+
+.rent-right-side-basket-set {
+    font-size: 15px;
 }
 
 .rent-right-sid-payment {
+    text-align: right;
     font-size: 30px;
 }

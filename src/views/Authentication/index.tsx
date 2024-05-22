@@ -142,15 +142,12 @@ function SignIn({ onLinkClickHandler }: Props) {
             <div className="authentication-input-container">
                 <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} />
                 <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} onKeydownHandler={onPasswordKeydownHandler} message={message} error />
-
             </div>
             <div className='checkbox-container'><input type="checkbox"/>아이디 저장</div>
             <div className="authentication-button-container">
                 <button className="primary-button full-width" onClick={onSignInButtonClickHandler}>로그인</button>
-                <div className="text-link" onClick={onLinkClickHandler}>회원가입</div>
             </div>
-            <div className="short-divider"></div>
-            <SnsContainer title="SNS 로그인" />
+            <SnsContainer title="SNS로 간편하게 시작하기" />
         </div>
     );
 }
@@ -172,14 +169,12 @@ export function SignUp({ onLinkClickHandler }: Props) {
     const [authNumberButtonStatus, setAuthNumberButtonStatus] = useState<boolean>(false);
 
     const [isIdCheck, setIdCheck] = useState<boolean>(false);
-    const [isIdPattern, setIdPattern] = useState<boolean>(false);
     const [isPasswordPattern, setPasswordPattern] = useState<boolean>(false);
     const [isEqualPassword, setEqualPassword] = useState<boolean>(false);
     const [isEmailCheck, setEmailCheck] = useState<boolean>(false);
     const [isAuthNumberCheck, setAuthNumberCheck] = useState<boolean>(false);
 
     const [idMessage, setIdMessage] = useState<string>('');
-    const [idCheckMessage, setIdCheckMessage] = useState<string>('');
     const [passwordMessage, setPasswordMessage] = useState<string>('');
     const [passwordCheckMessage, setPasswordCheckMessage] = useState<string>('');
     const [emailMessage, setEmailMessage] = useState<string>('');
@@ -410,9 +405,9 @@ export function SignUp({ onLinkClickHandler }: Props) {
             </div>
             <div className="authentication-button-container">
                 <div className={signUpButtonClass} onClick={onSignUpButtonClickHandler}>회원가입</div>
-                <div className="text-link" onClick={onLinkClickHandler}>로그인</div>
             </div>
             <div className="short-divider"></div>
+            <div className="text-link" onClick={onLinkClickHandler}>로그인</div>
             <SnsContainer title="SNS 회원가입" />
         </div>
     );
@@ -437,17 +432,28 @@ export default function Authentication() {
             <SignIn onLinkClickHandler={onLinkClickHandler} /> : 
             <SignUp onLinkClickHandler={onLinkClickHandler} />;
     
+    const signUpButtonClass = `${AuthenticationContents ? 'primary' : 'disable'}-button full-width`;
+    
+    const authenticationTitle =
+        authPage === 'sign-in' ? '로그인': '회원가입';
+    
     //                    render                    //
     return (
         <div id="authentication-wrapper">
-            <div className="authentication-image-box" ></div>
-            <div className="authentication-box">
-                <div className="authentication-container">
-                    <div className="authentication-title h1">
-                        {"RDRG"}
-                    </div>
-                    { AuthenticationContents }
+            <div className='circle'></div>
+            <div className="authentication-container">
+                <div className="authentication-title">
+                    {authenticationTitle}
                 </div>
+                { AuthenticationContents }
+            </div>
+            <div className='authentication-guide-container'>
+                <div className='authentication-guide-box'>
+                    <div className='guide-line'></div>
+                    <div className='guide-title'>아직 회원이 아니신가요?</div>
+                    <div className='guide-line'></div>
+                </div>
+                <div className={signUpButtonClass} onClick={onLinkClickHandler}>회원가입</div>
             </div>
         </div>
     );
