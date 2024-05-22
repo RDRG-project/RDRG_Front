@@ -9,7 +9,7 @@ import { SignInResponseDto } from 'src/apis/auth/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import InputBox from 'src/components/Inputbox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
-import useAuthenticationStore from 'src/stores/AuthenticationStore';
+import useAuthenticationStore from 'src/stores/authentication.store';
 
 //                    component                    //
 export function Sns () {
