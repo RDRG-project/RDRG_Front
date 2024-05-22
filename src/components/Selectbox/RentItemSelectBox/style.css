@@ -1,3 +1,7 @@
+#select-type-wrapper {
+    gap: 30px;
+} 
+
 .select-it-box {
     display: flex;
     align-items: center;
@@ -34,16 +38,6 @@
     color: rgb(17, 15, 15);
 }
 
-.select-it {
-    flex-grow: 1;
-    
-    font-family: Inter;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 175%;
-
-    color: rgb(33, 33, 34);
-}
 
 .select-open-button {
     width: 40px;
@@ -65,37 +59,38 @@
     cursor: pointer;
 }
 
-.select-it-list {
-    position: absolute;
-    left: -1px;
-    top: 44px;
-    width: 500px;
-
-    display: inline-block;
-
-    max-height: 144px;
-    overflow-y: scroll;
-
-    background-color: rgb(209, 188, 188);
-
-    -ms-overflow-style: none;
+.type-notebook {
+    background-color: rgb(165, 165, 164);
+    text-align: center;
 }
 
-.select-it-list::-webkit-scrollbar {
-    display: none;
+.type-notebook:hover {
+    cursor: pointer;
 }
 
-.select-it-list-item-box {
-    display: flex;
-
-    border: 1px solid rgb(209, 188, 188);
-    padding: 8px 16px;
-    width: 500px;
-
-    background-color: rgb(209, 188, 188);
+.type-tablet {
+    background-color: rgb(165, 165, 164);
+    text-align: center;
 }
 
-.select-it-list-item-box:hover {
-    background-color: rgba(238,238,238,0.2);
+.type-tablet:hover {
+    cursor: pointer;
+}
+
+.type-game {
+    background-color: rgb(165, 165, 164);
+    text-align: center;
+}
+
+.type-game:hover {
+    cursor: pointer;
+}
+
+.type-external-battery {
+    background-color: rgb(165, 165, 164);
+    text-align: center;
+}
+
+.type-external-battery:hover {
     cursor: pointer;
 }
