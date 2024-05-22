@@ -15,3 +15,10 @@ export interface DeviceListItem {
     price: number;
     // image: string;
 }
+
+export interface BasketListItems {
+    serialNumber: number;
+    name: string;
+    type: string;
+    price: number;
+}
