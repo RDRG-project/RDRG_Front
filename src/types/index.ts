@@ -8,17 +8,10 @@ export interface BoardListItem {
 
 export interface DeviceListItem {
     serialNumber: string;
-    model: string;
+    model?: string;
     name: string;
-    explain: string;
+    deviceExplain?: string;
     type: string;
     price: number;
-    // image: string;
-}
-
-export interface BasketListItems {
-    serialNumber: number;
-    name: string;
-    type: string;
-    price: number;
+    image?: string;
 }

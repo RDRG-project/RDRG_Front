@@ -1,7 +1,26 @@
 import React, { useState } from 'react'
 import './style.css'
 import { DeviceListItem } from 'src/types';
+import { useBasketStore, useRentItemStore } from 'src/stores/idex';
 
+
+// 예시 items
+const items: DeviceListItem[] = [
+    { serialNumber: 'qwer1', type: '노트북', name: '삼성노트북', price: 500000 },
+    { serialNumber: 'qwer2', type: '노트북', name: 'LG노트북', price: 500000 },
+    { serialNumber: 'qwer3', type: '노트북', name: '맥프로', price: 500000 },
+    { serialNumber: 'asdf1', type: '태블릿', name: '아이패드', price: 300000 },
+    { serialNumber: 'asdf2', type: '태블릿', name: '갤럭시탭', price: 300000 },
+    { serialNumber: 'asdf3', type: '태블릿', name: '레노버', price: 300000 },
+    { serialNumber: 'zxc1', type: '게임기', name: '스위치', price: 200000 },
+    { serialNumber: 'zxc2', type: '게임기', name: '플레이스테이션', price: 200000 },
+    { serialNumber: 'zxc3', type: '게임기', name: '디지몬 벽돌', price: 200000 },
+    { serialNumber: 'poi1', type: '보조배터리', name: '샤오미배터리',price: 100000 },
+    { serialNumber: 'poi2', type: '보조배터리', name: '삼성보조배터리',price: 100000 }
+];
+
+
+//                    interface                    //
 interface Prop {
     value: string;
     onChange: (value: string) => void;
@@ -10,32 +29,24 @@ interface Prop {
 //                    component                    //
 export default function RentSelectBox({ value, onChange }: Prop) {
 
-    const RentItemListItem = [
-        { name : '노트북', value: 'noteBook'},
-        { name : '태블릿', value: 'tablet'},
-        { name : '게임기', value: 'gameIt'},
-        { name : '보조배터리', value: 'externalBattery'}
-    ];
-
     //                    state                    //
     const [selectListItItem, setSelectListItItem] = useState<boolean>(false);
-    const [name, setName] = useState<string>('');
-    const [deviceList, setDeviceList] = useState<DeviceListItem[]>([]);
     const [notebookState, setNotebookState] = useState<boolean>(false);
     const [tabletState, setTabletState] = useState<boolean>(false);
     const [gameItState, setGameItState] = useState<boolean>(false);
     const [externalBatteryState, setExternalBatteryState] = useState<boolean>(false);
 
-    //                    function                    //
-    
+    const { basketItems, setBasketItems } = useBasketStore();
+    const { totalAmount, setTotalAmount } = useRentItemStore();
 
     //                    event handler                    //
     const onButtonClickHandler = () => {
         setSelectListItItem(!selectListItItem);
     };
 
-    const onDeviceButtonClickHandler = () => {
-        setDeviceList(deviceList);
+    const addItemButtonClickHandler = (item: DeviceListItem) => {
+        setBasketItems([...basketItems, item]);
+        setTotalAmount(totalAmount + item.price);
     };
 
     const onNotebookButtonClickHandler = () => {
@@ -59,9 +70,9 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     return (
         <div id='select-type-wrapper'>
             <div className='select-it-box'>
-                { value === '' ? 
-                <div className='select-it-none'>Device Type</div> :
-                <div className='select-it-item'>{name}</div>
+                {value === '' ? 
+                    <div className='select-it-none'>Device Type</div> :
+                    <div className='select-it-item'>{value}</div>
                 }
                 <div className={buttonClass} onClick={onButtonClickHandler}></div>
             </div>
@@ -70,49 +81,44 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             <div className='type-notebook' onClick={onNotebookButtonClickHandler}>Note Book</div>
             {notebookState &&
             <div>
-                <div>노트북1</div>
-                <div>노트북2</div>
-                <div>노트북3</div>
-                <div>노트북4</div>
-                {deviceList.filter(item => item.type === 'notebook').map(item => 
-                    <div>{item.name}</div>
+                {items.filter(item => item.type === '노트북').map(item => 
+                    <div key={item.serialNumber}>
+                        {item.name} - {item.price.toLocaleString()}원
+                        <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                    </div>
                 )}
             </div>
             }
-            
             <div className='type-tablet' onClick={onTabletButtonClickHandler}>Tablet</div>
             {tabletState &&
             <div>
-                <div>테블릿1</div>
-                <div>테블릿2</div>
-                <div>테블릿3</div>
-                <div>테블릿4</div>
-                {deviceList.filter(item => item.type === 'tablet').map(item => 
-                    <div>{item.name}</div>
+                {items.filter(item => item.type === '태블릿').map(item => 
+                    <div key={item.serialNumber}>
+                        {item.name} - {item.price.toLocaleString()}원
+                        <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                    </div>
                 )}
             </div>
             }
             <div className='type-game' onClick={onGameItButtonClickHandler}>Game</div>
             {gameItState &&
             <div>
-                <div>게임기1</div>
-                <div>게임기2</div>
-                <div>게임기3</div>
-                <div>게임기4</div>
-                {deviceList.filter(item => item.type === 'gameIt').map(item => 
-                    <div>{item.name}</div>
+                {items.filter(item => item.type === '게임기').map(item => 
+                    <div key={item.serialNumber}>
+                        {item.name} - {item.price.toLocaleString()}원
+                        <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                    </div>
                 )}
             </div>
             }
             <div className='type-external-battery' onClick={onExternalBatteryButtonClickHandler}>Battery</div>
             {externalBatteryState &&
             <div>
-                <div>보조배터리1</div>
-                <div>보조배터리2</div>
-                <div>보조배터리3</div>
-                <div>보조배터리4</div>
-                {deviceList.filter(item => item.type === 'externalBattery').map(item => 
-                    <div>{item.name}</div>
+                {items.filter(item => item.type === '보조배터리').map(item => 
+                    <div key={item.serialNumber}>
+                        {item.name} - {item.price.toLocaleString()}원
+                        <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                    </div>
                 )}
             </div>
             }

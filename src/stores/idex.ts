@@ -1,7 +1,6 @@
 import useUserStore from "./user.store";
-import useAuthenticationStore from "../stores/AuthenticationStore/index";
+import useAuthenticationStore from "./authentication.store";
+import useBasketStore from "./basket.store"
+import useRentItemStore from "./rentItem.store"
 
-
-export { useUserStore };
-
-export { useAuthenticationStore };
+export { useUserStore, useAuthenticationStore, useBasketStore, useRentItemStore };
