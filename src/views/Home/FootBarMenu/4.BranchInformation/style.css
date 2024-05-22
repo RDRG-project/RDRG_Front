@@ -1,0 +1,72 @@
+#place-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 0px 400px 30px 380px;
+}
+
+.place-page {
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+.place-guide {
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 20px;
+}
+
+.place {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    width: 1150px;
+    height: 500px;
+
+    border-top: 2px solid rgb(175, 175, 175, 1);
+}
+
+.place-seoul {
+    font-size: x-large;
+    font-weight: 600;
+
+    width: 100%;
+
+    text-align: right;
+    padding: 0px 150px 0px 0px;
+}
+
+.place-seoul-image {
+    background-image: url(../../../../assets/image/seoul-image.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 700px;
+    height: 700px;
+}
+
+.place-busan {
+    font-size: x-large;
+    font-weight: 600;
+
+    width: 100%;
+
+    text-align: left;
+    padding: 0px 0px 0px 150px;
+}
+
+.place-busan-image {
+    background-image: url(../../../../assets/image/busan-image.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 700px;
+    height: 700px;
+}
