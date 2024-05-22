@@ -1,0 +1,20 @@
+#selected-type-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    gap: 20px;
+}
+
+.select-type-box {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.selected-it {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}

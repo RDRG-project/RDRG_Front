@@ -18,7 +18,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     ];
 
     //                    state                    //
-    const [selectItItem, setSelectItItem] = useState<boolean>(false);
+    const [selectListItItem, setSelectListItItem] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
     const [deviceList, setDeviceList] = useState<DeviceListItem[]>([]);
     const [notebookState, setNotebookState] = useState<boolean>(false);
@@ -31,7 +31,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
 
     //                    event handler                    //
     const onButtonClickHandler = () => {
-        setSelectItItem(!selectItItem);
+        setSelectListItItem(!selectListItItem);
     };
 
     const onDeviceButtonClickHandler = () => {
@@ -54,28 +54,20 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         setExternalBatteryState(!externalBatteryState);
     };
 
-    const onItemClickHandler = (value: string) => {
-        RentItemListItem.forEach(item => {
-            if (item.value === value) setName(item.name);
-        })
-        onChange(value);
-        setSelectItItem(false);
-    };
-
     //                    render                    //
-    const buttonClass = selectItItem ? 'select-close-button' : 'select-open-button';
+    const buttonClass = selectListItItem ? 'select-close-button' : 'select-open-button';
     return (
-        <div>
-            <div className='select-box'>
+        <div id='select-type-wrapper'>
+            <div className='select-it-box'>
                 { value === '' ? 
-                <div className='select-it-none'>기기 종류</div> :
+                <div className='select-it-none'>Device Type</div> :
                 <div className='select-it-item'>{name}</div>
                 }
                 <div className={buttonClass} onClick={onButtonClickHandler}></div>
             </div>
-            {selectItItem &&
+            {selectListItItem &&
             <>
-            <div>노트북 <button onClick={onNotebookButtonClickHandler}>버튼1</button></div>
+            <div className='type-notebook' onClick={onNotebookButtonClickHandler}>Note Book</div>
             {notebookState &&
             <div>
                 <div>노트북1</div>
@@ -88,7 +80,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             </div>
             }
             
-            <div>태블릿 <button onClick={onTabletButtonClickHandler}>버튼2</button></div>
+            <div className='type-tablet' onClick={onTabletButtonClickHandler}>Tablet</div>
             {tabletState &&
             <div>
                 <div>테블릿1</div>
@@ -100,7 +92,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                 )}
             </div>
             }
-            <div>게임기 <button onClick={onGameItButtonClickHandler}>버튼3</button></div>
+            <div className='type-game' onClick={onGameItButtonClickHandler}>Game</div>
             {gameItState &&
             <div>
                 <div>게임기1</div>
@@ -112,7 +104,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                 )}
             </div>
             }
-            <div>보조배터리 <button onClick={onExternalBatteryButtonClickHandler}>버튼</button></div>
+            <div className='type-external-battery' onClick={onExternalBatteryButtonClickHandler}>Battery</div>
             {externalBatteryState &&
             <div>
                 <div>보조배터리1</div>

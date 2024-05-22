@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import './App.css';
 import { Route, Routes, useNavigate } from 'react-router';
 import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_PATH, CUSTOMER_SUPPORT_PATH, CUSTOMER_SUPPORT_UPDATE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_ABSOLUTE_PATH, HOME_COMPANY_ABSOLUTE_PATH, HOME_PLACE_ABSOLUTE_PATH, HOME_POLICY_ABSOLUTE_PATH, MYPAGE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH, RDRG_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from './constants';
-import Authentication, { SignUp } from './views/Authentication';
 import RdrgContainer from './layouts/HomeContainer';
 import Home from './views/Home';
 import CustomerSupportList from './views/service/CustomerSupport/CustomerSupportList';
@@ -18,6 +17,7 @@ import CompanyIntroduction from './views/Home/FootBarMenu/1.CompanyIntroduction'
 import TermsAndConditions from './views/Home/FootBarMenu/2.TermsAndConditions';
 import PersonalInformationProcessingPolicy from './views/Home/FootBarMenu/3.PersonalInformationProcessingPolicy';
 import BranchInformation from './views/Home/FootBarMenu/4.BranchInformation';
+import Authentication from './views/Authentication';
 
 // component : root 경로 컴포넌트 //
 function Index() {

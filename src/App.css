@@ -142,9 +142,9 @@
 }
 
 .sns-button {
-    width: 56px;
-    height: 56px;
-    border-radius: 56px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
 }
 
 .sns-button:hover {
@@ -227,3 +227,7 @@
 
     color: rgba(138,146,166,1);
 }
+
+.full-width {
+    width: 100%;
+  }
