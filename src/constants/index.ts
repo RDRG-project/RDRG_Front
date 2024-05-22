@@ -74,7 +74,7 @@ export const DELETE_BOARD_URL = (receptionNumber: number | string) => `${SERVER_
 
 // 대여할 기기 리스트 불러오기
 export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;
-export const POST_DEVICE_URL = `${SERVER_DEVICE_MODULE_URL}/`
+export const GET_DEVICE_URL = `${SERVER_DEVICE_MODULE_URL}/list`
 
 // description: 게시물 상수
 export const COUNT_PER_PAGE = 5;

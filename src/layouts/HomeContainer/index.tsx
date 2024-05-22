@@ -7,7 +7,7 @@ import { useCookies } from 'react-cookie';
 import ResponseDto from 'src/apis/response.dto';
 import { GetSignInUserResponseDto } from 'src/apis/user/dto/response';
 import { getSignInUserRequest } from 'src/apis/user';
-import useAuthenticationStore from 'src/stores/AuthenticationStore';
+import useAuthenticationStore from 'src/stores/authentication.store';
 
 //                    type                    //
 type Path = '대여' | '고객지원' | '마이페이지' | '';
