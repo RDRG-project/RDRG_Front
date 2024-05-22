@@ -4,7 +4,63 @@ import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import BasketBox from 'src/components/basketbox';
+import { useBasketStore, useRentItemStore } from 'src/stores/idex';
+
+
+
+//                    component                    //
+function Basket() {
+
+    //                    state                    //
+    const { basketItems, setBasketItems } = useBasketStore();
+    const { totalAmount, setTotalAmount } = useRentItemStore();
+    const [paymentState, setPaymentState] = useState<boolean>(false);
+    const [payment, setPayment] = useState<string>('');
+    
+
+    //                    event handler                    //
+    const removeItemButtonClickHandler = (index: number) => {
+        const itemToRemove = basketItems[index];
+        setBasketItems(basketItems.filter((_, i) => i !== index));
+        setTotalAmount(totalAmount - itemToRemove.price);
+    };
+
+    const clearButtonClickHandler = () => {
+        setBasketItems([]);
+        setTotalAmount(0);
+    };
+
+    // const paymentButtonClickHandler = () => {
+    //     if (basketItems !== []) return;
+    //     setPaymentState(!paymentState);
+    // };
+
+    //                    render                    //
+    return (
+        <div className='selected-type-wrapper'>
+            
+            <div className='basket-items'>
+                {basketItems.map((item, index) => (
+                <div key={index} className='basket-item'>
+                {item.name}: {item.price.toLocaleString()}원               
+                <button onClick={() => removeItemButtonClickHandler(index)}>Remove</button>
+                </div>
+                ))}
+            </div>
+            <div className='payment-box'>
+                <div className='payment-top-box'>
+                    <div className='payment-count'>총 {basketItems.length}개 품목 선택</div>
+                    <div className='payment-basket-delete'>
+                        <button onClick={clearButtonClickHandler}>전체 삭제</button>
+                    </div>
+                </div>
+                <div className='payment-bottom-box'>
+                <div className='payment-sum'>총 합계금액: {totalAmount.toLocaleString()}원</div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 //                    component                    //
 export default function Rent() {
@@ -16,7 +72,6 @@ export default function Rent() {
     // const [dateSelect, setDateSelect] = useState<string>('');
     const [rentItem, setRentItem] = useState<string>('');
 
-
     //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
         setRentSelect(rentSelect);
@@ -25,6 +80,7 @@ export default function Rent() {
         setReturnSelect(returnSelect);
     };
 
+    // 날짜 및 시간 클릭에 대한 변경 핸들러
     // const onDateChangeHandler = (dateSelect: string) => {
     //     setDateSelect(dateSelect);
     // };
@@ -33,7 +89,6 @@ export default function Rent() {
         setRentItem(rentItem);
     }
     
-
     //                    render                    //
     return (
         <div id='rent-wrapper'>
@@ -53,10 +108,12 @@ export default function Rent() {
                 <div className='rent-right-side-top-basket'>장바구니</div>
                 <div className='rent-right-side-basket'>
                     <div className='rent-right-side-basket-set'>
-                        <BasketBox />
+                        <Basket />
                     </div>
                 </div>
-                <div className='rent-right-sid-payment'>결제</div>
+                <div className='rent-right-sid-payment'>
+                    <button>결제</button>
+                </div>
             </div>
         </div>
     );
