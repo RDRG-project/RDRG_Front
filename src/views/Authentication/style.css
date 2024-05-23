@@ -38,11 +38,12 @@
     line-height: normal;
 }
 
+/* 로그인 input 창 */
 .authentication-contents {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
 
     width: 100%;
 }
@@ -73,17 +74,35 @@
     height: 100%;
 }
 
+.saveId{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+/* SNS 창 */
 .authentication-sns-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px; 
+    gap: 30px;
+}
+
+.sns-container-title{
+    font-family: "Noto Sans KR";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    
+    color: rgba(69, 69, 69, 1);
 }
 
 .sns-button-container {
     display: flex;
     flex-direction: row;
-    gap: 15px;
+    gap: 20px;
 }
 
 .kakao-button {
@@ -96,13 +115,32 @@
     background-image: url('../../assets/image/naver-button.png');
 }
 
-/* 회원가입 안내  */
+.sns-container-divide{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+}
+
+/* 로그인, 회원가입 안내칸 */
 .authentication-guide-container{
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
     margin-top: 20px;
+}
+
+.authentication-sign-in-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.authentication-sign-up-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .authentication-guide-box{
