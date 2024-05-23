@@ -4,9 +4,9 @@ import './style.css'
 export default function PersonalInformationProcessingPolicy() {
 
   return (
-    <div className='container'>
+    <div id='policy-wrapper'>
       <div>
-        <h1 className='title'>개인정보처리방침</h1>
+        <h1 className='title'><strong>개인정보처리방침</strong></h1>
         <h2>RDRG 개인정보처리방침입니다.<br />참고해주세요.</h2>
         <p>이 개인정보처리방침은 테스트용으로 만들어 졌으며 아무런 효력이 없습니다.</p>
         <p>

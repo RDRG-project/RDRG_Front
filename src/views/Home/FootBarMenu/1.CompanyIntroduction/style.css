@@ -6,13 +6,6 @@
     padding: 0px 400px 30px 380px;
 }
 
-.company-main {
-    display: flex;
-    flex-direction: column;
-
-    width: 100%;
-}
-
 .title {
     display: flex;
     align-items:flex-start;
@@ -20,6 +13,8 @@
 
     padding: 0px 0px 20px 0px;
 }
+
+/* -------------------------------------------------- */
 
 .sub-title {
     display: flex;
@@ -47,8 +42,6 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-
-
 }
 
 .company-image{
@@ -57,20 +50,21 @@
     background-repeat: no-repeat;
 
     height: 500px;
-    width: 300px;
+    width: 400px;
 }
 
-.company-main-guide {
+.text-message {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
 
-    margin: 0px 0px 15px 0px;
+    width: 100%;
+    height: 500px;
 
-    height: 300px;
-    width: 80%;
+    margin: 0px 0px 0px 50px;
+}
 
-    font-size: large;
-
-    background-color: aquamarine;
+.text-size {
+    font-size: larger;
+    font-weight: 600;
 }
