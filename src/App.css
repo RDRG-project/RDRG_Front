@@ -246,3 +246,10 @@
     color: rgba(138,146,166,1);
 }
 
+body {
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+  }
