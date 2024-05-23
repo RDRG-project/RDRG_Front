@@ -5,3 +5,8 @@ export interface SignInResponseDto extends ResponseDto {
     accessToken: string;
     expires: number;
 }
+
+export interface UserInfoResponseDto extends ResponseDto {
+    userId: string;
+    userEmail: string;
+}

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import './style.css'
-import { DeviceListItem } from 'src/types';
-import { useBasketStore, useRentItemStore } from 'src/stores/idex';
+import { useBasketStore, useRentItemStore } from 'src/stores/index';
+import { ItRentList } from 'src/types';
 
 
 // 예시 items
-const items: DeviceListItem[] = [
+const items: ItRentList[] = [
     { serialNumber: 'qwer1', type: '노트북', name: '삼성노트북', price: 500000 },
     { serialNumber: 'qwer2', type: '노트북', name: 'LG노트북', price: 500000 },
     { serialNumber: 'qwer3', type: '노트북', name: '맥프로', price: 500000 },
@@ -44,7 +44,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         setSelectListItItem(!selectListItItem);
     };
 
-    const addItemButtonClickHandler = (item: DeviceListItem) => {
+    const addItemButtonClickHandler = (item: ItRentList) => {
         setBasketItems([...basketItems, item]);
         setTotalAmount(totalAmount + item.price);
     };
