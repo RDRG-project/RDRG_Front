@@ -99,7 +99,7 @@ export const POST_BOARD_REQUEST_URL = `${SERVER_BOARD_MODULE_URL}/`;
 // 문의 게시판 리스트 불러오기
 export const GET_BOARD_LIST_URL = `${SERVER_BOARD_MODULE_URL}/list`;
 // 문의 게시물 불러오기
-export const GET_BOARD_URL = (receptionNumber: number| string) => `${SERVER_BOARD_MODULE_URL}${receptionNumber}`
+export const GET_BOARD_URL = (receptionNumber: number| string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}`
 // 문의게시판 게시물 답글 작성
 export const POST_COMMENT_REQUEST_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}/comment`;
 // 게시판 수정
