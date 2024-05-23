@@ -6,12 +6,24 @@ export interface BoardListItem {
     writeDatetime: string;
 }
 
-export interface DeviceListItem {
+export interface RentalPeriod {
+    rentalPeriod: string;
+}
+
+export interface RentItem {
+    type: string;
+    rentDatetime: string;
+    rentReturnDatetime: string;
+    rentStatus: boolean;
+}
+
+export interface ItRentList {
     serialNumber: string;
     model?: string;
     name: string;
     deviceExplain?: string;
     type: string;
+    brand?:string;
     price: number;
-    image?: string;
+    devicesImgUrl?: string;
 }
