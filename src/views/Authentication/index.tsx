@@ -46,16 +46,27 @@ interface SnsContainerProps {
 //                    component                    //
 function SnsContainer({ title }: SnsContainerProps) {
 
+    //                    state                    //
+    const {authPage, setAuthPage} = useAuthenticationStore();
+
     //                    event handler                    //
     const onSnsButtonClickHandler = (type: 'kakao' | 'naver') => {
-        // window.location.href = 'http://localhost:4000/api/v1/auth/oauth2/' + type;    -- 링크연결 
+        window.location.href = 'http://localhost:4500/api/v1/auth/oauth2/' + type; 
         
     };
 
     //                    render                    //
     return (
         <div className="authentication-sns-container">
-            <div className="sns-container-title label">{title}</div>
+            {authPage === 'sign-in' ?
+            <div className="sns-container-title">{title}</div> 
+            :
+            <div className='sns-container-divide'>
+                <div className='guide-line'></div>
+                <div className="sns-container-title">{title}</div>
+                <div className='guide-line'></div>
+            </div>
+            }
             <div className="sns-button-container">
                 <div className="sns-button kakao-button" onClick={() => onSnsButtonClickHandler('kakao')}></div>
                 <div className="sns-button naver-button" onClick={() => onSnsButtonClickHandler('naver')}></div>
@@ -74,33 +85,38 @@ function SignIn({ onLinkClickHandler }: Props) {
 
     //                    state                    //
     const [cookies, setCookie] = useCookies();
-
-    const [id, setId] = useState<string>('');
+    const [id, setId] = useState<string>(cookies.accessToken || '');
     const [password, setPassword] = useState<string>('');
-
+    const [saveId, setSaveId] = useState<boolean>(!!cookies.accessToken);
     const [message, setMessage] = useState<string>('');
 
     //                    function                    //
     const navigator = useNavigate();
 
     const signInResponse = (result: SignInResponseDto | ResponseDto | null) => {
-
-        const message =
-            !result ? '서버에 문제가 있습니다.' :
-            result.code === 'VF' ? '아이디와 비밀번호를 모두 입력하세요.' : 
-            result.code === 'SF' ? '로그인 정보가 일치하지 않습니다.' :
-            result.code === 'TF' ? '서버에 문제가 있습니다.' :
-            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
-        setMessage(message);
-
-        const isSuccess = result && result.code === 'SU';
-        if (!isSuccess) return;
-
-        const { accessToken, expires } = result as SignInResponseDto;
-        const expiration = new Date(Date.now() + (expires * 1000));
-        setCookie('accessToken', accessToken, { path: '/', expires: expiration });
-
-        navigator(HOME_ABSOLUTE_PATH);
+    
+    const message =
+    !result ? '서버에 문제가 있습니다.' :
+    result.code === 'VF' ? '아이디와 비밀번호를 모두 입력하세요.' :
+    result.code === 'SF' ? '로그인 정보가 일치하지 않습니다.' :
+    result.code === 'TF' ? '서버에 문제가 있습니다.' :
+    result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+    setMessage(message);
+    
+    const isSuccess = result && result.code === 'SU';
+    if (!isSuccess) return;
+    
+    const { accessToken, expires } = result as SignInResponseDto;
+    const expiration = new Date(Date.now() + (expires * 1000));
+    setCookie('accessToken', accessToken, { path: '/', expires: expiration });
+    
+    // if (saveId) {
+    // setCookie('accessToken', id, { path: '/' });
+    // } else {
+    // removeCookie('accessToken', { path: '/' });
+    // }
+    
+    navigator(HOME_ABSOLUTE_PATH);
     };
 
     //                    event handler                    //
@@ -134,7 +150,18 @@ function SignIn({ onLinkClickHandler }: Props) {
         
     };
 
-    
+    // const onSaveIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    //     setId(event.target.value);
+    //     setSaveId(event.target.checked);
+    // };
+
+    //                    effect                    //
+    // useEffect(() => {
+    //     if (cookies.accessToken) {
+    //     setId(cookies.accessToken);
+    //     setSaveId(true);
+    //     }
+    // }, []);
 
     //                    render                    //
     return (
@@ -143,8 +170,11 @@ function SignIn({ onLinkClickHandler }: Props) {
                 <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} />
                 <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} onKeydownHandler={onPasswordKeydownHandler} message={message} error />
             </div>
-            <div className='checkbox-container'><input type="checkbox"/>아이디 저장</div>
-            <div className="authentication-button-container">
+            <div className="saveId">
+                <input type="checkbox" className="saveId-cb" />
+                <div className="saveId">아이디 저장</div>
+            </div>
+            <div className='authentication-button-container'>
                 <button className="primary-button full-width" onClick={onSignInButtonClickHandler}>로그인</button>
             </div>
             <SnsContainer title="SNS로 간편하게 시작하기" />
@@ -398,17 +428,14 @@ export function SignUp({ onLinkClickHandler }: Props) {
                 onChangeHandler={onEmailChangeHandler} buttonTitle="이메일 인증" buttonStatus={emailButtonStatus} 
                 onButtonClickHandler={onEmailButtonClickHandler} message={emailMessage} error={isEmailError} />
 
-                {isEmailCheck && 
                 <InputBox label="인증번호" type="text" value={authNumber} placeholder="인증번호 4자리를 입력해주세요" 
                 onChangeHandler={onAuthNumberChangeHandler} buttonTitle="인증 확인" buttonStatus={authNumberButtonStatus} 
-                onButtonClickHandler={onAuthNumberButtonClickHandler} message={authNumberMessage} error={isAuthNumberError} />}
+                onButtonClickHandler={onAuthNumberButtonClickHandler} message={authNumberMessage} error={isAuthNumberError} />
             </div>
             <div className="authentication-button-container">
-                <div className={signUpButtonClass} onClick={onSignUpButtonClickHandler}>회원가입</div>
+                <div className='primary-button full-width' onClick={onSignUpButtonClickHandler}>회원가입</div>
             </div>
-            <div className="short-divider"></div>
-            <div className="text-link" onClick={onLinkClickHandler}>로그인</div>
-            <SnsContainer title="SNS 회원가입" />
+
         </div>
     );
 }
@@ -432,7 +459,7 @@ export default function Authentication() {
             <SignIn onLinkClickHandler={onLinkClickHandler} /> : 
             <SignUp onLinkClickHandler={onLinkClickHandler} />;
     
-    const signUpButtonClass = `${AuthenticationContents ? 'primary' : 'disable'}-button full-width`;
+    // const signUpButtonClass = `${AuthenticationContents ? 'disable' : 'primary'}-button full-width`;
     
     const authenticationTitle =
         authPage === 'sign-in' ? '로그인': '회원가입';
@@ -448,12 +475,21 @@ export default function Authentication() {
                 { AuthenticationContents }
             </div>
             <div className='authentication-guide-container'>
-                <div className='authentication-guide-box'>
-                    <div className='guide-line'></div>
-                    <div className='guide-title'>아직 회원이 아니신가요?</div>
-                    <div className='guide-line'></div>
+                {authPage === 'sign-in' ? 
+                <div className='authentication-sign-in-container'>
+                    <div className='authentication-guide-box'>
+                        <div className='guide-line'></div>
+                        <div className='guide-title'>아직 회원이 아니신가요?</div>
+                        <div className='guide-line'></div>
+                    </div>
+                    <div className='disable-button full-width' onClick={onLinkClickHandler}>회원가입</div>
                 </div>
-                <div className={signUpButtonClass} onClick={onLinkClickHandler}>회원가입</div>
+                :
+                <div className='authentication-sign-up-container'>
+                    <SnsContainer title="SNS 회원가입" />
+                    <div className='disable-button full-width' onClick={onLinkClickHandler}>로그인</div>
+                </div>
+                }
             </div>
         </div>
     );
