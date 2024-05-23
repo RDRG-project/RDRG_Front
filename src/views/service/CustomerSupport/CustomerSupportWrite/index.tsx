@@ -7,15 +7,20 @@ import { PostBoardRequestDto } from "src/apis/board/dto/request";
 import ResponseDto from "src/apis/response.dto";
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH } from "src/constants";
 import useUserStore from "src/stores/user.store";
+import axios from "axios";
 
 //                    component                    //
 export default function SupportWrite() {
     //                    state                    //
     const contentsRef = useRef<HTMLTextAreaElement | null>(null);
+    const fileRef = useRef<HTMLInputElement | null>(null);
     const { loginUserRole } = useUserStore();
     const [cookies] = useCookies();
     const [title, setTitle] = useState<string>('');
     const [contents, setContents] = useState<string>('');
+
+    const [fileUpload , setFileUpload] = useState<File[]>([]);
+    const [filePreviews, setFilePreviews] = useState<{name: string, url: string}[]>([]);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -53,13 +58,43 @@ export default function SupportWrite() {
         contentsRef.current.style.height = `${contentsRef.current.scrollHeight}px`;
     };
 
-    const onPostButtonClickHandler = () => {
+    const onPostButtonClickHandler = async () => {
         if (!title.trim() || !contents.trim()) return; 
         if (!cookies.accessToken) return;
 
-        const requestBody: PostBoardRequestDto = { title, contents, urlList: [] };
+        const urlList: string[] = [];
+
+        for (const file of fileUpload) {
+            const data = new FormData();
+            data.append('file', file);
+            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } }).then(response => response.data as string).catch(error => null);
+            if (!url) continue;
+            
+            urlList.push(url);
+        }
+
+        const requestBody: PostBoardRequestDto = { title, contents, urlList };
 
         postBoardRequest(requestBody, cookies.accessToken).then(postBoardResponse);
+    };
+
+    // const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    //     const fileUpload = event.target.files;
+    //     setFileUpload(fileUpload);
+    // };
+
+    const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files || !event.target.files.length) return;
+        const file = event.target.files[0];
+        setFileUpload([...fileUpload, file]);
+        const name = file.name;
+        const url = URL.createObjectURL(file);
+        setFilePreviews([...filePreviews, {name, url}]);
+    };
+
+    const onFileUploadButtonClickHandler = () => {
+        if (!fileRef.current) return;
+        fileRef.current.click();
     };
 
     //                    effect                    //
@@ -71,8 +106,6 @@ export default function SupportWrite() {
     },[loginUserRole]);
     
     //                    render                    //
-    
-
     return( 
         <div id="cs-write-wrapper">
             <div className='cs-write-top'>
@@ -86,7 +119,10 @@ export default function SupportWrite() {
                 <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요. / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
                 
             </div>
-            <input type="file" multiple={true} className="fileUpload" />
+            <div></div>
+            <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
+            <div style={{ padding: '12px', display: 'line-block', backgroundColor: 'rgba(0, 255, 0, 0.3)', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>파일 첨부</div>
+            {filePreviews.map(url => <div><span>{url.name}</span><img style={{ width: '80px' }} src={url.url} /></div>)}
         </div>
         );
 };
