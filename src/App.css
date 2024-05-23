@@ -1,3 +1,29 @@
+/* InputBox */
+.primary {
+    color: rgba(58, 87, 232, 1);
+}
+
+.error {
+    color: rgba(255, 46, 21, 1);
+}
+
+/* authentication */
+.sns-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.sns-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+/* 로그인 회원가입 버튼 */
+.full-width {
+    width: 100%;
+}
+
 .primary-button {
     box-sizing: border-box;
     display: flex;
@@ -6,18 +32,53 @@
 
     padding: 8px 24px;
 
-    background-color: rgba(28, 87, 232, 1);
-    border-radius: 6px;
+    background-color: rgba(94, 73, 242, 1);
+    border-radius: 40px;
+    border: none;
 
-    font-size: 16px;
+    font-family: "Noto Sans KR";
+    font-size: 18px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 175%;
+    text-align: center;
 
     color: rgba(255, 255, 255, 1);
 }
 
+.primary-button:hover {
+    cursor: pointer;
+    opacity: 0.85;
+}
 
+.disable-button {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 8px 24px;
+
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 40px;
+    border: 1px solid rgba(17,17,17,1);
+
+    font-family: "Noto Sans KR";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 175%;
+    text-align: center;
+
+    color: rgba(17, 17, 17, 1);
+}
+
+.disable-button:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+/* 공통레이아웃 로그인, 회원가입 버튼*/
 .sign-in-button {
     box-sizing: border-box;
     display: flex;
@@ -117,41 +178,6 @@
     opacity: 0.85;
 }
 
-.disable-button {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 8px 24px;
-
-    background-color: rgba(138, 146, 166, 1);
-    border-radius: 6px;
-
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 175%;
-
-    color: rgba(255, 255, 255, 1);
-}
-
-.primary-button:hover {
-    cursor: pointer;
-    opacity: 0.85;
-}
-
-.sns-button {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-}
-
-.sns-button:hover {
-    cursor: pointer;
-    opacity: 0.9;
-}
-
 .toggle {
     width: 35px;
     height: 20px;
@@ -182,14 +208,6 @@
 .text-link:hover {
     cursor: pointer;
     opacity: 0.85;
-}
-
-.primary {
-    color: rgba(58, 87, 232, 1);
-}
-
-.error {
-    color: rgba(255, 84, 62, 1);
 }
 
 .primary-badge {
@@ -228,6 +246,3 @@
     color: rgba(138,146,166,1);
 }
 
-.full-width {
-    width: 100%;
-  }
