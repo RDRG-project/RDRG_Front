@@ -1,6 +1,6 @@
 import { useState } from "react";
 import './style.css'
-import { useBasketStore } from "src/stores/idex";
+import { useBasketStore } from "src/stores/index";
 
 interface Prop {
     value: string;

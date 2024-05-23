@@ -1,11 +1,8 @@
 import ResponseDto from "src/apis/response.dto";
-import { BoardListItem, DeviceListItem } from "src/types";
+import { BoardListItem, ItRentList } from "src/types";
 
 export interface GetBoardListResponseDto extends ResponseDto {
     boardList: BoardListItem[];
-}
-export interface GetDeviceListResponseDto extends ResponseDto {
-    deviceList: DeviceListItem[];
 }
 export interface GetBoardResponseDto extends ResponseDto {
     receptionNumber: number;
@@ -14,5 +11,6 @@ export interface GetBoardResponseDto extends ResponseDto {
     writerId: string;
     writeDatetime: string;
     contents: string;
-    comment: string | null;
+    comment?: string | null;
+    uploadFile?: number;
 }

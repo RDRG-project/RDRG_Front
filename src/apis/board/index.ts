@@ -5,7 +5,7 @@ import { GetBoardListResponseDto, GetBoardResponseDto } from "./dto/response";
 import { PostBoardRequestDto, PostCommentRequestDto, PutBoardRequestDto } from "./dto/request";
 import ResponseDto from "../response.dto";
 
-// function: Q&A 작성 API 함수
+// function: 문의 게시물 작성 API 함수
 export const postBoardRequest = async (requestBody: PostBoardRequestDto, accessToken: string) => {
     const result = await axios.post(POST_BOARD_REQUEST_URL, requestBody, bearerAuthorization(accessToken))
         .then(requestHandler<ResponseDto>)
@@ -13,15 +13,7 @@ export const postBoardRequest = async (requestBody: PostBoardRequestDto, accessT
     return result;
 };
 
-// function: Q&A 답글 작성 API 함수
-export const postCommentRequest = async (receptionNumber: number | string, requestBody: PostCommentRequestDto, accessToken: string) => {
-    const result = await axios.post(POST_COMMENT_REQUEST_URL(receptionNumber), requestBody, bearerAuthorization(accessToken))
-        .then(requestHandler<ResponseDto>)
-        .catch(requestErrorHandler);
-    return result;
-};
-
-// function: Q&A 전체 리스트 불러오기 API 함수()
+// function: 문의 게시판 리스트 불러오기 API 함수()
 export const getBoardListRequest = async (accessToken: string) => {
     const result = await axios.get(GET_BOARD_LIST_URL, bearerAuthorization(accessToken))
         .then(requestHandler<GetBoardListResponseDto>)
@@ -29,10 +21,26 @@ export const getBoardListRequest = async (accessToken: string) => {
     return result;
 };
 
-// function: Q&A 게시물 상세내용 불러오기 API 함수
+// function: 문의 게시물 불러오기 API 함수
 export const getBoardRequest = async (receptionNumber: number | string, accessToken: string) => {
     const result = await axios.get(GET_BOARD_URL(receptionNumber), bearerAuthorization(accessToken))
         .then(requestHandler<GetBoardResponseDto>)
+        .catch(requestErrorHandler);
+    return result;
+};
+
+// function: 문의게시판 게시물 답글 작성 API 함수
+export const postCommentRequest = async (receptionNumber: number | string, requestBody: PostCommentRequestDto, accessToken: string) => {
+    const result = await axios.post(POST_COMMENT_REQUEST_URL(receptionNumber), requestBody, bearerAuthorization(accessToken))
+        .then(requestHandler<ResponseDto>)
+        .catch(requestErrorHandler);
+    return result;
+};
+
+// function: Q&A 게시물 삭제 API 함수
+export const deleteBoardRequest = async (receptionNumber: number | string, accessToken: string) => {
+    const result = await axios.delete(DELETE_BOARD_URL(receptionNumber), bearerAuthorization(accessToken))
+        .then(requestHandler<ResponseDto>)
         .catch(requestErrorHandler);
     return result;
 };
@@ -43,12 +51,5 @@ export const putBoardRequest = async (receptionNumber: number | string, requestB
         .then(requestHandler<ResponseDto>)
         .catch(requestErrorHandler)
     return result;
-}
+};
 
-// function: Q&A 게시물 삭제 API 함수
-export const deleteBoardRequest = async (receptionNumber: number | string, accessToken: string) => {
-    const result = await axios.delete(DELETE_BOARD_URL(receptionNumber), bearerAuthorization(accessToken))
-        .then(requestHandler<ResponseDto>)
-        .catch(requestErrorHandler);
-    return result;
-}
