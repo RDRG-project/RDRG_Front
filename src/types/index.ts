@@ -17,6 +17,17 @@ export interface RentItem {
     rentStatus: boolean;
 }
 
+export interface DeviceListItem {
+    serialNumber: string;
+    model?: string;
+    name: string;
+    deviceExplain?: string;
+    type: string;
+    brand?:string;
+    price: number;
+    devicesImgUrl?: string;
+}
+
 export interface ItRentList {
     serialNumber: string;
     model?: string;
