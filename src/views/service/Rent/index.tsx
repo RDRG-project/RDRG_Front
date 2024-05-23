@@ -4,7 +4,7 @@ import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import { useBasketStore, useRentItemStore } from 'src/stores/idex';
+import { useBasketStore, useRentItemStore } from 'src/stores/index';
 
 
 
@@ -14,8 +14,8 @@ function Basket() {
     //                    state                    //
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
-    const [paymentState, setPaymentState] = useState<boolean>(false);
-    const [payment, setPayment] = useState<string>('');
+    // const [paymentState, setPaymentState] = useState<boolean>(false);
+    // const [payment, setPayment] = useState<string>('');
     
 
     //                    event handler                    //

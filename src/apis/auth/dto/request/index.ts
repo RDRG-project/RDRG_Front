@@ -27,3 +27,9 @@ export interface SignInRequestDto {
     userId: string;
     userPassword: string;
 }
+
+// description: 비밀번호 변경하기 Request Body DTO
+export interface NewPasswordRequestDto {
+    userPassword: string;
+    newUserPassword: string;
+} 

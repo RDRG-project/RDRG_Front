@@ -46,35 +46,67 @@ export const MYPAGE_UNREGISTER_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_P
 // 도메인 및 기본 경로
 export const SERVER_DOMAIN_URL = 'http://localhost:4500';
 export const SERVER_API_URL = `${SERVER_DOMAIN_URL}/rdrg`;
-export const SERVER_AUTH_MODULE_URL = `${SERVER_API_URL}/auth`;
 
-// 로그인, 회원가입
+// Auth 모듈
+export const SERVER_AUTH_MODULE_URL = `${SERVER_API_URL}/auth`;
+// 로그인
 export const SIGN_IN_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/sign-in`;
+// 아이디 중복 확인
 export const ID_CHECK_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/id-check`;
+// 이메일 인증
 export const EMAIL_AUTH_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/email-auth`;
+// 이메일 인증 확인
 export const EMAIL_AUTH_CHECK_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/email-auth-check`;
+// 회원 가입
 export const SIGN_UP_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/sign-up`;
 
-// 유저 정보 반환 
+// User 모듈
 export const SERVER_USER_MODULE_URL = `${SERVER_API_URL}/user`;
+// 로그인 유저 정보 반환
 export const GET_SIGN_IN_USER_REQUEST_URL = `${SERVER_USER_MODULE_URL}/`;
+// 개인정보 불러오기
+export const GET_USER_INFO_URL = (userId: number | string) => `${GET_SIGN_IN_USER_REQUEST_URL}/${userId}`;
+// 비밀번호 변경하기
+export const PATCH_PASSWORD_URL = `${SERVER_USER_MODULE_URL}/changPW`;
+// 회원 탈퇴
+export const DELETE_USER_URL = (userId: number | string) => `${SERVER_USER_MODULE_URL}/${userId}`;
 
-// 문의 게시판 반환
+
+// payment 모듈
+export const SERVER_PAYMENT_MODULE_URL = `${SERVER_API_URL}/payment`;
+// 결제 정보 저장
+export const POST_PAYMENT_SAVE_REQUEST_URL = `${SERVER_PAYMENT_MODULE_URL}/save`
+// 예약정보 확인
+export const GET_RESERVE_REQUEST_URL = (userId: string) => `${SERVER_PAYMENT_MODULE_URL}/${userId}`
+// 대여 내역 불러오기
+export const GET_MYRENTPAGE_BREAKDOWN_URL = `${SERVER_PAYMENT_MODULE_URL}/myrentpage`
+// 대여 가능한 기기 리스트 불러오기
+export const GET_RENT_POSSIBILITY_LIST_URL = `${POST_PAYMENT_SAVE_REQUEST_URL}/search`;
+
+// device 모듈
+export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;
+// 기기 리스트 불러오기
+export const GET_DEVICE_URL = `${SERVER_DEVICE_MODULE_URL}/list`
+// IT 기기 추가
+export const POST_IT_ADD_URL = `${SERVER_DEVICE_MODULE_URL}/`
+// IT 기기 삭제
+export const DELETE_IT_URL = (serialNumber: number | string) => `${SERVER_DEVICE_MODULE_URL}/${serialNumber}`;
+
+// 문의게시판(board) 모듈
 export const SERVER_BOARD_MODULE_URL = `${SERVER_API_URL}/board`;
+// 문의 게시물 작성
 export const POST_BOARD_REQUEST_URL = `${SERVER_BOARD_MODULE_URL}/`;
-export const POST_COMMENT_REQUEST_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}/comment`;
+// 문의 게시판 리스트 불러오기
 export const GET_BOARD_LIST_URL = `${SERVER_BOARD_MODULE_URL}/list`;
-
-// 게시판 불러오기
-export const GET_BOARD_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}`;
+// 문의 게시물 불러오기
+export const GET_BOARD_URL = (receptionNumber: number| string) => `${SERVER_BOARD_MODULE_URL}${receptionNumber}`
+// 문의게시판 게시물 답글 작성
+export const POST_COMMENT_REQUEST_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}/comment`;
 // 게시판 수정
 export const PUT_BOARD_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}`;
 // 게시판 삭제
 export const DELETE_BOARD_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}`;
 
-// 대여할 기기 리스트 불러오기
-export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;
-export const GET_DEVICE_URL = `${SERVER_DEVICE_MODULE_URL}/list`
 
 // description: 게시물 상수
 export const COUNT_PER_PAGE = 5;
