@@ -180,8 +180,8 @@
 
 .toggle {
     width: 35px;
-    height: 20px;
-    background-image: url('./assets/image/toggle.png');
+    height: 35px;
+    background-image: url('./assets/image/toggle-off.png');
     background-size: 100% 100%;
     
     cursor: pointer;
@@ -189,8 +189,8 @@
 
 .toggle-active {
     width: 35px;
-    height: 20px;
-    background-image: url('./assets/image/toggle-active.png');
+    height: 35px;
+    background-image: url('./assets/image/toggle-on.png');
     background-size: 100% 100%;
 
     cursor: pointer;
