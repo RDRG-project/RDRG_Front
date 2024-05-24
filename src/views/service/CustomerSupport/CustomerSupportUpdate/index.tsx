@@ -3,24 +3,31 @@ import './style.css'
 
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router';
-import { getBoardRequest, putBoardRequest } from 'src/apis/board';
+import { getBoardRequest, postBoardRequest, putBoardRequest } from 'src/apis/board';
 import { GetBoardResponseDto } from 'src/apis/board/dto/response';
 import ResponseDto from 'src/apis/response.dto';
-import { PutBoardRequestDto } from 'src/apis/board/dto/request';
+import { PostBoardRequestDto, PutBoardRequestDto } from 'src/apis/board/dto/request';
 import useUserStore from 'src/stores/user.store';
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
+import axios from 'axios';
 
 //                    component                    //
 export default function SupportUpdate() {
 
     //                    state                    //
+    const fileRef = useRef<HTMLInputElement | null>(null);
     const contentsRef = useRef<HTMLTextAreaElement | null>(null);
+
     const { loginUserId, loginUserRole } = useUserStore();
     const { receptionNumber } = useParams();
     const [cookies] = useCookies();
     const [writerId, setWriterId] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [contents, setContents] = useState<string>('');
+
+    const [fileUpload , setFileUpload] = useState<File[]>([]);
+    const [filePreviews, setFilePreviews] = useState<{name: string, url: string}[]>([]);
+    const [fileRevise, setFileRevise] = useState<number | null>(null);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -101,6 +108,68 @@ export default function SupportUpdate() {
         putBoardRequest(receptionNumber, requestBody, cookies.accessToken).then(putBoardResponse);
     };
 
+    const onPostButtonClickHandler = async () => {
+        if (!title.trim() || !contents.trim()) return; 
+        if (!cookies.accessToken) return;
+
+        const urlList: string[] = [];
+
+        for (const file of fileUpload) {
+            const data = new FormData();
+            data.append('file', file);
+            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } }).then(response => response.data as string).catch(error => null);
+            if (!url) continue;
+            
+            urlList.push(url);
+        }
+
+        const requestBody: PostBoardRequestDto = { title, contents, urlList };
+
+        postBoardRequest(requestBody, cookies.accessToken).then(putBoardResponse);
+    };
+
+    // const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    //     const fileUpload = event.target.files;
+    //     setFileUpload(fileUpload);
+    // };
+
+    const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files || !event.target.files.length) return;
+        const file = event.target.files[0];
+        // setFileUpload([...fileUpload, file]);
+        const name = file.name;
+        const url = URL.createObjectURL(file);
+        // setFilePreviews([...filePreviews, {name, url}]);
+
+        if (fileRevise !== null) {
+            const fileUpdate = [...fileUpload];
+            fileUpdate[fileRevise] = file;
+            const showFile = [...filePreviews];
+            showFile[fileRevise] = { name, url };
+
+            setFileUpload(fileUpdate)
+            setFilePreviews(showFile)
+            setFileRevise(null);
+        } else {
+            setFileUpload([...fileUpload, file]);
+            setFilePreviews([...filePreviews, {name, url}]);
+        } 
+    };
+
+
+
+    const onFileUploadButtonClickHandler = () => {
+        if (!fileRef.current) return;
+        fileRef.current.click();
+    };
+
+    const onFileReviseButtonClickHandler = (index: number) => {
+        setFileRevise(index);
+        if (fileRef.current) {
+            fileRef.current.click();
+        }
+    }
+
     //                    effect                    //
     let effectFlag = false;
     useEffect(() => {
@@ -126,6 +195,19 @@ export default function SupportUpdate() {
             </div>
             <div className='cs-write-contents-box'>
                 <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요. / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
+            </div>
+            <div>
+                <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
+                <div style={{ padding: '12px', display: 'line-block', backgroundColor: 'rgba(0, 255, 0, 0.3)', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>파일 첨부</div>
+                <div>
+                {filePreviews.map((preview, index) => (
+                    <div key={index}>
+                        <img src={preview.url} alt={preview.name} width="70" height="50"/>
+                        <p>{preview.name}</p>
+                        <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>파일 수정</button>
+                    </div>
+                ))}
+                </div>
             </div>
         </div>
         );

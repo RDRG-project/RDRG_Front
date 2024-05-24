@@ -1,7 +1,7 @@
 import axios from "axios"
 import { bearerAuthorization, requestErrorHandler, requestHandler } from ".."
-import { GET_MYRENTPAGE_BREAKDOWN_URL, GET_RENT_POSSIBILITY_LIST_URL, GET_RESERVE_REQUEST_URL, POST_PAYMENT_SAVE_REQUEST_URL } from "src/constants"
-import { DeviceListResponseDto, RentPageResponseDto, ReserveResponseDto } from "./dto/response"
+import { GET_MYRENTPAGE_BREAKDOWN_URL, GET_RESERVE_REQUEST_URL, POST_PAYMENT_SAVE_REQUEST_URL } from "src/constants"
+import { RentPageResponseDto, ReserveResponseDto } from "./dto/response"
 import ResponseDto from "../response.dto"
 import { PutBoardRequestDto } from "./dto/request"
 
@@ -30,11 +30,3 @@ export const getMyrentPageBreakdownRequest = async (accessToken: string) => {
     return result;
 };
 
-// function: 대여 가능한 기기 리스트 불러오기 API 함수
-export const getRentPossibilityListRequest = async(start:string, end:string, accessToken:string) => {
-    const config = {...bearerAuthorization(accessToken), params: { start, end }}
-    const result = await axios.get(GET_RENT_POSSIBILITY_LIST_URL, config)
-        .then(requestHandler<DeviceListResponseDto>)
-        .catch(requestErrorHandler);
-    return result;
-};
