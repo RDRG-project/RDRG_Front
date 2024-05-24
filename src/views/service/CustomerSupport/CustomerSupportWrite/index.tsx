@@ -21,6 +21,7 @@ export default function SupportWrite() {
 
     const [fileUpload , setFileUpload] = useState<File[]>([]);
     const [filePreviews, setFilePreviews] = useState<{name: string, url: string}[]>([]);
+    const [fileRevise, setFileRevise] = useState<number | null>(null);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -86,16 +87,39 @@ export default function SupportWrite() {
     const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || !event.target.files.length) return;
         const file = event.target.files[0];
-        setFileUpload([...fileUpload, file]);
+        // setFileUpload([...fileUpload, file]);
         const name = file.name;
         const url = URL.createObjectURL(file);
-        setFilePreviews([...filePreviews, {name, url}]);
+        // setFilePreviews([...filePreviews, {name, url}]);
+
+        if (fileRevise !== null) {
+            const fileUpdate = [...fileUpload];
+            fileUpdate[fileRevise] = file;
+            const showFile = [...filePreviews];
+            showFile[fileRevise] = { name, url };
+
+            setFileUpload(fileUpdate)
+            setFilePreviews(showFile)
+            setFileRevise(null);
+        } else {
+            setFileUpload([...fileUpload, file]);
+            setFilePreviews([...filePreviews, {name, url}]);
+        } 
     };
+
+
 
     const onFileUploadButtonClickHandler = () => {
         if (!fileRef.current) return;
         fileRef.current.click();
     };
+
+    const onFileReviseButtonClickHandler = (index: number) => {
+        setFileRevise(index);
+        if (fileRef.current) {
+            fileRef.current.click();
+        }
+    }
 
     //                    effect                    //
     useEffect(() => {
@@ -122,7 +146,15 @@ export default function SupportWrite() {
             <div></div>
             <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
             <div style={{ padding: '12px', display: 'line-block', backgroundColor: 'rgba(0, 255, 0, 0.3)', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>파일 첨부</div>
-            {filePreviews.map(url => <div><span>{url.name}</span><img style={{ width: '80px' }} src={url.url} /></div>)}
+            <div>
+                {filePreviews.map((preview, index) => (
+                    <div key={index}>
+                        <img src={preview.url} alt={preview.name} width="70" height="50"/>
+                        <p>{preview.name}</p>
+                        <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>파일 수정</button>
+                    </div>
+                ))}
+            </div>
         </div>
         );
 };

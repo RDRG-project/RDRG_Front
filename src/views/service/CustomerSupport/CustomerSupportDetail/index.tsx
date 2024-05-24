@@ -2,12 +2,13 @@ import useUserStore from 'src/stores/user.store'
 import './style.css'
 import { useNavigate, useParams } from 'react-router';
 import { useCookies } from 'react-cookie';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { GetBoardResponseDto } from 'src/apis/board/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
 import { deleteBoardRequest, postCommentRequest, getBoardRequest } from 'src/apis/board';
 import { PostCommentRequestDto } from 'src/apis/board/dto/request';
+import axios from 'axios';
 
 //                    component                    //
 export default function SupportDetail () {
@@ -24,6 +25,9 @@ export default function SupportDetail () {
     const [status, setStatus] = useState<boolean>(false);
     const [comment, setComment] = useState<string | null>(null);
     const [commentRows, setCommentRows] = useState<number>(1);
+    // const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+    // const [imageUrls, setImageUrls] = useState<{id: string , name: string, url: string}[]>([]);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -132,6 +136,19 @@ export default function SupportDetail () {
         getBoardRequest(receptionNumber, cookies.accessToken).then(getBoardResponse);
     }, []);
 
+    // useEffect(() => {
+    //     const fetchFiles = async () => {
+    //         try {
+    //             const response = await axios.get("http://localhost:4500/rdbg/${fileName}");
+    //             setImageUrls(response.data);
+    //         } catch (error) {
+    //             console.error('파일 목록을 가져오는 중 오류 발생:', error);
+    //         }
+    //     };
+
+    //     fetchFiles();
+    // }, []);
+
     //                    render                    //
     const coveredWriterId = writerId !== '' && (writerId[0] + '*'.repeat(writerId.length - 1));
     return (
@@ -168,6 +185,14 @@ export default function SupportDetail () {
                 <div className='cs-detail-owner-button-box'>
                     {!status && <div className='second-button' onClick={onUpdateClickHandler}>수정</div>}
                     <div className='error-button' onClick={onDeleteClickHandler}>삭제</div>
+                    {/* <div>
+            {imageUrls.map(file => (
+                <div key={file.id}>
+                    <p>{file.name}</p>
+                    <img src={file.url} alt={file.name} style={{ width: '200px', height: 'auto' }} />
+                </div>
+            ))}
+        </div> */}
                 </div>
                 }
             </div>
