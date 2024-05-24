@@ -7,7 +7,6 @@ import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
 import { useBasketStore, useRentItemStore } from 'src/stores/index';
 
 
-
 //                    component                    //
 function Basket() {
 
@@ -38,7 +37,6 @@ function Basket() {
     //                    render                    //
     return (
         <div className='selected-type-wrapper'>
-            
             <div className='basket-items'>
                 {basketItems.map((item, index) => (
                 <div key={index} className='basket-item'>

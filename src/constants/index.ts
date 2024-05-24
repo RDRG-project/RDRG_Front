@@ -71,6 +71,12 @@ export const PATCH_PASSWORD_URL = `${SERVER_USER_MODULE_URL}/changPW`;
 // 회원 탈퇴
 export const DELETE_USER_URL = (userId: number | string) => `${SERVER_USER_MODULE_URL}/${userId}`;
 
+// FileUpload 모듈
+export const SERVER_FILE_UPLOAD_URL = `${SERVER_API_URL}/file`;
+// 파일 업로드
+export const POST_UPLOAD_URL = `${SERVER_FILE_UPLOAD_URL}/upload`;
+// 파일 불러오기
+export const GET_FILE_CALL_URL = (fileName: number| string) => `${SERVER_FILE_UPLOAD_URL}/${fileName}`;
 
 // payment 모듈
 export const SERVER_PAYMENT_MODULE_URL = `${SERVER_API_URL}/payment`;
@@ -80,8 +86,6 @@ export const POST_PAYMENT_SAVE_REQUEST_URL = `${SERVER_PAYMENT_MODULE_URL}/save`
 export const GET_RESERVE_REQUEST_URL = (userId: string) => `${SERVER_PAYMENT_MODULE_URL}/${userId}`
 // 대여 내역 불러오기
 export const GET_MYRENTPAGE_BREAKDOWN_URL = `${SERVER_PAYMENT_MODULE_URL}/myrentpage`
-// 대여 가능한 기기 리스트 불러오기
-export const GET_RENT_POSSIBILITY_LIST_URL = `${POST_PAYMENT_SAVE_REQUEST_URL}/search`;
 
 // device 모듈
 export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;
@@ -89,6 +93,8 @@ export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;
 export const GET_DEVICE_URL = `${SERVER_DEVICE_MODULE_URL}/list`
 // IT 기기 추가
 export const POST_IT_ADD_URL = `${SERVER_DEVICE_MODULE_URL}/`
+// 예약 가능한 기기 리스트 불러오기
+export const GET_RENT_POSSIBILITY_LIST_URL = `${POST_PAYMENT_SAVE_REQUEST_URL}/search`;
 // IT 기기 삭제
 export const DELETE_IT_URL = (serialNumber: number | string) => `${SERVER_DEVICE_MODULE_URL}/${serialNumber}`;
 
