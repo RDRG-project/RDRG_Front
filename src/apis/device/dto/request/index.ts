@@ -5,7 +5,9 @@ export interface DeviceADDRequestDto {
     name: string;
     deviceExplain: string;
     type: string;
+    brand: string;
     price: number;
+    devicesImgUrl: string;
 }
 
 // description: IT 기기 삭제 Request Body DTO //
