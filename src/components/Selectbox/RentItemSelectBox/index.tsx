@@ -1,23 +1,63 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import { useBasketStore, useRentItemStore } from 'src/stores/index';
 import { ItRentList } from 'src/types';
-
+import { useNavigate } from 'react-router';
+import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
+import ResponseDto from 'src/apis/response.dto';
+import { useCookies } from 'react-cookie';
+import { AUTH_ABSOLUTE_PATH } from 'src/constants';
 
 // 예시 items
 const items: ItRentList[] = [
-    { serialNumber: 'qwer1', type: '노트북', name: '삼성노트북', price: 500000 },
-    { serialNumber: 'qwer2', type: '노트북', name: 'LG노트북', price: 500000 },
-    { serialNumber: 'qwer3', type: '노트북', name: '맥프로', price: 500000 },
-    { serialNumber: 'asdf1', type: '태블릿', name: '아이패드', price: 300000 },
-    { serialNumber: 'asdf2', type: '태블릿', name: '갤럭시탭', price: 300000 },
-    { serialNumber: 'asdf3', type: '태블릿', name: '레노버', price: 300000 },
-    { serialNumber: 'zxc1', type: '게임기', name: '스위치', price: 200000 },
-    { serialNumber: 'zxc2', type: '게임기', name: '플레이스테이션', price: 200000 },
-    { serialNumber: 'zxc3', type: '게임기', name: '디지몬 벽돌', price: 200000 },
-    { serialNumber: 'poi1', type: '보조배터리', name: '샤오미배터리',price: 100000 },
-    { serialNumber: 'poi2', type: '보조배터리', name: '삼성보조배터리',price: 100000 }
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '노트북',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '노트북',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '노트북',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '태블릿',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '태블릿',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '태블릿',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '노트북',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '노트북',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '노트북',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '노트북',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
+    { serialNumber: 'qwer1', model: 'qweqweqw', type: '노트북',brand:'삼성전자', name: '삼성노트북', price: 500000, deviceExplain: '머시깽', devicesImgUrl:'1231qweqweadasczx'},
 ];
+
+
+//                    component                    //
+function RentItem ({ 
+    serialNumber, 
+    model, 
+    type, 
+    brand, 
+    name, 
+    price,
+    deviceExplain,
+    devicesImgUrl
+}: ItRentList) {
+
+    //                    function                    //
+    
+
+    //                    event handler                    //
+
+    //                    render                    //
+    return (
+        <div className='device-box' >
+            <div className='device-box-left'>
+                <div className='device-image'>{devicesImgUrl}</div>
+                <div className='device-serialnumber'>{serialNumber}</div>
+                <div className='device-model'>{model}</div>
+            </div>
+            <div className='device-box-right'>
+                <div className='device-detail'>
+                    <div className='device-detail-title'>{brand} {name}</div>
+                    <div className='device-detail-explain'>{deviceExplain}~</div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 
 //                    interface                    //
@@ -28,8 +68,11 @@ interface Prop {
 
 //                    component                    //
 export default function RentSelectBox({ value, onChange }: Prop) {
+    const navigator = useNavigate();
 
     //                    state                    //
+
+    const [cookies] = useCookies();
     const [selectListItItem, setSelectListItItem] = useState<boolean>(false);
     const [notebookState, setNotebookState] = useState<boolean>(false);
     const [tabletState, setTabletState] = useState<boolean>(false);
@@ -39,6 +82,35 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
 
+    const [selectNoteBook, setSelectNoteBook] = useState<string>('');
+    const [selectTable, setSelectTablet] = useState<string>('');
+    const [selectGame, setSelectGame] = useState<string>('');
+    const [selectBattery, setSelectBattery] = useState<string>('');
+
+    const [rentViewList, setRentViewList] = useState<ItRentList[]>([]);
+
+    //                    function                    //
+
+    // const getDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
+
+    //     const message =
+    //         !result ? '서버에 문제가 있습니다.' :
+    //         result.code === 'VF' ? '유효하지 않은 정보입니다.' : 
+    //         result.code === 'AF' ? '권한이 없습니다.' :
+    //         result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+
+    //     if (!result || result.code !== 'SU') {
+    //         alert(message);
+    //         if (result?.code === 'AF') navigator(AUTH_ABSOLUTE_PATH);
+    //         return;
+    //     }
+
+    //     const { itRentList } = result as GetDeviceListResponseDto;
+    //     setRentViewList(rentViewList);
+
+
+    // };
+    
     //                    event handler                    //
     const onButtonClickHandler = () => {
         setSelectListItItem(!selectListItItem);
@@ -65,6 +137,14 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         setExternalBatteryState(!externalBatteryState);
     };
 
+    //                    effect                    //
+    // useEffect(() => {
+    //     if (!cookies.accessToken) return;
+    //     getDeviceRequest(cookies.accessToken).then(getDeviceListResponse);
+        
+    // }, [rentViewList]);
+
+
     //                    render                    //
     const buttonClass = selectListItItem ? 'select-close-button' : 'select-open-button';
     return (
@@ -78,19 +158,14 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             </div>
             {selectListItItem &&
             <>
-            <div className='type-notebook' onClick={onNotebookButtonClickHandler}>Note Book</div>
+            <div className='type-notebook' onClick={onNotebookButtonClickHandler}>노트북</div>
             {notebookState &&
             <div>
-                {items.filter(item => item.type === '노트북').map(item => 
-                    <div key={item.serialNumber}>
-                        {item.name} - {item.price.toLocaleString()}원
-                        <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
-                    </div>
-                )}
+                {rentViewList.map(item => <RentItem serialNumber={item.serialNumber} name={item.name} model={item.model} type={item.type} brand={item.brand} price = {item.price} deviceExplain={item.deviceExplain} devicesImgUrl={item.devicesImgUrl} />)}
             </div>
             }
-            <div className='type-tablet' onClick={onTabletButtonClickHandler}>Tablet</div>
-            {tabletState &&
+            <div className='type-tablet' onClick={onTabletButtonClickHandler}>태블릿</div>
+            {/* {tabletState &&
             <div>
                 {items.filter(item => item.type === '태블릿').map(item => 
                     <div key={item.serialNumber}>
@@ -99,27 +174,28 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                     </div>
                 )}
             </div>
-            }
-            <div className='type-game' onClick={onGameItButtonClickHandler}>Game</div>
+            } */}
+            <div className='type-game' onClick={onGameItButtonClickHandler}>게임기</div>
             {gameItState &&
             <div>
-                {items.filter(item => item.type === '게임기').map(item => 
+                {/* {items.filter(item => item.type === '게임기').map(item => 
                     <div key={item.serialNumber}>
                         {item.name} - {item.price.toLocaleString()}원
                         <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                     </div>
-                )}
+                )} */}
             </div>
             }
-            <div className='type-external-battery' onClick={onExternalBatteryButtonClickHandler}>Battery</div>
+            <div className='type-external-battery' onClick={onExternalBatteryButtonClickHandler}>보조배터리</div>
             {externalBatteryState &&
             <div>
-                {items.filter(item => item.type === '보조배터리').map(item => 
+                
+                {/* {items.filter(item => item.type === '보조배터리').map(item => 
                     <div key={item.serialNumber}>
                         {item.name} - {item.price.toLocaleString()}원
                         <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                     </div>
-                )}
+                )} */}
             </div>
             }
             </>

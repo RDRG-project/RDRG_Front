@@ -5,7 +5,7 @@ import { GetSignInUserResponseDto, PersonalInfoResponseDto } from "./dto/respons
 import { ChangePWRequestDto } from "./dto/request";
 import ResponseDto from "../response.dto";
 
-// function : 로그인 유저 정보 불러오기 API 함수
+// function : 로그인 유저 정보 반환 API 함수
 export const getSignInUserRequest = async (accessToken : string) => {
     const result = await axios.get(GET_SIGN_IN_USER_REQUEST_URL, bearerAuthorization(accessToken))
     .then(requestHandler<GetSignInUserResponseDto>)
