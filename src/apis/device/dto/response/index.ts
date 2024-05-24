@@ -1,6 +1,10 @@
 import ResponseDto from "src/apis/response.dto";
-import { ItRentList } from "src/types";
+import { DeviceListItem, ItRentList } from "src/types";
 
 export interface GetDeviceListResponseDto extends ResponseDto {
     itRentList: ItRentList[];
+}
+
+export interface DeviceListResponseDto extends ResponseDto {
+    deviceList: DeviceListItem[]
 }

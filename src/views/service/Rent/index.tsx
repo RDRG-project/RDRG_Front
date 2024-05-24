@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
 import { useBasketStore, useRentItemStore } from 'src/stores/index';
-
+import ReactDatePicker from 'src/components/DateTimebox';
 
 
 //                    component                    //
@@ -38,7 +38,6 @@ function Basket() {
     //                    render                    //
     return (
         <div className='selected-type-wrapper'>
-            
             <div className='basket-items'>
                 {basketItems.map((item, index) => (
                 <div key={index} className='basket-item'>
@@ -99,7 +98,10 @@ export default function Rent() {
                 <div className='rent-left-side-return'>
                     <ReturnSiteSelectBox value={returnSelect} onChange={onReturnChangeHandler} />
                 </div>
-                <div className='rent-left-side-date'>날짜 및 시간</div>
+                <div className='rent-datetime-container'>
+                    <div className='rent-left-side-date'>날짜 및 시간</div>
+                    <ReactDatePicker />
+                </div>
             </div>
             <div className='rent-item'>
                 <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} />

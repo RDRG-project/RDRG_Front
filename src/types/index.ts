@@ -17,24 +17,25 @@ export interface RentItem {
     rentStatus: boolean;
 }
 
+// description device (DeviceListResponseDto)의 interface
 export interface DeviceListItem {
     serialNumber: string;
-    model?: string;
+    model: string;
     name: string;
     deviceExplain?: string;
     type: string;
-    brand?:string;
+    brand:string;
     price: number;
-    devicesImgUrl?: string;
+    devicesImgUrl: string;
 }
 
 export interface ItRentList {
     serialNumber: string;
-    model?: string;
+    model: string;
     name: string;
-    deviceExplain?: string;
+    deviceExplain: string;
     type: string;
-    brand?:string;
+    brand:string;
     price: number;
-    devicesImgUrl?: string;
+    devicesImgUrl: string;
 }
