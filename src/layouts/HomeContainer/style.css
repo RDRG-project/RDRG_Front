@@ -6,14 +6,15 @@
 
 .main-container{
     height: 100%;
-    background-color: rgba(241,241,241,1);
+    background-color: rgba(255,255,255,1);
 }
 
 .top-bar{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: rgba(237,226,226,1);
+    background-color: rgba(255,255,255,1);
+    border: 1px solid rgba(216,216,216,1);
 }
 
 .logo-container{
@@ -85,7 +86,7 @@
     flex-direction: column;
     height: 100%;
 
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(44,41,55,1);
   }
 
 .foot-bar-menu{
@@ -113,6 +114,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    color: rgba(217,217,217,1);
 }
 
 .foot-bar-content{
@@ -134,7 +136,7 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    color: rgba(0,0,0,1);
+    color: rgba(217,217,217,1);
 }
 
 .company-information{
@@ -150,7 +152,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    color: rgba(80,80,80,1);
+    color: rgba(217,217,217,1);
 }
 
 .company-business-registration-number{
@@ -159,7 +161,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    color: rgba(25,25,25,1);
+    color: rgba(217,217,217,1);
 }
 
 .company-reword{
@@ -168,7 +170,7 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    color: rgba(0,0,0,1);
+    color: rgba(217,217,217,1);
 }
 
 .customer-service-time, .customer-service-shortcut{
@@ -177,5 +179,5 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    color: rgba(0,0,0,1);
+    color: rgba(217,217,217,1);
 }
