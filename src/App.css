@@ -323,3 +323,20 @@ body {
 
     color: rgba(63,63,63,1);
 }
+
+.cs-image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url(./assets/image/customer-support-image.png);
+    height: 580px;
+
+    font-family: "Noto Sans KR";
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    color: rgba(255,255,255,1);
+}
