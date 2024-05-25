@@ -30,8 +30,8 @@ function ListItem ({
             <div className='cs-list-table-reception-number'>{receptionNumber}</div>
             <div className='cs-list-table-status'>
                 {status ? 
-                <div className='disable-badge'>완료</div> :
-                <div className='primary-badge'>접수</div>
+                <div className='cs-status-disable-button'>완료</div> :
+                <div className='cs-status-primary-button'>접수</div>
                 }
             </div>
             <div className='cs-list-table-title' style={{ textAlign: 'left' }}>{title}</div>
@@ -166,41 +166,41 @@ export default function CustomerSupportList() {
     //                    render                    //
     const toggleClass = isToggleOn ? 'toggle-active' : 'toggle';
     return (
-        <div id= 'cs-list-wrapper'>
-            <div className='cs-list-top'>
-                <div className='cs-list-size-text'>전체 <span className='emphasis'>{totalLength}건</span> | 페이지 <span className='emphasis'>{currentPage}/{totalPage}</span></div>
-                <div className='cs-list-top-right'>
+        <div id='cs-wrapper'>
+            <div className='cs-image'>문의게시판</div>
+            <div className= 'cs-list-wrapper'>
+                {/* <div className='cs-list-size-text'>전체 <span className='emphasis'>{totalLength}건</span> | 페이지 <span className='emphasis'>{currentPage}/{totalPage}</span></div> */}
+                <div className='cs-list-top'>
                     {loginUserRole === 'ROLE_USER' ?
-                    <div className='primary-button' onClick={onWriteButtonClickHandler}>글쓰기</div> :
-                    <>
-                    <div className={toggleClass} onClick={onToggleClickHandler}></div>
-                    <div className='cs-list-top-admin-text'>미완료 보기</div>
-                    </>
+                    <div className='customer-support-button' onClick={onWriteButtonClickHandler}>글쓰기</div> :
+                    <div className='cs-list-top-admin-container'>
+                        <div className={toggleClass} onClick={onToggleClickHandler}></div>
+                        <div className='cs-list-top-admin-text'>미완료 보기</div>
+                    </div>
                     }
                 </div>
-            </div>
-            <div className='cs-list-table'>
-                <div className='cs-list-table-th'>
-                    <div className='cs-list-table-reception-number'>접수번호</div>
-                    <div className='cs-list-table-status'>상태</div>
-                    <div className='cs-list-table-title'>제목</div>
-                    <div className='cs-list-table-writer-id'>작성자</div>
-                    <div className='cs-list-table-write-date'>작성일</div>
-                </div>
-                {viewList.map(item => <ListItem {...item} />)}
-            </div>
-            <div className='cs-list-bottom'>
-                <div className='cs-list-pagination'>
-                    <div className='cs-list-page-left' onClick={onPreSectionClickHandler}></div>
-                    <div className='cs-list-page-box'>
-                        {pageList.map(page => page === currentPage ? <div className='cs-list-page-active'>{page}</div> : 
-                        <div className='cs-list-page' onClick={() => onPageClickHandler(page)}>{page}</div>
-                        )}
+                <div className='cs-list-table'>
+                    <div className='cs-list-table-th'>
+                        <div className='cs-list-table-reception-number'>접수번호</div>
+                        <div className='cs-list-table-status'>상태</div>
+                        <div className='cs-list-table-title'>제목</div>
+                        <div className='cs-list-table-writer-id'>작성자</div>
+                        <div className='cs-list-table-write-date'>작성일</div>
                     </div>
-                    <div className='cs-list-page-right' onClick={onNextSectionClickHandler}></div>
+                    {viewList.map(item => <ListItem {...item} />)}
+                </div>
+                <div className='cs-list-bottom'>
+                    <div className='cs-list-pagination'>
+                        <div className='cs-list-page-left' onClick={onPreSectionClickHandler}></div>
+                        <div className='cs-list-page-box'>
+                            {pageList.map(page => page === currentPage ? <div className='cs-list-page-active'>{page}</div> : 
+                            <div className='cs-list-page' onClick={() => onPageClickHandler(page)}>{page}</div>
+                            )}
+                        </div>
+                        <div className='cs-list-page-right' onClick={onNextSectionClickHandler}></div>
+                    </div>
                 </div>
             </div>
-
         </div>
     );
 }
