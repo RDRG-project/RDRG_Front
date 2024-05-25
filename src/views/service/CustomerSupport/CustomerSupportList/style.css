@@ -1,19 +1,45 @@
-#cs-list-wrapper {
-    margin: 0 auto;
-    max-width: 1136px;
+#cs-wrapper{
     display: flex;
     flex-direction: column;
-    height: 800px;
+}
+
+.cs-image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url(../../../../assets/image/customer-support-image.png);
+    height: 580px;
+
+    font-family: "Noto Sans KR";
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    color: rgba(255,255,255,1);
+}
+
+.cs-list-wrapper {
+    padding: 110px 380px;
+    display: flex;
+    flex-direction: column;
+    height: 479px;
     gap: 30px;
 }
 
 .cs-list-top {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    flex-direction: row-reverse;
 }
 
-.cs-list-size-text {
+.cs-list-top-admin-container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* .cs-list-size-text {
     font-size: 20px;
     font-weight: 600;
 
@@ -22,15 +48,10 @@
 
 .cs-list-size-text .emphasis {
     color: rgba(64,64,64,1);
-}
-
-.cs-list-top-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+} */
 
 .cs-list-top-admin-text {
+    font-family: "Noto Sans KR";
     font-size: 16px;
     font-weight: 600;
     line-height: 25px;
@@ -42,34 +63,86 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    border: 1px solid rgba(180,180,180,1);
-    border-radius: 8px;
-
-    background-color: rgba(255,255,255,1);
+    border-top: 2px solid rgba(0,0,0,1);
+    border-bottom: 1px solid rgba(102, 102, 102, 0.25);
+    
 }
 
 .cs-list-table-th {
     display: flex;
     align-items: center;
-    gap: 60px; 
+    justify-content: center;
     padding: 15px 24px;
+
+    font-family: "Noto Sans KR";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    
+    color: rgba(0,0,0,1);
+}
+
+.cs-list-table-reception-number {
+    width: 120px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cs-list-table-status {
+    width: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cs-list-table-title {
+    width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cs-list-table-writer-id {
+    width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cs-list-table-write-date {
+    width: 200px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cs-list-table-tr {
     display: flex;
     align-items: center;
-    gap: 95px;
 
-    border-top: 1px solid rgba(238, 238, 238, 1);
+    border-top: 1px solid rgba(102, 102, 102, 0.25);
     padding: 15px 24px;
 
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    text-align: center;
+    color: #000;
 
-    color: rgba(64, 64, 64, 1);
+    font-family: "Noto Sans KR";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .cs-list-table-tr:hover {
@@ -77,33 +150,8 @@
     background-color: rgba(238, 238, 238, 0.2);
 }
 
-.cs-list-table-reception-number {
-    width: 70px;
-}
-
-.cs-list-table-status {
-    width: 45px;
-}
-
-.cs-list-table-title {
-    width: 349px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.cs-list-table-writer-id {
-    width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.cs-list-table-write-date {
-    width: 50px;
-}
-
 .cs-list-bottom {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
 }
@@ -111,14 +159,24 @@
 .cs-list-pagination {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
 }
 
 .cs-list-page-left {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
 
-    background-image: url('../../../../assets/image/page-left.png');
+    background-image: url('../../../../assets/image/left-arrow.png');
+    background-size: 100% 100%;
+
+    cursor: pointer;
+}
+
+.cs-list-page-right {
+    width: 20px;
+    height: 20px;
+
+    background-image: url('../../../../assets/image/right-arrow.png');
     background-size: 100% 100%;
 
     cursor: pointer;
@@ -130,32 +188,32 @@
     gap: 16px;
 }
 
+/*----------------------------------------------*/
+
 .cs-list-page {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 400;
     line-height: 20px;
 
-    color: rgba(138, 146, 166, 1);
+    color: rgba(64, 64, 64, 1);
 
     cursor: pointer;
+
+    border: 1px solid rgba(216,216,216,1);
+    padding: 3px 5px;
 }
 
 .cs-list-page-active {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 400;
     line-height: 20px;
+
+    border: 1px solid rgba(64, 64, 64, 1);
+    padding: 3px 5px;
 
     color: rgba(64, 64, 64, 1);
 
     cursor: default;
 }
 
-.cs-list-page-right {
-    width: 40px;
-    height: 40px;
 
-    background-image: url('../../../../assets/image/page-right.png');
-    background-size: 100% 100%;
-
-    cursor: pointer;
-}
