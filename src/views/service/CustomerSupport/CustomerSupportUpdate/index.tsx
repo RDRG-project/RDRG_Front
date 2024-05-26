@@ -186,29 +186,44 @@ export default function SupportUpdate() {
     
     //                    render                    //
     return( 
-        <div id="cs-write-wrapper">
-            <div className='cs-write-top'>
-                <div className='cs-write-title-box'>
-                    <input className='cs-write-title-input' placeholder='제목을 입력해주세요.' value={title} onChange={onTitleChangeHandler}/>
-                </div>
-                <div className='primary-button' onClick={onUpdateButtonClickHandler}>수정</div>
-            </div>
-            <div className='cs-write-contents-box'>
-                <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요. / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
-            </div>
-            <div>
-                <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
-                <div style={{ padding: '12px', display: 'line-block', backgroundColor: 'rgba(0, 255, 0, 0.3)', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>파일 첨부</div>
-                <div>
-                {filePreviews.map((preview, index) => (
-                    <div key={index}>
-                        <img src={preview.url} alt={preview.name} width="70" height="50"/>
-                        <p>{preview.name}</p>
-                        <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>파일 수정</button>
+        <>
+            <div className='cs-image'>문의게시판</div>
+            <div id="cs-write-wrapper">
+                <div className="cs-write-container">
+                    <div className='cs-write-top'>
+                        <div className='cs-write-title'>제목</div>
+                        <div className='cs-write-title-box'>
+                            <input className='cs-write-title-input' placeholder='제목을 입력해주세요.' value={title} onChange={onTitleChangeHandler}/>
+                        </div>
+                        
                     </div>
-                ))}
+                    
+                    <div className="cs-write-middle">
+                        <div className='cs-write-middle-title'>내용</div>
+                        <div className='cs-write-contents-box'>
+                            <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요. / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
+                        </div>
+                    </div>
+
+                    <div>
+                        <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
+                        <div style={{ padding: '12px', display: 'line-block', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>파일 첨부</div>
+                        <div>
+                        {filePreviews.map((preview, index) => (
+                            <div key={index}>
+                                <img src={preview.url} alt={preview.name} width="70" height="50"/>
+                                <p>{preview.name}</p>
+                                <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>파일 수정</button>
+                            </div>
+                        ))}
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="cs-write-button">
+                    <div className='customer-support-button' onClick={onUpdateButtonClickHandler}>수정</div>
                 </div>
             </div>
-        </div>
-        );
+        </>
+    );
 }
