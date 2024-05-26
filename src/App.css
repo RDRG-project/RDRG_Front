@@ -1,4 +1,3 @@
-/* InputBox */
 .primary {
     color: rgba(58, 87, 232, 1);
 }
@@ -19,7 +18,6 @@
     opacity: 0.9;
 }
 
-/* 로그인 회원가입 버튼 */
 .full-width {
     width: 100%;
 }
@@ -78,7 +76,6 @@
     opacity: 0.5;
 }
 
-/* 공통레이아웃 로그인, 회원가입 버튼*/
 .sign-in-button {
     box-sizing: border-box;
     display: flex;
@@ -181,7 +178,7 @@
 .toggle {
     width: 35px;
     height: 35px;
-    background-image: url('./assets/image/toggle-off.png');
+    background-image: url('./assets/image/toggle-on.png');
     background-size: 100% 100%;
     
     cursor: pointer;
@@ -190,7 +187,7 @@
 .toggle-active {
     width: 35px;
     height: 35px;
-    background-image: url('./assets/image/toggle-on.png');
+    background-image: url('./assets/image/toggle-off.png');
     background-size: 100% 100%;
 
     cursor: pointer;
