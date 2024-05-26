@@ -152,50 +152,61 @@ export default function SupportDetail () {
     //                    render                    //
     const coveredWriterId = writerId !== '' && (writerId[0] + '*'.repeat(writerId.length - 1));
     return (
-        <div id='cs-detail-wrapper'>
-            <div className='cs-detail-main-box'>
-                <div className='cs-detail-top-box'>
-                    <div className='cs-detail-title-box'>{title}</div>
+        <>
+            <div className='cs-image'>문의게시판</div>
+            <div id='cs-detail-wrapper'>
+                <div className='cs-detail-main-box'>
                     <div className='cs-detail-info-box'>
-                        <div className='cs-detail-info'>작성자 {coveredWriterId}</div>
                         <div className='cs-detail-info-divider'>{'\|'}</div>
                         <div className='cs-detail-info'>작성일 {writeDate}</div>
                         <div className='cs-detail-info-divider'>{'\|'}</div>
+                        <div className='cs-detail-info'>작성자 {coveredWriterId}</div>
+                        <div className='cs-detail-info-divider'>{'\|'}</div>
                     </div>
+                    <div className='cs-detail-top-box'>
+                        <div className='cs-detail-title-container'>
+                            <div className='cs-detail-title'>제목</div>
+                            <div className='cs-detail-title-box'>{title}</div>
+                        </div>
+                        <div className='cs-detail-contents-container'>
+                            <div className='cs-detail-contents-title'>내용</div>
+                            <div className='cs-detail-contents-box'>{contents}</div>
+                        </div>
+                        {/* <div>
+                            {imageUrls.map(file => (
+                                <div key={file.id}>
+                                <p>{file.name}</p>
+                                <img src={file.url} alt={file.name} style={{ width: '200px', height: 'auto' }} />
+                                </div>
+                            ))}
+                        </div> */}
+                    </div>
+                    
                 </div>
-                <div className='cs-detail-contents-box'>{contents}</div>
-            </div>
-            {loginUserRole === 'ROLE_ADMIN' && !status && 
-            <div className='cs-detail-comment-write-box'>
-                <div className='cs-detail-comment-textarea-box'>
-                    <textarea style={{ height: `${28 * commentRows}px` }} className='cs-detail-comment-textarea' placeholder='답글을 작성해주세요.' value={comment == null ? '' : comment} onChange={onCommentChangeHandler} />
-                </div>
-                <div className='primary-button' onClick={onCommentSubmitClickHandler}>답글달기</div>
-            </div>
-            }
-            {status &&
-            <div className='cs-detail-comment-box'>
-                <div className='primary-badge'>답변</div>
-                <div className='cs-detail-comment'>{comment}</div>
-            </div>
-            }
-            <div className='cs-detail-button-box'>
-                <div className='primary-button' onClick={onListClickHandler}>목록보기</div>
-                {loginUserId === writerId && loginUserRole === 'ROLE_USER' &&  
-                <div className='cs-detail-owner-button-box'>
-                    {!status && <div className='second-button' onClick={onUpdateClickHandler}>수정</div>}
-                    <div className='error-button' onClick={onDeleteClickHandler}>삭제</div>
-                    {/* <div>
-            {imageUrls.map(file => (
-                <div key={file.id}>
-                    <p>{file.name}</p>
-                    <img src={file.url} alt={file.name} style={{ width: '200px', height: 'auto' }} />
-                </div>
-            ))}
-        </div> */}
+                {loginUserRole === 'ROLE_ADMIN' && !status && 
+                    <div className='cs-detail-comment-textarea-box'>
+                        <textarea style={{ height: `${28 * commentRows}px` }} className='cs-detail-comment-textarea' placeholder='답글을 작성해주세요.' value={comment == null ? '' : comment} onChange={onCommentChangeHandler} />
+                    </div>
+                }
+                {status &&
+                <div className='cs-detail-comment-box'>
+                    <div className='cs-detail-comment-title'>답변</div>
+                    <div className='cs-detail-comment'>{comment}</div>
                 </div>
                 }
+                <div className='cs-detail-button-box'>
+                    <div className='customer-support-button' onClick={onListClickHandler}>목록보기</div>
+                    {loginUserRole === 'ROLE_ADMIN' && !status && 
+                    <div className='customer-support-button' onClick={onCommentSubmitClickHandler}>답글달기</div>}
+                    {loginUserId === writerId && loginUserRole === 'ROLE_USER' &&  
+                    <div className='cs-detail-owner-button-box'>
+                        {!status && <div className='customer-support-button' onClick={onUpdateClickHandler}>수정</div>}
+                        <div className='customer-support-button' onClick={onDeleteClickHandler}>삭제</div>
+                        
+                    </div>
+                    }
+                </div>
             </div>
-        </div>
+        </>
     );
 };
