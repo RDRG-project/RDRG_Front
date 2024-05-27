@@ -243,13 +243,13 @@
     color: rgba(138,146,166,1);
 }
 
-body {
+/* body {
     -ms-overflow-style: none;
 }
 
 ::-webkit-scrollbar {
     display: none;
-  }
+  } */
 
 .customer-support-button {
     box-sizing: border-box;
