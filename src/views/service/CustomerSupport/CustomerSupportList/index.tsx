@@ -147,6 +147,16 @@ export default function CustomerSupportList() {
         setCurrentPage(currentSection * COUNT_PER_SECTION + 1);
     };
 
+    const onNextPageClickHandler = () => {
+        if (currentPage === totalPage) return;
+        setCurrentPage(currentPage + 1);
+    }
+
+    const onPrePageClickHandler = () => {
+        if (currentPage <= 1) return;
+        setCurrentPage(currentPage - 1);
+    }
+
     //                    effect                    //
     useEffect(() => {
         if (!cookies.accessToken) return;
@@ -183,7 +193,7 @@ export default function CustomerSupportList() {
                     <div className='cs-list-table-th'>
                         <div className='cs-list-table-reception-number'>접수번호</div>
                         <div className='cs-list-table-status'>상태</div>
-                        <div className='cs-list-table-title'>제목</div>
+                        <div className='cs-list-title'>제목</div>
                         <div className='cs-list-table-writer-id'>작성자</div>
                         <div className='cs-list-table-write-date'>작성일</div>
                     </div>
@@ -191,13 +201,15 @@ export default function CustomerSupportList() {
                 </div>
                 <div className='cs-list-bottom'>
                     <div className='cs-list-pagination'>
-                        <div className='cs-list-page-left' onClick={onPreSectionClickHandler}></div>
+                        <div className='cs-list-page-pre-section' onClick={onPreSectionClickHandler}></div>
+                        <div className='cs-list-page-left' onClick={onPrePageClickHandler}></div>
                         <div className='cs-list-page-box'>
                             {pageList.map(page => page === currentPage ? <div className='cs-list-page-active'>{page}</div> : 
                             <div className='cs-list-page' onClick={() => onPageClickHandler(page)}>{page}</div>
                             )}
                         </div>
-                        <div className='cs-list-page-right' onClick={onNextSectionClickHandler}></div>
+                        <div className='cs-list-page-right' onClick={onNextPageClickHandler}></div>
+                        <div className='cs-list-page-next-section' onClick={onNextSectionClickHandler}></div>
                     </div>
                 </div>
             </div>

@@ -94,7 +94,7 @@ export const GET_DEVICE_URL = `${SERVER_DEVICE_MODULE_URL}/list`
 // IT 기기 추가
 export const POST_IT_ADD_URL = `${SERVER_DEVICE_MODULE_URL}/`
 // 예약 가능한 기기 리스트 불러오기
-export const GET_RENT_POSSIBILITY_LIST_URL = `${POST_PAYMENT_SAVE_REQUEST_URL}/search`;
+export const GET_RENT_POSSIBILITY_LIST_URL = `${SERVER_DEVICE_MODULE_URL}/list`;
 // IT 기기 삭제
 export const DELETE_IT_URL = (serialNumber: number | string) => `${SERVER_DEVICE_MODULE_URL}/${serialNumber}`;
 
