@@ -28,6 +28,7 @@ export default function SupportUpdate() {
     const [fileUpload , setFileUpload] = useState<File[]>([]);
     const [filePreviews, setFilePreviews] = useState<{name: string, url: string}[]>([]);
     const [fileRevise, setFileRevise] = useState<number | null>(null);
+    const [imageUrls, setImageUrls] = useState<string[]>([]);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -46,7 +47,7 @@ export default function SupportUpdate() {
             return;
         }
 
-        const { writerId, title, contents, status } = result as GetBoardResponseDto;
+        const { writerId, title, contents, status, imageUrl } = result as GetBoardResponseDto;
         if (writerId !== loginUserId) {
             alert('권한이 없습니다.');
             navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
@@ -61,7 +62,7 @@ export default function SupportUpdate() {
         setTitle(title);
         setContents(contents);
         setWriterId(writerId);
-
+        setImageUrls(imageUrl)
     };
 
     const putBoardResponse = (result: ResponseDto | null) => {
@@ -98,14 +99,6 @@ export default function SupportUpdate() {
         if (!contentsRef.current) return;
         contentsRef.current.style.height = 'auto';
         contentsRef.current.style.height = `${contentsRef.current.scrollHeight}px`;
-    };
-
-    const onUpdateButtonClickHandler = () => {
-        if (!cookies.accessToken || !receptionNumber) return;
-        if (!title.trim() || !contents.trim()) return;
-
-        const requestBody: PutBoardRequestDto = { title, contents };
-        putBoardRequest(receptionNumber, requestBody, cookies.accessToken).then(putBoardResponse);
     };
 
     const onPostButtonClickHandler = async () => {
@@ -170,6 +163,12 @@ export default function SupportUpdate() {
         }
     }
 
+    const onImageDeleteClickHandler = (index: number) => {
+        const updatedImageUrls = [...imageUrls];
+        updatedImageUrls.splice(index, 1);
+        setImageUrls(updatedImageUrls);
+    };
+
     //                    effect                    //
     let effectFlag = false;
     useEffect(() => {
@@ -194,34 +193,42 @@ export default function SupportUpdate() {
                         <div className='cs-write-title'>제목</div>
                         <div className='cs-write-title-box'>
                             <input className='cs-write-title-input' placeholder='제목을 입력해주세요.' value={title} onChange={onTitleChangeHandler}/>
-                        </div>
-                        
-                    </div>
-                    
+                        </div>                       
+                    </div>                    
                     <div className="cs-write-middle">
                         <div className='cs-write-middle-title'>내용</div>
                         <div className='cs-write-contents-box'>
                             <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요. / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
                         </div>
                     </div>
-
+                    <div>
+                        <div>
+                            {imageUrls.length ? imageUrls.map((url, index) => (
+                            <div key={index}>
+                                <img src={url} width="150px" height="auto" title="file-viewer" />
+                                <button onClick={() => onImageDeleteClickHandler(index)}>삭제</button>
+                            </div>
+                            )) : (
+                            <p>첨부된 파일이 없습니다.</p>
+                            )}
+                        </div>
+                    </div>
                     <div>
                         <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
-                        <div style={{ padding: '12px', display: 'line-block', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>파일 첨부</div>
+                        <div style={{ padding: '12px', display: 'line-block', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>추가</div>
                         <div>
                         {filePreviews.map((preview, index) => (
                             <div key={index}>
                                 <img src={preview.url} alt={preview.name} width="70" height="50"/>
                                 <p>{preview.name}</p>
-                                <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>파일 수정</button>
+                                <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
                             </div>
                         ))}
                         </div>
                     </div>
-                </div>
-                
+                </div>               
                 <div className="cs-write-button">
-                    <div className='customer-support-button' onClick={onUpdateButtonClickHandler}>수정</div>
+                    <div className='customer-support-button' onClick={onPostButtonClickHandler}>수정</div>
                 </div>
             </div>
         </>

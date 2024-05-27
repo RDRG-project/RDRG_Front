@@ -12,5 +12,5 @@ export interface GetBoardResponseDto extends ResponseDto {
     writeDatetime: string;
     contents: string;
     comment: string | null;
-    uploadFile?: number;
+    imageUrl: string[];
 }
