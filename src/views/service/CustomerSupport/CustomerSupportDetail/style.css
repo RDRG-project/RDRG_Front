@@ -51,10 +51,8 @@
 }
 
 .cs-detail-title{
-    width: 120px;
+    min-width: 120px;
     height: 50px;
-
-    border-right: 1px solid rgba(102,102,102,0.25);
 
     font-family: "Noto Sans KR";
     font-size: 18px;
@@ -74,6 +72,8 @@
     flex-grow: 1;
     padding: 8px 16px;
 
+    border-left: 1px solid rgba(102,102,102,0.25);
+
     font-family: "Noto Sans KR";
     font-size: 16px;
     font-weight: 400;
@@ -90,9 +90,9 @@
 }
 
 .cs-detail-contents-title{
-    width: 120px;
-    min-height: 300px;
-    border-right: 1px solid rgba(102,102,102,0.25);
+    min-width: 120px;
+    min-height: 207px;
+    
 
     font-family: "Noto Sans KR";
     font-size: 18px;
@@ -111,6 +111,9 @@
     flex-grow: 1;
     padding: 8px 16px;
     min-height: 207px;
+    max-width: 100%;
+
+    border-left: 1px solid rgba(102,102,102,0.25);
 
     font-family: "Noto Sans KR";
     font-size: 16px;
@@ -118,6 +121,8 @@
     line-height: 175%;
 
     color: rgba(0,0,0,1);
+
+    white-space: pre-wrap;
 }
 
 .cs-detail-button-box {
@@ -138,7 +143,7 @@
 }
 
 .cs-detail-comment-title{
-    width: 120px;
+    min-width: 120px;
 
     border-right: 1px solid rgba(102,102,102,0.25);
 
@@ -171,7 +176,7 @@
 }
 
 .cs-detail-comment-textarea-box {
-    flex-shrink: 1;
+    flex-grow: 1;
 
     border: 2px solid rgba(0,0,0,1);
     padding: 8px 16px;
