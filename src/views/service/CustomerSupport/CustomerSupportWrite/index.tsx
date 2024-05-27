@@ -108,8 +108,6 @@ export default function SupportWrite() {
         } 
     };
 
-
-
     const onFileUploadButtonClickHandler = () => {
         if (!fileRef.current) return;
         fileRef.current.click();
@@ -120,6 +118,10 @@ export default function SupportWrite() {
         if (fileRef.current) {
             fileRef.current.click();
         }
+    }
+
+    const onCancelButtonClickHandler = () => {
+        navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
     }
 
     //                    effect                    //
@@ -163,6 +165,7 @@ export default function SupportWrite() {
                     </div>
                 </div>
                 <div className="cs-write-button">
+                    <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
                     <div className='customer-support-button' onClick={onPostButtonClickHandler}>올리기</div>
                 </div>
             </div>
