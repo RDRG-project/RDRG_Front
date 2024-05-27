@@ -51,7 +51,7 @@ function SnsContainer({ title }: SnsContainerProps) {
 
     //                    event handler                    //
     const onSnsButtonClickHandler = (type: 'kakao' | 'naver') => {
-        window.location.href = 'http://localhost:4500/api/v1/auth/oauth2/' + type; 
+        window.location.href = 'http://localhost:4500/rdrg/auth/oauth2/' + type; 
         
     };
 
