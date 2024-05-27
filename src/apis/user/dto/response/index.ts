@@ -7,7 +7,7 @@ export interface GetSignInUserResponseDto extends ResponseDto{
     userRole: string;
 }
 
-export interface PersonalInfoResponseDto extends ResponseDto {
-    userId: string;
-    userEmail: string;
-}
+    export interface PersonalInfoResponseDto extends ResponseDto {
+        userId: string;
+        userEmail: string;
+    }

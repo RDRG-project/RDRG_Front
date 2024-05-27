@@ -1,13 +1,21 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import "./style.css";
 import { useNavigate } from 'react-router';
-import { MYPAGE_UNREGISTER_ABSOLUTE_PATH } from 'src/constants';
+import { AUTH_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH } from 'src/constants';
 import InputBox from 'src/components/Inputbox';
+import { useCookies } from 'react-cookie';
+import { PersonalInfoResponseDto } from 'src/apis/user/dto/response';
+import ResponseDto from 'src/apis/response.dto';
+import { getUserInfoRequest } from 'src/apis/user';
 
 //                    component                    //
 export default function MypageProfile() {
   
   //                    state                    //
+  const [userId, setUserId] = useState<string>(() => localStorage.getItem('userId') || '');
+  const [userEmail, setUserEmail] = useState<string>(() => localStorage.getItem('userEmail') || '');
+  const [cookies, setCookie, removeCookie ] = useCookies();
+
   const [password, setPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [newPasswordCheck, setNewPasswordCheck] = useState<string>('');
@@ -21,7 +29,50 @@ export default function MypageProfile() {
   //                    function                    //
   const navigator = useNavigate();
 
+  const personalInfoResponseDto = (result: PersonalInfoResponseDto | ResponseDto | null) => {
+  
+    const message =
+      !result ? '서버에 문제가 있습니다.' :
+      result.code === 'VF' ? '잘못된 회원정보입니다.' :
+      result.code === 'AF' ? '인증에 실패했습니다.' :
+      result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+
+    if (!result || result.code !== 'SU') {
+
+      alert(message);
+      if (result?.code === 'AF') navigator(HOME_PATH); return;
+    }
+
+    const {userId, userEmail} = result as PersonalInfoResponseDto;
+
+    setUserId(userId);
+    setUserEmail(userEmail);
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('userEmail', userEmail);
+  };
+
+
+  //                     effect                    //
+
+  useEffect(() => {
+    if (!cookies.accessToken) {
+        // accessToken이 없으면 로컬 스토리지를 초기화하고 홈 페이지로 이동
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userEmail');
+        setUserId('');
+        setUserEmail('');
+        
+        navigator(AUTH_ABSOLUTE_PATH);
+        return;
+    }
+
+        getUserInfoRequest(userId, cookies.accessToken).then(personalInfoResponseDto);
+
+    }, [cookies.accessToken, userId]);
+
   //                    event handler                    //
+
+
   // 회원탈퇴 버튼 클릭 시 회원탈퇴 페이지로 이동
   const onUnRegisterClickHandler = () => {navigator(MYPAGE_UNREGISTER_ABSOLUTE_PATH)};
 
@@ -75,11 +126,11 @@ export default function MypageProfile() {
       <div className='profile-detail'>
         <div className='profile-detail-content'>
           <div className='profile-detail-title'>아이디</div>
-          <div>홍길동</div>
+          <div>{userId}</div>
         </div>
         <div className='profile-detail-content'>
           <div className='profile-detail-title'>이메일</div>
-          <div>email@email.com</div>
+          <div>{userEmail}</div>
         </div>
         <div className='profile-detail-content'>
           <div className='profile-detail-title'>비밀번호</div>
