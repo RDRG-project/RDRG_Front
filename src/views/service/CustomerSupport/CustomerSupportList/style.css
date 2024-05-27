@@ -48,7 +48,7 @@
     align-items: center;
     border-top: 2px solid rgba(0,0,0,1);
     border-bottom: 1px solid rgba(102, 102, 102, 0.25);
-    
+
 }
 
 .cs-list-table-th {
@@ -143,6 +143,26 @@
     display: flex;
     align-items: center;
     gap: 20px;
+}
+
+.cs-list-page-pre-section {
+    width: 20px;
+    height: 20px;
+
+    background-image: url('../../../../assets/image/pre-section-button.png');
+    background-size: 100% 100%;
+
+    cursor: pointer;
+}
+
+.cs-list-page-next-section {
+    width: 20px;
+    height: 20px;
+
+    background-image: url('../../../../assets/image/next-section-button.png');
+    background-size: 100% 100%;
+
+    cursor: pointer;
 }
 
 .cs-list-page-left {
