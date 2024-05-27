@@ -14,7 +14,7 @@ export const getSignInUserRequest = async (accessToken : string) => {
 };
 
 // function : 로그인 유저 정보 불러오기 API 함수
-export const getUserInfoRequest = async (userId: number | string, accessToken:string) => {
+export const getUserInfoRequest = async (userId: string, accessToken: string) => {
     const result = await axios.get(GET_USER_INFO_URL(userId), bearerAuthorization(accessToken))
         .then(requestHandler<PersonalInfoResponseDto>)
         .catch(requestErrorHandler)

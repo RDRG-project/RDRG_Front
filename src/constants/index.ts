@@ -65,7 +65,7 @@ export const SERVER_USER_MODULE_URL = `${SERVER_API_URL}/user`;
 // 로그인 유저 정보 반환
 export const GET_SIGN_IN_USER_REQUEST_URL = `${SERVER_USER_MODULE_URL}/`;
 // 개인정보 불러오기
-export const GET_USER_INFO_URL = (userId: number | string) => `${GET_SIGN_IN_USER_REQUEST_URL}/${userId}`;
+export const GET_USER_INFO_URL = (userId: string) => `${SERVER_USER_MODULE_URL}/${userId}`;
 // 비밀번호 변경하기
 export const PATCH_PASSWORD_URL = `${SERVER_USER_MODULE_URL}/changPW`;
 // 회원 탈퇴
