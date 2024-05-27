@@ -25,9 +25,7 @@ export default function SupportDetail () {
     const [status, setStatus] = useState<boolean>(false);
     const [comment, setComment] = useState<string | null>(null);
     const [commentRows, setCommentRows] = useState<number>(1);
-    // const [imageUrls, setImageUrls] = useState<string[]>([]);
-
-    // const [imageUrls, setImageUrls] = useState<{id: string , name: string, url: string}[]>([]);
+    const [imageUrls, setImageUrls] = useState<string[]>([]);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -50,13 +48,14 @@ export default function SupportDetail () {
             return;
         }
 
-        const { title, writerId, writeDatetime, contents, status, comment } = result as GetBoardResponseDto;
+        const { title, writerId, writeDatetime, contents, status, comment, imageUrl } = result as GetBoardResponseDto;
         setTitle(title);
         setWriterId(writerId);
         setWriterDate(writeDatetime);
         setContents(contents);
         setStatus(status);
         setComment(comment);
+        setImageUrls(imageUrl);
     };
 
     const postCommentResponse = (result: ResponseDto | null) => {
@@ -136,19 +135,6 @@ export default function SupportDetail () {
         getBoardRequest(receptionNumber, cookies.accessToken).then(getBoardResponse);
     }, []);
 
-    // useEffect(() => {
-    //     const fetchFiles = async () => {
-    //         try {
-    //             const response = await axios.get("http://localhost:4500/rdbg/${fileName}");
-    //             setImageUrls(response.data);
-    //         } catch (error) {
-    //             console.error('파일 목록을 가져오는 중 오류 발생:', error);
-    //         }
-    //     };
-
-    //     fetchFiles();
-    // }, []);
-
     //                    render                    //
     const coveredWriterId = writerId !== '' && (writerId[0] + '*'.repeat(writerId.length - 1));
     return (
@@ -172,14 +158,12 @@ export default function SupportDetail () {
                             <div className='cs-detail-contents-title'>내용</div>
                             <div className='cs-detail-contents-box'>{contents}</div>
                         </div>
-                        {/* <div>
-                            {imageUrls.map(file => (
-                                <div key={file.id}>
-                                <p>{file.name}</p>
-                                <img src={file.url} alt={file.name} style={{ width: '200px', height: 'auto' }} />
-                                </div>
-                            ))}
-                        </div> */}
+                        <div>
+                            <div>
+                                {imageUrls.length ? imageUrls.map(url => <img src={url} width="150px" height="auto" title="file-viewer" />)
+                                : ( <p>첨부된 파일이 없습니다.</p> )}
+                            </div>
+                        </div>
                     </div>
                     
                 </div>
