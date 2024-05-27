@@ -1,3 +1,30 @@
+.device-box {
+    display: flex;
+    background-color: rgb(172, 168, 168);
+    font-size: 15px;
+
+    justify-content:space-evenly ;
+
+    gap: 20px;
+}
+
+.device-box-left {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(rgb(180, 77, 91));
+}
+
+.device-box-middle {
+    display: flex;
+    background-color: blue;
+}
+
+.device-box-right {
+    display: flex;
+    background-color: green;
+}
+
+
 #select-type-wrapper {
     gap: 30px;
 } 
@@ -66,6 +93,13 @@
 
 .type-notebook:hover {
     cursor: pointer;
+}
+
+.type-notebook-detail{
+    display: flex;
+    flex-direction: column;
+    min-height: 250px;
+    height: 100%;
 }
 
 .type-tablet {
