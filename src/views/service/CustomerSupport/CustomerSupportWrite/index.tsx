@@ -128,6 +128,10 @@ export default function SupportWrite() {
         }
     }
 
+    const onCancelButtonClickHandler = () => {
+        navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
+    }
+
     //                    effect                    //
     useEffect(() => {
         if (loginUserRole === 'ROLE_ADMIN') {
@@ -175,6 +179,7 @@ export default function SupportWrite() {
                     </div>
                 </div>
                 <div className="cs-write-button">
+                    <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
                     <div className='customer-support-button' onClick={onPostButtonClickHandler}>올리기</div>
                 </div>
             </div>
