@@ -108,6 +108,12 @@ export default function SupportWrite() {
         } 
     };
 
+    const onFileDeleteButtonClickHandler = (index: number) => {
+        const fileUpdate = fileUpload.filter((_, i) => i !== index);
+        const showFileUpdate = filePreviews.filter((_, i) => i !== index);
+        setFileUpload(fileUpdate);
+        setFilePreviews(showFileUpdate);
+    };
 
 
     const onFileUploadButtonClickHandler = () => {
@@ -120,6 +126,10 @@ export default function SupportWrite() {
         if (fileRef.current) {
             fileRef.current.click();
         }
+    }
+
+    const onCancelButtonClickHandler = () => {
+        navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
     }
 
     //                    effect                    //
@@ -157,12 +167,19 @@ export default function SupportWrite() {
                             <div key={index} className="cs-write-file-upload">
                                 <img src={preview.url} alt={preview.name} width="70" height="50"/>
                                 <p>{preview.name}</p>
-                                <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>파일 수정</button>
+                                <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
+                            </div>
+                        ))}
+                        {filePreviews.map((file, index) => (
+                            <div key={index}>
+                                <a href={file.url} target="_blank" rel="noopener noreferrer"></a>
+                                <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
                             </div>
                         ))}
                     </div>
                 </div>
                 <div className="cs-write-button">
+                    <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
                     <div className='customer-support-button' onClick={onPostButtonClickHandler}>올리기</div>
                 </div>
             </div>

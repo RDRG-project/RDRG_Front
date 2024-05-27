@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from "date-fns/locale"
 import './style.css'
 import { setHours, setMinutes } from 'date-fns';
+import { useRentDateStore } from 'src/stores';
 
 
 type ExampleCustomInputProps = { value: string; onClick: () => void; };
@@ -30,8 +31,7 @@ const datePickerProps = (selected: Date | null, startDate: Date | null, endDate:
 })
 
 const ReactDatePicker = () => {
-    const [startDate, setStartDate] = useState<Date | null>(new Date());
-    const [endDate, setEndDate] = useState<Date | null>(new Date());
+    const {startDate, setStartDate, endDate, setEndDate} = useRentDateStore();
 
     const onStartChangeHandler = (date: Date | null) => {
         if (date !== null) setStartDate(date);
