@@ -193,7 +193,7 @@ export default function CustomerSupportList() {
                     <div className='cs-list-table-th'>
                         <div className='cs-list-table-reception-number'>접수번호</div>
                         <div className='cs-list-table-status'>상태</div>
-                        <div className='cs-list-table-title'>제목</div>
+                        <div className='cs-list-title'>제목</div>
                         <div className='cs-list-table-writer-id'>작성자</div>
                         <div className='cs-list-table-write-date'>작성일</div>
                     </div>

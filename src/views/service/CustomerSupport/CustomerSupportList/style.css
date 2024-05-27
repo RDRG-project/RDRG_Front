@@ -89,6 +89,17 @@
 
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+}
+
+.cs-list-title{
+    width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
