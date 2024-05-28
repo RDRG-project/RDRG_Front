@@ -14,4 +14,5 @@ export interface PostCommentRequestDto {
 export interface PutBoardRequestDto {
     title: string;
     contents: string;
+    urlList: string[];
 }

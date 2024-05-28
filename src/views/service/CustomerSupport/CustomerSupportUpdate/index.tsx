@@ -3,10 +3,10 @@ import './style.css'
 
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router';
-import { getBoardRequest, postBoardRequest, putBoardRequest } from 'src/apis/board';
+import { getBoardRequest, putBoardRequest } from 'src/apis/board';
 import { GetBoardResponseDto } from 'src/apis/board/dto/response';
 import ResponseDto from 'src/apis/response.dto';
-import { PostBoardRequestDto, PutBoardRequestDto } from 'src/apis/board/dto/request';
+import { PutBoardRequestDto } from 'src/apis/board/dto/request';
 import useUserStore from 'src/stores/user.store';
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
 import axios from 'axios';
@@ -103,7 +103,7 @@ export default function SupportUpdate() {
 
     const onPostButtonClickHandler = async () => {
         if (!title.trim() || !contents.trim()) return; 
-        if (!cookies.accessToken) return;
+        if (!cookies.accessToken || !receptionNumber) return;
 
         const urlList: string[] = [];
 
@@ -116,39 +116,46 @@ export default function SupportUpdate() {
             urlList.push(url);
         }
 
-        const requestBody: PostBoardRequestDto = { title, contents, urlList };
+        const requestBody: PutBoardRequestDto = { title, contents, urlList };
 
-        postBoardRequest(requestBody, cookies.accessToken).then(putBoardResponse);
+        putBoardRequest(receptionNumber, requestBody, cookies.accessToken).then(putBoardResponse);
     };
 
-    // const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    //     const fileUpload = event.target.files;
-    //     setFileUpload(fileUpload);
-    // };
 
     const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || !event.target.files.length) return;
         const file = event.target.files[0];
-        // setFileUpload([...fileUpload, file]);
         const name = file.name;
         const url = URL.createObjectURL(file);
-        // setFilePreviews([...filePreviews, {name, url}]);
+
+        const uploadedFileCount = filePreviews.length;
 
         if (fileRevise !== null) {
-            const fileUpdate = [...fileUpload];
-            fileUpdate[fileRevise] = file;
-            const showFile = [...filePreviews];
-            showFile[fileRevise] = { name, url };
+            if (uploadedFileCount >= 3) {
+                return;
+            }
 
-            setFileUpload(fileUpdate)
-            setFilePreviews(showFile)
-            setFileRevise(null);
+            const fileUpdate = [...fileUpload];
+            const showFile = [...filePreviews];
+
+            if (fileRevise < 3) {
+                fileUpdate[fileRevise] = file;
+                showFile[fileRevise] = { name, url };
+                setFileRevise(null);
+            }
+                setFileUpload(fileUpdate);
+                setFilePreviews(showFile);
         } else {
-            setFileUpload([...fileUpload, file]);
-            setFilePreviews([...filePreviews, {name, url}]);
+            if (uploadedFileCount >= 3) {
+                return;
+            }
+            
+            if (fileUpload.length < 3) {
+                setFileUpload([...fileUpload, file]);
+                setFilePreviews([...filePreviews, {name, url}]);
+            }
         } 
     };
-
 
 
     const onFileUploadButtonClickHandler = () => {
@@ -164,6 +171,7 @@ export default function SupportUpdate() {
     }
 
     const onImageDeleteClickHandler = (index: number) => {
+        // const updatedImageUrls = imageUrls.filter((_, idx) => idx !== index);
         const updatedImageUrls = [...imageUrls];
         updatedImageUrls.splice(index, 1);
         setImageUrls(updatedImageUrls);
@@ -193,7 +201,8 @@ export default function SupportUpdate() {
                         <div className='cs-write-title'>제목</div>
                         <div className='cs-write-title-box'>
                             <input className='cs-write-title-input' placeholder='제목을 입력해주세요.' value={title} onChange={onTitleChangeHandler}/>
-                        </div>                       
+                        </div>
+                        
                     </div>                    
                     <div className="cs-write-middle">
                         <div className='cs-write-middle-title'>내용</div>
@@ -228,6 +237,7 @@ export default function SupportUpdate() {
                     </div>
                 </div>               
                 <div className="cs-write-button">
+                    <div className='customer-support-button' onClick={onPostButtonClickHandler}>취소</div>
                     <div className='customer-support-button' onClick={onPostButtonClickHandler}>수정</div>
                 </div>
             </div>

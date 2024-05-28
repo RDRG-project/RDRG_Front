@@ -46,7 +46,7 @@ export const deleteBoardRequest = async (receptionNumber: number | string, acces
 };
 
 // function: 문의 게시물 수정 API 함수
-export const putBoardRequest = async (receptionNumber: number | string, requestBody: PutBoardRequestDto, accessToken: string) => {
+export const putBoardRequest = async (receptionNumber:  number | string, requestBody: PutBoardRequestDto, accessToken: string) => {
     const result = await axios.put(PUT_BOARD_URL(receptionNumber), requestBody, bearerAuthorization(accessToken))
         .then(requestHandler<ResponseDto>)
         .catch(requestErrorHandler)
