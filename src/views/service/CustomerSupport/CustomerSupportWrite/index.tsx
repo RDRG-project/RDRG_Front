@@ -89,25 +89,28 @@ export default function SupportWrite() {
     const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || !event.target.files.length) return;
         const file = event.target.files[0];
-        // setFileUpload([...fileUpload, file]);
         const name = file.name;
         const url = URL.createObjectURL(file);
-        // setFilePreviews([...filePreviews, {name, url}]);
 
         if (fileRevise !== null) {
             const fileUpdate = [...fileUpload];
-            fileUpdate[fileRevise] = file;
             const showFile = [...filePreviews];
-            showFile[fileRevise] = { name, url };
 
-            setFileUpload(fileUpdate)
-            setFilePreviews(showFile)
-            setFileRevise(null);
+            if (fileRevise < 3) {
+                fileUpdate[fileRevise] = file;
+                showFile[fileRevise] = { name, url };
+                setFileRevise(null);
+                setFileUpload(fileUpdate);
+                setFilePreviews(showFile);
+            }
         } else {
-            setFileUpload([...fileUpload, file]);
-            setFilePreviews([...filePreviews, {name, url}]);
+            if (fileUpload.length < 3) {
+                setFileUpload([...fileUpload, file]);
+                setFilePreviews([...filePreviews, {name, url}]);
+            }
         } 
     };
+
 
     const onFileDeleteButtonClickHandler = (index: number) => {
         const fileUpdate = fileUpload.filter((_, i) => i !== index);
@@ -160,12 +163,11 @@ export default function SupportWrite() {
                             <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요 / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
                         </div>
                     </div>
-
-                    <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
+                    <input ref={fileRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler}/>
                     <div style={{ padding: '12px', display: 'line-block', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>파일 첨부</div>
                     <div>
                         {filePreviews.map((preview, index) => (
-                            <div key={index} className="cs-write-file-upload">
+                            <div key={index} >
                                 <img src={preview.url} alt={preview.name} width="70" height="50"/>
                                 <p>{preview.name}</p>
                                 <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
@@ -173,7 +175,7 @@ export default function SupportWrite() {
                         ))}
                         {filePreviews.map((file, index) => (
                             <div key={index}>
-                                <a href={file.url} target="_blank" rel="noopener noreferrer"></a>
+                                <a href={file.url} ></a>
                                 <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
                             </div>
                         ))}

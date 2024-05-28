@@ -1,75 +1,91 @@
-#mypage-rent-detail-wrapper {
+#mp-rent-detail-wrapper{
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    position: relative;
-    margin: 0 auto;
-}
-
-.rent-detail-title {
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: 175%;
-}
-
-.rent-detail-view {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-
-    width: 50%;
-
-    padding: 20px;
-    border-radius: 20px;
-
-    background-color: rgba(100,100,100,0.1);
-}
-
-.rent-detail-status {
-    display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    
+    height: 100%;
 
-    width: 20%;
+    padding: 40px 100px;
+    gap: 20px;
 
-    background-color: rgba(100,100,100,0.3);
+    background-color: rgba(241,241,241,1);
 }
 
-.rent-detail-view-in {
+.mp-rent-detail-table{
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255,255,255,1);
+    padding: 20px;
+    border-radius: 20px;
 
-    justify-content:space-around;
+    width: 400px;
+    height: 150px;
+}
 
+.mp-rent-detail-content{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
     gap: 10px;
 }
 
-.rent-detail-image {
-    background-image: url("../../../../assets/image/ex_macbook_image.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    
-    width: 70%;
-    height: 100px;
-}
-
-.rent-detail-view-3 {
-    font-size: medium;
+.mp-rent-detail-name{
+    font-family: "Noto Sans KR";
+    font-size: 16px;
+    font-style: normal;
     font-weight: 500;
+    line-height: normal;
 
-    width: 100%;
+    color: rgba(0,0,0,1);
 }
 
-.rent-detail-view-4 {
-    font-size:medium;
+.mp-rent-detail-date{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+
+    color: #666;
+    font-family: "Noto Sans KR";
+    font-size: 12px;
+    font-style: normal;
     font-weight: 500;
-
-    width: 100%;
+    line-height: normal;
 }
 
+.mp-rent-detail-total-price, .mp-rent-detail-rental{
+    font-family: "Noto Sans KR";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 
-.box {
-    background-color: rgba(100,100,100,0.3);
+    color: rgba(0,0,0,1);
+}
+
+.mp-rent-detail-page-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3px;
+
+    cursor: pointer;
+}
+
+.mp-rent-detail-next-button{
+    width: 4px;
+    height: 8px;
+
+    background-image: url('../../../../assets/image/rent-detail-button-image.png');
+    background-size: 100% 100%;
+}
+
+.mp-rent-detail-table-bottom{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 300px;
 }
