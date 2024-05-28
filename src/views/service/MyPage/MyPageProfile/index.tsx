@@ -117,6 +117,7 @@ export default function MypageProfile() {
     setPasswordCheckMessage(passwordCheckMessage);
   };
 
+  // 비빌번호 변경 구현
   const onChangePasswordClickHandler = async () => {
     if (!isPasswordPattern || !isEqualPassword) {
       setChangePasswordMessage('비밀번호를 올바르게 입력해주세요.');
