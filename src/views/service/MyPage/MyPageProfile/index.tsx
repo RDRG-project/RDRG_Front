@@ -6,14 +6,14 @@ import InputBox from 'src/components/Inputbox';
 import { useCookies } from 'react-cookie';
 import { PersonalInfoResponseDto } from 'src/apis/user/dto/response';
 import ResponseDto from 'src/apis/response.dto';
-import { getUserInfoRequest } from 'src/apis/user';
+import { getUserInfoRequest, patchPasswordRequest } from 'src/apis/user';
 
 //                    component                    //
 export default function MypageProfile() {
   
   //                    state                    //
-  const [userId, setUserId] = useState<string>(() => localStorage.getItem('userId') || '');
-  const [userEmail, setUserEmail] = useState<string>(() => localStorage.getItem('userEmail') || '');
+  const [userId, setUserId] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('');
   const [cookies, setCookie, removeCookie ] = useCookies();
 
   const [password, setPassword] = useState<string>('');
@@ -25,6 +25,7 @@ export default function MypageProfile() {
   const [passwordCheckMessage, setPasswordCheckMessage] = useState<string>('');
   
   const [message, setMessage] = useState<string>('');
+  const [changePasswordMessage, setChangePasswordMessage] = useState<string>('');
 
   //                    function                    //
   const navigator = useNavigate();
@@ -47,8 +48,6 @@ export default function MypageProfile() {
 
     setUserId(userId);
     setUserEmail(userEmail);
-    localStorage.setItem('userId', userId);
-    localStorage.setItem('userEmail', userEmail);
   };
 
 
@@ -56,7 +55,6 @@ export default function MypageProfile() {
 
   useEffect(() => {
     if (!cookies.accessToken) {
-        // accessToken이 없으면 로컬 스토리지를 초기화하고 홈 페이지로 이동
         localStorage.removeItem('userId');
         localStorage.removeItem('userEmail');
         setUserId('');
@@ -119,6 +117,33 @@ export default function MypageProfile() {
     setPasswordCheckMessage(passwordCheckMessage);
   };
 
+  const onChangePasswordClickHandler = async () => {
+    if (!isPasswordPattern || !isEqualPassword) {
+      setChangePasswordMessage('비밀번호를 올바르게 입력해주세요.');
+      return;
+    }
+
+    try{
+      const response = await patchPasswordRequest(
+        {userId: userId, userPassword: password, newUserPassword: newPassword},
+        cookies.accessToken
+      );
+      if (!response) {
+        setChangePasswordMessage('비밀번호 변경에 실패했습니다.');
+        return;
+      }
+
+      if (response.code == 'SU') {
+        setChangePasswordMessage('비밀번호가 변경되었습니다.');
+        return;
+      } else {
+          setChangePasswordMessage('비밀번호 변경에 실패했습니다.');
+      }
+    } catch(error) {
+      setChangePasswordMessage('비밀번호 변경에 실패했습니다.');
+    }
+  };
+
   //                    render                    //
   return (
     <div id='mypage-profile-wrapper'>
@@ -145,7 +170,8 @@ export default function MypageProfile() {
       </div>
       <div className='profile-button-container'>
         <div className='unregister-button' onClick={onUnRegisterClickHandler}>회원탈퇴</div>
-        <div className='change-button'>변경완료</div>
+        <div className='change-button' onClick={onChangePasswordClickHandler}>변경완료</div>
+        {changePasswordMessage && <div className='password-change-message'>{changePasswordMessage}</div>}
       </div>
     </div>
   )
