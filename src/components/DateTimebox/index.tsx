@@ -6,7 +6,6 @@ import './style.css'
 import { setHours, setMinutes } from 'date-fns';
 import { useRentDateStore } from 'src/stores';
 
-
 type ExampleCustomInputProps = { value: string; onClick: () => void; };
 
 const ExampleCustomInput = forwardRef<HTMLButtonElement, ExampleCustomInputProps>(
