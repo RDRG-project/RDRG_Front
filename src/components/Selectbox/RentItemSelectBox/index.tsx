@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.css'
-import { useBasketStore, useRentDateStore, useRentItemStore } from 'src/stores/index';
+import { useBasketStore, useRentDateStore, useRentItemStore, useRentSiteStore, useReturnSiteStore } from 'src/stores/index';
 import { DeviceListItem, ItRentList } from 'src/types';
 import { useNavigate } from 'react-router';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
@@ -9,19 +9,6 @@ import { useCookies } from 'react-cookie';
 import { AUTH_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
 import { getRentPossibilityListRequest } from 'src/apis/device';
 import { dateFormat } from 'src/utils';
-
-// 예시 items
-// const items: ItRentList[] = [
-//     { serialNumber: '1', model: 'aaaaaa', type: '노트북',brand:'삼성전자', name: '삼성노트북', price: 100000, deviceExplain: '이것은 삼성 노트북', devicesImgUrl:'1231qweqweadasczx'},
-//     { serialNumber: '2', model: 'bbbbbb', type: '노트북',brand:'애플', name: '맥북', price: 20000, deviceExplain: '이것은 애플 맥북', devicesImgUrl:'1231qweqweadasczx'},
-//     { serialNumber: '3', model: 'cccccc', type: '노트북',brand:'LG전자', name: 'LG그램', price: 15000, deviceExplain: '이것은 LG그램', devicesImgUrl:'1231qweqweadasczx'},
-//     { serialNumber: '4', model: 'dddddd', type: '태블릿',brand:'삼성전자', name: '갤럭시탭', price: 8000, deviceExplain: '이것은 삼성 갤럭시탭', devicesImgUrl:'1231qweqweadasczx'},
-//     { serialNumber: '5', model: 'eeeeee', type: '태블릿',brand:'애플', name: '아이패드', price: 8000, deviceExplain: '이것은 애플 아이패드', devicesImgUrl:'1231qweqweadasczx'},
-//     { serialNumber: '6', model: 'ffffff', type: '태블릿',brand:'레노버', name: '레노버머시기', price: 5000, deviceExplain: '이것은 레노버 태블릿', devicesImgUrl:'1231qweqweadasczx'},
-//     { serialNumber: '7', model: 'gggggg', type: '게임기',brand:'닌텐도', name: '스위치', price: 10000, deviceExplain: '이것은 닌텐도 스위치', devicesImgUrl:'1231qweqweadasczx'},
-//     { serialNumber: '8', model: 'hhhhhh', type: '게임기',brand:'소니', name: '플레이스테이션', price: 20000, deviceExplain: '이것은 플레이스테이션', devicesImgUrl:'1231qweqweadasczx'},
-//     { serialNumber: '9', model: 'iiiiii', type: '게임기',brand:'MS', name: 'Xbox', price: 15000, deviceExplain: '이것은 Xbox', devicesImgUrl:'1231qweqweadasczx'}
-// ];
 
 
 //                    component                    //
@@ -72,7 +59,6 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const navigator = useNavigate();
 
     //                    state                    //
-
     const [cookies] = useCookies();
     const [selectListItItem, setSelectListItItem] = useState<boolean>(false);
     const [notebookState, setNotebookState] = useState<boolean>(false);
@@ -82,13 +68,10 @@ export default function RentSelectBox({ value, onChange }: Prop) {
 
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
+    const { rentSite, setRentSite } = useRentSiteStore();
+    const { returnSite, setReturnSite } = useReturnSiteStore(); 
 
     const { startDate, endDate } = useRentDateStore()
-
-    const [selectNoteBook, setSelectNoteBook] = useState<string>('');
-    const [selectTable, setSelectTablet] = useState<string>('');
-    const [selectGame, setSelectGame] = useState<string>('');
-    const [selectBattery, setSelectBattery] = useState<string>('');
 
     const [rentViewList, setRentViewList] = useState<ItRentList[]>([]);
 
@@ -119,9 +102,11 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         setSelectListItItem(!selectListItItem);
     };
 
-    const addItemButtonClickHandler = (item: DeviceListItem) => {
+    const addItemButtonClickHandler = (item: ItRentList) => {
         setBasketItems([...basketItems, item]);
         setTotalAmount(totalAmount + item.price);
+        setRentSite(rentSite);
+        setReturnSite(returnSite);
     };
 
     const onNotebookButtonClickHandler = () => {
@@ -167,41 +152,53 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             <div className='type-notebook' onClick={onNotebookButtonClickHandler}>노트북</div>
             {notebookState &&
             <div className='type-notebook-detail'>
-                {rentViewList.filter(item => item.type === '노트북').map(item => <RentItem {...item} />)}
+                {rentViewList.filter(item => item.type === '노트북').map(item => 
+                <div>
+                    <RentItem {...item} />
+                    <div key={item.serialNumber}>
+                        {item.name} - {item.price.toLocaleString()}원
+                        <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                    </div>
+                </div>)}
             </div>
             }
             <div className='type-tablet' onClick={onTabletButtonClickHandler}>태블릿</div>
-            {/* {tabletState &&
-            <div>
-                {items.filter(item => item.type === '태블릿').map(item => 
+            {tabletState &&
+            <div className='type-tablet-detail'>
+                {rentViewList.filter(item => item.type === '태블릿').map(item => 
+                <div>
+                    <RentItem {...item} />
                     <div key={item.serialNumber}>
                         {item.name} - {item.price.toLocaleString()}원
                         <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                     </div>
-                )}
+                </div>)}
             </div>
-            } */}
+            }
             <div className='type-game' onClick={onGameItButtonClickHandler}>게임기</div>
             {gameItState &&
-            <div>
-                {/* {items.filter(item => item.type === '게임기').map(item => 
+            <div className='type-game-detail'>
+                {rentViewList.filter(item => item.type === '게임기').map(item => 
+                <div>
+                    <RentItem {...item} />
                     <div key={item.serialNumber}>
                         {item.name} - {item.price.toLocaleString()}원
                         <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                     </div>
-                )} */}
+                </div>)}
             </div>
             }
             <div className='type-external-battery' onClick={onExternalBatteryButtonClickHandler}>보조배터리</div>
             {externalBatteryState &&
-            <div>
-                
-                {/* {items.filter(item => item.type === '보조배터리').map(item => 
+            <div className='type-tablet-detail'>
+                {rentViewList.filter(item => item.type === '보조배터리').map(item => 
+                <div>
+                    <RentItem {...item} />
                     <div key={item.serialNumber}>
                         {item.name} - {item.price.toLocaleString()}원
                         <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                     </div>
-                )} */}
+                </div>)}
             </div>
             }
             </>
