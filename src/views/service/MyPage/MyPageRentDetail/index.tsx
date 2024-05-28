@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./style.css";
 
 export default function MypageRentDetail() {
+
+    const [customerInfo, setCustomerInfo] = useState(null);
 
     return (
         <div id='mypage-rent-detail-wrapper'>
@@ -22,12 +24,5 @@ export default function MypageRentDetail() {
             </div>
         </div>
     )
-
-    function MypageRentDetailText () {
-    
-    return (
-        <div>상세정보</div>
-    )
-}
 
 }
