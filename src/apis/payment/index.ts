@@ -3,10 +3,10 @@ import { bearerAuthorization, requestErrorHandler, requestHandler } from ".."
 import { GET_MYRENTPAGE_BREAKDOWN_URL, GET_RESERVE_REQUEST_URL, POST_PAYMENT_SAVE_REQUEST_URL } from "src/constants"
 import { RentPageResponseDto, ReserveResponseDto } from "./dto/response"
 import ResponseDto from "../response.dto"
-import { PutBoardRequestDto } from "./dto/request"
+import { PostPaymentSaveRequestDto } from "./dto/request"
 
 // function: 결제 정보 저장 API 함수
-export const postPaymentSaveRequest = async (requestBody:PutBoardRequestDto, accessToken: string) => {
+export const postPaymentSaveRequest = async (requestBody:PostPaymentSaveRequestDto, accessToken: string) => {
     const result = await axios.post(POST_PAYMENT_SAVE_REQUEST_URL,requestBody, bearerAuthorization(accessToken))
         .then(requestHandler<ResponseDto>)
         .catch(requestErrorHandler)

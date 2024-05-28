@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import { useBasketStore, useRentItemStore } from 'src/stores/index';
+import { useBasketStore, useRentDateStore, useRentItemStore, useRentSiteStore, useReturnSiteStore, useUserStore } from 'src/stores/index';
 import ReactDatePicker from 'src/components/DateTimebox';
-
+import { HOME_ABSOLUTE_PATH } from 'src/constants';
+import { useNavigate } from 'react-router';
+import { postPaymentSaveRequest } from 'src/apis/payment';
+import { PostPaymentSaveRequestDto } from 'src/apis/payment/dto/request';
+import ResponseDto from 'src/apis/response.dto';
 
 //                    component                    //
 function Basket() {
 
     //                    state                    //
+    const { rentSite, setRentSite } = useRentSiteStore();
+    const { returnSite, setReturnSite } = useReturnSiteStore(); 
+
+    const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();
+
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
-    // const [paymentState, setPaymentState] = useState<boolean>(false);
-    // const [payment, setPayment] = useState<string>('');
-    
 
     //                    event handler                    //
     const removeItemButtonClickHandler = (index: number) => {
@@ -26,14 +32,19 @@ function Basket() {
     };
 
     const clearButtonClickHandler = () => {
+        setRentSite('');
+        setReturnSite('');
+        // setStartDate(startDate);
+        // setEndDate(endDate);
+
         setBasketItems([]);
         setTotalAmount(0);
     };
 
-    // const paymentButtonClickHandler = () => {
-    //     if (basketItems !== []) return;
-    //     setPaymentState(!paymentState);
-    // };
+    //                    effect                    //
+    // useEffect(() => {
+    //     setStartDate(startDate);
+    // }, [startDate])
 
     //                    render                    //
     return (
@@ -62,14 +73,78 @@ function Basket() {
 }
 
 //                    component                    //
+function Payment() {
+
+    //                    state                    //
+    const [cookies] = useCookies();
+    const { loginUserId } = useUserStore();
+    const [ serialNumber, setSerialNumber] = useState<string[]>([]);
+    const { rentSite, setRentSite } = useRentSiteStore();
+    const { returnSite, setReturnSite } = useReturnSiteStore(); 
+    const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();
+    const { basketItems, setBasketItems } = useBasketStore();
+    const { totalAmount, setTotalAmount } = useRentItemStore();
+    const [ rentStatus, setRentStatus ] = useState<boolean>(false);
+
+    //                    function                    //
+    const navigator = useNavigate();
+
+    const PostPaymentSaveResponseDto = (result: ResponseDto | null) => {
+
+        const message = 
+            !result ? '서버에 문제가 있습니다.' :
+            result.code = 'VF' ? '유효성실패라는데 뭐가 문제일까요?' :
+            result.code = 'AF' ? '로그인하고 결제를 진행해주세요' :
+            result.code = 'DBE' ? '서버에 문제가 있습니다.' : '';
+        
+        if (!result || result.code !=='SU') {
+            alert(message);
+            return;
+        }
+
+        navigator(HOME_ABSOLUTE_PATH);
+    }
+
+    //                    event handler                    //
+    const onPaymentButtonClickHandler = () => {
+        const requestBody: PostPaymentSaveRequestDto = {
+            rentUserId: loginUserId, 
+            rentSerialNumber: serialNumber,
+            rentPlace: rentSite, 
+            rentReturnPlace: returnSite, 
+            rentDatetime:startDate, 
+            rentReturnDatetime: endDate,
+            rentTotalPrice : totalAmount,
+            rentStatus: rentStatus
+            }
+        if (!cookies.accessToken) return;
+        postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
+    };
+
+    //                    effect                    //
+    useEffect(() => {
+        
+    }, []);
+
+    //                    render                    //
+    return (
+        <div>
+            <button onClick={onPaymentButtonClickHandler}>결제하기</button>
+        </div>
+    )
+}
+
+//                    component                    //
 export default function Rent() {
+    const navigator = useNavigate();
 
     //                    state                    //
     const [cookies] = useCookies();
     const [rentSelect, setRentSelect] = useState<string>('');
     const [returnSelect, setReturnSelect] = useState<string>('');
-    // const [dateSelect, setDateSelect] = useState<string>('');
     const [rentItem, setRentItem] = useState<string>('');
+
+    // const {startDate, setStartDate, endDate, setEndDate} = useRentDateStore();
 
     //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
@@ -79,21 +154,20 @@ export default function Rent() {
         setReturnSelect(returnSelect);
     };
 
-    // 날짜 및 시간 클릭에 대한 변경 핸들러
-    // const onDateChangeHandler = (dateSelect: string) => {
-    //     setDateSelect(dateSelect);
-    // };
-
     const onRentItemChangeHandler = (rentItem: string) => {
         setRentItem(rentItem);
     }
+
+    //                    effect                    //
+    
+
     
     //                    render                    //
     return (
         <div id='rent-wrapper'>
             <div className='rent-left-side'>
                 <div className='rent-left-side-rental'>
-                    <RentSiteSelectBox value={rentSelect} onChange={onRentChangeHandler} />
+                    <RentSiteSelectBox value={rentSelect} onChange={onRentChangeHandler}/>
                 </div>
                 <div className='rent-left-side-return'>
                     <ReturnSiteSelectBox value={returnSelect} onChange={onReturnChangeHandler} />
@@ -113,8 +187,10 @@ export default function Rent() {
                         <Basket />
                     </div>
                 </div>
-                <div className='rent-right-sid-payment'>
-                    <button>결제</button>
+                <div className='rent-right-side-payment'>
+                    <div className='rent-right-side-payment-box'>
+                        <Payment/>
+                    </div>
                 </div>
             </div>
         </div>
