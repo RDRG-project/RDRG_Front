@@ -47,6 +47,7 @@ export default function SupportWrite() {
     //                    event handler                    //
     const onTitleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const title = event.target.value;
+        if(title.length > 100) return;
         setTitle(title);
     };
 
