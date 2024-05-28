@@ -149,11 +149,17 @@ export default function CustomerSupportList() {
 
     const onNextPageClickHandler = () => {
         if (currentPage === totalPage) return;
+        if (currentPage % COUNT_PER_SECTION === 0) {
+            setCurrentSection(currentSection + 1);
+        }
         setCurrentPage(currentPage + 1);
     }
 
     const onPrePageClickHandler = () => {
         if (currentPage <= 1) return;
+        if ((currentPage - 1) % COUNT_PER_SECTION === 0) {
+            setCurrentSection(currentSection - 1); // Move to the previous section
+        }
         setCurrentPage(currentPage - 1);
     }
 
