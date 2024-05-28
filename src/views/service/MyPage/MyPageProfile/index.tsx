@@ -146,33 +146,40 @@ export default function MypageProfile() {
 
   //                    render                    //
   return (
-    <div id='mypage-profile-wrapper'>
-      <div className='profile-title'>프로필 관리</div>
+    <div id='mp-profile-wrapper'>
+
       <div className='profile-detail'>
+
         <div className='profile-detail-content'>
-          <div className='profile-detail-title'>아이디</div>
-          <div>{userId}</div>
+          <div className='profile-detail-title-id'>아이디</div>
+          <div className='mp-profile-detail-information'>{userId}</div>
         </div>
+
         <div className='profile-detail-content'>
-          <div className='profile-detail-title'>이메일</div>
-          <div>{userEmail}</div>
+          <div className='profile-detail-title-email'>이메일</div>
+          <div className='mp-profile-detail-information'>{userEmail}</div>
         </div>
-        <div className='profile-detail-content'>
-          <div className='profile-detail-title'>비밀번호</div>
+
+        <div className='profile-detail-content-password'>
+          <div className='profile-detail-title-password'>비밀번호</div>
+
           <div className='profile-detail-password-input-container'>
             <InputBox label="현재 비밀번호" type="password" value={password} placeholder="현재 비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} message={message} error />
             <InputBox  label="새비밀번호" type="password" value={newPassword} placeholder="새비밀번호를 입력해주세요" 
               onChangeHandler={onNewPasswordChangeHandler} message={passwordMessage} error />
             <InputBox label="비밀번호 확인" type="password" value={newPasswordCheck} placeholder="새비밀번호를 입력해주세요" 
               onChangeHandler={onNewPasswordCheckChangeHandler} message={passwordCheckMessage} error />
+            {changePasswordMessage && <div className='password-change-message'>{changePasswordMessage}</div>}
           </div>
         </div>
+
       </div>
-      <div className='profile-button-container'>
-        <div className='unregister-button' onClick={onUnRegisterClickHandler}>회원탈퇴</div>
-        <div className='change-button' onClick={onChangePasswordClickHandler}>변경완료</div>
-        {changePasswordMessage && <div className='password-change-message'>{changePasswordMessage}</div>}
+
+      <div className='mp-profile-button-container'>
+        <div className='customer-support-button' onClick={onUnRegisterClickHandler}>회원탈퇴</div>
+        <div className='customer-support-button' onClick={onChangePasswordClickHandler}>변경완료</div>
       </div>
+
     </div>
   )
 }

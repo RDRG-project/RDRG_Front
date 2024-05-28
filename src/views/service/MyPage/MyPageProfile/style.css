@@ -1,109 +1,88 @@
-#mypage-profile-wrapper{
+#mp-profile-wrapper{
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  position: relative;
-  margin: 0 auto;
-}
-
-.profile-title{
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 175%;
+  gap: 30px;
 }
 
 .profile-detail{
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: center;
+  border-top: 2px solid rgba(0,0,0,1);
+  border-bottom: 2px solid rgba(0,0,0,1);
 }
 
 .profile-detail-content{
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  border-bottom: 1px solid rgba(217,217,217,1);
 }
 
-.profile-detail-title{
+.profile-detail-title-id, .profile-detail-title-email{
   width: 150px;
-}
-
-.profile-button-container{
+  height: 50px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+
+  font-family: "Noto Sans KR";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.mp-profile-detail-information{
+  width: 150px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid rgba(217,217,217,1);
+  padding-left: 20px;
+
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.profile-detail-content-password{
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-detail-title-password{
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-detail-password-input-container{
+  width: 400px;
   display: flex;
   flex-direction: column;
-  width: 300px;
+  border-left: 1px solid rgba(217,217,217,1);
+  padding:20px;
   gap: 10px;
 }
 
 .input {
-  flex-grow: 1;
   border: 1px solid rgba(238, 238, 238, 1);
   border-radius: 6px;
   outline: none;
   padding: 8px 16px;
-  background-color: rgba(255, 255, 255, 1);
+
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 175%;
-  color: rgba(35, 45, 66, 1);
 }
 
-/* 회원탈퇴 버튼 */
-.unregister-button{
-  box-sizing: border-box;
+.mp-profile-button-container{
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 8px 24px;
-
-  background-color: rgba(58, 87, 232, 0.2);
-  border-radius: 6px;
-
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 175%;
-
-  color: rgba(45, 66, 178, 1);
-}
-
-.unregister-button:hover {
-  cursor: pointer;
-  opacity: 0.85;
-}
-
-/* 변경완료 버튼 */
-.change-button{
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 8px 24px;
-
-  background-color: rgba(58, 87, 232, 0.2);
-  border-radius: 6px;
-
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 175%;
-
-  color: rgba(45, 66, 178, 1);
-}
-
-.change-button:hover {
-  cursor: pointer;
-  opacity: 0.85;
+  justify-content: space-between;
 }
 

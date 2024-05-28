@@ -71,5 +71,5 @@
   
   .mypage-main-container{
     grid-area: main;
-    padding: 24px;
+    padding-bottom: 50px;
   }
