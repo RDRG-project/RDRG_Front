@@ -1,45 +1,72 @@
-    #mypage-wrapper{
-    display: grid;
-    grid-template-columns: 200px auto;
-    grid-template-rows: auto;
-    max-height: 800px;
-    grid-template-areas: "sidenav main";
-        }
-
-  .side-navigation-container{
-    grid-area: sidenav;
-    padding: 16px 12px;
+#mypage-wrapper{
     display: flex;
     flex-direction: column;
-    gap: 10px;
-  }
-  
-  .side-navigation-item{
-    border-radius: 6px;
-    padding: 8px 24px;
-  
+    align-items: center;
+    justify-content: center;
+    gap : 50px;
+}
+
+.mypage-image{
     display: flex;
     align-items: center;
-    gap : 16px;
-  
-    color : rgba(138,146,166,1);
-  }
-
-  .side-navigation-item:hover{
-    cursor: pointer;
-    opacity: 0.85;
-  }
-  
-  .side-navigation-item.active{
-    background-color: rgba(58,87,232,1);
-    color:rgba(255,255,255,1);
-  }
-  
-  .side-navigation-title{
-    font-size: 16px;
+    justify-content: center;
+    
+    background-image: url(../../assets/image/mypage-image.png);
+    width: 100%;
+    height: 580px;
+    
+    font-family: "Noto Sans KR";
+    font-size: 50px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: normal;
+    
+    color: rgba(255,255,255,1);
+}
+
+.mypage-navigation-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 40px;
+
+}
+
+.mypage-navigation-item{
+    border-bottom: 2px solid rgba(102,102,102,0.5);
+
+    color: rgba(102,102,102,0.5);
+    font-family: "Noto Sans KR";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+  .mypage-navigation-item:hover{
+    cursor: pointer;
+  }
+  
+  .mypage-navigation-item.active{
+    border-bottom: 2px solid rgba(0,0,0,1);
+    padding-bottom: 5px;
+
+    color: rgba(0,0,0,1);
+    font-family: "Noto Sans KR";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  
+  .mypage-navigation-title{
+
+    font-family: "Noto Sans KR";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    
   }
   
   .mypage-main-container{

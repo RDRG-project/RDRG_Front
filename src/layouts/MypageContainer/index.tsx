@@ -14,8 +14,8 @@ interface Props {
 //                    component                    //
 function SideNavigation ({path} : Props) {
 
-    const profileClass = `side-navigation-item${path === '프로필 관리' ? ' active' : ''}`
-    const rentDetailClass = `side-navigation-item${path === '대여 내역' ? ' active' : ''}`
+    const profileClass = `mypage-navigation-item${path === '프로필 관리' ? ' active' : ''}`
+    const rentDetailClass = `mypage-navigation-item${path === '대여 내역' ? ' active' : ''}`
   
     const { pathname } = useLocation();
   
@@ -28,12 +28,12 @@ function SideNavigation ({path} : Props) {
   
     //                    render                    //
     return (
-      <div className="side-navigation-container">
+      <div className="mypage-navigation-container">
         <div className={profileClass} onClick={onProfileClickHandler}>
-          <div className="side-navigation-title">프로필 관리</div>
+          <div className="mypage-navigation-title">프로필 관리</div>
         </div>
         <div className={rentDetailClass} onClick={onRentDetailClickHandler}>
-          <div className="side-navigation-title">대여 내역</div>
+          <div className="mypage-navigation-title">대여 내역</div>
         </div>
       </div>
     )
@@ -89,6 +89,7 @@ export default function MypageContainer() {
   //                    render                    //
   return (
     <div id="mypage-wrapper">
+      <div className='mypage-image'>마이페이지</div>
       <SideNavigation path= {path}/>
       <div className="mypage-main-container">
         <Outlet />
