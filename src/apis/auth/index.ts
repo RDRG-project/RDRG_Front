@@ -23,7 +23,7 @@ export const idCheckRequest = async (requestBody: IdCheckRequestDto) => {
     return result;
 };
 
-// function: 이메일 인증 API 함수
+// function: 이메일 중복 확인 및 인증메일 전송 API 함수
 export const emailAuthRequest = async (requestBody: EmailAuthRequestDto) => {
     const result = await axios
         .post(EMAIL_AUTH_REQUEST_URL, requestBody)
