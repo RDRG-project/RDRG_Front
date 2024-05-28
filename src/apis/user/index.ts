@@ -29,24 +29,8 @@ export const patchPasswordRequest = async(requestBody:ChangePWRequestDto , acces
     return result;
 };
 
-// export const patchPasswordRequest = async (requestBody: ChangePWRequestDto, accessToken: string) => {
-//     try {
-//         const config = bearerAuthorization(accessToken);
-//         console.log('Authorizaiton header:', config.headers);
-
-//         const response = await axios.patch(
-//             PATCH_PASSWORD_URL,
-//             requestBody,
-//             config
-//         );
-//         return requestHandler(response);
-//     } catch (error) {
-//         return requestErrorHandler(error);
-//     }
-// }
-
 // function : 회원 탈퇴 API 함수
-export const deleteUserRequest = async (userId: number|string,accessToken: string) => {
+export const deleteUserRequest = async (userId: string,accessToken: string) => {
     const result = await axios.delete(DELETE_USER_URL(userId))
         .then(requestHandler<ResponseDto>)
         .catch(requestErrorHandler)

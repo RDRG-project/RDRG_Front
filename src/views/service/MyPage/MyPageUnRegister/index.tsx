@@ -10,6 +10,8 @@ export default function MypageUnRegister() {
     const [message, setMessage] = useState<string>('');
 
     //                    event handler                    //
+
+    // 회원 탈퇴 
     const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
         setMessage('');
