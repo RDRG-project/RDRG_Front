@@ -1,7 +1,7 @@
 import axios from "axios"
 import { bearerAuthorization, requestErrorHandler, requestHandler } from ".."
-import { GET_MYRENTPAGE_BREAKDOWN_URL, GET_RESERVE_REQUEST_URL, POST_PAYMENT_SAVE_REQUEST_URL } from "src/constants"
-import { RentPageResponseDto, ReserveResponseDto } from "./dto/response"
+import { GET_MYRENTPAGE_URL, GET_RESERVE_REQUEST_URL, POST_PAYMENT_SAVE_REQUEST_URL } from "src/constants"
+import { GetMyRentPageResponseDto, ReserveResponseDto } from "./dto/response"
 import ResponseDto from "../response.dto"
 import { PostPaymentSaveRequestDto } from "./dto/request"
 
@@ -22,10 +22,10 @@ export const getReserveRequest = async (userId:string, accessToken: string) => {
     return result;
 };
 
-// function: 대여 내역 불러오기 API 함수
-export const getMyrentPageBreakdownRequest = async (accessToken: string) => {
-    const result = await axios.get(GET_MYRENTPAGE_BREAKDOWN_URL, bearerAuthorization(accessToken))
-        .then(requestHandler<RentPageResponseDto>)
+// function: 나의 대여 내역 불러오기 API 함수
+export const getMyrentPageRequest = async (accessToken: string) => {
+    const result = await axios.get(GET_MYRENTPAGE_URL, bearerAuthorization(accessToken))
+        .then(requestHandler<GetMyRentPageResponseDto>)
         .catch(requestErrorHandler)
     return result;
 };
