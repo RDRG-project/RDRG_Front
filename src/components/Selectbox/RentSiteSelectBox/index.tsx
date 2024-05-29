@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import './style.css'
-import { useRentSiteStore, useReturnSiteStore } from 'src/stores';
+import React, { useEffect, useState } from 'react';
+import './style.css';
+import { useRentSiteStore, useSiteShowStore } from 'src/stores';
 
-//                    interface                    //
 interface Prop {
     value: string;
     onChange: (value: string) => void;
 }
 
-//                    component                    //
 export default function RentSiteSelectBox({ value, onChange }: Prop) {
     const RentSiteListItem = [
         { name: '서울', value: 'SEOUL' },
         { name: '부산', value: 'BUSAN' }
     ];
 
-    //                    state                    //
-    const [show, setShow] = useState<boolean>(false);
+    const { show, setShow } = useSiteShowStore();
     const [selectedItem, setSelectedItem] = useState<string>('');
-
     const { setRentSite } = useRentSiteStore();
 
-    //                    event handler                    //
     const onButtonClickHandler = () => {
         setShow(!show);
     };
@@ -33,11 +28,10 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
         setShow(true);
     };
 
-    //                    effect                    //
     useEffect(() => {
-    setSelectedItem(value || ''); // value 값이 존재하지 않을 때를 대비하여 빈 문자열("")을 사용합니다.
-}, [value]);
-    //                    render                    //
+        setSelectedItem(value || '');
+    }, [value]);
+
     return (
         <div className='select-box'>
             <div className='select-item-title'>대여지점</div>
@@ -57,5 +51,3 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
         </div>
     );
 }
-
-

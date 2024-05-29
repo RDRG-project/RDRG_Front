@@ -10,5 +10,7 @@ import useNoteBookStore from "./notebook.store";
 import useTabletStore from './tablet.store'
 import useBatteryStore from "./batter.store";
 import useTotalRentTimeStore from "./totalRentTime.store";
+import useRentStatusStore from "./rentStatus.store";
+import useSiteShowStore from "./siteShow.store";
 
-export { useUserStore, useAuthenticationStore, useBasketStore, useRentItemStore, useRentDateStore, useRentSiteStore, useReturnSiteStore, useRentListStore, useNoteBookStore, useTabletStore, useBatteryStore, useTotalRentTimeStore};
+export { useUserStore, useAuthenticationStore, useBasketStore, useRentItemStore, useRentDateStore, useRentSiteStore, useReturnSiteStore, useRentListStore, useNoteBookStore, useTabletStore, useBatteryStore, useTotalRentTimeStore, useRentStatusStore, useSiteShowStore};
