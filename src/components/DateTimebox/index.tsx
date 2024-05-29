@@ -1,20 +1,22 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ko } from "date-fns/locale"
-import './style.css'
-import { setHours, setMinutes, differenceInMinutes, differenceInHours, differenceInDays, isAfter, isBefore, addHours } from 'date-fns';
+import { ko } from "date-fns/locale";
+import './style.css';
+import { setHours, setMinutes, addHours, isAfter, isBefore, differenceInDays, differenceInHours } from 'date-fns';
 import { useRentDateStore, useTotalRentTimeStore } from 'src/stores';
 
-type ExampleCustomInputProps = { value: string; onClick: () => void; };
-
-const ExampleCustomInput = forwardRef<HTMLButtonElement, ExampleCustomInputProps>(
+const ExampleCustomInput = forwardRef<HTMLButtonElement, { value: string; onClick: () => void }>(
     ({ value, onClick }, ref) => (
-    <button className="example-custom-input" onClick={onClick} ref={ref}> {value} </button>));
+        <button className="example-custom-input" onClick={onClick} ref={ref}>
+            {value}
+        </button>
+    )
+);
 
 const datePickerProps = (selected: Date | null, startDate: Date | null, endDate: Date | null, onChange: (date: Date | null) => void) => ({
     locale: ko,
-    dateFormatCalendar:  "yyyy.MM.dd (eee)",
+    dateFormatCalendar: "yyyy.MM.dd (eee)",
     selected,
     showPopperArrow: false,
     minDate: new Date(),
@@ -28,7 +30,7 @@ const datePickerProps = (selected: Date | null, startDate: Date | null, endDate:
     onChange,
     startDate,
     endDate
-})
+});
 
 const ReactDatePicker = () => {
     const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();

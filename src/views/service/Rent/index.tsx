@@ -4,7 +4,7 @@ import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useReturnSiteStore, useTabletStore, useTotalRentTimeStore, useUserStore } from 'src/stores/index';
+import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useRentStatusStore, useReturnSiteStore, useSiteShowStore, useTabletStore, useTotalRentTimeStore, useUserStore } from 'src/stores/index';
 import ReactDatePicker from 'src/components/DateTimebox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import { useNavigate } from 'react-router';
@@ -17,52 +17,24 @@ import { differenceInHours } from 'date-fns';
 
 //                    component                    //
 function Basket() {
-
-    //                    state                    //
-    const { rentSite, setRentSite } = useRentSiteStore();
-    const { returnSite, setReturnSite } = useReturnSiteStore(); 
-
-    const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();
-
+    const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
     const { basketItems, setBasketItems } = useBasketStore();
-    const { totalAmount, setTotalAmount } = useRentItemStore();
-
-    // const { setSelectListItItem } = useRentListStore();
-    const { setNotebookState } = useNoteBookStore();
-    const { setTabletState } = useTabletStore();
-    const { setGameItState } = useGameItStore();
-    const { setExternalBatteryState } = useBatteryStore();
-    const { totalRentTime, setTotalRentTime } = useTotalRentTimeStore();
-
-    // 총 대여 기간을 상태로 관리
+    const [totalAmount, setTotalAmount] = useState<number>(0);
+    const { setShow } = useSiteShowStore();
     const [rentDuration, setRentDuration] = useState<{ days: number; hours: number }>({ days: 0, hours: 0 });
 
-    //                    function                    //
-     // 대여 기간을 계산하는 함수
     const calculateRentDuration = (startDate: Date, endDate: Date) => {
-        const durationInHours = differenceInHours(endDate, startDate); // 대여 기간을 시간 단위로 계산
-        const durationInDays = Math.ceil(durationInHours / 24); // 시간을 일 단위로 변환 후 올림
-        
+        const durationInHours = differenceInHours(endDate, startDate);
+        const durationInDays = Math.ceil(durationInHours / 24);
         return { days: durationInDays, hours: durationInHours % 24 };
     };
 
-    // 대여 기간에 따른 물품의 가격을 계산하는 함수
     const calculateItemPrice = (basePrice: number, startDate: Date | null, endDate: Date | null): number => {
-        if (!startDate || !endDate) {
-            // 대여 기간이 제대로 설정되지 않은 경우
-            return 0; // 또는 다른 값을 반환할 수 있습니다.
-        }
-    
-        // 대여 기간 계산
+        if (!startDate || !endDate) return 0;
         const rentalHours = differenceInHours(endDate, startDate);
-    
-        // 시간당 가격으로 계산
-        const totalPrice = basePrice * rentalHours;
-    
-        return totalPrice;
+        return basePrice * rentalHours;
     };
 
-    // 대여 기간에 따른 물품 가격 총합 계산
     const calculateTotalPrice = () => {
         let totalPrice = 0;
         basketItems.forEach(item => {
@@ -71,7 +43,6 @@ function Basket() {
         return totalPrice;
     };
 
-    //                    event handler                    //
     const removeItemButtonClickHandler = (index: number) => {
         const itemToRemove = basketItems[index];
         setBasketItems(basketItems.filter((_, i) => i !== index));
@@ -79,35 +50,22 @@ function Basket() {
     };
 
     const clearButtonClickHandler = () => {
-        setRentSite('');
-        setReturnSite('');
+        setShow(false);
         setStartDate(new Date());
         setEndDate(new Date());
-
         setBasketItems([]);
         setTotalAmount(0);
-        // setSelectListItItem(false)
-        setNotebookState(false);
-        setTabletState(false);
-        setGameItState(false);
-        setExternalBatteryState(false);
-        setTotalRentTime('');
+        setRentDuration({ days: 0, hours: 0 });
     };
 
-    //                    effect                    //
-    // useEffect(() => {
-    //     setStartDate(startDate);
-    // }, [startDate])
-
-    // 대여 날짜가 변경될 때마다 총 대여 기간 계산
     useEffect(() => {
         if (startDate && endDate) {
             const duration = calculateRentDuration(startDate, endDate);
             setRentDuration(duration);
+            setTotalAmount(calculateTotalPrice());
         }
-    }, [startDate, endDate]);
+    }, [startDate, endDate, basketItems]);
 
-    //                    render                    //
     return (
         <div className='selected-type-wrapper'>
             <div className='basket-items'>
@@ -126,35 +84,32 @@ function Basket() {
                     </div>
                 </div>
                 <div className='payment-bottom-box'>
-                <div className='payment-sum'>총 합계금액: {calculateTotalPrice().toLocaleString()}원</div>
+                    <div className='payment-sum'>총 합계금액: {totalAmount.toLocaleString()}원</div>
                 </div>
             </div>
         </div>
     );
 }
 
-//                    component                    //
 function Payment() {
 
-    //                    state                    //
     const [cookies] = useCookies();
+
     const { loginUserId } = useUserStore();
     const { rentSite, setRentSite } = useRentSiteStore();
-    const { returnSite, setReturnSite } = useReturnSiteStore(); 
+    const { returnSite, setReturnSite } = useReturnSiteStore();
+    const { setShow } = useSiteShowStore();
     const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
-    const [ rentStatus, setRentStatus ] = useState<boolean>(false);
-
-    //                    function                    //
-    const navigator = useNavigate();
+    const { rentStatus, setRentStatus } = useRentStatusStore();
+    const navigate = useNavigate();
 
     const PostPaymentSaveResponseDto = (result: ResponseDto | null) => {
-
         const message = 
             !result ? '서버에 문제가 있습니다.' :
-            result.code === 'VF' ? '유효성실패라는데 뭐가 문제일까요?' :
-            result.code === 'AF' ? '로그인하고 결제를 진행해주세요' :
+            result.code === 'VF' ? '유효성 실패입니다.' :
+            result.code === 'AF' ? '로그인 후 결제를 진행해주세요.' :
             result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
         
         if (!result || result.code !== 'SU') {
@@ -162,10 +117,9 @@ function Payment() {
             return;
         }
 
-        navigator(HOME_ABSOLUTE_PATH);
+        navigate(HOME_ABSOLUTE_PATH);
     }
 
-    //                    event handler                    //
     const onPaymentButtonClickHandler = () => {
         const rentSerialNumber = basketItems.map(item => item.serialNumber);
 
@@ -173,80 +127,61 @@ function Payment() {
 
         const requestBody: PostPaymentSaveRequestDto = {
             rentUserId: loginUserId, 
-            rentSerialNumber: rentSerialNumber,
+            rentSerialNumber,
             rentPlace: rentSite, 
             rentReturnPlace: returnSite, 
             rentDatetime: dateTimeFormat(startDate), 
             rentReturnDatetime: dateTimeFormat(endDate),
-            rentTotalPrice : totalAmount,
-            rentStatus: rentStatus
-            }
+            rentTotalPrice: totalAmount,
+            rentStatus
+        };
 
-        setRentSite('')
-        setReturnSite('')
+        setRentSite('');
+        setReturnSite('');
         setRentStatus(true);
         setBasketItems([]);
         setTotalAmount(0);
-        setStartDate(new Date())
-        setEndDate(new Date())
+        setStartDate(new Date());
+        setEndDate(new Date());
+        setShow(false);
         
         if (!cookies.accessToken) return;
         postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
     };
 
-    //                    effect                    //
-    useEffect(() => {
-        
-    }, []);
-
-    //                    render                    //
     return (
         <div>
-            <button onClick={onPaymentButtonClickHandler}>결제하기</button>
+            <button className="payment-button" onClick={onPaymentButtonClickHandler}>결제하기</button>
         </div>
-    )
+    );
 }
 
 //                    component                    //
 export default function Rent() {
-    const navigator = useNavigate();
-
-    //                    state                    //
-    const [cookies] = useCookies();
     const [rentSelect, setRentSelect] = useState<string>('');
     const [returnSelect, setReturnSelect] = useState<string>('');
     const [rentItem, setRentItem] = useState<string>('');
 
-    // const {startDate, setStartDate, endDate, setEndDate} = useRentDateStore();
-
-    //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
         setRentSelect(rentSelect);
     };
     const onReturnChangeHandler = (returnSelect: string) => {
         setReturnSelect(returnSelect);
     };
-
     const onRentItemChangeHandler = (rentItem: string) => {
         setRentItem(rentItem);
-    }
+    };
 
-    //                    effect                    //
-    
-
-    
-    //                    render                    //
     return (
         <div id='rent-wrapper'>
             <div className='rent-left-side'>
-                <div className='rent-left-side-rental'>
-                    <RentSiteSelectBox value={rentSelect} onChange={onRentChangeHandler}/>
+                <div className='rent-left-side-site'>
+                    <RentSiteSelectBox value={rentSelect} onChange={onRentChangeHandler} />
                 </div>
-                <div className='rent-left-side-return'>
+                <div className='rent-left-side-site'>
                     <ReturnSiteSelectBox value={returnSelect} onChange={onReturnChangeHandler} />
                 </div>
-                <div className='rent-datetime-container'>
-                    <div className='rent-left-side-date'>날짜 및 시간</div>
+                <div className='rent-left-side-date'>
                     <ReactDatePicker />
                 </div>
             </div>
@@ -256,15 +191,10 @@ export default function Rent() {
             <div className='rent-right-side'>
                 <div className='rent-right-side-top-basket'>장바구니</div>
                 <div className='rent-right-side-basket'>
-                    <div className='rent-right-side-basket-set'>
-                        <Basket />
-                    </div>
+                    <Basket />
                 </div>
                 <div className='rent-right-side-payment'>
-                    <div className='rent-right-side-payment-box'>
-                        <Payment/>
-                        {/* <RentCheckout/> */}
-                    </div>
+                    <Payment />
                 </div>
             </div>
         </div>
