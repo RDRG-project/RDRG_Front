@@ -2,43 +2,60 @@ import React, { useEffect, useState } from 'react'
 import "./style.css";
 import { RentItem } from 'src/types';
 import { useNavigate } from 'react-router';
-import { COUNT_PER_PAGE, COUNT_PER_SECTION } from 'src/constants';
+import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, MYPAGE_DETAILS_ABSOLUTE_PATH, RENT_DETAIL_COUNT_PER_PAGE } from 'src/constants';
+import ResponseDto from 'src/apis/response.dto';
+import { GetMyRentPageResponseDto } from 'src/apis/payment/dto/response';
+import { getMyrentPageRequest } from 'src/apis/payment';
+import { useCookies } from 'react-cookie';
 
 //                    component                    //
-// function RentDetailItem({
-//     rentStatus,
-//     name,
-//     rentDatetime,
-//     rentReturnDatetime,
-//     totalPrice
-// }:RentItem) {
+function RentDetailItem({
+    rentNumber,
+    rentStatus,
+    name,
+    rentDatetime,
+    rentReturnDatetime,
+    totalPrice
+    }:RentItem) {
     //                    function                    //
-//     const navigator = useNavigate();
+    const navigator = useNavigate();
 
     //                    event handler                    //
-    // 대여 상세 페이지로 이동 헨들러 만들기
+    const onClickHandler = () => navigator(MYPAGE_DETAILS_ABSOLUTE_PATH(rentNumber));
 
     //                    render                    //
-//     return (
-//         <div className='mp-rent-detail-table'>
-//             {rentStatus ?
-//             <div className='mp-rent-detail-status-button'>대여중</div> :
-//             <div className='mp-rent-detail-status-button'>대여완료</div>
-//             }
-//             <div className='mp-rent-detail-name'>{name}</div>
-//             <div className='mp-rent-detail-rent-place'>대여일 : {rentDatetime}</div>
-//             <div className='mp-rent-detail-return-place'>반납일 : {rentReturnDatetime}</div>
-//             <div className='mp-rent-detail-total-price'>{totalPrice}</div>
-//             <div className='mp-rent-detail-rental'>대여상세</div>
-//         </div>
-//     );
-// }
+    const mainName = name[0];
+    const additionalCount = name.length - 1;
+    const displayName = additionalCount > 0 ? `${mainName} 외 ${additionalCount}건` : mainName;
+
+    return (
+        <div className='mp-rent-detail-table'>
+            <div className='mp-rent-detail-content'>
+                <div className='cs-status-primary-button'>{rentStatus}</div>
+                <div className='mp-rent-detail-name'>{displayName}</div>
+                <div className='mp-rent-detail-date'>
+                    <div className='mp-rent-detail-rent-place'>대여일 : {rentDatetime}</div>
+                    <div className='mp-rent-detail-return-place'>반납일 : {rentReturnDatetime}</div>
+                </div>
+                <div className='mp-rent-detail-table-bottom'>
+                    <div className='mp-rent-detail-total-price'>{totalPrice}원</div>
+                    <div className='mp-rent-detail-page-button' onClick={onClickHandler}>
+                        <div className='mp-rent-detail-rental'>대여상세</div>
+                        <div className='mp-rent-detail-next-button'></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 //                    component                    //
 export default function MypageRentDetail() {
 
     //                    state                    //
-    const [rentDetailList, setRentDetailList] = useState<RentItem[]>([]);
+    const [cookies] = useCookies();
+
+    const [rentList, setRent] = useState<RentItem[]>([]);
     const [viewList, setViewList] = useState<RentItem[]>([]);
     const [totalLength, setTotalLength] = useState<number>(0);
 
@@ -49,12 +66,14 @@ export default function MypageRentDetail() {
     const [totalPage, setTotalPage] = useState<number>(1);
 
     //                    function                    //
-    const changePage = (rentDetailList: RentItem[], totalLength: number) => {
+    const navigator = useNavigate();
+
+    const changePage = (rentList: RentItem[], totalLength: number) => {
         if (!currentPage) return;
-        const startIndex = (currentPage - 1) * COUNT_PER_PAGE;
-        let endIndex = currentPage * COUNT_PER_PAGE;
+        const startIndex = (currentPage - 1) * RENT_DETAIL_COUNT_PER_PAGE;
+        let endIndex = currentPage * RENT_DETAIL_COUNT_PER_PAGE;
         if (endIndex > totalLength - 1) endIndex = totalLength;
-        const viewList = rentDetailList.slice(startIndex, endIndex);
+        const viewList = rentList.slice(startIndex, endIndex);
         setViewList(viewList);
     };
 
@@ -67,6 +86,56 @@ export default function MypageRentDetail() {
         for (let page = startPage; page <= endPage; page++) pageList.push(page);
         setPageList(pageList);
     };
+
+    const changeRentList = (rentList: RentItem[]) => {
+        if (!rentList || rentList.length === 0) {
+            alert('대여 목록을 찾을 수 없습니다.');
+            return;
+        }
+
+        setRent(rentList);
+
+        const totalLength = rentList.length;
+        setTotalLength(totalLength);
+
+        const totalPage = Math.floor((totalLength - 1) / COUNT_PER_PAGE) + 1;
+        setTotalPage(totalPage);
+
+        const totalSection = Math.floor((totalPage - 1) / COUNT_PER_SECTION) + 1;
+        setTotalSection(totalSection);
+
+        changePage(rentList, totalLength);
+
+        changeSection(totalPage);
+    };
+
+    const getMyPageRentListResponseDto = (result : GetMyRentPageResponseDto | ResponseDto | null) =>{ 
+        if (!result) {
+            alert('서버에 문제가 있습니다.');
+            return;
+        }
+
+        const message =
+        result.code === 'VF' ? '인증에 실패했습니다.' : 
+        result.code === 'AF' ? '권한이 없습니다.' :
+        result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+
+        if (result.code !== 'SU') {
+        alert(message);
+        if (result?.code === 'AF') navigator(AUTH_ABSOLUTE_PATH);
+        return;
+        }
+
+        const { rentList } = result as GetMyRentPageResponseDto;
+        if (!rentList || !rentList.length) {
+            alert('대여 목록을 찾을 수 없습니다.');
+            return;
+        }    
+        changeRentList(rentList);
+
+        setCurrentPage(!rentList.length ? 0 : 1);
+        setCurrentSection(!rentList.length ? 0 : 1);
+    }
 
     //                    event handler                    //
     const onPreSectionClickHandler = () => {
@@ -103,70 +172,24 @@ export default function MypageRentDetail() {
 
     //                    effect                    //
     useEffect(() => {
-        if (!rentDetailList.length) return;
-        changePage(rentDetailList, totalLength);
+        if (!cookies.accessToken) return;
+        getMyrentPageRequest(cookies.accessToken).then(getMyPageRentListResponseDto);
+    }, []);
+
+    useEffect(() => {
+        if (!rentList.length) return;
+        changePage(rentList, totalLength);
     }, [currentPage]);
     
     useEffect(() => {
-        if (!rentDetailList.length) return;
+        if (!rentList.length) return;
         changeSection(totalPage);
     }, [currentSection]);
 
     //                    render                    //
     return (
         <div id='mp-rent-detail-wrapper'>
-            {/* {viewList.map(item => <RentDetailItem {...item}/>)} */}
-            <div className='mp-rent-detail-table'>
-                <div className='mp-rent-detail-content'>
-                    <div className='cs-status-primary-button'>대여중</div>
-                    <div className='mp-rent-detail-name'>삼성전자 갤럭시북4 울트라</div>
-                    <div className='mp-rent-detail-date'>
-                        <div className='mp-rent-detail-rent-place'>대여일 : 2024.05.28</div>
-                        <div className='mp-rent-detail-return-place'>반납일 : 2024.05.28</div>
-                    </div>
-                    <div className='mp-rent-detail-table-bottom'>
-                        <div className='mp-rent-detail-total-price'>50,000원</div>
-                        <div className='mp-rent-detail-page-button'>
-                            <div className='mp-rent-detail-rental'>대여상세</div>
-                            <div className='mp-rent-detail-next-button'></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='mp-rent-detail-table'>
-                <div className='mp-rent-detail-content'>
-                    <div className='cs-status-disable-button'>반납완료</div>
-                    <div className='mp-rent-detail-name'>네오스 짱구는 못말려! 탄광마을의 흰둥이 한글판</div>
-                    <div className='mp-rent-detail-date'>
-                        <div className='mp-rent-detail-rent-place'>대여일 : 2024.05.28</div>
-                        <div className='mp-rent-detail-return-place'>반납일 : 2024.05.28</div>
-                    </div>
-                    <div className='mp-rent-detail-table-bottom'>
-                        <div className='mp-rent-detail-total-price'>10,000원</div>
-                        <div className='mp-rent-detail-page-button'>
-                            <div className='mp-rent-detail-rental'>대여상세</div>
-                            <div className='mp-rent-detail-next-button'></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='mp-rent-detail-table'>
-                <div className='mp-rent-detail-content'>
-                    <div className='cs-status-disable-button'>반납완료</div>
-                    <div className='mp-rent-detail-name'>네오스 짱구는 못말려! 탄광마을의 흰둥이 한글판</div>
-                    <div className='mp-rent-detail-date'>
-                        <div className='mp-rent-detail-rent-place'>대여일 : 2024.05.28</div>
-                        <div className='mp-rent-detail-return-place'>반납일 : 2024.05.28</div>
-                    </div>
-                    <div className='mp-rent-detail-table-bottom'>
-                        <div className='mp-rent-detail-total-price'>10,000원</div>
-                        <div className='mp-rent-detail-page-button'>
-                            <div className='mp-rent-detail-rental'>대여상세</div>
-                            <div className='mp-rent-detail-next-button'></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {viewList.map(item => <RentDetailItem {...item}/>)}
             <div className='cs-list-bottom'>
                 <div className='cs-list-pagination'>
                     <div className='cs-list-page-pre-section' onClick={onPreSectionClickHandler}></div>

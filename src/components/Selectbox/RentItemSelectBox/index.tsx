@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.css'
-import { useBasketStore, useRentDateStore, useRentItemStore, useRentSiteStore, useReturnSiteStore } from 'src/stores/index';
+import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useReturnSiteStore, useTabletStore } from 'src/stores/index';
 import { DeviceListItem, ItRentList } from 'src/types';
 import { useNavigate } from 'react-router';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
@@ -9,7 +9,12 @@ import { useCookies } from 'react-cookie';
 import { AUTH_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
 import { getRentPossibilityListRequest } from 'src/apis/device';
 import { dateFormat } from 'src/utils';
+import useGameItStore from 'src/stores/gameIt.store';
 
+interface Prop {
+    value: string;
+    onChange: (value: string) => void;
+}
 
 //                    component                    //
 function RentItem ({  
@@ -60,16 +65,15 @@ export default function RentSelectBox({ value, onChange }: Prop) {
 
     //                    state                    //
     const [cookies] = useCookies();
-    const [selectListItItem, setSelectListItItem] = useState<boolean>(false);
-    const [notebookState, setNotebookState] = useState<boolean>(false);
-    const [tabletState, setTabletState] = useState<boolean>(false);
-    const [gameItState, setGameItState] = useState<boolean>(false);
-    const [externalBatteryState, setExternalBatteryState] = useState<boolean>(false);
+    const { selectListItItem,setSelectListItItem } = useRentListStore();
+    const { notebookState,setNotebookState } = useNoteBookStore();
+    const { tabletState,setTabletState } = useTabletStore();
+    const { gameItState, setGameItState } = useGameItStore();
+    const { externalBatteryState, setExternalBatteryState } = useBatteryStore();
 
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
     const { rentSite, setRentSite } = useRentSiteStore();
-    const { returnSite, setReturnSite } = useReturnSiteStore(); 
 
     const { startDate, endDate } = useRentDateStore()
 
@@ -82,7 +86,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         const message =
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'VF' ? '유효하지 않은 정보입니다.' : 
-            result.code === 'AF' ? '권한이 없습니다123.' :
+            result.code === 'AF' ? '권한이 없습니다.' :
             result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
         if (!result || result.code !== 'SU') {
@@ -105,8 +109,6 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const addItemButtonClickHandler = (item: ItRentList) => {
         setBasketItems([...basketItems, item]);
         setTotalAmount(totalAmount + item.price);
-        setRentSite(rentSite);
-        setReturnSite(returnSite);
     };
 
     const onNotebookButtonClickHandler = () => {

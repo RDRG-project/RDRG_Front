@@ -11,6 +11,7 @@ export interface RentalPeriod {
 }
 
 export interface RentItem {
+    rentNumber : number;
     name: string[];
     rentDatetime: string;
     rentReturnDatetime : string;
@@ -31,7 +32,7 @@ export interface DeviceListItem {
 }
 
 export interface ItRentList {
-    serialNumber?: string;
+    serialNumber: string;
     model: string;
     name: string;
     // 설명 부분 좀 손봐야함

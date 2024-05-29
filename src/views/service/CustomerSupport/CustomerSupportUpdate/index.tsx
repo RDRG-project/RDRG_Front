@@ -10,6 +10,7 @@ import { PutBoardRequestDto } from 'src/apis/board/dto/request';
 import useUserStore from 'src/stores/user.store';
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
 import axios from 'axios';
+import { convertUrlToFile } from 'src/utils';
 
 //                    component                    //
 export default function SupportUpdate() {
@@ -33,7 +34,7 @@ export default function SupportUpdate() {
     //                    function                    //
     const navigator = useNavigate();
 
-    const getBoardResponse = (result: GetBoardResponseDto | ResponseDto | null) => {
+    const getBoardResponse = async (result: GetBoardResponseDto | ResponseDto | null) => {
         const message =
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'VF' ? '올바르지 않은 접수 번호입니다.' :
@@ -62,7 +63,15 @@ export default function SupportUpdate() {
         setTitle(title);
         setContents(contents);
         setWriterId(writerId);
-        setImageUrls(imageUrl)
+        setImageUrls(imageUrl);
+
+        const fileUpload = [];
+
+        for (const url of imageUrl) {
+            fileUpload.push(await convertUrlToFile(url));
+        }
+        setFileUpload(fileUpload);
+
     };
 
     const putBoardResponse = (result: ResponseDto | null) => {
@@ -176,9 +185,11 @@ export default function SupportUpdate() {
 
     const onImageDeleteClickHandler = (index: number) => {
         // const updatedImageUrls = imageUrls.filter((_, idx) => idx !== index);
-        const updatedImageUrls = [...imageUrls];
-        updatedImageUrls.splice(index, 1);
+        const updatedImageUrls = imageUrls.filter((url, i) => i !== index);
+        const updateFileUpload = fileUpload.filter((file, i) => i !== index);
+
         setImageUrls(updatedImageUrls);
+        setFileUpload(updateFileUpload);
     };
 
     //                    effect                    //
