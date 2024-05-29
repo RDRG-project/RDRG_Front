@@ -10,6 +10,10 @@ import { AUTH_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
 import { getRentPossibilityListRequest } from 'src/apis/device';
 import { dateFormat } from 'src/utils';
 
+interface Prop {
+    value: string;
+    onChange: (value: string) => void;
+}
 
 //                    component                    //
 function RentItem ({  
@@ -69,7 +73,6 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
     const { rentSite, setRentSite } = useRentSiteStore();
-    const { returnSite, setReturnSite } = useReturnSiteStore(); 
 
     const { startDate, endDate } = useRentDateStore()
 
@@ -105,8 +108,6 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const addItemButtonClickHandler = (item: ItRentList) => {
         setBasketItems([...basketItems, item]);
         setTotalAmount(totalAmount + item.price);
-        setRentSite(rentSite);
-        setReturnSite(returnSite);
     };
 
     const onNotebookButtonClickHandler = () => {

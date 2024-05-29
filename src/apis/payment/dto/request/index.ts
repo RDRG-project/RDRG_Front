@@ -5,8 +5,8 @@ export interface PostPaymentSaveRequestDto {
     rentSerialNumber: string[];
     rentPlace: string;
     rentReturnPlace : string;
-    rentDatetime: Date | null;
-    rentReturnDatetime: Date | null;
+    rentDatetime: string;
+    rentReturnDatetime: string;
     rentTotalPrice : number;
     rentStatus:boolean;
 }

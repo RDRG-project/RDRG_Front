@@ -19,7 +19,7 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
     const [show, setShow] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<string>('');
 
-    const { rentSite, setRentSite } = useRentSiteStore();
+    const { setRentSite } = useRentSiteStore();
 
     const onButtonClickHandler = () => {
         setShow(!show);
@@ -28,7 +28,7 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
     //                    event handler                    //
     const onItemClickHandler = (itemValue: string) => {
         setSelectedItem(itemValue);
-        setRentSite(rentSite);
+        setRentSite(itemValue);
         onChange(itemValue);
         setShow(true);
     };
