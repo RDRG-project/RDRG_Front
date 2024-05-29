@@ -19,7 +19,7 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
     const [show, setShow] = useState<boolean>(false);
     const [selectedItem, setSelectedItem] = useState<string>('');
 
-    const { returnSite, setReturnSite } = useReturnSiteStore();
+    const { setReturnSite } = useReturnSiteStore();
 
     const onButtonClickHandler = () => {
         setShow(!show);
@@ -29,7 +29,7 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
     const onItemClickHandler = (value: string) => {
         setSelectedItem(value);
         onChange(value);
-        setReturnSite(returnSite);
+        setReturnSite(value);
         setShow(true);
     };
 

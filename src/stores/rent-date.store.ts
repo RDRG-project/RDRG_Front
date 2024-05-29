@@ -8,8 +8,8 @@ interface RentDateStore {
 }
 
 const useStore = create<RentDateStore>((set => ({
-    startDate: new Date,
-    endDate: new Date,
+    startDate: new Date(),
+    endDate: new Date(),
     setStartDate: (startDate: Date | null) => set(state => ({ ...state, startDate })),
     setEndDate: (endDate: Date | null) => set(state => ({ ...state, endDate })),
 })));
