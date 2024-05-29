@@ -24,12 +24,15 @@ function RentDetailItem({
     const onClickHandler = () => navigator(MYPAGE_DETAILS_ABSOLUTE_PATH(rentNumber));
 
     //                    render                    //
+    const mainName = name[0];
+    const additionalCount = name.length - 1;
+    const displayName = additionalCount > 0 ? `${mainName} 외 ${additionalCount}건` : mainName;
+
     return (
         <div className='mp-rent-detail-table'>
             <div className='mp-rent-detail-content'>
-                <div>{rentNumber}</div>
                 <div className='cs-status-primary-button'>{rentStatus}</div>
-                <div className='mp-rent-detail-name'>{name}</div>
+                <div className='mp-rent-detail-name'>{displayName}</div>
                 <div className='mp-rent-detail-date'>
                     <div className='mp-rent-detail-rent-place'>대여일 : {rentDatetime}</div>
                     <div className='mp-rent-detail-return-place'>반납일 : {rentReturnDatetime}</div>
@@ -52,7 +55,7 @@ export default function MypageRentDetail() {
     //                    state                    //
     const [cookies] = useCookies();
 
-    const [rentDetailList, setRentDetailList] = useState<RentItem[]>([]);
+    const [rentList, setRent] = useState<RentItem[]>([]);
     const [viewList, setViewList] = useState<RentItem[]>([]);
     const [totalLength, setTotalLength] = useState<number>(0);
 
@@ -65,12 +68,12 @@ export default function MypageRentDetail() {
     //                    function                    //
     const navigator = useNavigate();
 
-    const changePage = (rentDetailList: RentItem[], totalLength: number) => {
+    const changePage = (rentList: RentItem[], totalLength: number) => {
         if (!currentPage) return;
         const startIndex = (currentPage - 1) * RENT_DETAIL_COUNT_PER_PAGE;
         let endIndex = currentPage * RENT_DETAIL_COUNT_PER_PAGE;
         if (endIndex > totalLength - 1) endIndex = totalLength;
-        const viewList = rentDetailList.slice(startIndex, endIndex);
+        const viewList = rentList.slice(startIndex, endIndex);
         setViewList(viewList);
     };
 
@@ -84,14 +87,15 @@ export default function MypageRentDetail() {
         setPageList(pageList);
     };
 
-    const changeRentList = (rentDetailList: RentItem[]) => {
-        if (!rentDetailList) {
+    const changeRentList = (rentList: RentItem[]) => {
+        if (!rentList || rentList.length === 0) {
+            alert('대여 목록을 찾을 수 없습니다.');
             return;
         }
 
-        setRentDetailList(rentDetailList);
+        setRent(rentList);
 
-        const totalLength = rentDetailList.length;
+        const totalLength = rentList.length;
         setTotalLength(totalLength);
 
         const totalPage = Math.floor((totalLength - 1) / COUNT_PER_PAGE) + 1;
@@ -100,30 +104,37 @@ export default function MypageRentDetail() {
         const totalSection = Math.floor((totalPage - 1) / COUNT_PER_SECTION) + 1;
         setTotalSection(totalSection);
 
-        changePage(rentDetailList, totalLength);
+        changePage(rentList, totalLength);
 
         changeSection(totalPage);
     };
 
     const getMyPageRentListResponseDto = (result : GetMyRentPageResponseDto | ResponseDto | null) =>{ 
+        if (!result) {
+            alert('서버에 문제가 있습니다.');
+            return;
+        }
+
         const message =
-        !result ? '서버에 문제가 있습니다.' :
         result.code === 'VF' ? '인증에 실패했습니다.' : 
-        result.code === 'AF' ? '권한이 없습니다.' : 
-        result.code === 'FUF' ? '파일 업로드에 실패했습니다.' : 
+        result.code === 'AF' ? '권한이 없습니다.' :
         result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
-        if (!result || result.code !== 'SU') {
+        if (result.code !== 'SU') {
         alert(message);
         if (result?.code === 'AF') navigator(AUTH_ABSOLUTE_PATH);
         return;
         }
 
-        const { rent } = result as GetMyRentPageResponseDto;
-        changeRentList(rent);
+        const { rentList } = result as GetMyRentPageResponseDto;
+        if (!rentList || !rentList.length) {
+            alert('대여 목록을 찾을 수 없습니다.');
+            return;
+        }    
+        changeRentList(rentList);
 
-        setCurrentPage(!rent.length ? 0 : 1);
-        setCurrentSection(!rent.length ? 0 : 1);
+        setCurrentPage(!rentList.length ? 0 : 1);
+        setCurrentSection(!rentList.length ? 0 : 1);
     }
 
     //                    event handler                    //
@@ -166,12 +177,12 @@ export default function MypageRentDetail() {
     }, []);
 
     useEffect(() => {
-        if (!rentDetailList.length) return;
-        changePage(rentDetailList, totalLength);
+        if (!rentList.length) return;
+        changePage(rentList, totalLength);
     }, [currentPage]);
     
     useEffect(() => {
-        if (!rentDetailList.length) return;
+        if (!rentList.length) return;
         changeSection(totalPage);
     }, [currentSection]);
 

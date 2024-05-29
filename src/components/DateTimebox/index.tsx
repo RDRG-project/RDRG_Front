@@ -21,6 +21,7 @@ const datePickerProps = (selected: Date | null, startDate: Date | null, endDate:
     dateFormat: "yyyy년 MM월 dd일 HH시 mm분",
     showTimeSelect: true,
     timeIntervals: 60,
+    timeFormat: "HH:mm",
     minTime: setHours(setMinutes(new Date(), 0), 8),
     maxTime: setHours(setMinutes(new Date(), 0), 18),
     customInput: <ExampleCustomInput value={startDate ? startDate.toLocaleDateString() : ''} onClick={() => {}} />,
