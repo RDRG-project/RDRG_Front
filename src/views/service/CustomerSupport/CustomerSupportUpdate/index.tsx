@@ -10,6 +10,7 @@ import { PutBoardRequestDto } from 'src/apis/board/dto/request';
 import useUserStore from 'src/stores/user.store';
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
 import axios from 'axios';
+import { convertUrlToFile } from 'src/utils';
 
 //                    component                    //
 export default function SupportUpdate() {
@@ -33,7 +34,7 @@ export default function SupportUpdate() {
     //                    function                    //
     const navigator = useNavigate();
 
-    const getBoardResponse = (result: GetBoardResponseDto | ResponseDto | null) => {
+    const getBoardResponse = async (result: GetBoardResponseDto | ResponseDto | null) => {
         const message =
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'VF' ? '올바르지 않은 접수 번호입니다.' :
@@ -62,7 +63,15 @@ export default function SupportUpdate() {
         setTitle(title);
         setContents(contents);
         setWriterId(writerId);
-        setImageUrls(imageUrl)
+        setImageUrls(imageUrl);
+
+        const fileUpload = [];
+
+        for (const url of imageUrl) {
+            fileUpload.push(await convertUrlToFile(url));
+        }
+        setFileUpload(fileUpload);
+
     };
 
     const putBoardResponse = (result: ResponseDto | null) => {
@@ -128,13 +137,14 @@ export default function SupportUpdate() {
         const name = file.name;
         const url = URL.createObjectURL(file);
 
-        const uploadedFileCount = filePreviews.length;
+        const uploadedFileCount = filePreviews.length + imageUrls.length;
+
+        if (uploadedFileCount >= 3) {
+            alert('파일은 최대 3개까지 업로드할 수 있습니다.');
+            return;
+        }
 
         if (fileRevise !== null) {
-            if (uploadedFileCount >= 3) {
-                return;
-            }
-
             const fileUpdate = [...fileUpload];
             const showFile = [...filePreviews];
 
@@ -146,10 +156,6 @@ export default function SupportUpdate() {
                 setFileUpload(fileUpdate);
                 setFilePreviews(showFile);
         } else {
-            if (uploadedFileCount >= 3) {
-                return;
-            }
-            
             if (fileUpload.length < 3) {
                 setFileUpload([...fileUpload, file]);
                 setFilePreviews([...filePreviews, {name, url}]);
@@ -168,13 +174,22 @@ export default function SupportUpdate() {
         if (fileRef.current) {
             fileRef.current.click();
         }
-    }
+    };
+
+    const onFileDeleteButtonClickHandler = (index: number) => {
+        const fileUpdate = fileUpload.filter((_, i) => i !== index);
+        const showFileUpdate = filePreviews.filter((_, i) => i !== index);
+        setFileUpload(fileUpdate);
+        setFilePreviews(showFileUpdate);
+    };
 
     const onImageDeleteClickHandler = (index: number) => {
         // const updatedImageUrls = imageUrls.filter((_, idx) => idx !== index);
-        const updatedImageUrls = [...imageUrls];
-        updatedImageUrls.splice(index, 1);
+        const updatedImageUrls = imageUrls.filter((url, i) => i !== index);
+        const updateFileUpload = fileUpload.filter((file, i) => i !== index);
+
         setImageUrls(updatedImageUrls);
+        setFileUpload(updateFileUpload);
     };
 
     //                    effect                    //
@@ -218,19 +233,20 @@ export default function SupportUpdate() {
                                 <button onClick={() => onImageDeleteClickHandler(index)}>삭제</button>
                             </div>
                             )) : (
-                            <p>첨부된 파일이 없습니다.</p>
+                            <p style={{margin: '10px' , color: 'red'}}>첨부된 파일이 없습니다.</p>
                             )}
                         </div>
                     </div>
                     <div>
                         <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
-                        <div style={{ padding: '12px', display: 'line-block', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>추가</div>
+                        <div style={{ margin: '5px 0px' ,padding: '10px', display: 'line-block' , color: 'white' , backgroundColor: 'green' }} onClick={onFileUploadButtonClickHandler}>클릭해서 추가로 파일을 첨부합니다.</div>
                         <div>
                         {filePreviews.map((preview, index) => (
                             <div key={index}>
                                 <img src={preview.url} alt={preview.name} width="70" height="50"/>
                                 <p>{preview.name}</p>
                                 <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
+                                <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
                             </div>
                         ))}
                         </div>

@@ -21,11 +21,11 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
 
     const { setRentSite } = useRentSiteStore();
 
+    //                    event handler                    //
     const onButtonClickHandler = () => {
         setShow(!show);
     };
 
-    //                    event handler                    //
     const onItemClickHandler = (itemValue: string) => {
         setSelectedItem(itemValue);
         setRentSite(itemValue);
@@ -33,6 +33,10 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
         setShow(true);
     };
 
+    //                    effect                    //
+    useEffect(() => {
+    setSelectedItem(value || ''); // value 값이 존재하지 않을 때를 대비하여 빈 문자열("")을 사용합니다.
+}, [value]);
     //                    render                    //
     return (
         <div className='select-box'>
@@ -41,7 +45,7 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
             {show &&
                 <div className='select-list'>
                     {RentSiteListItem.map((item) =>
-                        <div
+                        <div 
                             key={item.value}
                             className={selectedItem === item.value ? 'select-list-item-selected' : 'select-list-item-box'}
                             onClick={() => onItemClickHandler(item.value)}>
@@ -53,3 +57,5 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
         </div>
     );
 }
+
+
