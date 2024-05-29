@@ -1,207 +1,80 @@
 import React, { useEffect, useState } from 'react'
 import "./style.css";
-import { RentItem } from 'src/types';
-import { useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, MYPAGE_DETAILS_ABSOLUTE_PATH, RENT_DETAIL_COUNT_PER_PAGE } from 'src/constants';
+import { GetRentDetailResponseDto } from 'src/apis/payment/dto/response';
 import ResponseDto from 'src/apis/response.dto';
-import { GetMyRentPageResponseDto } from 'src/apis/payment/dto/response';
-import { getMyrentPageRequest } from 'src/apis/payment';
+import { HOME_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
+import { useNavigate, useParams } from 'react-router';
+import { RentDetailList } from 'src/types';
 import { useCookies } from 'react-cookie';
-
-//                    component                    //
-function RentDetailItem({
-    rentNumber,
-    rentStatus,
-    name,
-    rentDatetime,
-    rentReturnDatetime,
-    totalPrice
-    }:RentItem) {
-    //                    function                    //
-    const navigator = useNavigate();
-
-    //                    event handler                    //
-    const onClickHandler = () => navigator(MYPAGE_DETAILS_ABSOLUTE_PATH(rentNumber));
-
-    //                    render                    //
-    const mainName = name[0];
-    const additionalCount = name.length - 1;
-    const displayName = additionalCount > 0 ? `${mainName} 외 ${additionalCount}건` : mainName;
-
-    return (
-        <div className='mp-rent-detail-table'>
-            <div className='mp-rent-detail-content'>
-                <div className='cs-status-primary-button'>{rentStatus}</div>
-                <div className='mp-rent-detail-name'>{displayName}</div>
-                <div className='mp-rent-detail-date'>
-                    <div className='mp-rent-detail-rent-place'>대여일 : {rentDatetime}</div>
-                    <div className='mp-rent-detail-return-place'>반납일 : {rentReturnDatetime}</div>
-                </div>
-                <div className='mp-rent-detail-table-bottom'>
-                    <div className='mp-rent-detail-total-price'>{totalPrice}원</div>
-                    <div className='mp-rent-detail-page-button' onClick={onClickHandler}>
-                        <div className='mp-rent-detail-rental'>대여상세</div>
-                        <div className='mp-rent-detail-next-button'></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
+import { getRentDetailRequest } from 'src/apis/payment';
 
 //                    component                    //
 export default function MypageRentDetail() {
 
     //                    state                    //
+    const {rentNumber} = useParams();
+
     const [cookies] = useCookies();
-
-    const [rentList, setRent] = useState<RentItem[]>([]);
-    const [viewList, setViewList] = useState<RentItem[]>([]);
-    const [totalLength, setTotalLength] = useState<number>(0);
-
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [currentSection, setCurrentSection] = useState<number>(1);
-    const [pageList, setPageList] = useState<number[]>([1]);
-    const [totalSection, setTotalSection] = useState<number>(1);
-    const [totalPage, setTotalPage] = useState<number>(1);
+    const [rent, setRent] = useState<RentDetailList[]>([]);
+    const [rentDatetime, setRentDatetime] = useState<string>('');
+    const [rentReturnDatetime, setRentReturnDatetime] = useState<string>('');
+    const [rentStatus, setRentStatus] = useState<boolean>(false);
+    const [rentTotalPrice, setRentTotalPrice] = useState<number>(0);
 
     //                    function                    //
     const navigator = useNavigate();
 
-    const changePage = (rentList: RentItem[], totalLength: number) => {
-        if (!currentPage) return;
-        const startIndex = (currentPage - 1) * RENT_DETAIL_COUNT_PER_PAGE;
-        let endIndex = currentPage * RENT_DETAIL_COUNT_PER_PAGE;
-        if (endIndex > totalLength - 1) endIndex = totalLength;
-        const viewList = rentList.slice(startIndex, endIndex);
-        setViewList(viewList);
-    };
-
-    const changeSection = (totalPage: number) => {
-        if (!currentSection) return;
-        const startPage = (currentSection * COUNT_PER_SECTION) - (COUNT_PER_SECTION - 1);
-        let endPage = currentSection * COUNT_PER_SECTION;
-        if (endPage > totalPage) endPage = totalPage;
-        const pageList: number[] = [];
-        for (let page = startPage; page <= endPage; page++) pageList.push(page);
-        setPageList(pageList);
-    };
-
-    const changeRentList = (rentList: RentItem[]) => {
-        if (!rentList || rentList.length === 0) {
-            alert('대여 목록을 찾을 수 없습니다.');
-            return;
-        }
-
-        setRent(rentList);
-
-        const totalLength = rentList.length;
-        setTotalLength(totalLength);
-
-        const totalPage = Math.floor((totalLength - 1) / COUNT_PER_PAGE) + 1;
-        setTotalPage(totalPage);
-
-        const totalSection = Math.floor((totalPage - 1) / COUNT_PER_SECTION) + 1;
-        setTotalSection(totalSection);
-
-        changePage(rentList, totalLength);
-
-        changeSection(totalPage);
-    };
-
-    const getMyPageRentListResponseDto = (result : GetMyRentPageResponseDto | ResponseDto | null) =>{ 
-        if (!result) {
-            alert('서버에 문제가 있습니다.');
-            return;
-        }
-
+    const getRentDetailResponse = (result : GetRentDetailResponseDto | ResponseDto | null) => {
         const message =
-        result.code === 'VF' ? '인증에 실패했습니다.' : 
-        result.code === 'AF' ? '권한이 없습니다.' :
-        result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+            !result ? '서버에 문제가 있습니다.' :
+            result.code === 'VF' ? '잘못된 대여번호입니다.' : 
+            result.code === 'AF' ? '권한이 없습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
-        if (result.code !== 'SU') {
-        alert(message);
-        if (result?.code === 'AF') navigator(AUTH_ABSOLUTE_PATH);
-        return;
-        }
-
-        const { rentList } = result as GetMyRentPageResponseDto;
-        if (!rentList || !rentList.length) {
-            alert('대여 목록을 찾을 수 없습니다.');
+        if (!result || result.code !== 'SU') {
+            alert(message);
+            if (result?.code === 'AF') {
+                navigator(HOME_ABSOLUTE_PATH);
+                return;
+            }
+            navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH);
             return;
-        }    
-        changeRentList(rentList);
-
-        setCurrentPage(!rentList.length ? 0 : 1);
-        setCurrentSection(!rentList.length ? 0 : 1);
-    }
-
-    //                    event handler                    //
-    const onPreSectionClickHandler = () => {
-        if (currentSection <= 1) return;
-        setCurrentSection(currentSection - 1);
-        setCurrentPage((currentSection - 1) * COUNT_PER_SECTION);
-    };
-
-    const onNextSectionClickHandler = () => {
-        if (currentSection === totalSection) return;
-        setCurrentSection(currentSection + 1);
-        setCurrentPage(currentSection * COUNT_PER_SECTION + 1);
-    };
-
-    const onPrePageClickHandler = () => {
-        if (currentPage <= 1) return;
-        if ((currentPage - 1) % COUNT_PER_SECTION === 0) {
-            setCurrentSection(currentSection - 1);
         }
-        setCurrentPage(currentPage - 1);
-    };
-
-    const onNextPageClickHandler = () => {
-        if (currentPage === totalPage) return;
-        if (currentPage % COUNT_PER_SECTION === 0) {
-            setCurrentSection(currentSection + 1);
-        }
-        setCurrentPage(currentPage + 1);
-    };
-
-    const onPageClickHandler = (page: number) => {
-        setCurrentPage(page);
+        
+        const {rentDetailList, rentDatetime, rentReturnDatetime, rentStatus, rentTotalPrice} = result as GetRentDetailResponseDto;
+        setRent(rentDetailList);
+        setRentDatetime(rentDatetime);
+        setRentReturnDatetime(rentReturnDatetime);
+        setRentStatus(rentStatus);
+        setRentTotalPrice(rentTotalPrice);
     };
 
     //                    effect                    //
     useEffect(() => {
-        if (!cookies.accessToken) return;
-        getMyrentPageRequest(cookies.accessToken).then(getMyPageRentListResponseDto);
+        if (!cookies.accessToken || !rentNumber) return;
+        getRentDetailRequest(rentNumber, cookies.accessToken).then(getRentDetailResponse);
     }, []);
-
-    useEffect(() => {
-        if (!rentList.length) return;
-        changePage(rentList, totalLength);
-    }, [currentPage]);
-    
-    useEffect(() => {
-        if (!rentList.length) return;
-        changeSection(totalPage);
-    }, [currentSection]);
 
     //                    render                    //
     return (
-        <div id='mp-rent-detail-wrapper'>
-            {viewList.map(item => <RentDetailItem {...item}/>)}
-            <div className='cs-list-bottom'>
-                <div className='cs-list-pagination'>
-                    <div className='cs-list-page-pre-section' onClick={onPreSectionClickHandler}></div>
-                    <div className='cs-list-page-left' onClick={onPrePageClickHandler}></div>
-                    <div className='cs-list-page-box'>
-                        {pageList.map(page => page === currentPage ? <div className='cs-list-page-active'>{page}</div> : 
-                        <div className='cs-list-page' onClick={() => onPageClickHandler(page)}>{page}</div>
-                        )}
-                    </div>
-                    <div className='cs-list-page-right' onClick={onNextPageClickHandler}></div>
-                    <div className='cs-list-page-next-section' onClick={onNextSectionClickHandler}></div>
+        <div className="rental-details">
+            <div>대여 상세 내역</div>
+            <div className="rental-info">
+                <div className='rental-content'>
+                {rent.map((item, index) => (
+                        <p key={index}>{item.name} <span>{item.price}원</span></p>
+                ))}
                 </div>
+                <div className="summary">총합계 : {rentTotalPrice}원</div>
+                <div className="rental-spot">
+                    <p>대여일 : {rentDatetime} 반납일 : {rentReturnDatetime}</p>
+                    <p>대여지점 : 부산 반납지점 : 서울</p>
+                </div>
+            </div>
+            <div className="payment-info">
+                <p>결제번호 24154212313244</p>
+                <p>카드정보 0000 0000 **** ****</p>
+                <p>결제금액 500000원</p>
             </div>
         </div>
     );
