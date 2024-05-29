@@ -1,31 +1,26 @@
-import { useState } from "react";
-import './style.css'
-import { useBasketStore, useRentSiteStore, useReturnSiteStore } from "src/stores/index";
+import { useState } from 'react';
+import './style.css';
+import { useReturnSiteStore, useSiteShowStore } from 'src/stores';
 
-//                    interface                    //
 interface Prop {
     value: string;
     onChange: (value: string) => void;
 }
 
-//                    component                    //
 export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
     const RentSiteListItem = [
         { name: '서울', value: 'SEOUL' },
         { name: '부산', value: 'BUSAN' }
     ];
 
-    //                    state                    //
-    const [show, setShow] = useState<boolean>(false);
+    const { show, setShow } = useSiteShowStore();
     const [selectedItem, setSelectedItem] = useState<string>('');
-
     const { setReturnSite } = useReturnSiteStore();
 
     const onButtonClickHandler = () => {
         setShow(!show);
     };
 
-    //                    event handler                    //
     const onItemClickHandler = (value: string) => {
         setSelectedItem(value);
         onChange(value);
@@ -33,10 +28,9 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
         setShow(true);
     };
 
-    //                    render                    //
     return (
         <div className='select-box'>
-            <div className='select-item'>반납지점</div>
+            <div className='select-item-title'>반납지점</div>
             <div className={show ? 'select-close-button' : 'select-open-button'} onClick={onButtonClickHandler}></div>
             {show &&
                 <div className='select-list'>
