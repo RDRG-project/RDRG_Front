@@ -23,6 +23,8 @@ export default function SupportWrite() {
     const [filePreviews, setFilePreviews] = useState<{name: string, url: string}[]>([]);
     const [fileRevise, setFileRevise] = useState<number | null>(null);
 
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
     //                    function                    //
     const navigator = useNavigate();
 
@@ -70,7 +72,9 @@ export default function SupportWrite() {
         for (const file of fileUpload) {
             const data = new FormData();
             data.append('file', file);
-            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } }).then(response => response.data as string).catch(error => null);
+            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } })
+                .then(response => response.data as string)
+                .catch(error => null);
             if (!url) continue;
             
             urlList.push(url);
@@ -81,34 +85,53 @@ export default function SupportWrite() {
         postBoardRequest(requestBody, cookies.accessToken).then(postBoardResponse);
     };
 
-    // const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    //     const fileUpload = event.target.files;
-    //     setFileUpload(fileUpload);
-    // };
-
+    // 첨부파일 업로드에 관힌 Handler
     const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || !event.target.files.length) return;
-        const file = event.target.files[0];
-        const name = file.name;
-        const url = URL.createObjectURL(file);
+        uploadedFile(Array.from(event.target.files));
+    };
+
+    const uploadedFile = (files: File[]) => {
+        const filePreviewsToAdd = files.map(file => {
+            return { name: file.name, url: URL.createObjectURL(file) };
+        });
 
         if (fileRevise !== null) {
             const fileUpdate = [...fileUpload];
             const showFile = [...filePreviews];
 
             if (fileRevise < 3) {
-                fileUpdate[fileRevise] = file;
-                showFile[fileRevise] = { name, url };
+                files.forEach((file, index) => {
+                    fileUpdate[fileRevise + index] = file;
+                    showFile[fileRevise + index] = filePreviewsToAdd[index];
+                });
+
                 setFileRevise(null);
                 setFileUpload(fileUpdate);
                 setFilePreviews(showFile);
             }
         } else {
-            if (fileUpload.length < 3) {
-                setFileUpload([...fileUpload, file]);
-                setFilePreviews([...filePreviews, {name, url}]);
+            if (fileUpload.length + files.length <= 3) {
+                setFileUpload([...fileUpload, ...files]);
+                setFilePreviews([...filePreviews, ...filePreviewsToAdd]);
             }
         } 
+    };
+
+    const onDragOverHandler = (event: React.DragEvent) => {
+        event.preventDefault();
+    };
+
+    const onDropHandler = (event: React.DragEvent) => {
+        event.preventDefault();
+        const files = Array.from(event.dataTransfer.files);
+        uploadedFile(files);
+    };
+
+    const onFileUploadButtonClickHandler = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
     };
 
 
@@ -117,12 +140,6 @@ export default function SupportWrite() {
         const showFileUpdate = filePreviews.filter((_, i) => i !== index);
         setFileUpload(fileUpdate);
         setFilePreviews(showFileUpdate);
-    };
-
-
-    const onFileUploadButtonClickHandler = () => {
-        if (!fileRef.current) return;
-        fileRef.current.click();
     };
 
     const onFileReviseButtonClickHandler = (index: number) => {
@@ -163,29 +180,37 @@ export default function SupportWrite() {
                             <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요 / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
                         </div>
                     </div>
-                    <input ref={fileRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler}/>
-                    <div style={{ padding: '12px', display: 'line-block', width: 'fit-content' }} onClick={onFileUploadButtonClickHandler}>파일 첨부</div>
+
+                    <div className="cs-write-bottom">
+                        <div className='cs-write-bottom-title'>첨부파일</div>
+                        <input ref={fileInputRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler}/>
+                        <div 
+                            style={{ border: '2px dashed', padding: '10px', color: 'red', width: '88%'}}
+                            onDrop={onDropHandler}
+                            onDragOver={onDragOverHandler}
+                            onClick={onFileUploadButtonClickHandler} >
+                            드래그 앤 드롭으로 파일을 여기에 넣으세요.
+                            &nbsp;&nbsp;단, 파일 첨부는 최대 3개까지 가능합니다.
+                        </div>
+                    </div>
+
                     <div>
                         {filePreviews.map((preview, index) => (
                             <div key={index} >
                                 <img src={preview.url} alt={preview.name} width="70" height="50"/>
                                 <p>{preview.name}</p>
                                 <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
-                            </div>
-                        ))}
-                        {filePreviews.map((file, index) => (
-                            <div key={index}>
-                                <a href={file.url} ></a>
                                 <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
                             </div>
                         ))}
                     </div>
                 </div>
+
                 <div className="cs-write-button">
                     <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
                     <div className='customer-support-button' onClick={onPostButtonClickHandler}>올리기</div>
                 </div>
             </div>
         </>
-        );
+    );
 };
