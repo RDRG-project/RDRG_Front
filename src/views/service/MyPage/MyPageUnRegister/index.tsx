@@ -1,21 +1,87 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import InputBox from 'src/components/Inputbox'
 import './style.css'
+import { useUserStore } from 'src/stores';
+import { useCookies } from 'react-cookie';
+import { deleteUserRequest } from 'src/apis/user';
+import ResponseDto from 'src/apis/response.dto';
+import { HOME_ABSOLUTE_PATH } from 'src/constants';
+import { useNavigate } from 'react-router';
+import { deleteBoardRequest } from 'src/apis/board';
 
 export default function MypageUnRegister() {
 
     //                    state                    //
+    const { loginUserId, loginUserRole, logoutUser } = useUserStore();
+
+    const [ cookies, setCookies, removeCookies ] = useCookies();
+    
     const [password, setPassword] = useState<string>('');
+    const [userId, setUserId] = useState<string>('');
+    const [isChecked ,setIsChecked] = useState<boolean>(false);
     
     const [message, setMessage] = useState<string>('');
 
+    //                    function                    //
+
+    const navigator = useNavigate();
+
+    const deleteUserResponse = (result: ResponseDto | null) => {
+        console.log(result);
+
+        const message =
+            !result ? '서버에 문제가 있습니다.' :
+            result.code === 'VF' ? '잘못된 계정 정보 슴돠.' :
+            result.code === 'AF' ? '권한이 없슴돠.' :
+            result.code === 'DBE' ? '서버에 문제가 있슴돠.' : '';
+
+        if (!result || result.code !== 'SU') {
+            alert(message);
+            return;
+        }
+
+        logoutUser();
+        removeCookies('accessToken');
+        navigator(HOME_ABSOLUTE_PATH);
+
+    };
+
+
     //                    event handler                    //
 
-    // 회원 탈퇴 
+    // 비밀번호 대조(구?현)
     const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
         setMessage('');
-    }
+    };
+
+    const onCheckBoxHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setIsChecked(event.target.checked);
+    };    
+    
+
+
+    // 회원 탈퇴 
+    const userDeleteClickHandler = () => {
+
+        if (loginUserId !== userId) return;
+        const isConfirm = window.confirm('레알 삭제함?')
+
+        if (!isConfirm) return;
+
+        deleteUserRequest(userId, cookies.accessToken).then(deleteUserResponse);
+
+    };
+
+        //                    effect                    //
+
+        useEffect(() => {
+            if (loginUserId) {
+                setUserId(loginUserId);
+            }
+        }, [loginUserId]);
+    
+
 
     //                    render                    //
     return (
@@ -34,11 +100,13 @@ export default function MypageUnRegister() {
                 </div>
             </div>
             <div className='unregister-contents-password'>
-            <InputBox label="현재 비밀번호" type="password" value={password} placeholder="계정을 삭제하려면 현재 비밀번호를 입력해주세요." onChangeHandler={onPasswordChangeHandler} />
+            {/* <InputBox label="현재 비밀번호" type="password" value={password} placeholder="계정을 삭제하려면 현재 비밀번호를 입력해주세요." onChangeHandler={onPasswordChangeHandler} /> */}
             </div>
             <div className='unregister-contents-message'>계정삭제시 모든 게시물이 삭제되며 복구 불가능합니다.</div>
-            <div className='checkbox-container'><input type="checkbox"/>동의합니다.</div>
-            <button className='final-check-button'>탈 퇴 하 기</button>
+            <div className='checkbox-container'>
+                <input type= "Checkbox" onChange={onCheckBoxHandler} />동의합니다.
+            </div>
+            <button className='final-check-button' onClick={userDeleteClickHandler} disabled={!isChecked}>탈 퇴 하 기</button>
         </div>
-    )
+    );
 }

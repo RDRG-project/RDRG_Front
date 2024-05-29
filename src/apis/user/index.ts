@@ -30,8 +30,8 @@ export const patchPasswordRequest = async(requestBody:ChangePWRequestDto , acces
 };
 
 // function : 회원 탈퇴 API 함수
-export const deleteUserRequest = async (userId: string,accessToken: string) => {
-    const result = await axios.delete(DELETE_USER_URL(userId))
+export const deleteUserRequest = async (userId: string, accessToken: string) => {
+    const result = await axios.delete(DELETE_USER_URL(userId), bearerAuthorization(accessToken))
         .then(requestHandler<ResponseDto>)
         .catch(requestErrorHandler)
     return result;
