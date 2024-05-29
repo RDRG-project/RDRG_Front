@@ -19,6 +19,11 @@ export interface RentItem {
     rentStatus: boolean;
 }
 
+export interface RentDetailList{
+    name : string;
+    price : number;
+}
+
 // description device (DeviceListResponseDto)의 interface
 export interface DeviceListItem {
     serialNumber: string;

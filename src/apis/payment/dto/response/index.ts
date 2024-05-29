@@ -1,5 +1,5 @@
 import ResponseDto from "src/apis/response.dto";
-import { RentItem, RentalPeriod } from "src/types";
+import { RentDetailList, RentItem, RentalPeriod } from "src/types";
 
 export interface ReserveResponseDto extends ResponseDto {
     userId: string;
@@ -10,4 +10,13 @@ export interface ReserveResponseDto extends ResponseDto {
 
 export interface GetMyRentPageResponseDto extends ResponseDto {
     rentList: RentItem[];
+}
+
+export interface GetRentDetailResponseDto extends ResponseDto {
+    rentNumber : number;
+    rentDetailList : RentDetailList[];
+    rentDatetime : string;
+    rentReturnDatetime : string;
+    rentStatus : boolean;
+    rentTotalPrice : number;
 }
