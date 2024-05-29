@@ -68,4 +68,12 @@
 
     background-color:rgba(60, 60, 60, 0.7);
     color:aliceblue;
+
+    cursor: pointer;
+}
+
+.final-check-button:active {
+    margin-left: 5px;
+    margin-top: 5px;
+    box-shadow: none;
 }
