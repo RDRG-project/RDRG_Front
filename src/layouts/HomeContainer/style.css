@@ -115,6 +115,8 @@
     font-weight: 400;
     line-height: normal;
     color: rgba(217,217,217,1);
+
+    cursor: pointer;
 }
 
 .foot-bar-content{
@@ -180,4 +182,8 @@
     font-weight: 400;
     line-height: normal;
     color: rgba(217,217,217,1);
+}
+
+.customer-service-shortcut{
+    cursor: pointer;
 }

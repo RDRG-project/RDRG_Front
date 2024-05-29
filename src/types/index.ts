@@ -11,6 +11,7 @@ export interface RentalPeriod {
 }
 
 export interface RentItem {
+    rentNumber : number;
     name: string[];
     rentDatetime: string;
     rentReturnDatetime : string;

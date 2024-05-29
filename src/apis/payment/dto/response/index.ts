@@ -8,6 +8,6 @@ export interface ReserveResponseDto extends ResponseDto {
     rentTotalPrice: number;
 }
 
-export interface RentPageResponseDto extends ResponseDto {
+export interface GetMyRentPageResponseDto extends ResponseDto {
     rent: RentItem[];
 }
