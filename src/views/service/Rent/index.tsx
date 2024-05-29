@@ -4,7 +4,7 @@ import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import { useBasketStore, useRentDateStore, useRentItemStore, useRentSiteStore, useReturnSiteStore, useUserStore } from 'src/stores/index';
+import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useReturnSiteStore, useTabletStore, useTotalRentTimeStore, useUserStore } from 'src/stores/index';
 import ReactDatePicker from 'src/components/DateTimebox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import { useNavigate } from 'react-router';
@@ -12,6 +12,8 @@ import { postPaymentSaveRequest } from 'src/apis/payment';
 import { PostPaymentSaveRequestDto } from 'src/apis/payment/dto/request';
 import ResponseDto from 'src/apis/response.dto';
 import { dateFormat, dateTimeFormat } from 'src/utils';
+import useGameItStore from 'src/stores/gameIt.store';
+import { differenceInHours } from 'date-fns';
 
 //                    component                    //
 function Basket() {
@@ -24,6 +26,50 @@ function Basket() {
 
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
+
+    // const { setSelectListItItem } = useRentListStore();
+    const { setNotebookState } = useNoteBookStore();
+    const { setTabletState } = useTabletStore();
+    const { setGameItState } = useGameItStore();
+    const { setExternalBatteryState } = useBatteryStore();
+    const { totalRentTime, setTotalRentTime } = useTotalRentTimeStore();
+
+    // 총 대여 기간을 상태로 관리
+    const [rentDuration, setRentDuration] = useState<{ days: number; hours: number }>({ days: 0, hours: 0 });
+
+    //                    function                    //
+     // 대여 기간을 계산하는 함수
+    const calculateRentDuration = (startDate: Date, endDate: Date) => {
+        const durationInHours = differenceInHours(endDate, startDate); // 대여 기간을 시간 단위로 계산
+        const durationInDays = Math.ceil(durationInHours / 24); // 시간을 일 단위로 변환 후 올림
+        
+        return { days: durationInDays, hours: durationInHours % 24 };
+    };
+
+    // 대여 기간에 따른 물품의 가격을 계산하는 함수
+    const calculateItemPrice = (basePrice: number, startDate: Date | null, endDate: Date | null): number => {
+        if (!startDate || !endDate) {
+            // 대여 기간이 제대로 설정되지 않은 경우
+            return 0; // 또는 다른 값을 반환할 수 있습니다.
+        }
+    
+        // 대여 기간 계산
+        const rentalHours = differenceInHours(endDate, startDate);
+    
+        // 시간당 가격으로 계산
+        const totalPrice = basePrice * rentalHours;
+    
+        return totalPrice;
+    };
+
+    // 대여 기간에 따른 물품 가격 총합 계산
+    const calculateTotalPrice = () => {
+        let totalPrice = 0;
+        basketItems.forEach(item => {
+            totalPrice += calculateItemPrice(item.price, startDate, endDate);
+        });
+        return totalPrice;
+    };
 
     //                    event handler                    //
     const removeItemButtonClickHandler = (index: number) => {
@@ -40,6 +86,12 @@ function Basket() {
 
         setBasketItems([]);
         setTotalAmount(0);
+        // setSelectListItItem(false)
+        setNotebookState(false);
+        setTabletState(false);
+        setGameItState(false);
+        setExternalBatteryState(false);
+        setTotalRentTime('');
     };
 
     //                    effect                    //
@@ -47,15 +99,23 @@ function Basket() {
     //     setStartDate(startDate);
     // }, [startDate])
 
+    // 대여 날짜가 변경될 때마다 총 대여 기간 계산
+    useEffect(() => {
+        if (startDate && endDate) {
+            const duration = calculateRentDuration(startDate, endDate);
+            setRentDuration(duration);
+        }
+    }, [startDate, endDate]);
+
     //                    render                    //
     return (
         <div className='selected-type-wrapper'>
             <div className='basket-items'>
                 {basketItems.map((item, index) => (
-                <div key={index} className='basket-item'>
-                {item.name}: {item.price.toLocaleString()}원               
-                <button onClick={() => removeItemButtonClickHandler(index)}>Remove</button>
-                </div>
+                    <div key={index} className='basket-item'>
+                        {item.name}: {calculateItemPrice(item.price, startDate, endDate).toLocaleString()}원               
+                        <button onClick={() => removeItemButtonClickHandler(index)}>Remove</button>
+                    </div>
                 ))}
             </div>
             <div className='payment-box'>
@@ -66,13 +126,12 @@ function Basket() {
                     </div>
                 </div>
                 <div className='payment-bottom-box'>
-                <div className='payment-sum'>총 합계금액: {totalAmount.toLocaleString()}원</div>
+                <div className='payment-sum'>총 합계금액: {calculateTotalPrice().toLocaleString()}원</div>
                 </div>
             </div>
         </div>
     );
 }
-
 
 //                    component                    //
 function Payment() {
@@ -80,9 +139,9 @@ function Payment() {
     //                    state                    //
     const [cookies] = useCookies();
     const { loginUserId } = useUserStore();
-    const { rentSite } = useRentSiteStore();
-    const { returnSite } = useReturnSiteStore(); 
-    const { startDate, endDate } = useRentDateStore();
+    const { rentSite, setRentSite } = useRentSiteStore();
+    const { returnSite, setReturnSite } = useReturnSiteStore(); 
+    const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
     const [ rentStatus, setRentStatus ] = useState<boolean>(false);
@@ -122,6 +181,15 @@ function Payment() {
             rentTotalPrice : totalAmount,
             rentStatus: rentStatus
             }
+
+        setRentSite('')
+        setReturnSite('')
+        setRentStatus(true);
+        setBasketItems([]);
+        setTotalAmount(0);
+        setStartDate(new Date())
+        setEndDate(new Date())
+        
         if (!cookies.accessToken) return;
         postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
     };
