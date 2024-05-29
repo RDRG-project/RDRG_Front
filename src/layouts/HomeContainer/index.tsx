@@ -156,6 +156,9 @@ export default function RdrgContainer() {
     const onPlaceClickHandler = () => {navigator(HOME_PLACE_ABSOLUTE_PATH);
     };
 
+    const onCustomerSupportClickHandler = () => {navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH)
+    };
+
     //                    render                    //
     return (
     <div id='rdrg-wrapper'>
@@ -195,7 +198,7 @@ export default function RdrgContainer() {
               <div className='customer-service'>
                 <div className='customer-service-title'>고객센터</div>
                 <div className='customer-service-time'>운영시간 : 평일 09:00~18:00</div>
-                <div className='customer-service-shortcut'>고객센터 바로가기</div>
+                <div className='customer-service-shortcut' onClick={onCustomerSupportClickHandler}>고객센터 바로가기</div>
               </div>
             </div>
         </div>
