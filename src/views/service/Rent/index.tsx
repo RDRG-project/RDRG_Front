@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router';
 import { postPaymentSaveRequest } from 'src/apis/payment';
 import { PostPaymentSaveRequestDto } from 'src/apis/payment/dto/request';
 import ResponseDto from 'src/apis/response.dto';
+import { dateFormat, dateTimeFormat } from 'src/utils';
 
 //                    component                    //
 function Basket() {
@@ -34,8 +35,8 @@ function Basket() {
     const clearButtonClickHandler = () => {
         setRentSite('');
         setReturnSite('');
-        // setStartDate(startDate);
-        // setEndDate(endDate);
+        setStartDate(new Date());
+        setEndDate(new Date());
 
         setBasketItems([]);
         setTotalAmount(0);
@@ -72,16 +73,16 @@ function Basket() {
     );
 }
 
+
 //                    component                    //
 function Payment() {
 
     //                    state                    //
     const [cookies] = useCookies();
     const { loginUserId } = useUserStore();
-    const [ serialNumber, setSerialNumber] = useState<string[]>([]);
-    const { rentSite, setRentSite } = useRentSiteStore();
-    const { returnSite, setReturnSite } = useReturnSiteStore(); 
-    const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();
+    const { rentSite } = useRentSiteStore();
+    const { returnSite } = useReturnSiteStore(); 
+    const { startDate, endDate } = useRentDateStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
     const [ rentStatus, setRentStatus ] = useState<boolean>(false);
@@ -93,11 +94,11 @@ function Payment() {
 
         const message = 
             !result ? '서버에 문제가 있습니다.' :
-            result.code = 'VF' ? '유효성실패라는데 뭐가 문제일까요?' :
-            result.code = 'AF' ? '로그인하고 결제를 진행해주세요' :
-            result.code = 'DBE' ? '서버에 문제가 있습니다.' : '';
+            result.code === 'VF' ? '유효성실패라는데 뭐가 문제일까요?' :
+            result.code === 'AF' ? '로그인하고 결제를 진행해주세요' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
         
-        if (!result || result.code !=='SU') {
+        if (!result || result.code !== 'SU') {
             alert(message);
             return;
         }
@@ -107,13 +108,17 @@ function Payment() {
 
     //                    event handler                    //
     const onPaymentButtonClickHandler = () => {
+        const rentSerialNumber = basketItems.map(item => item.serialNumber);
+
+        if (!startDate || !endDate) return;
+
         const requestBody: PostPaymentSaveRequestDto = {
             rentUserId: loginUserId, 
-            rentSerialNumber: serialNumber,
+            rentSerialNumber: rentSerialNumber,
             rentPlace: rentSite, 
             rentReturnPlace: returnSite, 
-            rentDatetime:startDate, 
-            rentReturnDatetime: endDate,
+            rentDatetime: dateTimeFormat(startDate), 
+            rentReturnDatetime: dateTimeFormat(endDate),
             rentTotalPrice : totalAmount,
             rentStatus: rentStatus
             }
@@ -190,6 +195,7 @@ export default function Rent() {
                 <div className='rent-right-side-payment'>
                     <div className='rent-right-side-payment-box'>
                         <Payment/>
+                        {/* <RentCheckout/> */}
                     </div>
                 </div>
             </div>
