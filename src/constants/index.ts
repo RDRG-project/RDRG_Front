@@ -41,7 +41,7 @@ export const RENT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${RENT_PATH}`; // 대�
 
 export const MYPAGE_PROFILE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_PROFILE_PATH}`; // 프로필 화면 절대경로
 export const MYPAGE_RENT_DETAIL_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_RENT_DETAIL_PATH}`; // 나의 대여내역 화면 절대경로
-export const MYPAGE_DETAILS_ABSOLUTE_PATH = (rentNumber: string | number) => `${RDRG_ABSOLUTE_PATH}/${MYPAGE_RENT_DETAIL_PATH}/${rentNumber}`; // 나의 대여 상세내역 화면 절대경로
+export const MYPAGE_DETAILS_ABSOLUTE_PATH = (rentNumber: string | number) => `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_RENT_DETAIL_PATH}/${rentNumber}`; // 나의 대여 상세내역 화면 절대경로
 export const MYPAGE_UNREGISTER_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_UNREGISTER_PATH}`; // 회원탈퇴 화면 절대경로
 
 // description : API URL PATH
@@ -88,6 +88,8 @@ export const POST_PAYMENT_SAVE_REQUEST_URL = `${SERVER_PAYMENT_MODULE_URL}/save`
 export const GET_RESERVE_REQUEST_URL = (userId: string) => `${SERVER_PAYMENT_MODULE_URL}/${userId}`
 // 대여 내역 불러오기
 export const GET_MYRENTPAGE_URL = `${SERVER_PAYMENT_MODULE_URL}/myrentpage`
+// 대여 상세내역 불러오기
+export const GET_RENT_DETAIL_URL = (rentNumber: number| string) => `${GET_MYRENTPAGE_URL}/${rentNumber}`
 
 // device 모듈
 export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;
@@ -119,7 +121,7 @@ export const DELETE_BOARD_URL = (receptionNumber: number | string) => `${SERVER_
 // description: 게시물 상수
 export const COUNT_PER_PAGE = 5;
 export const COUNT_PER_SECTION = 5;
-export const RENT_DETAIL_COUNT_PER_PAGE = 5;
+export const RENT_DETAIL_COUNT_PER_PAGE = 3;
 export const RENT_DETAIL_COUNT_PER_SECTION = 5;
 
 
