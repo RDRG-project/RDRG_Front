@@ -18,7 +18,7 @@ export const RENT_PATH = 'rent'; // 대여화면
 
 export const MYPAGE_PATH = 'mypage'; //마이페이지 화면
 export const MYPAGE_PROFILE_PATH = 'profile'; //프로필 화면
-export const MYPAGE_RENT_DETAIL_PATH = 'rent-detail'; //나의 대여내역 화면
+export const MYPAGE_RENT_DETAIL_PATH = 'myrentpage'; //나의 대여내역 화면
 export const MYPAGE_DETAILS_PATH = ':rentNumber'; //나의 대여 상세내역 화면
 export const MYPAGE_UNREGISTER_PATH = 'unregister'; //회원탈퇴 화면
 
@@ -119,6 +119,7 @@ export const DELETE_BOARD_URL = (receptionNumber: number | string) => `${SERVER_
 // description: 게시물 상수
 export const COUNT_PER_PAGE = 5;
 export const COUNT_PER_SECTION = 5;
-export const RENT_DETAIL_COUNT_PER_PAGE = 3;
+export const RENT_DETAIL_COUNT_PER_PAGE = 5;
+export const RENT_DETAIL_COUNT_PER_SECTION = 5;
 
 

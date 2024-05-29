@@ -9,5 +9,5 @@ export interface ReserveResponseDto extends ResponseDto {
 }
 
 export interface GetMyRentPageResponseDto extends ResponseDto {
-    rent: RentItem[];
+    rentList: RentItem[];
 }
