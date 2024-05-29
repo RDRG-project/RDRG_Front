@@ -26,12 +26,12 @@ function Index() {
   const navigator =useNavigate();
 
   //                    effect                    //
-  useEffect(() => {
+    useEffect(() => {
     navigator(HOME_ABSOLUTE_PATH);
-  }, []);
+    }, []);
 
-  //                    render                    //
-  return <></>;
+    //                    render                    //
+    return <></>;
 }
 
 function App() {
