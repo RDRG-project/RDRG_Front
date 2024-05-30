@@ -20,6 +20,8 @@ export default function MypageRentDetail() {
     const [rentReturnDatetime, setRentReturnDatetime] = useState<string>('');
     const [rentStatus, setRentStatus] = useState<boolean>(false);
     const [rentTotalPrice, setRentTotalPrice] = useState<number>(0);
+    const [rentPlace, setRentPlace] = useState<string>('');
+    const [rentReturnPlace, setRentReturnPlace] = useState<string>('');
 
     //                    function                    //
     const navigator = useNavigate();
@@ -41,12 +43,14 @@ export default function MypageRentDetail() {
             return;
         }
         
-        const {rentDetailList, rentDatetime, rentReturnDatetime, rentStatus, rentTotalPrice} = result as GetRentDetailResponseDto;
+        const {rentDetailList, rentDatetime, rentReturnDatetime, rentStatus, rentTotalPrice, rentPlace, rentReturnPlace} = result as GetRentDetailResponseDto;
         setRent(rentDetailList);
         setRentDatetime(rentDatetime);
         setRentReturnDatetime(rentReturnDatetime);
         setRentStatus(rentStatus);
         setRentTotalPrice(rentTotalPrice);
+        setRentPlace(rentPlace);
+        setRentReturnPlace(rentReturnPlace);
     };
 
     //                    effect                    //
@@ -60,6 +64,7 @@ export default function MypageRentDetail() {
         <div className="rental-details">
             <div>대여 상세 내역</div>
             <div className="rental-info">
+                <div className='rental-status'>{rentStatus}</div>
                 <div className='rental-content'>
                 {rent.map((item, index) => (
                         <p key={index}>{item.name} <span>{item.price}원</span></p>
@@ -68,7 +73,7 @@ export default function MypageRentDetail() {
                 <div className="summary">총합계 : {rentTotalPrice}원</div>
                 <div className="rental-spot">
                     <p>대여일 : {rentDatetime} 반납일 : {rentReturnDatetime}</p>
-                    <p>대여지점 : 부산 반납지점 : 서울</p>
+                    <p>대여지점 : {rentPlace} 반납지점 : {rentReturnPlace}</p>
                 </div>
             </div>
             <div className="payment-info">
