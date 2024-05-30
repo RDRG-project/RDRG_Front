@@ -1,43 +1,48 @@
 import { useState } from 'react';
 import './style.css';
-import { useReturnSiteStore, useSiteShowStore } from 'src/stores';
+import { useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore } from 'src/stores';
 
+//                    interface                    //
 interface Prop {
     value: string;
     onChange: (value: string) => void;
 }
 
+//                    component                    //
 export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
     const RentSiteListItem = [
         { name: '서울', value: 'SEOUL' },
         { name: '부산', value: 'BUSAN' }
     ];
 
-    const { show, setShow } = useSiteShowStore();
-    const [selectedItem, setSelectedItem] = useState<string>('');
+    //                    state                    //
+    const { returnShow, setReturnShow } = useReturnSiteShowStore();
+    const { returnSelectedItem, setReturnSelectedItem } = useReturnSelectStore();
     const { setReturnSite } = useReturnSiteStore();
 
+    //                    event handler                    //
     const onButtonClickHandler = () => {
-        setShow(!show);
+        setReturnShow(!returnShow);
     };
 
     const onItemClickHandler = (value: string) => {
-        setSelectedItem(value);
+        setReturnSelectedItem(value);
         onChange(value);
         setReturnSite(value);
-        setShow(true);
+        setReturnShow(true);
     };
 
+    //                    render                    //
     return (
         <div className='select-box'>
             <div className='select-item-title'>반납지점</div>
-            <div className={show ? 'select-close-button' : 'select-open-button'} onClick={onButtonClickHandler}></div>
-            {show &&
+            <div className={returnShow ? 'select-close-button' : 'select-open-button'} onClick={onButtonClickHandler}></div>
+            {returnShow &&
                 <div className='select-list'>
                     {RentSiteListItem.map((item) =>
                         <div
                             key={item.value}
-                            className={selectedItem === item.value ? 'select-list-item-selected' : 'select-list-item-box'}
+                            className={returnSelectedItem === item.value ? 'select-list-item-selected' : 'select-list-item-box'}
                             onClick={() => onItemClickHandler(item.value)}>
                             <div className='select-item'>{item.name}</div>
                         </div>

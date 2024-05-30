@@ -1,12 +1,18 @@
+// src/components/DatePickerComponent.tsx
 import React, { forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ko } from "date-fns/locale";
+import { ko } from 'date-fns/locale';
 import './style.css';
 import { setHours, setMinutes, addHours, isAfter, isBefore, differenceInDays, differenceInHours } from 'date-fns';
 import { useRentDateStore, useTotalRentTimeStore } from 'src/stores';
 
-const ExampleCustomInput = forwardRef<HTMLButtonElement, { value: string; onClick: () => void }>(
+interface CustomInputProps {
+    value?: string;
+    onClick?: () => void;
+}
+
+const ExampleCustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(
     ({ value, onClick }, ref) => (
         <button className="example-custom-input" onClick={onClick} ref={ref}>
             {value}
@@ -14,7 +20,12 @@ const ExampleCustomInput = forwardRef<HTMLButtonElement, { value: string; onClic
     )
 );
 
-const datePickerProps = (selected: Date | null, startDate: Date | null, endDate: Date | null, onChange: (date: Date | null) => void) => ({
+const datePickerProps = (
+    selected: Date | null,
+    startDate: Date | null,
+    endDate: Date | null,
+    onChange: (date: Date | null) => void
+) => ({
     locale: ko,
     dateFormatCalendar: "yyyy.MM.dd (eee)",
     selected,
@@ -32,14 +43,14 @@ const datePickerProps = (selected: Date | null, startDate: Date | null, endDate:
     endDate
 });
 
-const ReactDatePicker = () => {
+const ReactDatePicker: React.FC = () => {
     const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();
     const { totalRentTime, setTotalRentTime } = useTotalRentTimeStore();
 
     const onStartChangeHandler = (date: Date | null) => {
         if (date !== null) {
             setStartDate(date);
-            const newEndDate = addHours(date, 1); // 대여 날짜 이후로 한 시간 추가
+            const newEndDate = addHours(date, 1);
             setEndDate(newEndDate);
             calculateTotalRentTime(date, newEndDate);
         }
