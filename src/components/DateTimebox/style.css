@@ -1,14 +1,18 @@
+
+
 .example-custom-input {
-    background-color: #282c34;
-    color: white;
+    background-color: #fff;
+    color: #333;
     cursor: pointer;
     width: 240px;
     padding: 10px;
-    margin-bottom: 5px;
-    
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: left;
 }
 
-.date-picker-wrapper {
-    display: flex;
-    flex-direction: column;
+.total-rent-time {
+    font-size: 14px;
+    color: #333;
+    margin-top: 5px;
 }

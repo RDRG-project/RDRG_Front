@@ -1,105 +1,297 @@
+/* 공통 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+}
+
+/* 전체 레이아웃 */
 #rent-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: center;
-
     gap: 30px;
-    min-width: 500px;
-    margin: 50px 0px;
-    height: 100%;
+    padding: 20px;
+    min-width: 1000px;
+    margin: 50px 0;
+    background-color: #fff;
 }
 
+/* 좌측 패널 */
 .rent-left-side {
     display: flex;
     flex-direction: column;
-    gap: 100px;
-    
-
-    background-color: rgb(218, 216, 216);
+    gap: 80px;
+    padding: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    width: 300px;
 }
 
-.rent-left-side-site {
-    gap: 50px;
+.rent-left-side > div {
+    margin-bottom: 10px;
 }
 
-.rent-left-side-rental {
-
-    width: 350px;
-
-    font-size: 30px;
-}
-.rent-left-side-return {
-    width: 350px;
-
-    font-size: 30px;
-}
-.rent-left-side-date{
-    width: 350px;
-
-    font-size: 30px;
+.rent-left-side-rental,
+.rent-left-side-return,
+.rent-left-side-date {
+    font-size: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
 }
 
+.rent-datetime-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 아이템 선택 박스 */
 .rent-item {
     width: 500px;
-    height: 100%;
-
-    font-size: 30px;
-
-    background-color: rgb(218, 216, 216);
+    padding: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
 }
 
-.rent-right-side {
-    width: 300px;
-    background-color: rgb(218, 216, 216);
+.select-it-box {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px 16px;
+    background-color: #fff;
+}
 
+.select-it-none,
+.select-it-item {
+    flex-grow: 1;
+    font-size: 20px;
+    color: #333;
+}
+
+.select-open-button,
+.select-close-button {
+    width: 24px;
+    height: 24px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.select-open-button {
+    background-image: url('../../../assets/image/arrow-drop-down-icon.png');
+}
+
+.select-close-button {
+    background-image: url('../../../assets/image/arrow-drop-up-icon.png');
+}
+
+/* 장바구니 및 결제 */
+.rent-right-side {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
+    width: 300px;
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .rent-right-side-top-basket {
     text-align: center;
-    font-size: 30px;
-    height: 60px;
-
-    background-color: rgb(209, 188, 188);
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
-.rent-right-side-basket {
-    
+.basket-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.basket-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.basket-item button {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.basket-item button:hover {
+    background-color: #ff1a1a;
+}
+
+.payment-box {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-top-box,
+.payment-bottom-box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.payment-count {
+    font-weight: bold;
+}
+
+.payment-basket-delete button {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.payment-basket-delete button:hover {
+    background-color: #ff1a1a;
+}
+
+.payment-sum {
     font-size: 20px;
+    font-weight: bold;
 }
 
-.rent-right-side-basket-set {
-    font-size: 15px;
+.payment-box button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
 }
 
-.rent-right-sid-payment {
-    text-align: right;
-    font-size: 30px;
+.payment-box button:hover {
+    background-color: #45a049;
 }
 
-.selected-type-wrapper {
-    display: flex;
-    flex-direction: column;
-
-    height: 100%;
-    gap: 20px;
-}
-
-.select-type-box {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.selected-it {
-    display: flex;
-    flex-direction: column;
-
-    gap: 10px;
-}
-
-.rent-datetime-container{
+/* 날짜 선택기 */
+.date-picker-wrapper {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.example-custom-input {
+    background-color: #282c34;
+    color: white;
+    cursor: pointer;
+    width: 240px;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 4px;
+}
+
+.rental-date,
+.return-date {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.total-rent-time {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* 디바이스 선택 박스 */
+.device-box {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+.device-box-left,
+.device-box-middle,
+.device-box-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.device-box-left {
+    flex: 1;
+}
+
+.device-box-middle {
+    flex: 2;
+}
+
+.device-box-right {
+    flex: 1;
+}
+
+.device-brand,
+.device-detail-title,
+.device-price {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.device-detail {
+    font-size: 14px;
+}
+
+.device-box button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.device-box button:hover {
+    background-color: #45a049;
+}
+
+/* 타입 선택 박스 */
+.type-notebook,
+.type-tablet,
+.type-game,
+.type-external-battery {
+    background-color: #ccc;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.type-notebook-detail,
+.type-tablet-detail,
+.type-game-detail,
+.type-external-battery-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
