@@ -4,7 +4,7 @@ import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useRentStatusStore, useReturnSiteStore, useSiteShowStore, useTabletStore, useTotalRentTimeStore, useUserStore } from 'src/stores/index';
+import { useBasketStore,  useBatteryStore,  useNoteBookStore, useRentDateStore, useRentItemStore,  useRentSiteShowStore,  useRentSiteStore, useRentStatusStore, useReturnSiteShowStore, useReturnSiteStore,  useTabletStore,  useTotalRentTimeStore, useUserStore } from 'src/stores/index';
 import ReactDatePicker from 'src/components/DateTimebox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import { useNavigate } from 'react-router';
@@ -17,12 +17,21 @@ import { differenceInHours } from 'date-fns';
 
 //                    component                    //
 function Basket() {
+
+    //                    state                    //
     const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const [totalAmount, setTotalAmount] = useState<number>(0);
-    const { setShow } = useSiteShowStore();
+    const { setRentShow } = useRentSiteShowStore();
+    const { setReturnShow } = useReturnSiteShowStore();
+    const { setTotalRentTime } = useTotalRentTimeStore();
     const [rentDuration, setRentDuration] = useState<{ days: number; hours: number }>({ days: 0, hours: 0 });
+    const { setNotebookState } = useNoteBookStore();
+    const { setTabletState } = useTabletStore();
+    const { setGameItState } = useGameItStore();
+    const { setExternalBatteryState } = useBatteryStore();
 
+    //                    function                    //
     const calculateRentDuration = (startDate: Date, endDate: Date) => {
         const durationInHours = differenceInHours(endDate, startDate);
         const durationInDays = Math.ceil(durationInHours / 24);
@@ -43,6 +52,7 @@ function Basket() {
         return totalPrice;
     };
 
+    //                    event handler                    //
     const removeItemButtonClickHandler = (index: number) => {
         const itemToRemove = basketItems[index];
         setBasketItems(basketItems.filter((_, i) => i !== index));
@@ -50,14 +60,21 @@ function Basket() {
     };
 
     const clearButtonClickHandler = () => {
-        setShow(false);
+        setRentShow(false);
+        setReturnShow(false);
         setStartDate(new Date());
         setEndDate(new Date());
         setBasketItems([]);
         setTotalAmount(0);
         setRentDuration({ days: 0, hours: 0 });
+        setTotalRentTime('');
+        setNotebookState(false);
+        setTabletState(false);
+        setGameItState(false);
+        setExternalBatteryState(false);
     };
 
+    //                    effect                    //
     useEffect(() => {
         if (startDate && endDate) {
             const duration = calculateRentDuration(startDate, endDate);
@@ -66,6 +83,7 @@ function Basket() {
         }
     }, [startDate, endDate, basketItems]);
 
+    //                    render                    //
     return (
         <div className='selected-type-wrapper'>
             <div className='basket-items'>
@@ -98,17 +116,22 @@ function Payment() {
     const { loginUserId } = useUserStore();
     const { rentSite, setRentSite } = useRentSiteStore();
     const { returnSite, setReturnSite } = useReturnSiteStore();
-    const { setShow } = useSiteShowStore();
+    const { setRentShow } = useRentSiteShowStore();
+    const { setReturnShow } = useReturnSiteShowStore();
     const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
     const { rentStatus, setRentStatus } = useRentStatusStore();
+    const { setNotebookState } = useNoteBookStore();
+    const { setTabletState } = useTabletStore();
+    const { setGameItState } = useGameItStore();
+    const { setExternalBatteryState } = useBatteryStore();
     const navigate = useNavigate();
 
     const PostPaymentSaveResponseDto = (result: ResponseDto | null) => {
         const message = 
             !result ? '서버에 문제가 있습니다.' :
-            result.code === 'VF' ? '유효성 실패입니다.' :
+            result.code === 'VF' ? '대여장소 및 반납장소, 날짜와 시간, 기기종류를 선택해주세요.' :
             result.code === 'AF' ? '로그인 후 결제를 진행해주세요.' :
             result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
         
@@ -143,7 +166,12 @@ function Payment() {
         setTotalAmount(0);
         setStartDate(new Date());
         setEndDate(new Date());
-        setShow(false);
+        setRentShow(false);
+        setReturnShow(false);
+        setNotebookState(false);
+        setTabletState(false);
+        setGameItState(false);
+        setExternalBatteryState(false);
         
         if (!cookies.accessToken) return;
         postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
