@@ -1,47 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
-import { useRentSiteStore, useSiteShowStore } from 'src/stores';
+import { useRentSelectStore, useRentSiteShowStore, useRentSiteStore } from 'src/stores';
 
+//                    interface                    //
 interface Prop {
     value: string;
     onChange: (value: string) => void;
 }
 
+//                    component                    //
 export default function RentSiteSelectBox({ value, onChange }: Prop) {
     const RentSiteListItem = [
         { name: '서울', value: 'SEOUL' },
         { name: '부산', value: 'BUSAN' }
     ];
 
-    const { show, setShow } = useSiteShowStore();
-    const [selectedItem, setSelectedItem] = useState<string>('');
+    //                    state                    //
+    const { rentShow, setRentShow } = useRentSiteShowStore();
+    const { rentSelectedItem, setRentSelectedItem } = useRentSelectStore();
     const { setRentSite } = useRentSiteStore();
 
+    //                    event handler                    //
     const onButtonClickHandler = () => {
-        setShow(!show);
+        setRentShow(!rentShow);
     };
 
     const onItemClickHandler = (itemValue: string) => {
-        setSelectedItem(itemValue);
+        setRentSelectedItem(itemValue);
         setRentSite(itemValue);
         onChange(itemValue);
-        setShow(true);
+        setRentShow(true);
     };
 
+    //                    effect                    //
     useEffect(() => {
-        setSelectedItem(value || '');
+        setRentSelectedItem(value || '');
     }, [value]);
 
+    //                    render                    //
     return (
         <div className='select-box'>
             <div className='select-item-title'>대여지점</div>
-            <div className={show ? 'select-close-button' : 'select-open-button'} onClick={onButtonClickHandler}></div>
-            {show &&
+            <div className={rentShow ? 'select-close-button' : 'select-open-button'} onClick={onButtonClickHandler}></div>
+            {rentShow &&
                 <div className='select-list'>
                     {RentSiteListItem.map((item) =>
                         <div 
                             key={item.value}
-                            className={selectedItem === item.value ? 'select-list-item-selected' : 'select-list-item-box'}
+                            className={rentSelectedItem === item.value ? 'select-list-item-selected' : 'select-list-item-box'}
                             onClick={() => onItemClickHandler(item.value)}>
                             <div className='select-item'>{item.name}</div>
                         </div>
