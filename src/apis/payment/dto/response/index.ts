@@ -18,5 +18,7 @@ export interface GetRentDetailResponseDto extends ResponseDto {
     rentDatetime : string;
     rentReturnDatetime : string;
     rentStatus : boolean;
+    rentPlace : string;
+    rentReturnPlace : string;
     rentTotalPrice : number;
 }
