@@ -9,27 +9,20 @@
 
 .device-box {
     display: flex;
-    align-items: center;
-    background-color: rgb(252, 253, 253);
-    font-size: 15px;
+    border: 1px solid #ddd;
     padding: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    gap: 20px;
-    cursor: pointer;
+    margin: 10px 0;
 }
 
 .device-box-left {
+    flex: 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
 }
 
 .device-image {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    margin-bottom: 10px;
+    max-width: 100px;
+    height: auto;
 }
 
 .device-brand {
@@ -40,16 +33,19 @@
 }
 
 .device-box-middle {
-    flex: 1;
-    padding: 0 10px;
+    flex: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .device-detail {
-    display: flex;
-    flex-direction: column;
+    padding: 10px;
 }
 
 .device-detail-title {
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -58,17 +54,36 @@
     color: #555;
     white-space: nowrap; /* 한 줄로 표시 */
     overflow: hidden; /* 넘친 부분을 숨김 */
+    text-decoration: underline;
     text-overflow: ellipsis; /* 넘친 부분을 "..."으로 표시 */
     width: 350px; /* 너비를 조정해서 원하는 길이로 설정 */
+
+    cursor: pointer;
+}
+
+.device-detail-explain-full {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: calc(100% - 20px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.explain-title {
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .device-box-right {
+    flex: 1;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: #eeeeee;
-    padding: 10px;
-    border-radius: 3px;
+    justify-content: flex-end;
 }
 
 .device-price {
