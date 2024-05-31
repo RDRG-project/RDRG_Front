@@ -14,6 +14,8 @@ import ResponseDto from 'src/apis/response.dto';
 import { dateFormat, dateTimeFormat } from 'src/utils';
 import useGameItStore from 'src/stores/gameIt.store';
 import { differenceInHours } from 'date-fns';
+import axios from 'axios';
+import { PostPaymentResponseDto } from 'src/apis/payment/dto/response';
 
 //                    component                    //
 function Basket() {
@@ -128,7 +130,7 @@ function Payment() {
     const { setExternalBatteryState } = useBatteryStore();
     const navigate = useNavigate();
 
-    const PostPaymentSaveResponseDto = (result: ResponseDto | null) => {
+    const PostPaymentSaveResponseDto = (result: PostPaymentResponseDto | ResponseDto | null) => {
         const message = 
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'VF' ? '대여장소 및 반납장소, 날짜와 시간, 기기종류를 선택해주세요.' :
@@ -139,8 +141,10 @@ function Payment() {
             alert(message);
             return;
         }
+        
+        const { nextRedirectPcUrl } = result as PostPaymentResponseDto;
+        window.location.href = nextRedirectPcUrl;
 
-        navigate(HOME_ABSOLUTE_PATH);
     }
 
     const onPaymentButtonClickHandler = () => {
@@ -172,6 +176,7 @@ function Payment() {
         setTabletState(false);
         setGameItState(false);
         setExternalBatteryState(false);
+
         
         if (!cookies.accessToken) return;
         postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
