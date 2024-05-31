@@ -133,12 +133,7 @@ function Payment() {
     const { setExternalBatteryState } = useBatteryStore();
     const navigate = useNavigate();
 
-<<<<<<< HEAD
     const PostPaymentSaveResponseDto = (result: PostPaymentResponseDto | ResponseDto | null) => {
-=======
-    //                    function                    //
-    const PostPaymentSaveResponseDto = (result: ResponseDto | null) => {
->>>>>>> 3e8f40bacea0218e4d48d9d04d2b987f9c4cb8b1
         const message = 
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'VF' ? '대여장소 및 반납장소, 날짜와 시간, 기기종류를 선택해주세요.' :
