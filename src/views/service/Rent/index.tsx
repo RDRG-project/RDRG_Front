@@ -173,7 +173,7 @@ function Payment() {
 
         setRentSite('');
         setReturnSite('');
-        setRentStatus(true);
+        setRentStatus('');
         setBasketItems([]);
         setTotalAmount(0);
         setStartDate(new Date());
