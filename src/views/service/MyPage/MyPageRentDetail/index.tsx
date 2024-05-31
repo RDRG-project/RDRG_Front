@@ -18,7 +18,7 @@ export default function MypageRentDetail() {
     const [rent, setRent] = useState<RentDetailList[]>([]);
     const [rentDatetime, setRentDatetime] = useState<string>('');
     const [rentReturnDatetime, setRentReturnDatetime] = useState<string>('');
-    const [rentStatus, setRentStatus] = useState<boolean>(false);
+    const [rentStatus, setRentStatus] = useState<string>('');
     const [rentTotalPrice, setRentTotalPrice] = useState<number>(0);
     const [rentPlace, setRentPlace] = useState<string>('');
     const [rentReturnPlace, setRentReturnPlace] = useState<string>('');

@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
 interface rentStatusStore {
-    rentStatus: boolean;
-    setRentStatus: (rentStatus: boolean) => void;
+    rentStatus: string;
+    setRentStatus: (rentStatus: string) => void;
 }
 
 const useRentStatusStore = create<rentStatusStore>(set => ({
-    rentStatus: false,
-    setRentStatus: (rentStatus: boolean) => set(state => ({ ...state, rentStatus }))
+    rentStatus: '',
+    setRentStatus: (rentStatus: string) => set(state => ({ ...state, rentStatus }))
 }));
 
 export default useRentStatusStore;
