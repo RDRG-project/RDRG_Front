@@ -4,12 +4,11 @@
 
     position: relative;
 
-    border: 1px solid rgb(209, 188, 188);
+    border: 1px solid rgb(185, 188, 236);
     border-radius: 6px;
-    padding: 8px 16px;
-    
+    padding: 8px 16px;  
 
-    background-color: rgb(209, 188, 188);
+    background-color: rgb(185, 188, 236);
 }
 
 .select-item-title {
@@ -75,7 +74,7 @@
     max-height: 144px;
     overflow-y: scroll;
 
-    background-color: rgb(209, 188, 188);
+    background-color: rgb(185, 188, 236);
 
     -ms-overflow-style: none;
 }
@@ -85,20 +84,20 @@
 }
 
 .select-list-item-selected {
-    background-color: rgba(58, 117, 220, 0.2);
+    background-color: rgba(51, 137, 177, 0.2);
 }
 
 .select-list-item-box {
     display: flex;
 
-    border: 1px solid rgb(209, 188, 188);
+    border: 1px solid rgb(185, 188, 236);
     padding: 8px 16px;
     width: 260px;
 
-    background-color: rgb(209, 188, 188);
+    background-color: rgb(185, 188, 236);
 }
 
 .select-list-item-box:hover {
-    background-color: rgba(137, 133, 133, 0.2);
+    background-color: rgba(23, 22, 34, 0.2);
     cursor: pointer;
 }

@@ -19,6 +19,7 @@ import { differenceInHours } from 'date-fns';
 function Basket() {
 
     //                    state                    //
+    //                    state                    //
     const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const [totalAmount, setTotalAmount] = useState<number>(0);
@@ -108,9 +109,12 @@ function Basket() {
         </div>
     );
 }
-
+//                    component                    //
 function Payment() {
-
+    //                    state                    //
+    const navigator = useNavigate();
+    
+    const {loginUserRole} = useUserStore();
     const [cookies] = useCookies();
 
     const { loginUserId } = useUserStore();
@@ -128,6 +132,7 @@ function Payment() {
     const { setExternalBatteryState } = useBatteryStore();
     const navigate = useNavigate();
 
+    //                    function                    //
     const PostPaymentSaveResponseDto = (result: ResponseDto | null) => {
         const message = 
             !result ? '서버에 문제가 있습니다.' :
@@ -138,12 +143,19 @@ function Payment() {
         if (!result || result.code !== 'SU') {
             alert(message);
             return;
+        } else {
+            alert('결제가 완료했습니다.')
         }
 
         navigate(HOME_ABSOLUTE_PATH);
     }
 
+    //                    event handler                    //
     const onPaymentButtonClickHandler = () => {
+        if (loginUserRole !== 'ROLE_USER') {
+            alert('로그인 하라')
+            navigator(HOME_ABSOLUTE_PATH);
+        };
         const rentSerialNumber = basketItems.map(item => item.serialNumber);
 
         if (!startDate || !endDate) return;
@@ -175,8 +187,10 @@ function Payment() {
         
         if (!cookies.accessToken) return;
         postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
+        
     };
 
+    //                    render                    //
     return (
         <div>
             <button className="payment-button" onClick={onPaymentButtonClickHandler}>결제하기</button>
@@ -200,6 +214,7 @@ export default function Rent() {
         setRentItem(rentItem);
     };
 
+    //                    render                    //
     return (
         <div id='rent-wrapper'>
             <div className='rent-left-side'>
