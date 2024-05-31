@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './style.css'
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router'
 import { getReserveRequest } from 'src/apis/payment';
@@ -9,8 +10,10 @@ import { GetSignInUserResponseDto } from 'src/apis/user/dto/response';
 import { AUTH_ABSOLUTE_PATH } from 'src/constants';
 import { useUserStore } from 'src/stores';
 
+//                    component                    //
 export default function RentSuccess() {
 
+    //                    state                    //
     const [ cookies ] = useCookies();
     const { rentNumber } = useParams();
     const { loginUserId } = useUserStore();
@@ -19,6 +22,7 @@ export default function RentSuccess() {
     const [rentTotalPrice, setRentTotalPrice] = useState<number>(0);
     const [rentalPeriod, setRentalPeriod] = useState<string>('');
 
+    //                    function                    //
     const navigator = useNavigate();
 
     const getSignInUserResponse = (result : GetSignInUserResponseDto | ResponseDto | null) => {
@@ -58,6 +62,7 @@ export default function RentSuccess() {
 
     }
 
+    //                    effect                    //
     useEffect(() => {
         console.log(`accessToken: ${cookies.accessToken}`);
         console.log(`loginUserId: ${loginUserId}`);
@@ -66,12 +71,33 @@ export default function RentSuccess() {
         getReserveRequest(loginUserId, cookies.accessToken).then(getReserveResponse);
     }, [loginUserId]);
 
+    //                    render                    //
     return (
-        <div>
-            <h1>{reserveUserId}</h1>
-            <h3>{rentalPeriod}</h3>
-            <h3>{rentPlace}</h3>
-            <h3>{rentTotalPrice}</h3>
+        <div id='rent-success-wrapper'>
+            <div className='rent-success-container'>
+                <div className='rent-success-ment'>대여가 완료되었습니다.</div>
+                <div className='rent-success-title'>나의 예약정보</div>
+                <div className='rent-success-constant'>
+                    <div className='rent-success-name'>
+                        <div>대여자</div>
+                        <div>{reserveUserId}</div>
+                    </div>
+                    <div className='rent-success-datetime'>
+                        <div>대여날짜</div>
+                        <div>{rentalPeriod}</div>
+                    </div>
+                    <div className='rent-success-spot'>
+                        <div>대여지점</div>
+                        <div>{rentPlace}</div>
+                    </div>
+                    <div className='rent-success-sum'>
+                        <div>대여요금</div>
+                        <div>{rentTotalPrice}</div>
+                    </div>
+                </div>
+                <div>메인으로 가기</div>
+                <div>대여 확인</div>
+            </div>
         </div>
     )
 }
