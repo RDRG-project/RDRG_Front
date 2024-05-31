@@ -19,7 +19,6 @@ import { differenceInHours } from 'date-fns';
 function Basket() {
 
     //                    state                    //
-    //                    state                    //
     const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const [totalAmount, setTotalAmount] = useState<number>(0);
