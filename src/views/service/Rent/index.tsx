@@ -143,9 +143,7 @@ function Payment() {
         if (!result || result.code !== 'SU') {
             alert(message);
             return;
-        } else {
-            alert('결제가 완료했습니다.')
-        }
+        } 
         
         const { nextRedirectPcUrl } = result as PostPaymentResponseDto;
         window.location.href = nextRedirectPcUrl;
@@ -189,7 +187,9 @@ function Payment() {
 
         
         if (!cookies.accessToken) return;
-        postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
+           
+            postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
+        
         
     };
 
