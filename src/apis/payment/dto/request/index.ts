@@ -8,5 +8,5 @@ export interface PostPaymentSaveRequestDto {
     rentDatetime: string;
     rentReturnDatetime: string;
     rentTotalPrice : number;
-    rentStatus:boolean;
+    rentStatus:string;
 }

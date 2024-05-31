@@ -16,7 +16,7 @@ export interface RentItem {
     rentDatetime: string;
     rentReturnDatetime : string;
     totalPrice  : number;
-    rentStatus: boolean;
+    rentStatus: string;
 }
 
 export interface RentDetailList{
