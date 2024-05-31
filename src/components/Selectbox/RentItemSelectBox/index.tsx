@@ -17,7 +17,7 @@ interface Prop {
 }
 
 //                    component                    //
-function RentItem ({  
+function RentItem ({
     model, 
     type, 
     brand, 
@@ -26,21 +26,32 @@ function RentItem ({
     deviceExplain,
     devicesImgUrl
 }: ItRentList) {
-
     //                    function                    //
+    const [isExplainFullVisible, setIsExplainFullVisible] = useState(false);
 
     //                    event handler                    //
+    const handleExplainClick = () => {
+        setIsExplainFullVisible(!isExplainFullVisible);
+    };
 
     //                    render                    //
     return (
-        <div className='device-box'> 
+        <div className='device-box'>
             <div className='device-box-left'>
                 <img className='device-image' src={devicesImgUrl} alt={`${name} 이미지`} />
             </div>
             <div className='device-box-middle'>
                 <div className='device-detail'>
                     <div className='device-detail-title'>{name}</div>
-                    <div className='device-detail-explain'>{deviceExplain}</div>
+                    <div className='device-detail-explain' onClick={handleExplainClick}>
+                        {deviceExplain}
+                    </div>
+                    {isExplainFullVisible && (
+                        <div className='device-detail-explain-full'>
+                            <div className='explain-title'>상품정보</div>
+                            <div>{deviceExplain}</div>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className='device-box-right'>
