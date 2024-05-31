@@ -110,9 +110,12 @@ function Basket() {
         </div>
     );
 }
-
+//                    component                    //
 function Payment() {
-
+    //                    state                    //
+    const navigator = useNavigate();
+    
+    const {loginUserRole} = useUserStore();
     const [cookies] = useCookies();
 
     const { loginUserId } = useUserStore();
@@ -130,7 +133,12 @@ function Payment() {
     const { setExternalBatteryState } = useBatteryStore();
     const navigate = useNavigate();
 
+<<<<<<< HEAD
     const PostPaymentSaveResponseDto = (result: PostPaymentResponseDto | ResponseDto | null) => {
+=======
+    //                    function                    //
+    const PostPaymentSaveResponseDto = (result: ResponseDto | null) => {
+>>>>>>> 3e8f40bacea0218e4d48d9d04d2b987f9c4cb8b1
         const message = 
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'VF' ? '대여장소 및 반납장소, 날짜와 시간, 기기종류를 선택해주세요.' :
@@ -140,6 +148,8 @@ function Payment() {
         if (!result || result.code !== 'SU') {
             alert(message);
             return;
+        } else {
+            alert('결제가 완료했습니다.')
         }
         
         const { nextRedirectPcUrl } = result as PostPaymentResponseDto;
@@ -147,7 +157,12 @@ function Payment() {
 
     }
 
+    //                    event handler                    //
     const onPaymentButtonClickHandler = () => {
+        if (loginUserRole !== 'ROLE_USER') {
+            alert('로그인 하라')
+            navigator(HOME_ABSOLUTE_PATH);
+        };
         const rentSerialNumber = basketItems.map(item => item.serialNumber);
 
         if (!startDate || !endDate) return;
@@ -180,8 +195,10 @@ function Payment() {
         
         if (!cookies.accessToken) return;
         postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
+        
     };
 
+    //                    render                    //
     return (
         <div>
             <button className="payment-button" onClick={onPaymentButtonClickHandler}>결제하기</button>
@@ -205,6 +222,7 @@ export default function Rent() {
         setRentItem(rentItem);
     };
 
+    //                    render                    //
     return (
         <div id='rent-wrapper'>
             <div className='rent-left-side'>
