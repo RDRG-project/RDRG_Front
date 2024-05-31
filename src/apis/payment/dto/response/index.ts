@@ -3,8 +3,8 @@ import { RentDetailList, RentItem, RentalPeriod } from "src/types";
 
 export interface ReserveResponseDto extends ResponseDto {
     userId: string;
-    rentalPeriod : RentalPeriod[];
-    rentPlace:String;
+    rentalPeriod : string;
+    rentPlace:string;
     rentTotalPrice: number;
 }
 
@@ -21,4 +21,11 @@ export interface GetRentDetailResponseDto extends ResponseDto {
     rentPlace : string;
     rentReturnPlace : string;
     rentTotalPrice : number;
+}
+
+export interface PostPaymentResponseDto extends ResponseDto {
+    tid: string;
+    nextRedirectMobileUrl: string;
+    nextRedirectPcUrl: string;
+    partnerOrderId: string | null;
 }
