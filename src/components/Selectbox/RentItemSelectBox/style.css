@@ -1,130 +1,150 @@
+.rent-admin-button {
+    display: flex;
+    justify-content: left;
+}
+
+.add-button {
+
+}
+
 .device-box {
     display: flex;
-    background-color: rgb(172, 168, 168);
+    align-items: center;
+    background-color: rgb(252, 253, 253);
     font-size: 15px;
-
-    justify-content:space-evenly ;
-
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
     gap: 20px;
+    cursor: pointer;
 }
 
 .device-box-left {
     display: flex;
     flex-direction: column;
-    background-color: rgba(rgb(180, 77, 91));
+    align-items: center;
+}
+
+.device-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.device-brand {
+    background-color: beige;
+    padding: 5px;
+    border-radius: 3px;
+    text-align: center;
 }
 
 .device-box-middle {
+    flex: 1;
+    padding: 0 10px;
+}
+
+.device-detail {
     display: flex;
-    background-color: blue;
+    flex-direction: column;
+}
+
+.device-detail-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.device-detail-explain {
+    color: #555;
+    white-space: nowrap; /* 한 줄로 표시 */
+    overflow: hidden; /* 넘친 부분을 숨김 */
+    text-overflow: ellipsis; /* 넘친 부분을 "..."으로 표시 */
+    width: 350px; /* 너비를 조정해서 원하는 길이로 설정 */
 }
 
 .device-box-right {
     display: flex;
-    background-color: green;
+    align-items: center;
+    justify-content: center;
+    background-color: #eeeeee;
+    padding: 10px;
+    border-radius: 3px;
 }
 
+.device-price {
+    font-size: 13px;
+    font-weight: bold;
+}
 
 #select-type-wrapper {
+    padding: 20px;
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 5px;
     gap: 30px;
-} 
+}
 
 .select-it-box {
     display: flex;
     align-items: center;
-
     position: relative;
-
-    border: 1px solid rgb(209, 188, 188);
+    border: 1px solid rgb(185, 188, 236);
     border-radius: 6px;
     padding: 8px 16px;
-    
-
-    background-color: rgb(209, 188, 188);
+    background-color: rgb(185, 188, 236);
 }
 
 .select-it-none {
     flex-grow: 1;
-    
-    /* font-family: Inter; */
     font-size: 20px;
     font-weight: 400;
     line-height: 175%;
-
     color: rgb(17, 15, 15);
 }
 
 .select-it-item {
     flex-grow: 1;
-    
-    /* font-family: Inter; */
     font-size: 16px;
     font-weight: 400;
     line-height: 175%;
-
     color: rgb(17, 15, 15);
 }
 
-
-.select-open-button {
-    width: 40px;
-    height: 40px;
-
-    background-image: url('../../../assets/image/arrow-drop-down-icon.png');
-    background-size: 100% 100%;
-
-    cursor: pointer;
-}
-
+.select-open-button,
 .select-close-button {
     width: 40px;
     height: 40px;
-
-    background-image: url('../../../assets/image/arrow-drop-up-icon.png');
     background-size: 100% 100%;
-
     cursor: pointer;
 }
 
-.type-notebook {
-    background-color: rgb(165, 165, 164);
+.select-open-button {
+    background-image: url('../../../assets/image/arrow-drop-down-icon.png');
+}
+
+.select-close-button {
+    background-image: url('../../../assets/image/arrow-drop-up-icon.png');
+}
+.device-put-box{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.type-notebook,
+.type-tablet,
+.type-game,
+.type-external-battery {
+    background-color: rgb(233, 233, 231);
     text-align: center;
-}
-
-.type-notebook:hover {
     cursor: pointer;
 }
 
-.type-notebook-detail{
+.type-notebook-detail,
+.type-tablet-detail,
+.type-game-detail,
+.type-external-battery-detail {
     display: flex;
     flex-direction: column;
     min-height: 250px;
     height: 100%;
-}
-
-.type-tablet {
-    background-color: rgb(165, 165, 164);
-    text-align: center;
-}
-
-.type-tablet:hover {
-    cursor: pointer;
-}
-
-.type-game {
-    background-color: rgb(165, 165, 164);
-    text-align: center;
-}
-
-.type-game:hover {
-    cursor: pointer;
-}
-
-.type-external-battery {
-    background-color: rgb(165, 165, 164);
-    text-align: center;
-}
-
-.type-external-battery:hover {
-    cursor: pointer;
 }

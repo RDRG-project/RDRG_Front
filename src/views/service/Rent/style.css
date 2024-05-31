@@ -18,6 +18,9 @@ body {
     margin: 50px 0;
     background-color: #fff;
 }
+.rent-admin-button {
+    display: flex;
+}
 
 /* 좌측 패널 */
 .rent-left-side {
@@ -51,7 +54,7 @@ body {
 
 /* 아이템 선택 박스 */
 .rent-item {
-    width: 500px;
+    width: 700px;
     padding: 20px;
     background-color: #e0e0e0;
     border-radius: 10px;
