@@ -1,5 +1,5 @@
 // description: IT 기기 추가 Request Body DTO //
-export interface DeviceADDRequestDto {
+export interface DeviceAddRequestDto {
     serialNumber: string;
     model: string;
     name: string;

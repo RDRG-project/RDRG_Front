@@ -38,6 +38,7 @@ export const CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH = (receptionNumber: string | 
 export const CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH = (receptionNumber: string | number) => `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}/update/${receptionNumber}`; // 문의 내역 수정 화면 절대경로
 
 export const RENT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${RENT_PATH}`; // 대여화면 절대경로
+export const RENT_ADD_ABSOLUTE_PATH = `${RENT_ABSOLUTE_PATH}/add` // 기기추가 절대 경로
 
 export const MYPAGE_PROFILE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_PROFILE_PATH}`; // 프로필 화면 절대경로
 export const MYPAGE_RENT_DETAIL_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_RENT_DETAIL_PATH}`; // 나의 대여내역 화면 절대경로

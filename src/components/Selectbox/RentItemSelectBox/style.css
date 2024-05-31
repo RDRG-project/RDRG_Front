@@ -3,8 +3,13 @@
     justify-content: left;
 }
 
-.add-button {
+.add-admin-button {
+    display: flex;
+    flex-direction: row-reverse;
+}
 
+.add-admin-button:hover{
+    cursor: pointer;
 }
 
 .device-box {
