@@ -61,25 +61,38 @@ export default function MypageRentDetail() {
 
     //                    render                    //
     return (
-        <div className="rental-details">
-            <div>대여 상세 내역</div>
-            <div className="rental-info">
-                <div className='rental-status'>{rentStatus}</div>
-                <div className='rental-content'>
-                {rent.map((item, index) => (
-                        <p key={index}>{item.name} <span>{item.price}원</span></p>
-                ))}
+        <div id='mp-rent-detail-wrapper'>
+            <div className='mp-rent-detail-title'>대여 상세 내역</div>
+            <div className='mp-rent-detail-container'>
+                <div className="mp-rent-detail-content-container">
+                    <div className="mp-rent-detail-content-title">대여정보</div>
+                    <div className='mp-rent-detail-content-box'>
+                        <div className='mp-rent-detail-items-box'>
+                            {rent.map((item, index) => (
+                                    <div className='mp-rent-detail-item' key={index}>{item.name} <span>{item.price}원</span></div>
+                            ))}
+                        </div>
+                        <div className='mp-rent-detail-items-divide'></div>
+                        <div className="mp-rent-detail-items-summary">총합계 : <span>{rentTotalPrice}원</span></div>
+                        <div className="mp-rent-detail-time">
+                            <div>대여일 : {rentDatetime}</div>
+                            <div>반납일 : {rentReturnDatetime}</div>
+                        </div>
+                        <div className="mp-rent-detail-spot">
+                            <div>대여지점 : {rentPlace}</div>
+                            <div>반납지점 : {rentReturnPlace}</div>
+                        </div>
+                        <div className='rental-status'>{rentStatus}</div>
+                    </div>
                 </div>
-                <div className="summary">총합계 : {rentTotalPrice}원</div>
-                <div className="rental-spot">
-                    <p>대여일 : {rentDatetime} 반납일 : {rentReturnDatetime}</p>
-                    <p>대여지점 : {rentPlace} 반납지점 : {rentReturnPlace}</p>
+                <div className="mp-rent-detail-payment-container">
+                    <div className="mp-rent-detail-content-title">결제정보</div>
+                    <div className="mp-rent-detail-payment-content-box">
+                        <div className="mp-rent-detail-payment-number">결제번호 24154212313244</div>
+                        <div className="mp-rent-detail-payment-card-number">카드정보 0000 0000 **** ****</div>
+                        <div className="mp-rent-detail-payment-sum">결제금액 500000원</div>
+                    </div>
                 </div>
-            </div>
-            <div className="payment-info">
-                <p>결제번호 24154212313244</p>
-                <p>카드정보 0000 0000 **** ****</p>
-                <p>결제금액 500000원</p>
             </div>
         </div>
     );

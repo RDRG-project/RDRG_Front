@@ -9,7 +9,7 @@ import { getMyrentPageRequest } from 'src/apis/payment';
 import { useCookies } from 'react-cookie';
 
 //                    component                    //
-function RentDetailItem({
+function RentListItem({
     rentNumber,
     rentStatus,
     name,
@@ -29,19 +29,19 @@ function RentDetailItem({
     const displayName = additionalCount > 0 ? `${mainName} 외 ${additionalCount}건` : mainName;
 
     return (
-        <div className='mp-rent-detail-table'>
-            <div className='mp-rent-detail-content'>
+        <div className='mp-rent-list-table'>
+            <div className='mp-rent-list-content'>
                 <div className='cs-status-primary-button'>{rentStatus}</div>
-                <div className='mp-rent-detail-name'>{displayName}</div>
-                <div className='mp-rent-detail-date'>
-                    <div className='mp-rent-detail-rent-place'>대여일 : {rentDatetime}</div>
-                    <div className='mp-rent-detail-return-place'>반납일 : {rentReturnDatetime}</div>
+                <div className='mp-rent-list-name'>{displayName}</div>
+                <div className='mp-rent-list-date'>
+                    <div className='mp-rent-list-rent-place'>대여일 : {rentDatetime}</div>
+                    <div className='mp-rent-list-return-place'>반납일 : {rentReturnDatetime}</div>
                 </div>
-                <div className='mp-rent-detail-table-bottom'>
-                    <div className='mp-rent-detail-total-price'>{totalPrice}원</div>
-                    <div className='mp-rent-detail-page-button' onClick={onClickHandler}>
-                        <div className='mp-rent-detail-rental'>대여상세</div>
-                        <div className='mp-rent-detail-next-button'></div>
+                <div className='mp-rent-list-table-bottom'>
+                    <div className='mp-rent-list-total-price'>{totalPrice}원</div>
+                    <div className='mp-rent-list-page-button' onClick={onClickHandler}>
+                        <div className='mp-rent-list-detail'>대여상세</div>
+                        <div className='mp-rent-list-next-button'></div>
                     </div>
                 </div>
             </div>
@@ -188,8 +188,8 @@ export default function MypageRentList() {
 
     //                    render                    //
     return (
-        <div id='mp-rent-detail-wrapper'>
-            {viewList.map(item => <RentDetailItem {...item}/>)}
+        <div id='mp-rent-list-wrapper'>
+            {viewList.map(item => <RentListItem {...item}/>)}
             <div className='cs-list-bottom'>
                 <div className='cs-list-pagination'>
                     <div className='cs-list-page-pre-section' onClick={onPreSectionClickHandler}></div>
