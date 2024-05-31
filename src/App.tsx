@@ -19,6 +19,8 @@ import BranchInformation from './views/Home/FootBarMenu/4.BranchInformation';
 import Authentication from './views/Authentication';
 import MypageRentList from './views/service/MyPage/MyPageRentList';
 import MypageRentDetail from './views/service/MyPage/MyPageRentDetail';
+import { useBasketStore } from './stores';
+import RentSuccess from './views/service/Rent/RentSuccess';
 
 // component : root 경로 컴포넌트 //
 function Index() {
@@ -40,6 +42,7 @@ function App() {
     <Routes>
         <Route index element = {<Index />} />
         <Route path={RDRG_ABSOLUTE_PATH} element = {<RdrgContainer/>} >
+            <Route path='pay/success' element={<RentSuccess />} />
             <Route path={HOME_ABSOLUTE_PATH} element = {<Home />} />
                 <Route path={HOME_COMPANY_ABSOLUTE_PATH} element = {<CompanyIntroduction />} />
                 <Route path={HOME_CLAUSE_ABSOLUTE_PATH} element = {<TermsAndConditions />} />

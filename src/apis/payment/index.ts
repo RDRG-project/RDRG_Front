@@ -15,7 +15,7 @@ export const postPaymentSaveRequest = async (requestBody:PostPaymentSaveRequestD
 
 // function: 예약정보 확인 API 함수
 export const getReserveRequest = async (userId:string, accessToken: string) => {
-    const result = await axios.post(GET_RESERVE_REQUEST_URL(userId)
+    const result = await axios.get(GET_RESERVE_REQUEST_URL(userId)
         ,bearerAuthorization(accessToken))
         .then(requestHandler<ReserveResponseDto>)
         .catch(requestErrorHandler)

@@ -20,6 +20,11 @@ const ExampleCustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(
     )
 );
 
+const isWeekday = (date: Date) => {
+    const day = date.getDay();
+    return day !== 0 && day !== 6;
+};
+
 const datePickerProps = (
     selected: Date | null,
     startDate: Date | null,
@@ -37,6 +42,7 @@ const datePickerProps = (
     timeFormat: "HH:mm",
     minTime: setHours(setMinutes(new Date(), 0), 8),
     maxTime: setHours(setMinutes(new Date(), 0), 18),
+    filterDate: isWeekday,
     customInput: <ExampleCustomInput value={startDate ? startDate.toLocaleDateString() : ''} onClick={() => {}} />,
     onChange,
     startDate,
