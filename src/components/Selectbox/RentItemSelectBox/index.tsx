@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import './style.css'
-import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useReturnSiteStore, useTabletStore } from 'src/stores/index';
+import React, { useEffect, useState } from 'react';
+import './style.css';
+import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useReturnSiteStore, useTabletStore, useUserStore } from 'src/stores/index';
 import { DeviceListItem, ItRentList } from 'src/types';
 import { useNavigate } from 'react-router';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
@@ -28,30 +28,27 @@ function RentItem ({
 }: ItRentList) {
 
     //                    function                    //
-    
 
     //                    event handler                    //
 
     //                    render                    //
     return (
-        <div className='device-box' > 
+        <div className='device-box'> 
             <div className='device-box-left'>
-                {/* <div className='device-image'>{devicesImgUrl}</div> */}
-                <div className='device-brand'>{brand}</div>
+                <img className='device-image' src={devicesImgUrl} alt={`${name} 이미지`} />
             </div>
             <div className='device-box-middle'>
                 <div className='device-detail'>
                     <div className='device-detail-title'>{name}</div>
-                    {/* <div className='device-detail-explain'>{deviceExplain}~</div> */}
+                    <div className='device-detail-explain'>{deviceExplain}</div>
                 </div>
             </div>
             <div className='device-box-right'>
-                <div className='device-price'>{price}</div>
+                <div className='device-price'>{price.toLocaleString()}원</div>
             </div>
         </div>
     );
 }
-
 
 //                    interface                    //
 interface Prop {
@@ -64,25 +61,21 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const navigator = useNavigate();
 
     //                    state                    //
+    const {loginUserRole} = useUserStore();
     const [cookies] = useCookies();
-    const { selectListItItem,setSelectListItItem } = useRentListStore();
-    const { notebookState,setNotebookState } = useNoteBookStore();
-    const { tabletState,setTabletState } = useTabletStore();
+    const { selectListItItem, setSelectListItItem } = useRentListStore();
+    const { notebookState, setNotebookState } = useNoteBookStore();
+    const { tabletState, setTabletState } = useTabletStore();
     const { gameItState, setGameItState } = useGameItStore();
     const { externalBatteryState, setExternalBatteryState } = useBatteryStore();
-
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
     const { rentSite, setRentSite } = useRentSiteStore();
-
-    const { startDate, endDate } = useRentDateStore()
-
+    const { startDate, endDate } = useRentDateStore();
     const [rentViewList, setRentViewList] = useState<ItRentList[]>([]);
 
     //                    function                    //
-
     const getDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
-
         const message =
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'VF' ? '유효하지 않은 정보입니다.' : 
@@ -97,12 +90,17 @@ export default function RentSelectBox({ value, onChange }: Prop) {
 
         const { deviceList } = result as GetDeviceListResponseDto;
         setRentViewList(deviceList);
-
-
     };
-    
+
     //                    event handler                    //
-    const onButtonClickHandler = () => {
+    const adminAddButtonClickHandler = () => {
+        if (loginUserRole !== 'ROLE_ADMIN') return;
+    }
+    const adminDeleteButtonClickHandler = () => {
+        if (loginUserRole !== 'ROLE_ADMIN') return;
+    }
+
+    const onItemSelectButtonClickHandler = () => {
         setSelectListItItem(!selectListItItem);
     };
 
@@ -132,22 +130,26 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         if (!cookies.accessToken) return;
         if (!startDate || !endDate) return;
         const start = dateFormat(startDate);
-        console.log(start);
         const end = dateFormat(endDate);
         getRentPossibilityListRequest(start, end, cookies.accessToken).then(getDeviceListResponse);
     }, [startDate, endDate]);
-
 
     //                    render                    //
     const buttonClass = selectListItItem ? 'select-close-button' : 'select-open-button';
     return (
         <div id='select-type-wrapper'>
+            {loginUserRole === 'ROLE_ADMIN' ? 
+            <div className='rent-admin-button'>
+                <div className='add-button' onClick={adminAddButtonClickHandler}>추가</div>
+            </div> :
+            <div></div>
+            }
             <div className='select-it-box'>
                 {value === '' ? 
                     <div className='select-it-none'>Device Type</div> :
                     <div className='select-it-item'>{value}</div>
                 }
-                <div className={buttonClass} onClick={onButtonClickHandler}></div>
+                <div className={buttonClass} onClick={onItemSelectButtonClickHandler}></div>
             </div>
             {selectListItItem &&
             <>
@@ -155,11 +157,16 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             {notebookState &&
             <div className='type-notebook-detail'>
                 {rentViewList.filter(item => item.type === '노트북').map(item => 
-                <div>
+                <div key={item.serialNumber}>
+                    {item.name} {item.model}
                     <RentItem {...item} />
-                    <div key={item.serialNumber}>
-                        {item.name} - {item.price.toLocaleString()}원
-                        <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                    <div className='device-put-box'>
+                    {loginUserRole === 'ROLE_ADMIN' ? 
+                    <div className='rent-admin-button'>
+                        <div className='delete-button' onClick={adminDeleteButtonClickHandler}>삭제</div>
+                    </div> :
+                    <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                    }
                     </div>
                 </div>)}
             </div>
@@ -168,10 +175,10 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             {tabletState &&
             <div className='type-tablet-detail'>
                 {rentViewList.filter(item => item.type === '태블릿').map(item => 
-                <div>
+                <div key={item.serialNumber}>
+                    {item.name} {item.model}
                     <RentItem {...item} />
-                    <div key={item.serialNumber}>
-                        {item.name} - {item.price.toLocaleString()}원
+                    <div className='device-put-box'>
                         <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                     </div>
                 </div>)}
@@ -181,10 +188,10 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             {gameItState &&
             <div className='type-game-detail'>
                 {rentViewList.filter(item => item.type === '게임기').map(item => 
-                <div>
+                <div key={item.serialNumber}>
+                    {item.name} {item.model}
                     <RentItem {...item} />
-                    <div key={item.serialNumber}>
-                        {item.name} - {item.price.toLocaleString()}원
+                    <div className='device-put-box'>
                         <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                     </div>
                 </div>)}
@@ -194,10 +201,10 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             {externalBatteryState &&
             <div className='type-tablet-detail'>
                 {rentViewList.filter(item => item.type === '보조배터리').map(item => 
-                <div>
+                <div key={item.serialNumber}>
+                    {item.name} {item.model}
                     <RentItem {...item} />
-                    <div key={item.serialNumber}>
-                        {item.name} - {item.price.toLocaleString()}원
+                    <div className='device-put-box'>
                         <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                     </div>
                 </div>)}
