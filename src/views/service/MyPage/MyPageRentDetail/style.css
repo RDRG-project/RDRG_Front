@@ -1,28 +1,108 @@
-.rental-details {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  
-  .rental-info, .payment-info {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-top: 10px;
-  }
-  
-  .rental-info p, .payment-info p {
+#mp-rent-detail-wrapper {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+
+    width: 600px;
+    padding: 60px 100px;
+    gap: 40px;
+
+    background-color: rgba(241,241,241,1);
   }
+
+.mp-rent-detail-title{
+  font-family: "Noto Sans KR";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.mp-rent-detail-container{
+  padding: 20px 40px;
+  background-color: rgba(255,255,255,1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mp-rent-detail-content-container , .mp-rent-detail-payment-container{
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  gap: 10px;
+}
+
+.mp-rent-detail-content-title{
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.mp-rent-detail-content-box, .mp-rent-detail-payment-content-box{
+  display: flex;
+  flex-direction: column;
+
+  border: 2px solid rgba(0,0,0,1);
+  padding: 20px;
+  gap: 10px;
+}
+
+.mp-rent-detail-items-box{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mp-rent-detail-item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
   
-  .summary {
-    margin-top: 10px;
-    font-weight: bold;
-  }
-  
-  .details {
-    margin-top: 10px;
-  }
-  
-  .details p {
-    margin: 5px 0;
-  }
+.mp-rent-detail-items-divide{
+  border: 1px solid rgba(102,102,102,0.5);
+}
+
+.mp-rent-detail-items-summary{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  gap: 10px;
+}
+
+.mp-rent-detail-time, .mp-rent-detail-spot{
+  color: #666;
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.mp-rent-detail-payment-number, .mp-rent-detail-payment-card-number, .mp-rent-detail-payment-sum{
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
