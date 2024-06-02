@@ -31,9 +31,9 @@ export default function MypageUnRegister() {
 
         const message =
             !result ? '서버에 문제가 있습니다.' :
-            result.code === 'VF' ? '잘못된 계정 정보 슴돠.' :
-            result.code === 'AF' ? '권한이 없슴돠.' :
-            result.code === 'DBE' ? '서버에 문제가 있슴돠.' : '';
+            result.code === 'VF' ? '잘못된 계정 정보입니다.' :
+            result.code === 'AF' ? '권한이 없습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
         if (!result || result.code !== 'SU') {
             alert(message);
@@ -58,14 +58,12 @@ export default function MypageUnRegister() {
     const onCheckBoxHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setIsChecked(event.target.checked);
     };    
-    
-
 
     // 회원 탈퇴 
     const userDeleteClickHandler = () => {
 
         if (loginUserId !== userId) return;
-        const isConfirm = window.confirm('레알 삭제함?')
+        const isConfirm = window.confirm('정말로 삭제하시겠습니까?')
 
         if (!isConfirm) return;
 
@@ -85,7 +83,7 @@ export default function MypageUnRegister() {
 
     //                    render                    //
     return (
-        <div className='unregister-contents'>
+        <div className='unregister-wrapper'>
             <div className='unregister-contents-title'>회원 탈퇴</div>
             <div className='unregister-contents-text'>
                 <div><br/><ul><li>회원탈퇴 전, 유의사항을 확인해주시기 바랍니다.</li></ul></div>
@@ -99,10 +97,7 @@ export default function MypageUnRegister() {
                 <br/>
                 </div>
             </div>
-            <div className='unregister-contents-password'>
-            {/* <InputBox label="현재 비밀번호" type="password" value={password} placeholder="계정을 삭제하려면 현재 비밀번호를 입력해주세요." onChangeHandler={onPasswordChangeHandler} /> */}
-            </div>
-            <div className='unregister-contents-message'>계정삭제시 모든 게시물이 삭제되며 복구 불가능합니다.</div>
+            <div className='unregister-contents-message'>계정삭제 시 모든 게시물이 삭제되며 복구 불가능합니다.</div>
             <div className='checkbox-container'>
                 <input type= "Checkbox" onChange={onCheckBoxHandler} />동의합니다.
             </div>
