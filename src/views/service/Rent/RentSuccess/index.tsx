@@ -7,7 +7,7 @@ import { ReserveResponseDto } from 'src/apis/payment/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import { getSignInUserRequest } from 'src/apis/user';
 import { GetSignInUserResponseDto } from 'src/apis/user/dto/response';
-import { AUTH_ABSOLUTE_PATH } from 'src/constants';
+import { AUTH_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
 import { useUserStore } from 'src/stores';
 
 //                    component                    //
@@ -62,6 +62,10 @@ export default function RentSuccess() {
 
     }
 
+    //                    event handler                    //
+    const onMainClickHandler = () => navigator(HOME_ABSOLUTE_PATH);
+    const onRentClickHandler = () => navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH);
+
     //                    effect                    //
     useEffect(() => {
         console.log(`accessToken: ${cookies.accessToken}`);
@@ -76,15 +80,17 @@ export default function RentSuccess() {
         <div id='rent-success-wrapper'>
             <div className='rent-success-container'>
                 <div className='rent-success-ment'>대여가 완료되었습니다.</div>
-                <div className='rent-success-title'>나의 예약정보</div>
+                <div className='rent-success-title'>나의 대여정보</div>
                 <div className='rent-success-constant'>
                     <div className='rent-success-name'>
                         <div>대여자</div>
                         <div>{reserveUserId}</div>
                     </div>
                     <div className='rent-success-datetime'>
-                        <div>대여날짜</div>
-                        <div>{rentalPeriod}</div>
+                        <div>대여기간</div>
+                        {rentalPeriod.split('~').map((period, index) => (
+                                <div key={index} className='rent-success-period'>{period.trim()}</div>
+                            ))}
                     </div>
                     <div className='rent-success-spot'>
                         <div>대여지점</div>
@@ -95,8 +101,10 @@ export default function RentSuccess() {
                         <div>{rentTotalPrice}</div>
                     </div>
                 </div>
-                <div>메인으로 가기</div>
-                <div>대여 확인</div>
+                <div className='rent-success-button'>
+                    <div className='customer-support-button' onClick={onMainClickHandler}>메인으로 가기</div>
+                    <div className='customer-support-button' onClick={onRentClickHandler}>대여 확인</div>
+                </div>
             </div>
         </div>
     )
