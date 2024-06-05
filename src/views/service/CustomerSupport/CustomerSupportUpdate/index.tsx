@@ -132,37 +132,46 @@ export default function SupportUpdate() {
 
 
     const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        if (!event.target.files || !event.target.files.length) return;
-        const file = event.target.files[0];
-        const name = file.name;
-        const url = URL.createObjectURL(file);
 
-        const uploadedFileCount = filePreviews.length + imageUrls.length;
+        const files = event.target.files;
+        if (!files || !files.length) return;
 
-        if (uploadedFileCount >= 3) {
+        const uploadedFileCount = fileUpload.length + files.length;
+
+        if (fileRevise === null && uploadedFileCount > 3 ) {
             alert('파일은 최대 3개까지 업로드할 수 있습니다.');
             return;
         }
 
-        if (fileRevise !== null) {
-            const fileUpdate = [...fileUpload];
-            const showFile = [...filePreviews];
+        if (fileRevise !== null && uploadedFileCount > 4) {
+            alert('파일은 최대 3개까지 업로드할 수 있습니다.');
+            return;
+        }
 
-            if (fileRevise < 3) {
-                fileUpdate[fileRevise] = file;
-                showFile[fileRevise] = { name, url };
-                setFileRevise(null);
-            }
-                setFileUpload(fileUpdate);
-                setFilePreviews(showFile);
+        const fileList = Array.from(files);
+
+        const newPreviewList = [];
+        for (const file of fileList) {
+            const name = file.name;
+            const url = URL.createObjectURL(file);
+            newPreviewList.push({name, url})
+        }
+
+        if (fileRevise !== null) {
+            let updatedFiles = fileUpload.filter((item, index) => index !== fileRevise);
+            updatedFiles = [...updatedFiles, ...fileList];
+            setFileUpload(updatedFiles);
+
+            let updatedPreviews = filePreviews.filter((item, index) => index !== fileRevise);
+            updatedPreviews = [...updatedPreviews, ...newPreviewList];
+            setFilePreviews(updatedPreviews);
+
+            setFileRevise(null);
         } else {
-            if (fileUpload.length < 3) {
-                setFileUpload([...fileUpload, file]);
-                setFilePreviews([...filePreviews, {name, url}]);
-            }
+            setFileUpload([...fileUpload, ...fileList]);
+            setFilePreviews([...filePreviews, ...newPreviewList]);
         } 
     };
-
 
     const onFileUploadButtonClickHandler = () => {
         if (!fileRef.current) return;
@@ -190,6 +199,40 @@ export default function SupportUpdate() {
 
         setImageUrls(updatedImageUrls);
         setFileUpload(updateFileUpload);
+    };
+
+    const onDragOverHandler = (event: React.DragEvent) => {
+        event.preventDefault();
+    };
+    
+    const onDropHandler = (event: React.DragEvent) => {
+        event.preventDefault();
+        if (!event.dataTransfer || !event.dataTransfer.files.length) return;
+    
+        const files = Array.from(event.dataTransfer.files);
+        const uploadedFileCount = filePreviews.length + imageUrls.length;
+    
+        if (uploadedFileCount + files.length > 3) {
+            alert('파일은 최대 3개까지 업로드할 수 있습니다.');
+            return;
+        }
+    
+        const newFilePreviews = files.map(file => ({
+            name: file.name,
+            url: URL.createObjectURL(file)
+        }));
+    
+        setFileUpload([...fileUpload, ...files]);
+        setFilePreviews([...filePreviews, ...newFilePreviews]);
+    };
+
+    const onCancelButtonClickHandler = () => {
+        if (receptionNumber) {
+            const path = CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH(receptionNumber);
+            navigator(path);
+        } else {
+            navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
+        }
     };
 
     //                    effect                    //
@@ -226,34 +269,39 @@ export default function SupportUpdate() {
                         </div>
                     </div>
                     <div>
-                        <div>
+                        <div className="cs-write-bottom">
+                            <div className='cs-write-bottom-title'>첨부파일</div>
                             {imageUrls.length ? imageUrls.map((url, index) => (
                             <div key={index}>
-                                <img src={url} width="150px" height="auto" title="file-viewer" />
+                                <img src={url} width="180" height="auto" title="file-viewer" />
                                 <button onClick={() => onImageDeleteClickHandler(index)}>삭제</button>
                             </div>
                             )) : (
                             <p style={{margin: '10px' , color: 'red'}}>첨부된 파일이 없습니다.</p>
                             )}
                         </div>
-                    </div>
-                    <div>
-                        <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
-                        <div style={{ margin: '5px 0px' ,padding: '10px', display: 'line-block' , color: 'white' , backgroundColor: 'green' }} onClick={onFileUploadButtonClickHandler}>클릭해서 추가로 파일을 첨부합니다.</div>
                         <div>
-                        {filePreviews.map((preview, index) => (
-                            <div key={index}>
-                                <img src={preview.url} alt={preview.name} width="70" height="50"/>
-                                <p>{preview.name}</p>
-                                <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
-                                <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
+                            <input ref={fileRef} style={{ display: 'none' }} type="file" multiple className="fileUpload" onChange={onFileUploadChangeHandler}/>
+                            <div style={{ border: '2px dashed', padding: '10px', color: 'BLUE', width: 'auto' }} 
+                            onDrop={onDropHandler}
+                            onDragOver={onDragOverHandler}
+                            onClick={onFileUploadButtonClickHandler} >
+                            클릭해서 추가로 파일을 첨부합니다.</div>
+                            <div className="file-arrangement">
+                            {filePreviews.map((preview, index) => (
+                                <div key={index}>
+                                    <img src={preview.url} alt={preview.name} width="150" height="auto"/>
+                                    <p>{preview.name}</p>
+                                    <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
+                                    <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
+                                </div>
+                            ))}
                             </div>
-                        ))}
                         </div>
                     </div>
                 </div>               
                 <div className="cs-write-button">
-                    <div className='customer-support-button' onClick={onPostButtonClickHandler}>취소</div>
+                    <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
                     <div className='customer-support-button' onClick={onPostButtonClickHandler}>수정</div>
                 </div>
             </div>
