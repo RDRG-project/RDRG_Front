@@ -133,11 +133,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 .cs-write-button{
     display: flex;
     flex-direction: row-reverse;
     gap: 20px;
+}
+
+.file-arrangement {
+    display: flex;
+    align-items:flex-end;
+
+    gap: 100px;
 }
