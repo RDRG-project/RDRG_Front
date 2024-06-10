@@ -15,6 +15,7 @@ export const CUSTOMER_SUPPORT_DETAIL_PATH = ':receptionNumber'; // 문의 내역
 export const CUSTOMER_SUPPORT_UPDATE_PATH = 'update/:receptionNumber'; // 문의 내역 수정
 
 export const RENT_PATH = 'rent'; // 대여화면
+export const RENT_CANCEL_ABSOLUTE_PATH = 'pay/cancel/:rentNumber'; // 결제 취소 화면
 
 export const MYPAGE_PATH = 'mypage'; //마이페이지 화면
 export const MYPAGE_PROFILE_PATH = 'profile'; //프로필 화면
@@ -38,6 +39,7 @@ export const CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH = (receptionNumber: string | 
 export const CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH = (receptionNumber: string | number) => `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}/update/${receptionNumber}`; // 문의 내역 수정 화면 절대경로
 
 export const RENT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${RENT_PATH}`; // 대여화면 절대경로
+
 export const RENT_ADD_ABSOLUTE_PATH = `${RENT_ABSOLUTE_PATH}/add` // 기기추가 절대 경로
 
 export const MYPAGE_PROFILE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_PROFILE_PATH}`; // 프로필 화면 절대경로
@@ -86,11 +88,13 @@ export const SERVER_PAYMENT_MODULE_URL = `${SERVER_API_URL}/payment`;
 // 결제 정보 저장
 export const POST_PAYMENT_SAVE_REQUEST_URL = `${SERVER_PAYMENT_MODULE_URL}/save`
 // 예약정보 확인
-export const GET_RESERVE_REQUEST_URL = (userId: string) => `${SERVER_PAYMENT_MODULE_URL}/${userId}`
+export const GET_RESERVE_REQUEST_URL = (userId: string) => `${SERVER_PAYMENT_MODULE_URL}/${userId}`;
 // 대여 내역 불러오기
-export const GET_MYRENTPAGE_URL = `${SERVER_PAYMENT_MODULE_URL}/myrentpage`
+export const GET_MYRENTPAGE_URL = `${SERVER_PAYMENT_MODULE_URL}/myrentpage`;
 // 대여 상세내역 불러오기
-export const GET_RENT_DETAIL_URL = (rentNumber: number| string) => `${GET_MYRENTPAGE_URL}/${rentNumber}`
+export const GET_RENT_DETAIL_URL = (rentNumber: number| string) => `${GET_MYRENTPAGE_URL}/${rentNumber}`;
+// 대여내역 삭제
+export const DELETE_RENT_CANCEL = (rentNumber: string | number) => `${SERVER_API_URL}/pay/cancel/${rentNumber}`;
 
 // device 모듈
 export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;
