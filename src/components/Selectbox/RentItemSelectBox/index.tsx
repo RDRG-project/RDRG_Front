@@ -366,7 +366,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         setRentViewList(deviceList);
     };
 
-    const deleteDeviceResponse = (result: ResponseDto | null) => {
+    const deleteDeviceResponse = (result: ResponseDto | null, serialNumber: string | number) => {
         const message =
             !result ? '서버에 문제가 있습니다.' :
                 result.code === 'VF' ? '유효하지 않은 기기 입니다.' :
@@ -379,14 +379,12 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             return;
         }
 
-        const { deviceList } = result as GetDeviceListResponseDto;
-        setRentViewList(deviceList);
+        setRentViewList(prevList => prevList.filter(device => device.serialNumber !== serialNumber));
     }
 
-    //                    event handler                    //
+    //                   event handler                    //
     const adminAddButtonClickHandler = () => {
         if (loginUserRole !== 'ROLE_ADMIN') return;
-        // 관리자가 추가 버튼을 누르면 이동할 경로를 넣어야 함
         navigator(RENT_ADD_ABSOLUTE_PATH);
     };
     const adminDeleteButtonClickHandler = (serialNumber: string | number) => {
@@ -394,7 +392,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         const isConfirm = window.confirm('정말로 삭제하시겠습니까?');
         if (!isConfirm) return;
 
-        deleteDeviceRequest(serialNumber, cookies.accessToken).then(deleteDeviceResponse);
+        deleteDeviceRequest(serialNumber, cookies.accessToken).then(result => deleteDeviceResponse(result, serialNumber));
     };
 
     const onItemSelectButtonClickHandler = () => {

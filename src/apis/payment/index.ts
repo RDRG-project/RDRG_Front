@@ -1,6 +1,6 @@
 import axios from "axios"
 import { bearerAuthorization, requestErrorHandler, requestHandler } from ".."
-import { GET_MYRENTPAGE_URL, GET_RENT_DETAIL_URL, GET_RESERVE_REQUEST_URL, POST_PAYMENT_SAVE_REQUEST_URL } from "src/constants"
+import { DELETE_RENT_CANCEL, GET_MYRENTPAGE_URL, GET_RENT_DETAIL_URL, GET_RESERVE_REQUEST_URL, POST_PAYMENT_SAVE_REQUEST_URL } from "src/constants"
 import { GetMyRentPageResponseDto, GetRentDetailResponseDto, ReserveResponseDto } from "./dto/response"
 import ResponseDto from "../response.dto"
 import { PostPaymentSaveRequestDto } from "./dto/request"
@@ -38,3 +38,10 @@ export const getRentDetailRequest = async (rentNumber: number | string, accessTo
     return result;
 };
 
+// function: 대여 취소하기 API 함수
+export const deleteRentCancelRequest = async (accessToken:string, rentNumber:number | string) => {
+    const result = await axios.delete(DELETE_RENT_CANCEL(rentNumber), bearerAuthorization(accessToken))
+        .then(requestHandler<ResponseDto>)
+        .catch(requestErrorHandler)
+    return result;
+}
