@@ -140,6 +140,10 @@ export default function SupportWrite() {
         const showFileUpdate = filePreviews.filter((_, i) => i !== index);
         setFileUpload(fileUpdate);
         setFilePreviews(showFileUpdate);
+        
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
     };
 
     const onFileReviseButtonClickHandler = (index: number) => {

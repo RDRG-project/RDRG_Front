@@ -23,7 +23,7 @@ export const getReserveRequest = async (userId:string, accessToken: string) => {
 };
 
 // function: 나의 대여 내역 불러오기 API 함수
-export const getMyrentPageRequest = async (accessToken: string) => {
+export const getMyRentPageRequest = async (accessToken: string) => {
     const result = await axios.get(GET_MYRENTPAGE_URL, bearerAuthorization(accessToken))
         .then(requestHandler<GetMyRentPageResponseDto>)
         .catch(requestErrorHandler)
