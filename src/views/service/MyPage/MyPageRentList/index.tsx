@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, MYPAGE_DETAILS_ABSOLUTE_PATH, RENT_DETAIL_COUNT_PER_PAGE, RENT_DETAIL_COUNT_PER_SECTION } from 'src/constants';
 import ResponseDto from 'src/apis/response.dto';
 import { GetMyRentPageResponseDto } from 'src/apis/payment/dto/response';
-import { getMyrentPageRequest } from 'src/apis/payment';
+import { getMyRentPageRequest } from 'src/apis/payment';
 import { useCookies } from 'react-cookie';
 
 //                    component                    //
@@ -173,7 +173,7 @@ export default function MypageRentList() {
     //                    effect                    //
     useEffect(() => {
         if (!cookies.accessToken) return;
-        getMyrentPageRequest(cookies.accessToken).then(getMyPageRentListResponseDto);
+        getMyRentPageRequest(cookies.accessToken).then(getMyPageRentListResponseDto);
     }, []);
 
     useEffect(() => {

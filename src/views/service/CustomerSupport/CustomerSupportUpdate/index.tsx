@@ -170,6 +170,9 @@ export default function SupportUpdate() {
         } else {
             setFileUpload([...fileUpload, ...fileList]);
             setFilePreviews([...filePreviews, ...newPreviewList]);
+        }
+        if (fileRef.current) {
+            fileRef.current.value = "";
         } 
     };
 
