@@ -34,13 +34,15 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
 
     //                    render                    //
     return (
-        <div className='select-box'>
-            <div className='select-item-title'>반납지점</div>
-            <div className={returnShow ? 'select-close-button' : 'select-open-button'} onClick={onButtonClickHandler}></div>
+        <div id='rent-select-wrapper'>
+            <div className='select-box-container'>
+                <div className='select-item-title'>반납지점</div>
+                <div className={returnShow ? 'spot-close-button' : 'spot-open-button'} onClick={onButtonClickHandler}></div>
+            </div>
             {returnShow &&
                 <div className='select-list'>
                     {RentSiteListItem.map((item) =>
-                        <div
+                        <div 
                             key={item.value}
                             className={returnSelectedItem === item.value ? 'select-list-item-selected' : 'select-list-item-box'}
                             onClick={() => onItemClickHandler(item.value)}>
