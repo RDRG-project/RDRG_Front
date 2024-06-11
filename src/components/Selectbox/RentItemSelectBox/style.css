@@ -59,7 +59,7 @@
     margin-bottom: 10px;
 }
 
-.cs-write-bottom div {
+/* .cs-write-bottom div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,12 +68,12 @@
     color: #aaa;
     cursor: pointer;
     transition: color 0.3s, border-color 0.3s;
-}
+} */
 
-.cs-write-bottom div:hover {
+/* .cs-write-bottom div:hover {
     color: #333;
     border-color: #333;
-}
+} */
 
 .cs-write-bottom input[type="file"] {
     display: none;
