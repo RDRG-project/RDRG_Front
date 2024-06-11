@@ -12,7 +12,7 @@ import { dateFormat } from 'src/utils';
 import useGameItStore from 'src/stores/gameIt.store';
 import { DeviceAddRequestDto, DeviceDeleteRequestDto } from 'src/apis/device/dto/request';
 import axios from 'axios';
-import TypeSelectBox from './TypeSelectBox';
+import TypeSelectBox from './TypeSelectbox';
 
 //                    component                    //
 export function RentAdd() {
