@@ -89,12 +89,20 @@ export const SERVER_PAYMENT_MODULE_URL = `${SERVER_API_URL}/payment`;
 export const POST_PAYMENT_SAVE_REQUEST_URL = `${SERVER_PAYMENT_MODULE_URL}/save`
 // 예약정보 확인
 export const GET_RESERVE_REQUEST_URL = (userId: string) => `${SERVER_PAYMENT_MODULE_URL}/${userId}`;
-// 대여 내역 불러오기
+// 나의 대여 내역(사용자) 불러오기
 export const GET_MYRENTPAGE_URL = `${SERVER_PAYMENT_MODULE_URL}/myrentpage`;
+
+// 관리자 전체 대여내역 불러오기
+export const GET_ADMIN_RENT_PAGE = `${SERVER_PAYMENT_MODULE_URL}/adminrentpage`;
+// 관리자 검색대여 내역 불러오기
+export const GET_ADMIN_SEARCH_WORD = `${SERVER_PAYMENT_MODULE_URL}/adminrent/search`;
+// 대여 상태 변경
+export const PATCH_RENT_STATUS = (rentNumber: number | string) => `${SERVER_PAYMENT_MODULE_URL}/${rentNumber}`;
+
 // 대여 상세내역 불러오기
 export const GET_RENT_DETAIL_URL = (rentNumber: number| string) => `${GET_MYRENTPAGE_URL}/${rentNumber}`;
 // 대여내역 삭제
-export const DELETE_RENT_CANCEL = (rentNumber: string | number) => `${SERVER_API_URL}/pay/cancel/${rentNumber}`;
+export const DELETE_RENT_CANCEL = (rentNumber: string | number) => `${SERVER_PAYMENT_MODULE_URL}/${rentNumber}`;
 
 // device 모듈
 export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;

@@ -201,7 +201,7 @@ export default function SupportWrite() {
                     <div className="file-arrangement">
                         {filePreviews.map((preview, index) => (
                             <div key={index}>
-                                <img src={preview.url} alt={preview.name} width="180" height="auto"/>
+                                <img src={preview.url} alt={preview.name} width="300" height="auto"/>
                                 <p>{preview.name}</p>
                                 <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
                                 <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>

@@ -340,6 +340,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
     const { rentSite, setRentSite } = useRentSiteStore();
+    const [ place, setPlace ] = useState<string>('');
     const { startDate, endDate } = useRentDateStore();
     const [rentViewList, setRentViewList] = useState<ItRentList[]>([]);
 
