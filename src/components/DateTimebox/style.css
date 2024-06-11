@@ -3,30 +3,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Noto Sans KR';
 }
 
 .rental-date, .return-date {
     margin: 10px 0;
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .example-custom-input {
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 4px;
     cursor: pointer;
     color: black;
     font-size: 16px;
-    background-color: rgb(209, 188, 188);
-}
-
-.example-custom-input:hover {
-    background-color: #5b68b2;
-}
-
-.react-datepicker {
-    font-family: Arial, sans-serif;
+    background-color: rgb(223, 144, 125);
 }
 
 .react-datepicker__header {
