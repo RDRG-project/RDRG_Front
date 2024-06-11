@@ -60,11 +60,29 @@ export default function RentSuccess() {
         setRentTotalPrice(rentTotalPrice);
         setRentalPeriod(rentalPeriod);
 
+        // 결제 성공시 rent_status "결제 완료" 변경 코드
+        // completePaymentRequest(Number(rentNumber), rentTotalPrice);
+
     }
 
     //                    event handler                    //
     const onMainClickHandler = () => navigator(HOME_ABSOLUTE_PATH);
     const onRentClickHandler = () => navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH);
+
+    // 결제 성공시 rent_status "결제 완료" 변경 코드
+    // const completePaymentRequest = (rentNumber : number, paymentAmount : number) => {
+    //     fetch('/complete_payment',{
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             rentNumber: rentNumber,
+    //             paymentAmount: paymentAmount,
+    //         }),
+    //     })
+    //     .then(response => response.json())
+    // };
 
     //                    effect                    //
     useEffect(() => {
