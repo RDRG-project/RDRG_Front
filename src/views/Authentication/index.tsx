@@ -84,10 +84,10 @@ interface Props {
 function SignIn({ onLinkClickHandler }: Props) {
 
     //                    state                    //
-    const [cookies, setCookie] = useCookies();
-    const [id, setId] = useState<string>(cookies.accessToken || '');
+    const [cookies, setCookie, removeCookie] = useCookies();
+    const [id, setId] = useState<string>(cookies.savedId || '');
     const [password, setPassword] = useState<string>('');
-    const [saveId, setSaveId] = useState<boolean>(!!cookies.accessToken);
+    const [saveId, setSaveId] = useState<boolean>(!!cookies.savedId);
     const [message, setMessage] = useState<string>('');
 
     //                    function                    //
@@ -110,14 +110,15 @@ function SignIn({ onLinkClickHandler }: Props) {
     const expiration = new Date(Date.now() + (expires * 1000));
     setCookie('accessToken', accessToken, { path: '/', expires: expiration });
     
-    // if (saveId) {
-    // setCookie('accessToken', id, { path: '/' });
-    // } else {
-    // removeCookie('accessToken', { path: '/' });
-    // }
-    
+    if (saveId) {
+        setCookie('savedId', id, { path: '/' });
+    } else {
+        removeCookie('savedId', { path: '/' });
+    }
+
     navigator(HOME_ABSOLUTE_PATH);
-    };
+};
+
 
     //                    event handler                    //
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -150,18 +151,17 @@ function SignIn({ onLinkClickHandler }: Props) {
         
     };
 
-    // const onSaveIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    //     setId(event.target.value);
-    //     setSaveId(event.target.checked);
-    // };
+    const onSaveIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setSaveId(event.target.checked);
+    };
 
     //                    effect                    //
-    // useEffect(() => {
-    //     if (cookies.accessToken) {
-    //     setId(cookies.accessToken);
-    //     setSaveId(true);
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (cookies.savedId){
+            setId(cookies.savedId);
+            setSaveId(true);   
+        }
+    }, []);
 
     //                    render                    //
     return (
@@ -171,7 +171,7 @@ function SignIn({ onLinkClickHandler }: Props) {
                 <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} onKeydownHandler={onPasswordKeydownHandler} message={message} error />
             </div>
             <div className="saveId">
-                <input type="checkbox" className="saveId-cb" />
+                <input type="checkbox" className="saveId-cb" checked={saveId} onChange={onSaveIdChangeHandler} />
                 <div className="saveId">아이디 저장</div>
             </div>
             <div className='authentication-button-container'>
