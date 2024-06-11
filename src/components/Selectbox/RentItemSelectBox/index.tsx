@@ -1,18 +1,18 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './style.css';
-import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useReturnSiteStore, useTabletStore, useUserStore } from 'src/stores/index';
-import { DeviceListItem, ItRentList } from 'src/types';
+import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useTabletStore, useUserStore } from 'src/stores/index';
+import { ItRentList } from 'src/types';
 import { useNavigate } from 'react-router';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import { useCookies } from 'react-cookie';
-import { AUTH_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, RENT_ADD_ABSOLUTE_PATH } from 'src/constants';
+import { HOME_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, RENT_ADD_ABSOLUTE_PATH } from 'src/constants';
 import { PostDeviceAddRequest, deleteDeviceRequest, getRentPossibilityListRequest } from 'src/apis/device';
 import { dateFormat } from 'src/utils';
 import useGameItStore from 'src/stores/gameIt.store';
 import { DeviceAddRequestDto, DeviceDeleteRequestDto } from 'src/apis/device/dto/request';
 import axios from 'axios';
-import TypeSelectbox from './TypeSelectbox';
+import TypeSelectBox from './TypeSelectBox';
 
 //                    component                    //
 export function RentAdd() {
@@ -185,7 +185,7 @@ export function RentAdd() {
                     <div className='device-write-top'>
                         <div className='device-write-title'>type</div>
                         <div className='device-write-title-box'>
-                            <TypeSelectbox type={type} onChange={setType} />
+                            <TypeSelectBox type={type} onChange={setType} />
                         </div>
                     </div>
                     <div className='device-write-top'>
@@ -230,6 +230,7 @@ interface RentItemProps extends ItRentList {
     loginUserRole: string;
     onDelete: (serialNumber: string | number) => void;
     onAdd: (item: ItRentList) => void;
+    onRemove: (serialNumber: string | number) => void;
 }
 
 //                    component                    //
@@ -244,11 +245,14 @@ function RentItem({
     serialNumber,
     loginUserRole,
     onDelete,
-    onAdd
+    onAdd,
+    onRemove
 }: RentItemProps) {
 
     //                    function                    //
     const [isExplainFullVisible, setIsExplainFullVisible] = useState(false);
+    const { basketItems } = useBasketStore();
+    const isItemInBasket = basketItems.some(item => item.serialNumber === serialNumber);
 
     //                    event handler                    //
     const handleExplainClick = () => {
@@ -272,6 +276,10 @@ function RentItem({
         });
     };
 
+    const onRemoveClick = () => {
+        onRemove(serialNumber);
+    };
+
     //                    render                    //
     return (
         <div className='device-box'>
@@ -279,8 +287,8 @@ function RentItem({
                 <img className='device-image' src={devicesImgUrl} alt={`${name} 이미지`} />
             </div>
             <div className='device-box-middle'>
+                <div className='device-detail-title'>{name}{model}</div>
                 <div className='device-detail'>
-                    <div className='device-detail-title'>{name}{model}</div>
                     <div className='device-detail-explain' onClick={handleExplainClick}>
                         {deviceExplain}
                     </div>
@@ -297,12 +305,14 @@ function RentItem({
             </div>
             <div className='device-box-right'>
                 <div className='device-price'>{price.toLocaleString()}원</div>
-            </div>
-            <div className='device-put-box'>
+                <div className='device-put-box'>
                 {loginUserRole === 'ROLE_ADMIN' ?
                     <div className='delete-button' onClick={() => onDelete(serialNumber)}>삭제</div> :
-                    <div className='customer-support-button' onClick={onAddClick}>담기</div>
+                    isItemInBasket ?
+                        <div className='device-out-button' onClick={onRemoveClick}>해제</div> :
+                        <div className='device-put-button' onClick={onAddClick}>담기</div>
                 }
+                </div>
             </div>
         </div>
     );
@@ -328,7 +338,6 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const { externalBatteryState, setExternalBatteryState } = useBatteryStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
-    const { rentSite, setRentSite } = useRentSiteStore();
     const { startDate, endDate } = useRentDateStore();
     const [rentViewList, setRentViewList] = useState<ItRentList[]>([]);
 
@@ -388,6 +397,15 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         setTotalAmount(totalAmount + item.price);
     };
 
+    const removeItemButtonClickHandler = (serialNumber: string | number) => {
+        const updatedBasketItems = basketItems.filter(item => item.serialNumber !== serialNumber);
+        const removedItem = basketItems.find(item => item.serialNumber === serialNumber);
+        setBasketItems(updatedBasketItems);
+        if (removedItem) {
+            setTotalAmount(totalAmount - removedItem.price);
+        }
+    };
+
     const onNotebookButtonClickHandler = () => {
         setNotebookState(!notebookState);
     };
@@ -422,7 +440,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
             }
             <div className='select-it-box'>
             {value === '' ?
-                <div className='select-it-none'>Device Type</div> :
+                <div className='select-it-none'>대여 기기 목록</div> :
                 <div className='select-it-item'>{value}</div>
             }
                 <div className={buttonClass} onClick={onItemSelectButtonClickHandler}></div>
@@ -439,6 +457,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                                 loginUserRole={loginUserRole}
                                 onDelete={adminDeleteButtonClickHandler}
                                 onAdd={addItemButtonClickHandler}
+                                onRemove={removeItemButtonClickHandler}
                             />
                         </div>)}
                     </div>
@@ -453,6 +472,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                                 loginUserRole={loginUserRole}
                                 onDelete={adminDeleteButtonClickHandler}
                                 onAdd={addItemButtonClickHandler}
+                                onRemove={removeItemButtonClickHandler}
                             />
                         </div>)}
                     </div>
@@ -467,6 +487,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                                 loginUserRole={loginUserRole}
                                 onDelete={adminDeleteButtonClickHandler}
                                 onAdd={addItemButtonClickHandler}
+                                onRemove={removeItemButtonClickHandler}
                             />
                         </div>)}
                     </div>
@@ -481,6 +502,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                                 loginUserRole={loginUserRole}
                                 onDelete={adminDeleteButtonClickHandler}
                                 onAdd={addItemButtonClickHandler}
+                                onRemove={removeItemButtonClickHandler}
                             />
                         </div>)}
                     </div>

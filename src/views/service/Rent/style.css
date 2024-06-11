@@ -50,41 +50,7 @@ body {
 .rent-item {
     width: 700px;
     padding: 20px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-}
-
-.select-it-box {
-    display: flex;
-    align-items: center;
-    position: relative;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 8px 16px;
-    background-color: #fff;
-}
-
-.select-it-none,
-.select-it-item {
-    flex-grow: 1;
-    font-size: 20px;
-    color: #333;
-}
-
-.select-open-button,
-.select-close-button {
-    width: 24px;
-    height: 24px;
-    background-size: 100% 100%;
-    cursor: pointer;
-}
-
-.select-open-button {
-    background-image: url('../../../assets/image/arrow-drop-down-icon.png');
-}
-
-.select-close-button {
-    background-image: url('../../../assets/image/arrow-drop-up-icon.png');
+    background-color: rgba(246, 243, 242, 1);
 }
 
 /* 장바구니 및 결제 */
@@ -265,30 +231,4 @@ body {
 
 .device-box button:hover {
     background-color: #45a049;
-}
-
-/* 타입 선택 박스 */
-.type-notebook,
-.type-tablet,
-.type-game,
-.type-external-battery {
-    background-color: #ccc;
-    text-align: center;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.type-notebook-detail,
-.type-tablet-detail,
-.type-game-detail,
-.type-external-battery-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
 }
