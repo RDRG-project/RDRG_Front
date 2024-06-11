@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './style.css';
-import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useTabletStore, useUserStore } from 'src/stores/index';
+import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useTabletStore, useUserStore } from 'src/stores/index';
 import { ItRentList } from 'src/types';
 import { useNavigate } from 'react-router';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
@@ -122,22 +122,59 @@ export function RentAdd() {
     };
 
     const uploadedFile = (files: File[]) => {
-        if (files.length === 0) return;
-    
         const filePreviewsToAdd = files.map(file => {
             return { name: file.name, url: URL.createObjectURL(file) };
         });
-    
-        const fileToAdd = files[0];
-        const filePreviewToAdd = filePreviewsToAdd[0];
-    
-        setFileUpload([fileToAdd]);
-        setFilePreviews([filePreviewToAdd]);
+
+        if (fileRevise !== null) {
+            const fileUpdate = [...fileUpload];
+            const showFile = [...filePreviews];
+
+            if (fileRevise < 3) {
+                files.forEach((file, index) => {
+                    fileUpdate[fileRevise + index] = file;
+                    showFile[fileRevise + index] = filePreviewsToAdd[index];
+                });
+
+                setFileRevise(null);
+                setFileUpload(fileUpdate);
+                setFilePreviews(showFile);
+            }
+        } else {
+            if (fileUpload.length + files.length <= 3) {
+                setFileUpload([...fileUpload, ...files]);
+                setFilePreviews([...filePreviews, ...filePreviewsToAdd]);
+            }
+        }
+    };
+
+    const onDragOverHandler = (event: React.DragEvent) => {
+        event.preventDefault();
+    };
+
+    const onDropHandler = (event: React.DragEvent) => {
+        event.preventDefault();
+        const files = Array.from(event.dataTransfer.files);
+        uploadedFile(files);
     };
 
     const onFileUploadButtonClickHandler = () => {
         if (fileInputRef.current) {
             fileInputRef.current.click();
+        }
+    };
+
+    const onFileDeleteButtonClickHandler = (index: number) => {
+        const fileUpdate = fileUpload.filter((_, i) => i !== index);
+        const showFileUpdate = filePreviews.filter((_, i) => i !== index);
+        setFileUpload(fileUpdate);
+        setFilePreviews(showFileUpdate);
+    };
+
+    const onFileReviseButtonClickHandler = (index: number) => {
+        setFileRevise(index);
+        if (fileRef.current) {
+            fileRef.current.click();
         }
     };
 
@@ -201,20 +238,26 @@ export function RentAdd() {
                         </div>
                     </div>
                     <div className="cs-write-bottom">
+                        <div className='cs-write-bottom-title'>첨부파일</div>
+                        <input ref={fileInputRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler} />
                         <div
-                            className='cs-write-bottom-title'
-                            style={{ border: '1px dashed', padding: '10px', color: 'red', width: '100%', height: 'auto' }}
-                            onClick={onFileUploadButtonClickHandler}>
-                            {filePreviews.length === 0 && "이미지 추가"}
-                            {filePreviews.map((preview, index) => (
-                            <div key={index} style={{ flexDirection: 'column' }}>
-                            <img src={preview.url} alt={preview.name} width="auto" height="300" />
-                            {/* <p style={{ fontSize: 'small', color:'black' }}>{preview.name}</p> */}
+                            style={{ border: '2px dashed', padding: '10px', color: 'red', width: '88%' }}
+                            onDrop={onDropHandler}
+                            onDragOver={onDragOverHandler}
+                            onClick={onFileUploadButtonClickHandler} >
+                            드래그 앤 드롭으로 파일을 여기에 넣으세요.
                         </div>
+                    </div>
+                    <div>
+                        {filePreviews.map((preview, index) => (
+                            <div key={index} >
+                                <img src={preview.url} alt={preview.name} width="70" height="50" />
+                                <p>{preview.name}</p>
+                                <button style={{ display: 'flex' }} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
+                                <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
+                            </div>
                         ))}
                     </div>
-            <input ref={fileInputRef} type="file" onChange={onFileUploadChangeHandler} style={{ display: 'none' }} />
-        </div>
                 </div>
                 <div className="cs-write-button">
                     <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
@@ -294,10 +337,7 @@ function RentItem({
                     </div>
                     {isExplainFullVisible && (
                         <div className='device-detail-explain-full'>
-                            <div className='device-explain-container'>
-                                <div className='explain-title'>상품정보</div>
-                                <div className='explain-close-button' onClick={closeButtonClickHandler}>X</div>
-                            </div>
+                            <div className='explain-title'>상품정보</div>
                             <div>{deviceExplain}</div>
                         </div>
                     )}
@@ -338,16 +378,18 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const { externalBatteryState, setExternalBatteryState } = useBatteryStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
+    const { rentSite, setRentSite } = useRentSiteStore();
+    const [ place, setPlace ] = useState<string>('');
     const { startDate, endDate } = useRentDateStore();
     const [rentViewList, setRentViewList] = useState<ItRentList[]>([]);
 
     //                    function                    //
     const getDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
         const message =
-            !result ? '서버에 문제가 있습니다.' :
-                result.code === 'VF' ? '유효하지 않은 정보입니다.' :
-                    result.code === 'AF' ? '권한이 없습니다.' :
-                        result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+            !result ? '서버에 문제가 있습니다.ljnmljokj' :
+            result.code === 'VF' ? '유효하지 않은 정보입니다.' :
+            result.code === 'AF' ? '권한이 없습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
         if (!result || result.code !== 'SU') {
             alert(message);
@@ -356,15 +398,16 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         }
 
         const { deviceList } = result as GetDeviceListResponseDto;
+        setPlace(place);
         setRentViewList(deviceList);
     };
 
     const deleteDeviceResponse = (result: ResponseDto | null, serialNumber: string | number) => {
         const message =
             !result ? '서버에 문제가 있습니다.' :
-                result.code === 'VF' ? '유효하지 않은 기기 입니다.' :
-                    result.code === 'AF' ? '권한이 없습니다.' :
-                        result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+            result.code === 'VF' ? '유효하지 않은 기기 입니다.' :
+            result.code === 'AF' ? '권한이 없습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
         if (!result || result.code !== 'SU') {
             alert(message);
@@ -428,15 +471,16 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         if (!startDate || !endDate) return;
         const start = dateFormat(startDate);
         const end = dateFormat(endDate);
-        getRentPossibilityListRequest(start, end, cookies.accessToken).then(getDeviceListResponse);
-    }, [startDate, endDate]);
+        getRentPossibilityListRequest(start, end, place, cookies.accessToken).then(getDeviceListResponse);
+    }, [startDate, endDate, place]);
 
     //                    render                    //
     const buttonClass = selectListItItem ? 'select-close-button' : 'select-open-button';
     return (
         <div id='select-type-wrapper'>
             {loginUserRole === 'ROLE_ADMIN' ?
-            <div className='rent-admin-button' onClick={adminAddButtonClickHandler}>기기 추가</div> : <div></div>
+            <div className='rent-admin-button' onClick={adminAddButtonClickHandler}>기기 추가
+            </div> : <div></div>
             }
             <div className='select-it-box'>
             {value === '' ?
