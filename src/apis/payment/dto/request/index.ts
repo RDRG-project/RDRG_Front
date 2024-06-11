@@ -10,3 +10,8 @@ export interface PostPaymentSaveRequestDto {
     rentTotalPrice : number;
     rentStatus:string;
 }
+
+// description: 대여 상태 변경 Request Body DTO //
+export interface GetRentStatusRequestDto {
+    rentStatus: string;
+}

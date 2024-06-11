@@ -11,8 +11,8 @@ interface Prop {
 //                    component                    //
 export default function RentSiteSelectBox({ value, onChange }: Prop) {
     const RentSiteListItem = [
-        { name: '서울', value: 'SEOUL' },
-        { name: '부산', value: 'BUSAN' }
+        { name: '서울', value: '서울' },
+        { name: '부산', value: '부산' }
     ];
 
     //                    state                    //
