@@ -50,9 +50,25 @@ function TopBar({path} : Props) {
     const onLogoClickHandler = () => {navigator(HOME_ABSOLUTE_PATH);
     };
 
-    const onRentClickHandler = () => {navigator(RENT_ABSOLUTE_PATH)};
+    const onRentClickHandler = () => {
+      if (loginUserRole !== 'ROLE_USER' && loginUserRole !== 'ROLE_ADMIN') {
+        alert('로그인 해주세요.');
+        navigator(AUTH_ABSOLUTE_PATH);
+      } 
+      else {
+        navigator(RENT_ABSOLUTE_PATH)
+      }
+      
+    };
     const onCustomerSupportClickHandler = () => {navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH)};
-    const onMypageClickHandler = () => {navigator(MYPAGE_PROFILE_ABSOLUTE_PATH)};
+    const onMypageClickHandler = () => {
+      if (loginUserRole !== 'ROLE_USER' && loginUserRole !== 'ROLE_ADMIN') {
+          alert('로그인 해주세요.');
+          navigator(AUTH_ABSOLUTE_PATH);
+      } else {
+          navigator(MYPAGE_PROFILE_ABSOLUTE_PATH);
+      }
+  };
 
     const onLogoutClickHandler = () => {
       removeCookie('accessToken', { path : '/'});
