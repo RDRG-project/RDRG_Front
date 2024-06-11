@@ -27,6 +27,15 @@ export default function SupportDetail () {
     const [commentRows, setCommentRows] = useState<number>(1);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
 
+    // const [adminImageUrls, setAdminImageUrls] = useState<string[]>([]);
+
+    const [fileUpload , setFileUpload] = useState<File[]>([]);
+    const [filePreviews, setFilePreviews] = useState<{name: string, url: string}[]>([]);
+    const [fileRevise, setFileRevise] = useState<number | null>(null);
+
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const fileRef = useRef<HTMLInputElement | null>(null);
+
     //                    function                    //
     const navigator = useNavigate();
 
@@ -56,6 +65,7 @@ export default function SupportDetail () {
         setStatus(status);
         setComment(comment);
         setImageUrls(imageUrl);
+        // setAdminImageUrls(adminImageUrls || [] );
     };
 
     const postCommentResponse = (result: ResponseDto | null) => {
@@ -129,6 +139,73 @@ export default function SupportDetail () {
         deleteBoardRequest(receptionNumber, cookies.accessToken).then(deleteBoardResponse);
     };
 
+    const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files || !event.target.files.length) return;
+        uploadedFile(Array.from(event.target.files));
+    };
+
+    const uploadedFile = (files: File[]) => {
+        const filePreviewsToAdd = files.map(file => {
+            return { name: file.name, url: URL.createObjectURL(file) };
+        });
+
+        if (fileRevise !== null) {
+            const fileUpdate = [...fileUpload];
+            const showFile = [...filePreviews];
+
+            if (fileRevise < 3) {
+                files.forEach((file, index) => {
+                    fileUpdate[fileRevise + index] = file;
+                    showFile[fileRevise + index] = filePreviewsToAdd[index];
+                });
+
+                setFileRevise(null);
+                setFileUpload(fileUpdate);
+                setFilePreviews(showFile);
+            }
+        } else {
+            if (fileUpload.length + files.length <= 3) {
+                setFileUpload([...fileUpload, ...files]);
+                setFilePreviews([...filePreviews, ...filePreviewsToAdd]);
+            }
+        } 
+    };
+
+    const onDragOverHandler = (event: React.DragEvent) => {
+        event.preventDefault();
+    };
+
+    const onDropHandler = (event: React.DragEvent) => {
+        event.preventDefault();
+        const files = Array.from(event.dataTransfer.files);
+        uploadedFile(files);
+    };
+
+    const onFileUploadButtonClickHandler = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+
+    const onFileDeleteButtonClickHandler = (index: number) => {
+        const fileUpdate = fileUpload.filter((_, i) => i !== index);
+        const showFileUpdate = filePreviews.filter((_, i) => i !== index);
+        setFileUpload(fileUpdate);
+        setFilePreviews(showFileUpdate);
+        
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
+
+    const onFileReviseButtonClickHandler = (index: number) => {
+        setFileRevise(index);
+        if (fileRef.current) {
+            fileRef.current.click();
+        }
+    };
+
     //                    effect                    //
     useEffect(() => {
         if (!cookies.accessToken || !receptionNumber) return;
@@ -165,17 +242,38 @@ export default function SupportDetail () {
                             </div>
                         </div>
                     </div>
-                    
                 </div>
                 {loginUserRole === 'ROLE_ADMIN' && !status && 
                     <div className='cs-detail-comment-textarea-box'>
                         <textarea style={{ height: `${28 * commentRows}px` }} className='cs-detail-comment-textarea' placeholder='답글을 작성해주세요.' value={comment == null ? '' : comment} onChange={onCommentChangeHandler} />
+                        <input ref={fileInputRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler}/>
+                        <div 
+                            style={{ padding: '5px', color: 'red', width: '15%'}}
+                            onDrop={onDropHandler}
+                            onDragOver={onDragOverHandler}
+                            onClick={onFileUploadButtonClickHandler} >
+                            파일 첨부 (최대 3개)
+                        </div>
+                        <div className="file-arrangement">
+                            {filePreviews.map((preview, index) => (
+                                <div key={index}>
+                                    <img src={preview.url} alt={preview.name} width="220" height="auto"/>
+                                    <p>{preview.name}</p>
+                                    <button style={{display: 'none'}} onClick={() => onFileReviseButtonClickHandler(index)}></button>
+                                    <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 }
                 {status &&
                 <div className='cs-detail-comment-box'>
                     <div className='cs-detail-comment-title'>답변</div>
                     <div className='cs-detail-comment'>{comment}</div>
+                    <div>
+                        {/* {adminImageUrls.length ? adminImageUrls.map(url => <img src={url} width="150px" height="auto" title="file-viewer" />)
+                        : ( <p>첨부된 파일이 없습니다.</p> )} */}
+                    </div>
                 </div>
                 }
                 <div className='cs-detail-button-box'>
