@@ -14,8 +14,8 @@ export const PostDeviceAddRequest = async(requestBody: DeviceAddRequestDto ,acce
 };
 
 // function: 대여 가능한 기기 리스트 불러오기 API 함수
-export const getRentPossibilityListRequest = async(start:string, end:string, accessToken:string) => {
-    const config = {...bearerAuthorization(accessToken), params: { start, end }}
+export const getRentPossibilityListRequest = async(start:string, end:string, place:string, accessToken:string) => {
+    const config = {...bearerAuthorization(accessToken), params: { start, end, place }}
     const result = await axios.get(GET_RENT_POSSIBILITY_LIST_URL, config)
         .then(requestHandler<DeviceListResponseDto>)
         .catch(requestErrorHandler);
