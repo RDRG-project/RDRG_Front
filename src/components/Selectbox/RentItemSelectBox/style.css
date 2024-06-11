@@ -129,6 +129,8 @@
     display: flex;
     border: 1px solid #ddd;
     padding: 10px;
+
+    font-family: 'Noto Sans KR';
 }
 
 .device-box-left {
@@ -142,19 +144,16 @@
 }
 
 .device-box-middle {
-    flex: 2;
-    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-
-.device-detail {
-    padding: 10px;
+    position: relative;
+    padding-left: 10px;
+    gap: 10px;
 }
 
 .device-detail-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -163,10 +162,13 @@
     color: #555;
     white-space: nowrap;
     overflow: hidden;
-    text-decoration: underline;
     text-overflow: ellipsis;
-    width: 350px;
+    width: 400px;
+}
+
+.device-detail-explain:hover{
     cursor: pointer;
+    text-decoration: underline;
 }
 
 .device-detail-explain-full {
@@ -175,9 +177,7 @@
     border: 1px solid #ddd;
     background-color: #f9f9f9;
     position: absolute;
-    top: 50px;
-    left: 0;
-    width: calc(100% - 20px);
+    top: 70px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
@@ -186,6 +186,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding-bottom: 10px;
 }
 
 .explain-close-button:hover{
@@ -194,52 +195,95 @@
 
 .explain-title {
     font-weight: bold;
-    margin-bottom: 5px;
 }
 
 .device-box-right {
-    flex: 1;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
+    gap : 15px;
 }
 
 .device-price {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: bold;
 }
 
+.device-put-button{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0px 13px;
+
+    background-color: rgba(255,255,255,1);
+    
+    border: 0.5px solid rgba(0,0,0,1);
+
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 175%;
+    text-align: center;
+
+    color: rgba(63,63,63,1);
+}
+
+.device-out-button{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0px 13px;
+
+    background-color: rgba(63,63,63,1);
+    
+    border: 0.5px solid rgba(255,255,255,1);
+
+    font-family: "Noto Sans KR";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 175%;
+    text-align: center;
+
+    color: rgba(255,255,255,1);
+}
+
+.device-put-button:hover{
+    cursor: pointer;
+    background-color: rgba(216,216,216,0.5);
+}
+
+.device-out-button:hover{
+    cursor: pointer;
+}
+
 #select-type-wrapper {
-    padding: 20px;
-    background-color: #fafafa;
-    border: 1px solid #eee;
-    border-radius: 5px;
+    font-family: 'Noto Sans KR';
     gap: 30px;
 }
 
 .select-it-box {
     display: flex;
     align-items: center;
-    position: relative;
-    border: 1px solid rgb(185, 188, 236);
-    border-radius: 6px;
+    justify-content: center;
     padding: 8px 16px;
-    background-color: rgb(185, 188, 236);
     cursor: pointer;
+    gap : 20px
 }
 
 .select-it-none {
-    flex-grow: 1;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 175%;
-    color: rgb(17, 15, 15);
 }
 
 .select-it-item {
-    flex-grow: 1;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 175%;
     color: rgb(17, 15, 15);
 }
@@ -269,9 +313,12 @@
 .type-tablet,
 .type-game,
 .type-external-battery {
-    background-color: rgb(233, 233, 231);
+    background-color: rgba(255,255,255,1);
     text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
     cursor: pointer;
+    border: 1px solid rgba(0,0,0,1);
 }
 
 .type-notebook-detail,
@@ -282,6 +329,13 @@
     flex-direction: column;
     min-height: 250px;
     height: 100%;
+    gap: 10px;
+    background-color: #fff;
+    padding: 10px;
+
+    border: 1px solid #ddd;
+
+    margin-bottom: 10px;
 }
 
 .delete-button {
