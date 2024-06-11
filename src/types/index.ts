@@ -44,6 +44,7 @@ export interface DeviceListItem {
     brand:string;
     price: number;
     devicesImgUrl: string;
+    place:string;
 }
 
 export interface ItRentList {
