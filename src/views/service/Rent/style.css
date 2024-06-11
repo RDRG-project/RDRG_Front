@@ -26,15 +26,10 @@ body {
 .rent-left-side {
     display: flex;
     flex-direction: column;
-    gap: 80px;
+    gap: 40px;
     padding: 20px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
+    background-color: rgba(246, 243, 242, 1);
     width: 300px;
-}
-
-.rent-left-side > div {
-    margin-bottom: 10px;
 }
 
 .rent-left-side-rental,
@@ -43,7 +38,6 @@ body {
     font-size: 20px;
     background-color: #fff;
     padding: 10px;
-    border-radius: 5px;
 }
 
 .rent-datetime-container {

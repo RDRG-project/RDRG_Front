@@ -39,9 +39,11 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
 
     //                    render                    //
     return (
-        <div className='select-box'>
-            <div className='select-item-title'>대여지점</div>
-            <div className={rentShow ? 'select-close-button' : 'select-open-button'} onClick={onButtonClickHandler}></div>
+        <div id='rent-select-wrapper'>
+            <div className='select-box-container'>
+                <div className='select-item-title'>대여지점</div>
+                <div className={rentShow ? 'spot-close-button' : 'spot-open-button'} onClick={onButtonClickHandler}></div>
+            </div>
             {rentShow &&
                 <div className='select-list'>
                     {RentSiteListItem.map((item) =>
