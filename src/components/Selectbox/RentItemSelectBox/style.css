@@ -1,14 +1,140 @@
+/* 기기 추가 페이지 */
+#device-add-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.device-add-page-image {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.device-write-wrapper {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+}
+
+.device-write-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.device-write-top, .device-write-middle, .cs-write-bottom {
+    margin-bottom: 20px;
+}
+
+.device-write-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.device-write-serialNumber-box, .device-write-model-box, .device-write-name-box, .device-write-title-box, .device-write-contents-box {
+    margin-bottom: 10px;
+}
+
+.device-write-serialNumber-input, .device-write-model-input, .device-write-title-input, .device-write-contents-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.device-write-contents-textarea {
+    resize: none;
+    min-height: 100px;
+}
+
+.cs-write-bottom-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.cs-write-bottom div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ddd;
+    padding: 20px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.cs-write-bottom div:hover {
+    color: #333;
+    border-color: #333;
+}
+
+.cs-write-bottom input[type="file"] {
+    display: none;
+}
+
+.file-preview {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.file-preview img {
+    margin-right: 10px;
+}
+
+.file-preview p {
+    margin: 0;
+    flex: 1;
+}
+
+.file-preview button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.file-preview button:hover {
+    background-color: #ddd;
+}
+
+.cs-write-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.customer-support-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.customer-support-button:hover {
+    background-color: #0056b3;
+}
+
 .rent-admin-button {
     display: flex;
     justify-content: left;
-}
-
-.add-admin-button {
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.add-admin-button:hover{
+    width: 70px;
+    padding: 10px;
+    background-color: rgba(61, 156, 235, 0.5);
+    color: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
     cursor: pointer;
 }
 
@@ -28,13 +154,6 @@
 .device-image {
     max-width: 100px;
     height: auto;
-}
-
-.device-brand {
-    background-color: beige;
-    padding: 5px;
-    border-radius: 3px;
-    text-align: center;
 }
 
 .device-box-middle {
@@ -57,12 +176,11 @@
 
 .device-detail-explain {
     color: #555;
-    white-space: nowrap; /* 한 줄로 표시 */
-    overflow: hidden; /* 넘친 부분을 숨김 */
+    white-space: nowrap;
+    overflow: hidden;
     text-decoration: underline;
-    text-overflow: ellipsis; /* 넘친 부분을 "..."으로 표시 */
-    width: 350px; /* 너비를 조정해서 원하는 길이로 설정 */
-
+    text-overflow: ellipsis;
+    width: 350px;
     cursor: pointer;
 }
 
@@ -112,6 +230,7 @@
     border-radius: 6px;
     padding: 8px 16px;
     background-color: rgb(185, 188, 236);
+    cursor: pointer;
 }
 
 .select-it-none {
@@ -145,7 +264,8 @@
 .select-close-button {
     background-image: url('../../../assets/image/arrow-up.png');
 }
-.device-put-box{
+
+.device-put-box {
     display: flex;
     flex-direction: row-reverse;
 }
@@ -167,4 +287,16 @@
     flex-direction: column;
     min-height: 250px;
     height: 100%;
+}
+
+.delete-button {
+    display: flex;
+    justify-content: left;
+    
+    padding: 10px;
+    background-color: rgba(61, 156, 235, 0.5);
+    color: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    cursor: pointer;
 }

@@ -1,0 +1,30 @@
+.type-select-box {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+}
+
+.type-select-none, .type-select-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.type-select-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    background-color: white;
+    z-index: 1;
+}
+
+.type-select-list-item-box {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.type-select-list-item-box:hover {
+    background-color: #f1f1f1;
+}
