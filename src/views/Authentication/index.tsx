@@ -84,10 +84,10 @@ interface Props {
 function SignIn({ onLinkClickHandler }: Props) {
 
     //                    state                    //
-    const [cookies, setCookie] = useCookies();
-    const [id, setId] = useState<string>(cookies.accessToken || '');
+    const [cookies, setCookie, removeCookie] = useCookies();
+    const [id, setId] = useState<string>(cookies.savedId || '');
     const [password, setPassword] = useState<string>('');
-    const [saveId, setSaveId] = useState<boolean>(!!cookies.accessToken);
+    const [saveId, setSaveId] = useState<boolean>(!!cookies.savedId);
     const [message, setMessage] = useState<string>('');
 
     //                    function                    //
@@ -110,14 +110,15 @@ function SignIn({ onLinkClickHandler }: Props) {
     const expiration = new Date(Date.now() + (expires * 1000));
     setCookie('accessToken', accessToken, { path: '/', expires: expiration });
     
-    // if (saveId) {
-    // setCookie('accessToken', id, { path: '/' });
-    // } else {
-    // removeCookie('accessToken', { path: '/' });
-    // }
-    
+    if (saveId) {
+        setCookie('savedId', id, { path: '/' });
+    } else {
+        removeCookie('savedId', { path: '/' });
+    }
+
     navigator(HOME_ABSOLUTE_PATH);
-    };
+};
+
 
     //                    event handler                    //
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -150,18 +151,17 @@ function SignIn({ onLinkClickHandler }: Props) {
         
     };
 
-    // const onSaveIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    //     setId(event.target.value);
-    //     setSaveId(event.target.checked);
-    // };
+    const onSaveIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setSaveId(event.target.checked);
+    };
 
     //                    effect                    //
-    // useEffect(() => {
-    //     if (cookies.accessToken) {
-    //     setId(cookies.accessToken);
-    //     setSaveId(true);
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (cookies.savedId){
+            setId(cookies.savedId);
+            setSaveId(true);   
+        }
+    }, []);
 
     //                    render                    //
     return (
@@ -171,7 +171,7 @@ function SignIn({ onLinkClickHandler }: Props) {
                 <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} onKeydownHandler={onPasswordKeydownHandler} message={message} error />
             </div>
             <div className="saveId">
-                <input type="checkbox" className="saveId-cb" />
+                <input type="checkbox" className="saveId-cb" checked={saveId} onChange={onSaveIdChangeHandler} />
                 <div className="saveId">아이디 저장</div>
             </div>
             <div className='authentication-button-container'>
@@ -294,6 +294,9 @@ export function SignUp({ onLinkClickHandler }: Props) {
         const { value } = event.target;
         setId(value);
         // @Pattern(regexp="^[a-zA-Z0-9]{4,12}$") -> back 패턴
+        // const idPattern =    ;
+        // const isIdPattern = idPattern.test(value);
+        // setIdButtonStatus(isIdPattern);
         setIdButtonStatus(value !== '');
         setIdCheck(false);
         setIdMessage('');
@@ -303,13 +306,13 @@ export function SignUp({ onLinkClickHandler }: Props) {
         const { value } = event.target;
         setPassword(value);
 
-        const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,13}$/;
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_\-+=\[\]{}|\\;:‘“<>.,?\/]).{8,19}$/;
         const isPasswordPattern = passwordPattern.test(value);
         setPasswordPattern(isPasswordPattern);
 
         const passwordMessage = 
             isPasswordPattern ? '' : 
-            value ? '영문, 숫자를 혼용하여 8 ~ 13자 입력해주세요.' : '';
+            value ? '영어 대소문자, 숫자, 특수문자(~.!@#$%^&*()_-=+[])를 각 1개씩 포함해서 9자 이상의 비밀번호를 입력하세요' : '';
         setPasswordMessage(passwordMessage);
         
         const isEqualPassword = passwordCheck === value;
@@ -355,10 +358,10 @@ export function SignUp({ onLinkClickHandler }: Props) {
         if(!idButtonStatus) return;
         if(!id || !id.trim()) return;
 
-        const idPattern = /^[a-zA-Z0-9]{4,12}$/;
+        const idPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,}$/;
         const isIdPattern = idPattern.test(id);
         if (!isIdPattern) {
-            setIdMessage('아이디 형식이 아닙니다.');
+            setIdMessage('사용할 수 없는 아이디 형식 입니다.');
             setIdError(true);
             setIdCheck(false);
             return;
@@ -371,7 +374,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
     const onEmailButtonClickHandler = () => {
         if(!emailButtonStatus) return;
 
-        const emailPattern = /^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,4}$/;
+        const emailPattern = /^[a-zA-Z][0-9]*@([-.]?[a-zA-Z0-9])*\\.[a-zA-Z]{2,4}$/;
         const isEmailPattern = emailPattern.test(email);
         if (!isEmailPattern) {
             setEmailMessage('이메일 형식이 아닙니다.');
