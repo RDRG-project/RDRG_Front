@@ -18,6 +18,16 @@ export interface RentItem {
     totalPrice  : number;
     rentStatus: string;
 }
+export interface AdminRentItem {
+    rentNumber: number;
+    userId?: string;
+    name: string[];
+    rentDatetime: string;
+    rentReturnDatetime: string;
+    totalPrice: number;
+    rentStatus: string;
+}
+
 
 export interface RentDetailList{
     name : string;

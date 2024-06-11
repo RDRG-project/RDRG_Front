@@ -83,13 +83,19 @@ function TopBar({path} : Props) {
         <div className="logo-container" onClick={onLogoClickHandler}>RDRG</div>
         <div className='top-navigation-container'>
           <div className={rentClass} onClick={onRentClickHandler}>
-            <div className="top-navigation-title">대여</div>
+            {loginUserRole === 'ROLE_USER' ? 
+            <div className="top-navigation-title">대여</div> :
+            <div className="top-navigation-title">기기 관리</div> 
+            }
           </div>
           <div className={customerSupportClass} onClick={onCustomerSupportClickHandler}>
             <div className="top-navigation-title">고객지원</div>
           </div>
           <div className={mypageSupportClass} onClick={onMypageClickHandler}>
-            <div className="top-navigation-title">마이페이지</div>
+            {loginUserRole === 'ROLE_USER' ? 
+            <div className="top-navigation-title">마이페이지</div> :
+            <div className="top-navigation-title">회원 관리</div>
+            }
           </div>
         </div>
         <div className="top-bar-right">
