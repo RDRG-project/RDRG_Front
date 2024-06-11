@@ -12,6 +12,7 @@ import { dateFormat } from 'src/utils';
 import useGameItStore from 'src/stores/gameIt.store';
 import { DeviceAddRequestDto, DeviceDeleteRequestDto } from 'src/apis/device/dto/request';
 import axios from 'axios';
+import TypeSelectbox from './TypeSelectbox';
 
 //                    component                    //
 export function RentAdd() {
@@ -80,12 +81,6 @@ export function RentAdd() {
         if (!contentsRef.current) return;
         contentsRef.current.style.height = 'auto';
         contentsRef.current.style.height = `${contentsRef.current.scrollHeight}px`;
-    };
-
-    const onTypeChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const type = event.target.value;
-        if (type.length > 20) return;
-        setType(type);
     };
 
     const onBrandChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -196,9 +191,9 @@ export function RentAdd() {
 
     //                    render                    //
     return (
-        <>
+        <div id='device-add-page-container'>
             <div className='device-add-page-image'>기기 등록</div>
-            <div id="device-write-wrapper">
+            <div className="device-write-wrapper">
                 <div className="device-write-container">
                     <div className='device-write-top'>
                         <div className='device-write-title'>serialNumber</div>
@@ -227,7 +222,7 @@ export function RentAdd() {
                     <div className='device-write-top'>
                         <div className='device-write-title'>type</div>
                         <div className='device-write-title-box'>
-                            <input className='device-write-title-input' placeholder='제품 타입을 입력해주세요(노트북, 태블릿, 게임기, 보조배터리)' value={type} onChange={onTypeChangeHandler} />
+                            <TypeSelectbox type={type} onChange={setType} />
                         </div>
                     </div>
                     <div className='device-write-top'>
@@ -269,7 +264,7 @@ export function RentAdd() {
                     <div className='customer-support-button' onClick={onPostButtonClickHandler}>올리기</div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
@@ -384,7 +379,7 @@ export default function RentSelectBox({ value, onChange }: Prop) {
 
     //                   event handler                    //
     const adminAddButtonClickHandler = () => {
-        if (loginUserRole !== 'ROLE_ADMIN') return;
+        if (loginUserRole !== 'ROLE_ADMIN' || !cookies.accessToken) return;
         navigator(RENT_ADD_ABSOLUTE_PATH);
     };
     const adminDeleteButtonClickHandler = (serialNumber: string | number) => {
@@ -434,36 +429,33 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     return (
         <div id='select-type-wrapper'>
             {loginUserRole === 'ROLE_ADMIN' ?
-                <div className='rent-admin-button'>
-                    <div className='add-admin-button' onClick={adminAddButtonClickHandler}>추가띠</div>
-                </div> :
-                <div></div>
+            <div className='rent-admin-button' onClick={adminAddButtonClickHandler}>기기 추가
+            </div> : <div></div>
             }
             <div className='select-it-box'>
-                {value === '' ?
-                    <div className='select-it-none'>Device Type</div> :
-                    <div className='select-it-item'>{value}</div>
-                }
+            {value === '' ?
+                <div className='select-it-none'>Device Type</div> :
+                <div className='select-it-item'>{value}</div>
+            }
                 <div className={buttonClass} onClick={onItemSelectButtonClickHandler}></div>
             </div>
             {selectListItItem &&
-                <>
-                    <div className='type-notebook' onClick={onNotebookButtonClickHandler}>노트북</div>
-                    {notebookState &&
-                        <div className='type-notebook-detail'>
-                            {rentViewList && rentViewList.filter(item => item.type === '노트북').map(item =>
-                                <div key={item.serialNumber}>
-                                    {item.name} {item.model}
-                                    <RentItem {...item} />
-                                    <div className='device-put-box'>
-                                        {loginUserRole === 'ROLE_ADMIN' ?
-                                            <div className='rent-admin-button'>
-                                                <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
-                                            </div> :
-                                            <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
-                                        }
-                                    </div>
-                                </div>)}
+            <>
+                <div className='type-notebook' onClick={onNotebookButtonClickHandler}>노트북</div>
+                {notebookState &&
+                    <div className='type-notebook-detail'>
+                        {rentViewList && rentViewList.filter(item => item.type === '노트북').map(item =>
+                        <div key={item.serialNumber}>
+                            {item.name} {item.model}
+                            <RentItem {...item} />
+                                <div className='device-put-box'>
+                                {loginUserRole === 'ROLE_ADMIN' ?
+                                    <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
+                                    :
+                                    <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                                }
+                                </div>
+                            </div>)}
                         </div>
                     }
                     <div className='type-tablet' onClick={onTabletButtonClickHandler}>태블릿</div>
@@ -475,9 +467,8 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                                     <RentItem {...item} />
                                     <div className='device-put-box'>
                                         {loginUserRole === 'ROLE_ADMIN' ?
-                                            <div className='rent-admin-button'>
-                                                <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
-                                            </div> :
+                                            <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
+                                            :
                                             <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                                         }
                                     </div>
@@ -493,9 +484,8 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                                     <RentItem {...item} />
                                     <div className='device-put-box'>
                                         {loginUserRole === 'ROLE_ADMIN' ?
-                                            <div className='rent-admin-button'>
-                                                <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
-                                            </div> :
+                                            <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
+                                            :
                                             <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                                         }
                                     </div>
@@ -511,9 +501,8 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                                     <RentItem {...item} />
                                     <div className='device-put-box'>
                                         {loginUserRole === 'ROLE_ADMIN' ?
-                                            <div className='rent-admin-button'>
-                                                <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
-                                            </div> :
+                                            <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
+                                            :
                                             <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
                                         }
                                     </div>

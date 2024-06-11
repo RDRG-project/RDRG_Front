@@ -3,7 +3,6 @@ import './style.css'
 import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
-import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
 import { useBasketStore,  useBatteryStore,  useNoteBookStore, useRentDateStore, useRentItemStore,  useRentSiteShowStore,  useRentSiteStore, useRentStatusStore, useReturnSiteShowStore, useReturnSiteStore,  useTabletStore,  useTotalRentTimeStore, useUserStore } from 'src/stores/index';
 import ReactDatePicker from 'src/components/DateTimebox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
@@ -16,6 +15,7 @@ import useGameItStore from 'src/stores/gameIt.store';
 import { differenceInHours } from 'date-fns';
 import axios from 'axios';
 import { PostPaymentResponseDto } from 'src/apis/payment/dto/response';
+import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
 
 //                    component                    //
 function Basket() {
@@ -203,12 +203,17 @@ function Payment() {
 
 //                    component                    //
 export default function Rent() {
+
+    //                    state                    //
+    const { loginUserId, loginUserRole } = useUserStore();
     const [rentSelect, setRentSelect] = useState<string>('');
     const [returnSelect, setReturnSelect] = useState<string>('');
     const [rentItem, setRentItem] = useState<string>('');
 
+    //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
         setRentSelect(rentSelect);
+        if (loginUserRole !== 'ROLE_USER') return;
     };
     const onReturnChangeHandler = (returnSelect: string) => {
         setReturnSelect(returnSelect);
@@ -220,6 +225,7 @@ export default function Rent() {
     //                    render                    //
     return (
         <div id='rent-wrapper'>
+            {loginUserRole === 'ROLE_USER' ?
             <div className='rent-left-side'>
                 <div className='rent-left-side-site'>
                     <RentSiteSelectBox value={rentSelect} onChange={onRentChangeHandler} />
@@ -230,10 +236,12 @@ export default function Rent() {
                 <div className='rent-left-side-date'>
                     <ReactDatePicker />
                 </div>
-            </div>
+            </div> : <></>
+            }
             <div className='rent-item'>
                 <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} />
             </div>
+            {loginUserRole === 'ROLE_USER' ? 
             <div className='rent-right-side'>
                 <div className='rent-right-side-top-basket'>장바구니</div>
                 <div className='rent-right-side-basket'>
@@ -242,7 +250,8 @@ export default function Rent() {
                 <div className='rent-right-side-payment'>
                     <Payment />
                 </div>
-            </div>
+            </div> : <></>
+            }
         </div>
     );
 }
