@@ -374,7 +374,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
     const onEmailButtonClickHandler = () => {
         if(!emailButtonStatus) return;
 
-        const emailPattern = /^[a-zA-Z][0-9]*@([-.]?[a-zA-Z0-9])*\\.[a-zA-Z]{2,4}$/;
+        const emailPattern = /^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,4}$/;
         const isEmailPattern = emailPattern.test(email);
         if (!isEmailPattern) {
             setEmailMessage('이메일 형식이 아닙니다.');
