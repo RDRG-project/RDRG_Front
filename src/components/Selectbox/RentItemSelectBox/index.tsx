@@ -122,59 +122,22 @@ export function RentAdd() {
     };
 
     const uploadedFile = (files: File[]) => {
+        if (files.length === 0) return;
+    
         const filePreviewsToAdd = files.map(file => {
             return { name: file.name, url: URL.createObjectURL(file) };
         });
-
-        if (fileRevise !== null) {
-            const fileUpdate = [...fileUpload];
-            const showFile = [...filePreviews];
-
-            if (fileRevise < 3) {
-                files.forEach((file, index) => {
-                    fileUpdate[fileRevise + index] = file;
-                    showFile[fileRevise + index] = filePreviewsToAdd[index];
-                });
-
-                setFileRevise(null);
-                setFileUpload(fileUpdate);
-                setFilePreviews(showFile);
-            }
-        } else {
-            if (fileUpload.length + files.length <= 3) {
-                setFileUpload([...fileUpload, ...files]);
-                setFilePreviews([...filePreviews, ...filePreviewsToAdd]);
-            }
-        }
-    };
-
-    const onDragOverHandler = (event: React.DragEvent) => {
-        event.preventDefault();
-    };
-
-    const onDropHandler = (event: React.DragEvent) => {
-        event.preventDefault();
-        const files = Array.from(event.dataTransfer.files);
-        uploadedFile(files);
+    
+        const fileToAdd = files[0];
+        const filePreviewToAdd = filePreviewsToAdd[0];
+    
+        setFileUpload([fileToAdd]);
+        setFilePreviews([filePreviewToAdd]);
     };
 
     const onFileUploadButtonClickHandler = () => {
         if (fileInputRef.current) {
             fileInputRef.current.click();
-        }
-    };
-
-    const onFileDeleteButtonClickHandler = (index: number) => {
-        const fileUpdate = fileUpload.filter((_, i) => i !== index);
-        const showFileUpdate = filePreviews.filter((_, i) => i !== index);
-        setFileUpload(fileUpdate);
-        setFilePreviews(showFileUpdate);
-    };
-
-    const onFileReviseButtonClickHandler = (index: number) => {
-        setFileRevise(index);
-        if (fileRef.current) {
-            fileRef.current.click();
         }
     };
 
@@ -238,26 +201,20 @@ export function RentAdd() {
                         </div>
                     </div>
                     <div className="cs-write-bottom">
-                        <div className='cs-write-bottom-title'>첨부파일</div>
-                        <input ref={fileInputRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler} />
                         <div
-                            style={{ border: '2px dashed', padding: '10px', color: 'red', width: '88%' }}
-                            onDrop={onDropHandler}
-                            onDragOver={onDragOverHandler}
-                            onClick={onFileUploadButtonClickHandler} >
-                            드래그 앤 드롭으로 파일을 여기에 넣으세요.
+                            className='cs-write-bottom-title'
+                            style={{ border: '1px dashed', padding: '10px', color: 'red', width: '100%', height: 'auto' }}
+                            onClick={onFileUploadButtonClickHandler}>
+                            {filePreviews.length === 0 && "이미지 추가"}
+                            {filePreviews.map((preview, index) => (
+                            <div key={index} style={{ flexDirection: 'column' }}>
+                            <img src={preview.url} alt={preview.name} width="auto" height="300" />
+                            {/* <p style={{ fontSize: 'small', color:'black' }}>{preview.name}</p> */}
                         </div>
-                    </div>
-                    <div>
-                        {filePreviews.map((preview, index) => (
-                            <div key={index} >
-                                <img src={preview.url} alt={preview.name} width="70" height="50" />
-                                <p>{preview.name}</p>
-                                <button style={{ display: 'flex' }} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
-                                <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
-                            </div>
                         ))}
                     </div>
+            <input ref={fileInputRef} type="file" onChange={onFileUploadChangeHandler} style={{ display: 'none' }} />
+        </div>
                 </div>
                 <div className="cs-write-button">
                     <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
