@@ -3,7 +3,7 @@ import './style.css'
 import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
-import { useBasketStore,  useBatteryStore,  useNoteBookStore, useRentDateStore, useRentItemStore,  useRentSiteShowStore,  useRentSiteStore, useRentStatusStore, useReturnSiteShowStore, useReturnSiteStore,  useTabletStore,  useTotalRentTimeStore, useUserStore } from 'src/stores/index';
+import { useBasketStore,  useBatteryStore,  useNoteBookStore, useRentDateStore, useRentItemStore,  useRentSelectStore,  useRentSiteShowStore,  useRentSiteStore, useRentStatusStore, useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore,  useTabletStore,  useTotalRentTimeStore, useUserStore } from 'src/stores/index';
 import ReactDatePicker from 'src/components/DateTimebox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import { useNavigate } from 'react-router';
@@ -25,7 +25,9 @@ function Basket() {
     const { basketItems, setBasketItems } = useBasketStore();
     const [totalAmount, setTotalAmount] = useState<number>(0);
     const { setRentShow } = useRentSiteShowStore();
+    const { setRentSelectedItem } = useRentSelectStore();
     const { setReturnShow } = useReturnSiteShowStore();
+    const { setReturnSelectedItem } = useReturnSelectStore();
     const { setTotalRentTime } = useTotalRentTimeStore();
     const [rentDuration, setRentDuration] = useState<{ days: number; hours: number }>({ days: 0, hours: 0 });
     const { setNotebookState } = useNoteBookStore();
@@ -63,6 +65,8 @@ function Basket() {
 
     const clearButtonClickHandler = () => {
         setRentShow(false);
+        setRentSelectedItem('');
+        setReturnSelectedItem('');
         setReturnShow(false);
         setStartDate(new Date());
         setEndDate(new Date());
@@ -205,7 +209,7 @@ function Payment() {
 export default function Rent() {
 
     //                    state                    //
-    const { loginUserId, loginUserRole } = useUserStore();
+    const { loginUserRole } = useUserStore();
     const [rentSelect, setRentSelect] = useState<string>('');
     const [returnSelect, setReturnSelect] = useState<string>('');
     const [rentItem, setRentItem] = useState<string>('');

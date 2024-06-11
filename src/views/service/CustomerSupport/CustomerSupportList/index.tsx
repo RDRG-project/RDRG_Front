@@ -185,7 +185,6 @@ export default function CustomerSupportList() {
         <div id='cs-wrapper'>
             <div className='cs-image'>문의게시판</div>
             <div className= 'cs-list-wrapper'>
-                {/* <div className='cs-list-size-text'>전체 <span className='emphasis'>{totalLength}건</span> | 페이지 <span className='emphasis'>{currentPage}/{totalPage}</span></div> */}
                 <div className='cs-list-top'>
                     {loginUserRole === 'ROLE_USER' ?
                     <div className='customer-support-button' onClick={onWriteButtonClickHandler}>글쓰기</div> :
