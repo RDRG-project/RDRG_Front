@@ -283,7 +283,29 @@ export default function MypageRentList() {
         if (!word) return;
         if (!cookies.accessToken) return;
 
-        getAdminSearchWordRequest(word, cookies.accessToken).then(getAdminSearchWordResponse);
+        setRentList([]);
+        setViewList([]);
+        setTotalLength(0);
+        setCurrentPage(1);
+        setCurrentSection(1);
+        setPageList([1]);
+        setTotalSection(1);
+        setTotalPage(1);
+
+        getAdminSearchWordRequest(word, cookies.accessToken).then((result) => {
+            console.log("Search Word:", result);
+            if (!result) {
+                alert('서버에 문제가 있습니다.');
+                return;
+            }
+
+            const { adminRentList } = result as GetAdminRentPageResponseDto;
+ 
+            changeRentList(adminRentList);
+
+            setCurrentPage(!adminRentList.length ? 0 : 1);
+            setCurrentSection(!adminRentList.length ? 0 : 1);
+        });
     };
 
     //                    effect                    //
