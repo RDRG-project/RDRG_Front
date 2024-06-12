@@ -21,8 +21,8 @@ import MypageRentList from './views/service/MyPage/MyPageRentList';
 import MypageRentDetail from './views/service/MyPage/MyPageRentDetail';
 import { useBasketStore } from './stores';
 import RentSuccess from './views/service/Rent/RentSuccess';
-import { RentAdd } from './components/Selectbox/RentItemSelectBox';
 import RentFailed from './views/service/Rent/RentFailed';
+import { RentAdd } from './views/service/Rent/RentAdd';
 
 // component : root 경로 컴포넌트 //
 function Index() {
