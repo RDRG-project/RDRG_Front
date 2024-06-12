@@ -155,8 +155,6 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
     //     }
     // };
 
-    
-
     const onNotebookButtonClickHandler = () => {
         setNotebookState(!notebookState);
     };
@@ -172,7 +170,12 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
     const onExternalBatteryButtonClickHandler = () => {
         setExternalBatteryState(!externalBatteryState);
     };
+    //                    effect                    //
+    useEffect(() => {
+        setSelectListItItem(true);
+    }, [selectListItItem]);
 
+    //                    render                    //
     const buttonClass = selectListItItem ? 'select-close-button' : 'select-open-button';
     return (
         <div id='select-type-wrapper'>
