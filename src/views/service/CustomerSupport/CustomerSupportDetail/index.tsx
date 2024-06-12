@@ -26,6 +26,8 @@ export default function SupportDetail () {
     const [comment, setComment] = useState<string | null>(null);
     const [commentRows, setCommentRows] = useState<number>(1);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+    const [popupImageUrl, setPopupImageUrl] = useState<string | null>(null);
     
     //                    function                    //
     const navigator = useNavigate();
@@ -129,6 +131,18 @@ export default function SupportDetail () {
         deleteBoardRequest(receptionNumber, cookies.accessToken).then(deleteBoardResponse);
     };
 
+    // const openImagePopup = (imageUrl: string) => {
+    //     setPopupImageUrl(imageUrl);
+    // };
+    
+    // const closeImagePopup = () => {
+    //     setPopupImageUrl(null);
+    // };
+
+    const openImageInNewWindow = (imageUrl: string) => {
+        window.open(imageUrl, 'blank', 'width=auto,height=auto');
+    };
+
     //                    effect                    //
     useEffect(() => {
         if (!cookies.accessToken || !receptionNumber) return;
@@ -160,8 +174,9 @@ export default function SupportDetail () {
                         </div>
                         <div>
                             <div>
-                                {imageUrls.length ? imageUrls.map(url => <img src={url} width="150px" height="auto" title="file-viewer" />)
+                                {imageUrls.length ? imageUrls.map(url => <img key={url} src={url} width="150px" height="auto" title="file-viewer" onClick={() => openImageInNewWindow(url)}/>)
                                 : ( <p>첨부된 파일이 없습니다.</p> )}
+                                
                             </div>
                         </div>
                     </div>
