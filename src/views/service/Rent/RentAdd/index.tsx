@@ -6,10 +6,10 @@ import { useNavigate } from "react-router";
 import { PostDeviceAddRequest } from "src/apis/device";
 import { DeviceAddRequestDto } from "src/apis/device/dto/request";
 import ResponseDto from "src/apis/response.dto";
-import TypeSelectBox from "src/components/Selectbox/RentItemSelectBox/TypeSelectbox";
+import TypeSelectBox from "src/components/Selectbox/RentItemSelectBox/TypeSelectBox";
 import { RENT_ABSOLUTE_PATH } from "src/constants";
 import { useUserStore } from "src/stores";
-import PlaceSelectBox from "src/components/Selectbox/RentItemSelectBox/placeSelectbox";
+import PlaceSelectBox from "src/components/Selectbox/RentItemSelectBox/placeSelectBox";
 
 //                    component                    //
 export function RentAdd() {
