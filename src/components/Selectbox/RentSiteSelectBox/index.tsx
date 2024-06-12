@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './style.css';
-import { useRentSelectStore, useRentSiteShowStore, useRentSiteStore } from 'src/stores';
+import { useRentSiteShowStore, useRentSelectStore, useRentSiteStore } from 'src/stores';
 
 //                    interface                    //
 interface Prop {
@@ -29,7 +29,7 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
         setRentSelectedItem(itemValue);
         setRentSite(itemValue);
         onChange(itemValue);
-        setRentShow(true);
+        setRentShow(true);        
     };
 
     //                    effect                    //
