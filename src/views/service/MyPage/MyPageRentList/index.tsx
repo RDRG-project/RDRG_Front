@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, MYPAGE_DETAILS_ABSOLUTE_PATH, RENT_DETAIL_COUNT_PER_PAGE, RENT_DETAIL_COUNT_PER_SECTION } from 'src/constants';
 import ResponseDto from 'src/apis/response.dto';
 import { GetAdminRentPageResponseDto, GetMyRentPageResponseDto } from 'src/apis/payment/dto/response';
-import { getAdminRentPageRequest, getAdminSearchWordRequest, getMyRentPageRequest } from 'src/apis/payment';
+import { getAdminRentPageRequest, getAdminSearchWordRequest, getMyRentPageRequest, patchRentStatusRequest } from 'src/apis/payment';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from 'src/stores';
 
@@ -19,12 +19,42 @@ function RentListItem({
     totalPrice
     }:RentItem) {
     const navigator = useNavigate();
+    const [cookies] = useCookies();
 
     const onClickHandler = () => navigator(MYPAGE_DETAILS_ABSOLUTE_PATH(rentNumber));
 
     const mainName = name[0];
     const additionalCount = name.length - 1;
     const displayName = additionalCount > 0 ? `${mainName} 외 ${additionalCount}건` : mainName;
+
+    const onCancelHandler = async() => {
+        if (!cookies.accessToken){
+            return;
+        }
+
+        const confirmCancel = window.confirm("대여를 취소하시겠습니까?")
+        if (!confirmCancel) {
+            return;
+        }
+
+        try {
+            const requestBody = {
+                rentStatus : "대여 취소"
+            };
+
+            const result = await patchRentStatusRequest(cookies.accessToken ,rentNumber, requestBody);
+            if (result && result.code === 'SU') {
+                alert('취소되었습니다.');
+                window.location.reload();
+            } else {
+                alert('대여 상태 변경에 실패했습니다.')
+            }
+        } catch (error) {
+            alert('대여 상태 변경 중 오류가 발생했습니다.');
+        }
+
+
+    }
 
     return (
         <div className='mp-rent-list-table'>
@@ -42,6 +72,9 @@ function RentListItem({
                         <div className='mp-rent-list-next-button'></div>
                     </div>
                 </div>
+                {rentStatus !== '대여 취소' && (
+                <div className='mp-rent-list-cancel-button' onClick={onCancelHandler}> 대여 취소</div>
+                )}
             </div>
         </div>
     );
@@ -60,6 +93,14 @@ function AdminRentListItem({
     
     //                    function                    //
     const navigator = useNavigate();
+    const [ cookies ] = useCookies();
+    const [ selectedStatus, setSelectedStatus ] = useState(rentStatus);
+
+    //                    effect                 //
+
+    useEffect(() => {
+        setSelectedStatus(rentStatus);
+    }, [rentStatus]);
 
     //                    event handler                    //
     const onClickHandler = () => navigator(MYPAGE_DETAILS_ABSOLUTE_PATH(rentNumber));
@@ -67,6 +108,34 @@ function AdminRentListItem({
     const mainName = name[0];
     const additionalCount = name.length - 1;
     const displayName = additionalCount > 0 ? `${mainName} 외 ${additionalCount}건` : mainName;
+
+    const onStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedStatus(event.target.value);
+    };
+
+    const onStatusChangeHandler = async () => {
+        if (!cookies.accessToken){
+            return;
+        }
+
+        try {
+            const requestBody = {
+                rentStatus : selectedStatus,
+            };
+        
+        const result = await patchRentStatusRequest(cookies.accessToken, rentNumber, requestBody);
+        if (result && result.code === 'SU') {
+            alert('상태가 변경되었습니다.');
+            window.location.reload();
+        } else {
+            alert ('상태 변경에 실패하였습니다.');
+                }
+        } catch (error) {
+            alert('상태 변경 중 오류가 발생했습니다.');
+        }
+    };
+
+
     //                    render                    //
     return (
         <div className='mp-rent-list-table'>
@@ -85,6 +154,17 @@ function AdminRentListItem({
                         <div className='mp-rent-list-next-button'></div>
                     </div>
                 </div>
+                {rentStatus !== '대여 취소' && (
+                    <div className='mp-rent-list-status-change'>
+                    <select value={selectedStatus} onChange={onStatusChange}>
+                        <option value = "결제 완료">결제 완료</option>
+                        <option value = "대여 중">대여 중</option>
+                        <option value = "반납 완료">반납 완료</option>
+                        <option value = "대여 취소">대여 취소</option>
+                    </select>
+                    <button onClick={onStatusChangeHandler}>적용</button>
+                </div>
+                )}
             </div>
         </div>
     );
