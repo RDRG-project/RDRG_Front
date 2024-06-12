@@ -358,7 +358,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
         if(!idButtonStatus) return;
         if(!id || !id.trim()) return;
 
-        const idPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,}$/;
+        const idPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,24}$/;
         const isIdPattern = idPattern.test(id);
         if (!isIdPattern) {
             setIdMessage('사용할 수 없는 아이디 형식 입니다.');
