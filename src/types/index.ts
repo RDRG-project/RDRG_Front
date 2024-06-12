@@ -40,11 +40,11 @@ export interface DeviceListItem {
     model: string;
     name: string;
     deviceExplain?: string;
-    type: string;
+    type?: string;
     brand:string;
     price: number;
-    devicesImgUrl: string;
-    place:string;
+    devicesImgUrl?: string;
+    place?:string;
 }
 
 export interface ItRentList {

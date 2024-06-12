@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import './style.css'
-import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox'
+import React, { useEffect, useState } from 'react';
+import './style.css';
+import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox';
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
-import { useBasketStore,  useBatteryStore,  useNoteBookStore, useRentDateStore, useRentItemStore,  useRentSelectStore,  useRentSiteShowStore,  useRentSiteStore, useRentStatusStore, useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore,  useTabletStore,  useTotalRentTimeStore, useUserStore } from 'src/stores/index';
+import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentSelectStore, useRentSiteShowStore, useRentSiteStore, useRentStatusStore, useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore, useTabletStore, useTotalRentTimeStore, useUserStore } from 'src/stores/index';
 import ReactDatePicker from 'src/components/DateTimebox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import { useNavigate } from 'react-router';
@@ -16,6 +16,9 @@ import { differenceInHours } from 'date-fns';
 import axios from 'axios';
 import { PostPaymentResponseDto } from 'src/apis/payment/dto/response';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
+import { getRentPossibilityListRequest } from 'src/apis/device';
+import { DeviceListItem } from 'src/types';
+import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
 
 //                    component                    //
 function Basket() {
@@ -114,14 +117,14 @@ function Basket() {
         </div>
     );
 }
+
 //                    component                    //
 function Payment() {
+
     //                    state                    //
     const navigator = useNavigate();
-    
     const {loginUserRole} = useUserStore();
     const [cookies] = useCookies();
-
     const { loginUserId } = useUserStore();
     const { rentSite, setRentSite } = useRentSiteStore();
     const { returnSite, setReturnSite } = useReturnSiteStore();
@@ -135,6 +138,8 @@ function Payment() {
     const { setTabletState } = useTabletStore();
     const { setGameItState } = useGameItStore();
     const { setExternalBatteryState } = useBatteryStore();
+
+    //                    function                    //
     const navigate = useNavigate();
 
     const PostPaymentSaveResponseDto = (result: PostPaymentResponseDto | ResponseDto | null) => {
@@ -151,7 +156,6 @@ function Payment() {
         
         const { nextRedirectPcUrl } = result as PostPaymentResponseDto;
         window.location.href = nextRedirectPcUrl;
-
     }
 
     //                    event handler                    //
@@ -189,12 +193,8 @@ function Payment() {
         setGameItState(false);
         setExternalBatteryState(false);
 
-        
         if (!cookies.accessToken) return;
-           
-            postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
-        
-        
+        postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
     };
 
     //                    render                    //
@@ -213,11 +213,37 @@ export default function Rent() {
     const [rentSelect, setRentSelect] = useState<string>('');
     const [returnSelect, setReturnSelect] = useState<string>('');
     const [rentItem, setRentItem] = useState<string>('');
+    const { rentSite, setRentSite } = useRentSiteStore();
+    const [cookies] = useCookies();
+    const { startDate, endDate } = useRentDateStore();
+    const [ place, setPlace ] = useState<string>(rentSite);
+    const [rentViewList, setRentViewList] = useState<DeviceListItem[]>([]);
+
+    //                    function                    //
+    const navigator = useNavigate();
+    const getDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
+        const message =
+            !result ? '서버에 문제가 있습니다.ljnmljokj' :
+            result.code === 'VF' ? '유효하지 않은 정보입니다.' :
+            result.code === 'AF' ? '권한이 없습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+
+        if (!result || result.code !== 'SU') {
+            alert(message);
+            if (result?.code === 'AF') navigator(HOME_ABSOLUTE_PATH);
+            return;
+        }
+
+        const { deviceList } = result as GetDeviceListResponseDto;
+        setPlace(rentSite);
+        setRentViewList(deviceList);
+    }
 
     //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
         setRentSelect(rentSelect);
         if (loginUserRole !== 'ROLE_USER') return;
+        setPlace(rentSelect);
     };
     const onReturnChangeHandler = (returnSelect: string) => {
         setReturnSelect(returnSelect);
@@ -225,6 +251,14 @@ export default function Rent() {
     const onRentItemChangeHandler = (rentItem: string) => {
         setRentItem(rentItem);
     };
+    const searchButtonClickHandler = () => {
+        if (!cookies.accessToken) return;
+        if (!startDate || !endDate) return;
+        const start = dateFormat(startDate);
+        const end = dateFormat(endDate);
+        setRentSite(place);
+        getRentPossibilityListRequest(start, end, place, cookies.accessToken).then(getDeviceListResponse);
+    }
 
     //                    render                    //
     return (
@@ -242,8 +276,9 @@ export default function Rent() {
                 </div>
             </div> : <></>
             }
+            <div onClick={searchButtonClickHandler}>검색하기</div>
             <div className='rent-item'>
-                <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} />
+                <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} rentViewList={rentViewList} setRentViewList={setRentViewList} />
             </div>
             {loginUserRole === 'ROLE_USER' ? 
             <div className='rent-right-side'>

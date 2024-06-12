@@ -15,5 +15,6 @@ import useRentSiteShowStore from "./rentSiteShow.store";
 import useRentSelectStore from "./rentSelect.store";
 import useReturnSelectStore from "./returnSelect.store";
 import useReturnSiteShowStore from "./returnSiteShow.store";
+import useRentViewStore from "./rentViewList.store";
 
-export { useUserStore, useAuthenticationStore, useBasketStore, useRentItemStore, useRentDateStore, useRentSiteStore, useReturnSiteStore, useRentListStore, useNoteBookStore, useTabletStore, useBatteryStore, useTotalRentTimeStore, useRentStatusStore, useRentSiteShowStore, useRentSelectStore, useReturnSelectStore, useReturnSiteShowStore};
+export { useUserStore, useAuthenticationStore, useBasketStore, useRentItemStore, useRentDateStore, useRentSiteStore, useReturnSiteStore, useRentListStore, useNoteBookStore, useTabletStore, useBatteryStore, useTotalRentTimeStore, useRentStatusStore, useRentSiteShowStore, useRentSelectStore, useReturnSelectStore, useReturnSiteShowStore, useRentViewStore};
