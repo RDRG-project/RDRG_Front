@@ -470,7 +470,6 @@ export default function Authentication() {
     //                    render                    //
     return (
         <div id="authentication-wrapper">
-            <div className='circle'></div>
             <div className="authentication-container">
                 <div className="authentication-title">
                     {authenticationTitle}

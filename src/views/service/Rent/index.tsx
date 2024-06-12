@@ -19,6 +19,7 @@ import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
 import { getRentPossibilityListRequest } from 'src/apis/device';
 import { DeviceListItem } from 'src/types';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
+import TestCalenderApp from 'src/components/DateTimebox/test';
 
 //                    component                    //
 function Basket() {
@@ -273,6 +274,7 @@ export default function Rent() {
                 </div>
                 <div className='rent-left-side-date'>
                     <ReactDatePicker />
+                    {/* <TestCalenderApp /> */}
                 </div>
             </div> : <></>
             }
