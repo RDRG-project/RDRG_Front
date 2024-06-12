@@ -1,7 +1,7 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.css';
 import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentListStore, useRentSiteStore, useTabletStore, useUserStore } from 'src/stores/index';
-import { ItRentList } from 'src/types';
+import { DeviceListItem, ItRentList } from 'src/types';
 import { useNavigate } from 'react-router';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
 import ResponseDto from 'src/apis/response.dto';
@@ -11,34 +11,34 @@ import { deleteDeviceRequest, getRentPossibilityListRequest } from 'src/apis/dev
 import { dateFormat } from 'src/utils';
 import useGameItStore from 'src/stores/gameIt.store';
 
-
 //                    interface                    //
-interface RentItemProps extends ItRentList {
-    loginUserRole: string;
-    onDelete: (serialNumber: string | number) => void;
-    onAdd: (item: ItRentList) => void;
-    onRemove: (serialNumber: string | number) => void;
+interface Prop {
+    value: string;
+    onChange: (value: string) => void;
+    rentViewList: DeviceListItem[];
+    setRentViewList: React.Dispatch<React.SetStateAction<DeviceListItem[]>>; // setRentViewList를 prop으로 받음
 }
 
 //                    component                    //
 function RentItem({
+    serialNumber,
     model,
+    name,
+    deviceExplain,
     type,
     brand,
-    name,
     price,
-    deviceExplain,
     devicesImgUrl,
-    serialNumber,
-    loginUserRole,
-    onDelete,
-    onAdd,
-    onRemove
-}: RentItemProps) {
+    place
+}: DeviceListItem) {
+
+    //                    state                    //
+    const [isExplainFullVisible, setIsExplainFullVisible] = useState(false);
+    const {loginUserRole} = useUserStore();
+    const { basketItems, setBasketItems } = useBasketStore();
+    const [totalAmount, setTotalAmount] = useState<number>(0);
 
     //                    function                    //
-    const [isExplainFullVisible, setIsExplainFullVisible] = useState(false);
-    const { basketItems } = useBasketStore();
     const isItemInBasket = basketItems.some(item => item.serialNumber === serialNumber);
 
     //                    event handler                    //
@@ -50,21 +50,11 @@ function RentItem({
         setIsExplainFullVisible(false);
     };
 
-    const onAddClick = () => {
-        onAdd({
-            serialNumber,
-            model,
-            type,
-            brand,
-            name,
-            price,
-            deviceExplain,
-            devicesImgUrl
-        });
-    };
-
-    const onRemoveClick = () => {
-        onRemove(serialNumber);
+    // 해제 버튼 클릭 핸들러
+    const removeItemButtonClickHandler = (index: number) => {
+        const itemToRemove = basketItems[index];
+        setBasketItems(basketItems.filter((_, i) => i !== index));
+        setTotalAmount(totalAmount - itemToRemove.price);
     };
 
     //                    render                    //
@@ -91,10 +81,10 @@ function RentItem({
                 <div className='device-price'>{price.toLocaleString()}원</div>
                 <div className='device-put-box'>
                 {loginUserRole === 'ROLE_ADMIN' ?
-                    <div className='delete-button' onClick={() => onDelete(serialNumber)}>삭제</div> :
+                    <div className='delete-button' >삭제</div> :
                     isItemInBasket ?
-                        <div className='device-out-button' onClick={onRemoveClick}>해제</div> :
-                        <div className='device-put-button' onClick={onAddClick}>담기</div>
+                        <div className='device-out-button' >해제</div> :
+                        <div className='device-put-button' >담기</div>
                 }
                 </div>
             </div>
@@ -102,17 +92,11 @@ function RentItem({
     );
 }
 
-//                    interface                    //
-interface Prop {
-    value: string;
-    onChange: (value: string) => void;
-}
-
 //                    component                    //
-export default function RentSelectBox({ value, onChange }: Prop) {
-    const navigator = useNavigate();
+export default function RentSelectBox({ value, onChange, rentViewList, setRentViewList }: Prop) {
 
     //                    state                    //
+    const navigator = useNavigate();
     const { loginUserRole } = useUserStore();
     const [cookies] = useCookies();
     const { selectListItItem, setSelectListItItem } = useRentListStore();
@@ -122,30 +106,8 @@ export default function RentSelectBox({ value, onChange }: Prop) {
     const { externalBatteryState, setExternalBatteryState } = useBatteryStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentItemStore();
-    const { rentSite, setRentSite } = useRentSiteStore();
-    const [ place, setPlace ] = useState<string>('');
-    const { startDate, endDate } = useRentDateStore();
-    const [rentViewList, setRentViewList] = useState<ItRentList[]>([]);
 
     //                    function                    //
-    const getDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
-        const message =
-            !result ? '서버에 문제가 있습니다.ljnmljokj' :
-            result.code === 'VF' ? '유효하지 않은 정보입니다.' :
-            result.code === 'AF' ? '권한이 없습니다.' :
-            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
-
-        if (!result || result.code !== 'SU') {
-            alert(message);
-            if (result?.code === 'AF') navigator(HOME_ABSOLUTE_PATH);
-            return;
-        }
-
-        const { deviceList } = result as GetDeviceListResponseDto;
-        setPlace(place);
-        setRentViewList(deviceList);
-    };
-
     const deleteDeviceResponse = (result: ResponseDto | null, serialNumber: string | number) => {
         const message =
             !result ? '서버에 문제가 있습니다.' :
@@ -161,8 +123,8 @@ export default function RentSelectBox({ value, onChange }: Prop) {
 
         setRentViewList(prevList => prevList.filter(device => device.serialNumber !== serialNumber));
     }
-
-    //                   event handler                    //
+    
+    //                    event handler                    //
     const adminAddButtonClickHandler = () => {
         if (loginUserRole !== 'ROLE_ADMIN' || !cookies.accessToken) return;
         navigator(RENT_ADD_ABSOLUTE_PATH);
@@ -179,19 +141,21 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         setSelectListItItem(!selectListItItem);
     };
 
-    const addItemButtonClickHandler = (item: ItRentList) => {
+    const addItemButtonClickHandler = (item: DeviceListItem) => {
         setBasketItems([...basketItems, item]);
         setTotalAmount(totalAmount + item.price);
     };
 
-    const removeItemButtonClickHandler = (serialNumber: string | number) => {
-        const updatedBasketItems = basketItems.filter(item => item.serialNumber !== serialNumber);
-        const removedItem = basketItems.find(item => item.serialNumber === serialNumber);
-        setBasketItems(updatedBasketItems);
-        if (removedItem) {
-            setTotalAmount(totalAmount - removedItem.price);
-        }
-    };
+    // const removeItemButtonClickHandler = (serialNumber: string | number) => {
+    //     const updatedBasketItems = basketItems.filter(item => item.serialNumber !== serialNumber);
+    //     const removedItem = basketItems.find(item => item.serialNumber === serialNumber);
+    //     setBasketItems(updatedBasketItems);
+    //     if (removedItem) {
+    //         setTotalAmount(totalAmount - removedItem.price);
+    //     }
+    // };
+
+    
 
     const onNotebookButtonClickHandler = () => {
         setNotebookState(!notebookState);
@@ -209,16 +173,6 @@ export default function RentSelectBox({ value, onChange }: Prop) {
         setExternalBatteryState(!externalBatteryState);
     };
 
-    //                    effect                    //
-    useEffect(() => {
-        if (!cookies.accessToken) return;
-        if (!startDate || !endDate) return;
-        const start = dateFormat(startDate);
-        const end = dateFormat(endDate);
-        getRentPossibilityListRequest(start, end, place, cookies.accessToken).then(getDeviceListResponse);
-    }, [startDate, endDate, place]);
-
-    //                    render                    //
     const buttonClass = selectListItItem ? 'select-close-button' : 'select-open-button';
     return (
         <div id='select-type-wrapper'>
@@ -238,64 +192,72 @@ export default function RentSelectBox({ value, onChange }: Prop) {
                 <div className='type-notebook' onClick={onNotebookButtonClickHandler}>노트북</div>
                 {notebookState &&
                     <div className='type-notebook-detail'>
-                        {rentViewList && rentViewList.filter(item => item.type === '노트북').map(item =>
-                        <div key={item.serialNumber}>
-                            <RentItem 
-                                {...item} 
-                                loginUserRole={loginUserRole}
-                                onDelete={adminDeleteButtonClickHandler}
-                                onAdd={addItemButtonClickHandler}
-                                onRemove={removeItemButtonClickHandler}
-                            />
+                    {rentViewList && rentViewList.filter(item => item.type === '노트북').map(item =>
+                    <div key={item.serialNumber}>
+                        {item.name} {item.model}
+                        <RentItem {...item} />
+                            <div className='device-put-box'>
+                            {loginUserRole === 'ROLE_ADMIN' ?
+                                <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
+                                :
+                                <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                            }
+                            </div>
                         </div>)}
                     </div>
                 }
                 <div className='type-tablet' onClick={onTabletButtonClickHandler}>태블릿</div>
-                {tabletState &&
-                    <div className='type-tablet-detail'>
-                        {rentViewList && rentViewList.filter(item => item.type === '태블릿').map(item =>
-                        <div key={item.serialNumber}>
-                            <RentItem 
-                                {...item} 
-                                loginUserRole={loginUserRole}
-                                onDelete={adminDeleteButtonClickHandler}
-                                onAdd={addItemButtonClickHandler}
-                                onRemove={removeItemButtonClickHandler}
-                            />
-                        </div>)}
-                    </div>
-                }
-                <div className='type-game' onClick={onGameItButtonClickHandler}>게임기</div>
-                {gameItState &&
-                    <div className='type-game-detail'>
-                        {rentViewList && rentViewList.filter(item => item.type === '게임기').map(item =>
-                        <div key={item.serialNumber}>
-                            <RentItem 
-                                {...item} 
-                                loginUserRole={loginUserRole}
-                                onDelete={adminDeleteButtonClickHandler}
-                                onAdd={addItemButtonClickHandler}
-                                onRemove={removeItemButtonClickHandler}
-                            />
-                        </div>)}
-                    </div>
-                }
-                <div className='type-external-battery' onClick={onExternalBatteryButtonClickHandler}>보조배터리</div>
-                {externalBatteryState &&
-                    <div className='type-tablet-detail'>
-                        {rentViewList && rentViewList.filter(item => item.type === '보조배터리').map(item =>
-                        <div key={item.serialNumber}>
-                            <RentItem 
-                                {...item} 
-                                loginUserRole={loginUserRole}
-                                onDelete={adminDeleteButtonClickHandler}
-                                onAdd={addItemButtonClickHandler}
-                                onRemove={removeItemButtonClickHandler}
-                            />
-                        </div>)}
-                    </div>
-                }
-            </>
+                    {tabletState &&
+                        <div className='type-tablet-detail'>
+                            {rentViewList && rentViewList.filter(item => item.type === '태블릿').map(item =>
+                                <div key={item.serialNumber}>
+                                    {item.name} {item.model}
+                                    <RentItem {...item} />
+                                    <div className='device-put-box'>
+                                        {loginUserRole === 'ROLE_ADMIN' ?
+                                            <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
+                                            :
+                                            <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                                        }
+                                    </div>
+                                </div>)}
+                        </div>
+                    }
+                    <div className='type-game' onClick={onGameItButtonClickHandler}>게임기</div>
+                    {gameItState &&
+                        <div className='type-game-detail'>
+                            {rentViewList && rentViewList.filter(item => item.type === '게임기').map(item =>
+                                <div key={item.serialNumber}>
+                                    {item.name} {item.model}
+                                    <RentItem {...item} />
+                                    <div className='device-put-box'>
+                                        {loginUserRole === 'ROLE_ADMIN' ?
+                                            <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
+                                            :
+                                            <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                                        }
+                                    </div>
+                                </div>)}
+                        </div>
+                    }
+                    <div className='type-external-battery' onClick={onExternalBatteryButtonClickHandler}>보조배터리</div>
+                    {externalBatteryState &&
+                        <div className='type-tablet-detail'>
+                            {rentViewList && rentViewList.filter(item => item.type === '보조배터리').map(item =>
+                                <div key={item.serialNumber}>
+                                    {item.name} {item.model}
+                                    <RentItem {...item} />
+                                    <div className='device-put-box'>
+                                        {loginUserRole === 'ROLE_ADMIN' ?
+                                            <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
+                                            :
+                                            <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
+                                        }
+                                    </div>
+                                </div>)}
+                        </div>
+                    }
+                </>
             }
         </div>
     );
