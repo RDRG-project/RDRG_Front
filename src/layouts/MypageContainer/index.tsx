@@ -63,6 +63,8 @@ export default function MypageContainer() {
 //   const [cookies] = useCookies();
     const [path, setPath] = useState<Path>('');
 
+    const {loginUserRole} = useUserStore();
+
   //                    function                    //
   const navigator = useNavigate();
 
@@ -92,6 +94,17 @@ export default function MypageContainer() {
 
     setPath(path);
   },[pathname]);
+
+  useEffect(() => { // 관리자면 대여내역으로 이동 유저면 프로필로 이동
+    if (pathname === '/rdrg/mypage') {
+      if (loginUserRole === 'ROLE_ADMIN') {        
+        navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH);
+      } else {
+        navigator(MYPAGE_PROFILE_ABSOLUTE_PATH);
+      }
+    }
+  }, [loginUserRole, pathname, navigator]);
+
 
 //   useEffect(() => {
 //     if (!cookies.accessToken) {
