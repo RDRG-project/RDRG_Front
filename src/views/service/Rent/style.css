@@ -10,14 +10,15 @@ body {
 /* 전체 레이아웃 */
 #rent-wrapper {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     gap: 30px;
     padding: 20px;
     min-width: 1000px;
     margin: 50px 0;
     background-color: #fff;
 }
+
 .rent-admin-button {
     display: flex;
 }
@@ -26,18 +27,18 @@ body {
 .rent-left-box {
     display: flex;
     flex-direction: row;
-    
-    align-items: center;
 }
 
 .rent-left-side {
     display: flex;
-    flex-direction: column;
-    gap: 40px;
+    flex-direction: row;
+    gap: 20px;
     padding: 20px;
     background-color: rgba(246, 243, 242, 1);
-    width: 300px;
+    width: 100%;
+    justify-content: space-between;
 }
+
 .button-class-role {
     background-color: rgb(38, 133, 197); 
     width: 200px; 
@@ -59,8 +60,7 @@ body {
     background-color: rgb(20, 107, 165); /* Darker background on hover */
 }
 
-.rent-left-side-rental,
-.rent-left-side-return,
+.rent-left-side-site,
 .rent-left-side-date {
     font-size: 20px;
     background-color: #fff;
@@ -73,22 +73,36 @@ body {
     gap: 10px;
 }
 
+/* 검색 결과 영역 */
+.rent-result {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 1200px;
+}
+
+.rent-content {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
 /* 아이템 선택 박스 */
 .rent-item {
-    width: 700px;
+    flex: 1;
     padding: 20px;
     background-color: rgba(246, 243, 242, 1);
 }
 
 /* 장바구니 및 결제 */
 .rent-right-side {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
     width: 300px;
-    background-color: #e0e0e0;
     padding: 20px;
+    background-color: #e0e0e0;
     border-radius: 10px;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
 }
 
 .rent-right-side-top-basket {
@@ -260,3 +274,7 @@ body {
     background-color: #45a049;
 }
 
+.basket {
+    display: flex;
+    flex-direction: row-reverse;
+}
