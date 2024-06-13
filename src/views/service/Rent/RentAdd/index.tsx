@@ -31,7 +31,6 @@ export function RentAdd() {
 
     const [fileUpload, setFileUpload] = useState<File[]>([]);
     const [filePreviews, setFilePreviews] = useState<{ name: string, url: string }[]>([]);
-    const [fileRevise, setFileRevise] = useState<number | null>(null);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -203,16 +202,15 @@ export function RentAdd() {
                             <input className='device-write-title-input' placeholder='시간당 대여 금액을 입력해주세요' value={price} onChange={onPriceChangeHandler} />
                         </div>
                     </div>
-                    <div className="cs-write-bottom">
+                    <div className="device-write-bottom">
                         <div
-                            className='cs-write-bottom-title'
+                            className='device-write-bottom-title'
                             style={{ border: '1px dashed', padding: '10px', color: 'red', width: '100%', height: 'auto' }}
                             onClick={onFileUploadButtonClickHandler} >
                             {filePreviews.length === 0 && "이미지 추가"}
                             {filePreviews.map((preview, index) => (
                             <div key={index} style={{ flexDirection: 'column' }}>
                             <img src={preview.url} alt={preview.name} width="auto" height="300" />
-                            {/* <p style={{ fontSize: 'small', color:'black' }}>{preview.name}</p> */}
                         </div>
                             ))}
                     </div>
