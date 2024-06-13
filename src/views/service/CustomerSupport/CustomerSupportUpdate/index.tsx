@@ -277,21 +277,21 @@ export default function SupportUpdate() {
                     
                         <div className="cs-write-bottom">
                             <div className='cs-write-bottom-title'>첨부파일</div>
-                            <div className='cs-write-file-box'>
+                            <div className='cs-rewrite-file-box'>
                                 <div className='cs-get-file-box'>
                             {imageUrls.length ? imageUrls.map((url, index) => (
                             <div key={index} className="get-file-preview">
                                 <img src={url} width="auto" height="50" />
-                                <button className="image-delete-button" onClick={() => onImageDeleteClickHandler(index)}>삭제</button>
+                                <button className="image-delete-button" onClick={() => onImageDeleteClickHandler(index)}>X</button>
                             </div>
                             )) : (
-                            <p style={{margin: '10px' , color: 'red'}}>첨부된 파일이 없습니다.</p>
+                            <p style={{ display: 'none'}}></p>
                             )}</div>
                             <input ref={fileRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler} />
-                        <div className='cs-file-upload-button' onClick={onFileUploadButtonClickHandler} >사진 추가</div>
+                        <div className='cs-file-upload-button' onClick={onFileUploadButtonClickHandler} >내 PC</div>
                         <div>
                         <div className="file-arrangement" onDrop={onDropHandler} onDragOver={onDragOverHandler} >
-                        {filePreviews.length === 0 && "파일을 여기에 넣으세요. 단, 파일 첨부는 최대 3개까지 가능합니다."}
+                        {filePreviews.length === 0 && <strong>파일 첨부는 최대 3개까지 가능합니다.</strong>}
                             {filePreviews.map((preview, index) => (
                                 <div key={index} className="file-preview">
                                 <button className="image-delete-button" onClick={() => onFileDeleteButtonClickHandler(index)}>X</button>
