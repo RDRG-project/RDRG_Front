@@ -28,7 +28,7 @@
     flex-direction: column;
 }
 
-.device-write-middle, .cs-write-bottom {
+.device-write-middle, .device-write-bottom {
     margin-bottom: 20px;
 }
 .device-write-box {
@@ -56,7 +56,7 @@
     min-height: 100px;
 }
 
-.cs-write-bottom-title {
+.device-write-bottom-title {
     font-weight: bold;
     margin-bottom: 10px;
 }
@@ -107,9 +107,4 @@
 
 .file-preview button:hover {
     background-color: #ddd;
-}
-
-.cs-write-button {
-    display: flex;
-    justify-content: flex-end;
 }
