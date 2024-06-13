@@ -85,13 +85,13 @@ export default function MypageProfile() {
     const { value } = event.target;
     setNewPassword(value);
 
-    const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,13}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_\-+=\[\]{}|\\;:‘“<>.,?\/]).{8,19}$/;
     const isPasswordPattern = passwordPattern.test(value);
     setPasswordPattern(isPasswordPattern);
 
     const passwordMessage = 
         isPasswordPattern ? '' : 
-        value ? '영문, 숫자를 혼용하여 8 ~ 13자 입력해주세요.' : '';
+        value ? '영어 대소문자, 숫자, 특수문자(~.!@#$%^&*()_-=+[])를 각 1개씩 포함해서 9자 이상의 비밀번호를 입력하세요' : '';
     setPasswordMessage(passwordMessage);
     
     const isEqualPassword = newPasswordCheck === value;
@@ -130,18 +130,19 @@ export default function MypageProfile() {
         cookies.accessToken
       );
       if (!response) {
-        setChangePasswordMessage('비밀번호 변경에 실패했습니다.');
+        alert('비밀번호 변경에 실패했습니다.');
         return;
       }
 
-      if (response.code == 'SU') {
-        setChangePasswordMessage('비밀번호가 변경되었습니다.');
+      if (response.code === 'SU') {
+        alert('비밀번호가 변경되었습니다.');
+        window.location.reload();
         return;
       } else {
-          setChangePasswordMessage('비밀번호 변경에 실패했습니다.');
+          alert('비밀번호 변경에 실패했습니다.');
       }
     } catch(error) {
-      setChangePasswordMessage('비밀번호 변경에 실패했습니다.');
+      alert('비밀번호 변경에 실패했습니다.');
     }
   };
 
