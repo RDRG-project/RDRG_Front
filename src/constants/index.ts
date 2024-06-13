@@ -112,6 +112,8 @@ export const GET_DEVICE_URL = `${SERVER_DEVICE_MODULE_URL}/list`
 export const POST_IT_ADD_URL = `${SERVER_DEVICE_MODULE_URL}/`
 // 예약 가능한 기기 리스트 불러오기
 export const GET_RENT_POSSIBILITY_LIST_URL = `${SERVER_DEVICE_MODULE_URL}/list`;
+// 관리자 권한 기기 리스트 불러오기
+export const GET_ADMIN_LIST = `${SERVER_DEVICE_MODULE_URL}/adminlist`;
 // IT 기기 삭제
 export const DELETE_IT_URL = (serialNumber: number | string) => `${SERVER_DEVICE_MODULE_URL}/${serialNumber}`;
 
