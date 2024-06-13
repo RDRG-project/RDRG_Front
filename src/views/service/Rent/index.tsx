@@ -16,9 +16,10 @@ import { differenceInHours } from 'date-fns';
 import axios from 'axios';
 import { PostPaymentResponseDto } from 'src/apis/payment/dto/response';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import { getRentPossibilityListRequest } from 'src/apis/device';
+import { getAdminRentListRequest, getRentPossibilityListRequest } from 'src/apis/device';
 import { DeviceListItem } from 'src/types';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
+import TestCalenderApp from 'src/components/DateTimebox/test';
 
 //                    component                    //
 function Basket() {
@@ -223,7 +224,7 @@ export default function Rent() {
     const navigator = useNavigate();
     const getDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
         const message =
-            !result ? '서버에 문제가 있습니다.ljnmljokj' :
+            !result ? '서버에 문제가 있습니다.' :
             result.code === 'VF' ? '유효하지 않은 정보입니다.' :
             result.code === 'AF' ? '권한이 없습니다.' :
             result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
@@ -235,9 +236,26 @@ export default function Rent() {
         }
 
         const { deviceList } = result as GetDeviceListResponseDto;
-        setPlace(rentSite);
         setRentViewList(deviceList);
-    }
+
+    };
+
+    const getAdminDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
+        const message =
+            !result ? '서버에 문제가 있습니다.' :
+            result.code === 'VF' ? '유효하지 않은 정보입니다.' :
+            result.code === 'AF' ? '관리자가 아닙니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+
+        if (!result || result.code !== 'SU') {
+            alert(message);
+            if (result?.code === 'AF') navigator(HOME_ABSOLUTE_PATH);
+            return;
+        }
+
+        const { deviceList } = result as GetDeviceListResponseDto;
+        setRentViewList(deviceList);
+    };
 
     //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
@@ -253,12 +271,22 @@ export default function Rent() {
     };
     const searchButtonClickHandler = () => {
         if (!cookies.accessToken) return;
-        if (!startDate || !endDate) return;
-        const start = dateFormat(startDate);
-        const end = dateFormat(endDate);
-        setRentSite(place);
-        getRentPossibilityListRequest(start, end, place, cookies.accessToken).then(getDeviceListResponse);
-    }
+
+        if (loginUserRole === 'ROLE_USER') {
+            if (!startDate || !endDate || !place) {
+                alert('대여지점, 대여날짜, 반납날짜를 선택해주세요');
+                return;
+            }
+            const start = dateFormat(startDate);
+            const end = dateFormat(endDate);
+            setRentSite(place);
+            getRentPossibilityListRequest(start, end, place, cookies.accessToken).then(getDeviceListResponse);
+        } 
+        
+        if (loginUserRole === 'ROLE_ADMIN') {
+            getAdminRentListRequest(cookies.accessToken).then(getAdminDeviceListResponse);
+        }
+    };
 
     //                    render                    //
     return (
@@ -273,10 +301,16 @@ export default function Rent() {
                 </div>
                 <div className='rent-left-side-date'>
                     <ReactDatePicker />
+                    {/* <TestCalenderApp /> */}
                 </div>
             </div> : <></>
             }
-            <div onClick={searchButtonClickHandler}>검색하기</div>
+            <div className='button-class-role'>
+            {loginUserRole === 'ROLE_ADMIN' ?
+                <div onClick={searchButtonClickHandler}>새로고침</div> :
+                <div onClick={searchButtonClickHandler}>검색하기</div>
+            } 
+            </div>
             <div className='rent-item'>
                 <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} rentViewList={rentViewList} setRentViewList={setRentViewList} />
             </div>

@@ -232,3 +232,12 @@ body {
 .device-box button:hover {
     background-color: #45a049;
 }
+
+.button-class-role {
+    background-color: aqua;
+    width: 70px;
+    height: 30px;
+}
+.button-class-role:hover {
+    cursor: pointer;
+}
