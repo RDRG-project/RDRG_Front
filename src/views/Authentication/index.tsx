@@ -278,6 +278,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
             alert(message);
             return;
         }
+        alert('환영합니다! 회원가입이 성공적으로 완료되었습니다.');
         onLinkClickHandler();
 
     };
