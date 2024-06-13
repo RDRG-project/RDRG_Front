@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './style.css'
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { MYPAGE_PROFILE_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
+import { useUserStore } from 'src/stores';
 
 //                    type                    //
 type Path = '프로필 관리' | '대여 내역' | '';
@@ -18,15 +19,18 @@ function SideNavigation ({path} : Props) {
     const rentDetailClass = `mypage-navigation-item${path === '대여 내역' ? ' active' : ''}`
   
     const { pathname } = useLocation();
+    const { loginUserRole } = useUserStore();
   
     //                    function                    //
     const navigator = useNavigate();
+    
   
     //                    event handler                    //
     const onProfileClickHandler = () => {navigator(MYPAGE_PROFILE_ABSOLUTE_PATH)};
     const onRentDetailClickHandler = () => {navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH)};
   
     //                    render                    //
+    if (loginUserRole !== 'ROLE_ADMIN') {
     return (
       <div className="mypage-navigation-container">
         <div className={profileClass} onClick={onProfileClickHandler}>
@@ -36,7 +40,19 @@ function SideNavigation ({path} : Props) {
           <div className="mypage-navigation-title">대여 내역</div>
         </div>
       </div>
-    )
+    );
+    } else {
+      return (
+      <div className="mypage-navigation-container">
+        <div className={rentDetailClass} onClick={onRentDetailClickHandler}>
+        <div className="mypage-navigation-title">대여 내역</div>
+        </div>
+        <div className={profileClass} onClick={onProfileClickHandler}>
+          <div className="mypage-navigation-title">프로필 관리</div>
+        </div>
+      </div>
+      );
+    }
   }
 
 export default function MypageContainer() {

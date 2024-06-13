@@ -35,9 +35,6 @@ export function Sns () {
     return <></>;
 }
 
-//                    type                    //
-type AuthPage = 'sign-in' | 'sign-up';
-
 //                    interface                    //
 interface SnsContainerProps {
     title: string;
@@ -119,7 +116,6 @@ function SignIn({ onLinkClickHandler }: Props) {
     navigator(HOME_ABSOLUTE_PATH);
 };
 
-
     //                    event handler                    //
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setId(event.target.value);
@@ -170,9 +166,9 @@ function SignIn({ onLinkClickHandler }: Props) {
                 <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} />
                 <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} onKeydownHandler={onPasswordKeydownHandler} message={message} error />
             </div>
-            <div className="saveId">
-                <input type="checkbox" className="saveId-cb" checked={saveId} onChange={onSaveIdChangeHandler} />
-                <div className="saveId">아이디 저장</div>
+            <div className="save-id-container">
+                <input id="save-id-cb" type="checkbox" checked={saveId} onChange={onSaveIdChangeHandler}/>
+                <label className="save-id" htmlFor="save-id-cb">아이디 저장</label>
             </div>
             <div className='authentication-button-container'>
                 <button className="primary-button full-width" onClick={onSignInButtonClickHandler}>로그인</button>
@@ -181,8 +177,6 @@ function SignIn({ onLinkClickHandler }: Props) {
         </div>
     );
 }
-
-
 
 //                    component                    //
 export function SignUp({ onLinkClickHandler }: Props) {
@@ -215,7 +209,6 @@ export function SignUp({ onLinkClickHandler }: Props) {
     const [isAuthNumberError, setAuthNumberError] = useState<boolean>(false);
 
     const isSignUpActive = isIdCheck && isEmailCheck && isAuthNumberCheck && isPasswordPattern && isEqualPassword;
-    const signUpButtonClass = `${isSignUpActive ? 'primary' : 'disable'}-button full-width`;
 
     //                    function                    //
     const idCheckResponse = (result: ResponseDto | null) => {
@@ -258,7 +251,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
         const authNumberMessage = 
             !result ? '서버에 문제가 있습니다.' : 
             result.code === 'VF' ? '인증번호를 입력해주세요.' : 
-            result.code === 'AF' ? '인증번호가 일치하지 않습니다.' :
+            result.code === 'AF' ? '올바른 인증번호를 입력해주세요.' :
             result.code === 'DBE' ? '서버에 문제가 있습니다.' :
             result.code === 'SU' ? '인증번호가 확인되었습니다.' : '';
         const authNumberCheck = result !== null && result.code === 'SU';
@@ -292,18 +285,17 @@ export function SignUp({ onLinkClickHandler }: Props) {
     //                    event handler                    //
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
+        if (value.length <= 24) {
         setId(value);
-        // @Pattern(regexp="^[a-zA-Z0-9]{4,12}$") -> back 패턴
-        // const idPattern =    ;
-        // const isIdPattern = idPattern.test(value);
-        // setIdButtonStatus(isIdPattern);
         setIdButtonStatus(value !== '');
         setIdCheck(false);
         setIdMessage('');
+        }
     };
 
     const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
+        if (value.length <=20 ) {
         setPassword(value);
 
         const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_\-+=\[\]{}|\\;:‘“<>.,?\/]).{8,19}$/;
@@ -322,10 +314,12 @@ export function SignUp({ onLinkClickHandler }: Props) {
             isEqualPassword ? '' : 
             passwordCheck ? '비밀번호가 일치하지 않습니다.' : '';
         setPasswordCheckMessage(passwordCheckMessage);
+        }
     };
 
     const onPasswordCheckChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
+        if (value.length <=20 ) {
         setPasswordCheck(value);
 
         const isEqualPassword = password === value;
@@ -335,30 +329,35 @@ export function SignUp({ onLinkClickHandler }: Props) {
             isEqualPassword ? '' : 
             value ? '비밀번호가 일치하지 않습니다.' : '';
         setPasswordCheckMessage(passwordCheckMessage);
+        }
     };
 
     const onEmailChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
+        if (value.length <= 30) {
         setEmail(value);
         setEmailButtonStatus(value !== '');
         setEmailCheck(false);
         setAuthNumberCheck(false);
         setEmailMessage('');
+        }
     };
 
     const onAuthNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
+        if (value.length <= 4 ) {
         setAuthNumber(value);
         setAuthNumberButtonStatus(value !== '');
         setAuthNumberCheck(false);
         setAuthNumberMessage('');
+        }
     };
 
     const onIdButtonClickHandler = () => {
         if(!idButtonStatus) return;
         if(!id || !id.trim()) return;
 
-        const idPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,24}$/;
+        const idPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,23}$/;
         const isIdPattern = idPattern.test(id);
         if (!isIdPattern) {
             setIdMessage('사용할 수 없는 아이디 형식 입니다.');
@@ -399,8 +398,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
     };
 
     const onSignUpButtonClickHandler = () => {
-        if(!isSignUpActive) return;
-        if(!id || !password || !passwordCheck || !email || !authNumber) {
+        if(!isSignUpActive) {
             alert('모든 내용을 입력해주세요.');
             return;
         }
@@ -419,21 +417,21 @@ export function SignUp({ onLinkClickHandler }: Props) {
         <div className="authentication-contents">
             <div className="authentication-input-container">
                 <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} 
-                buttonTitle="중복 확인" buttonStatus={idButtonStatus} onButtonClickHandler={onIdButtonClickHandler} message={idMessage} error={isIdError} />
+                buttonTitle="중복 확인" buttonStatus={idButtonStatus} onButtonClickHandler={onIdButtonClickHandler} message={idMessage} error={isIdError} maxLength={24} />
 
                 <InputBox  label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" 
-                onChangeHandler={onPasswordChangeHandler} message={passwordMessage} error />
+                onChangeHandler={onPasswordChangeHandler} message={passwordMessage} error maxLength={20} />
 
                 <InputBox label="비밀번호 확인" type="password" value={passwordCheck} placeholder="비밀번호를 입력해주세요" 
-                onChangeHandler={onPasswordCheckChangeHandler} message={passwordCheckMessage} error />
+                onChangeHandler={onPasswordCheckChangeHandler} message={passwordCheckMessage} error maxLength={20} />
 
                 <InputBox label="이메일" type="text" value={email} placeholder="이메일을 입력해주세요" 
                 onChangeHandler={onEmailChangeHandler} buttonTitle="이메일 인증" buttonStatus={emailButtonStatus} 
-                onButtonClickHandler={onEmailButtonClickHandler} message={emailMessage} error={isEmailError} />
+                onButtonClickHandler={onEmailButtonClickHandler} message={emailMessage} error={isEmailError} maxLength={30} />
 
                 <InputBox label="인증번호" type="text" value={authNumber} placeholder="인증번호 4자리를 입력해주세요" 
                 onChangeHandler={onAuthNumberChangeHandler} buttonTitle="인증 확인" buttonStatus={authNumberButtonStatus} 
-                onButtonClickHandler={onAuthNumberButtonClickHandler} message={authNumberMessage} error={isAuthNumberError} />
+                onButtonClickHandler={onAuthNumberButtonClickHandler} message={authNumberMessage} error={isAuthNumberError} maxLength={4} />
             </div>
             <div className="authentication-button-container">
                 <div className='primary-button full-width' onClick={onSignUpButtonClickHandler}>회원가입</div>
@@ -461,8 +459,6 @@ export default function Authentication() {
         authPage === 'sign-in' ? 
             <SignIn onLinkClickHandler={onLinkClickHandler} /> : 
             <SignUp onLinkClickHandler={onLinkClickHandler} />;
-    
-    // const signUpButtonClass = `${AuthenticationContents ? 'disable' : 'primary'}-button full-width`;
     
     const authenticationTitle =
         authPage === 'sign-in' ? '로그인': '회원가입';
