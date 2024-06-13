@@ -14,6 +14,7 @@ export interface InputBoxProps {
     message?: string;
     error?: boolean;
     onKeydownHandler?: (event: KeyboardEvent<HTMLInputElement>) => void;
+    maxLength?: number;
 }
 
 //                    component                    //
