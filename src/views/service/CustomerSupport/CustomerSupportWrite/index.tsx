@@ -189,10 +189,10 @@ export default function SupportWrite() {
                         <div className='cs-write-bottom-title'>파일첨부</div>
                         <div className='cs-write-file-box'>
                             <input ref={fileInputRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler} />
-                        <div className='cs-file-upload-button' onClick={onFileUploadButtonClickHandler} >사진 추가</div>
+                        <div className='cs-file-upload-button' onClick={onFileUploadButtonClickHandler} >내 PC</div>
                         <div>
                         <div className="file-arrangement" onDrop={onDropHandler} onDragOver={onDragOverHandler} >
-                            {filePreviews.length === 0 && "파일을 여기에 넣으세요. 단, 파일 첨부는 최대 3개까지 가능합니다."}                            
+                            {filePreviews.length === 0 && <strong>파일 첨부는 최대 3개까지 가능합니다.</strong>}                            
                             {filePreviews.map((preview, index) => (
                             <div key={index} className="file-preview">
                                 <button className="image-delete-button" onClick={() => onFileDeleteButtonClickHandler(index)}>X</button>
