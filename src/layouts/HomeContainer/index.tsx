@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './style.css'
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_ABSOLUTE_PATH, HOME_COMPANY_ABSOLUTE_PATH, HOME_PLACE_ABSOLUTE_PATH, HOME_POLICY_ABSOLUTE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from '../../constants';
+import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_ABSOLUTE_PATH, HOME_COMPANY_ABSOLUTE_PATH, HOME_PLACE_ABSOLUTE_PATH, HOME_POLICY_ABSOLUTE_PATH, MYPAGE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from '../../constants';
 import useUserStore from 'src/stores/user.store';
 import { useCookies } from 'react-cookie';
 import ResponseDto from 'src/apis/response.dto';
@@ -66,7 +66,7 @@ function TopBar({path} : Props) {
           alert('로그인 해주세요.');
           navigator(AUTH_ABSOLUTE_PATH);
       } else {
-          navigator(MYPAGE_PROFILE_ABSOLUTE_PATH);
+          navigator(MYPAGE_PATH); // MYPAGE_PATH로 이동을 해서 MypageContainer에서 IF문으로 운영자인지 아닌지 확인하여 운영자면 대여내역 유저면 프로필로 이동 시켜주기 위해서 변경
       }
   };
 
