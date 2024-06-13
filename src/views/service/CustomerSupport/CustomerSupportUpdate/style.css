@@ -1,0 +1,22 @@
+/* .cs-rewrite-file-box {
+    display: flex;
+    border-left: 1px solid rgba(102,102,102,0.25);
+    flex-direction: row;
+    padding: 8px 16px;
+
+    gap: 15px;
+    width: 85%;
+} */
+
+.cs-get-file-box {
+    display: flex;
+    flex-direction: row;
+
+    gap: 30px;
+}
+
+.get-file-preview {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}

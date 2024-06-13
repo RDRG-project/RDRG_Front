@@ -131,14 +131,6 @@ export default function SupportDetail () {
         deleteBoardRequest(receptionNumber, cookies.accessToken).then(deleteBoardResponse);
     };
 
-    // const openImagePopup = (imageUrl: string) => {
-    //     setPopupImageUrl(imageUrl);
-    // };
-    
-    // const closeImagePopup = () => {
-    //     setPopupImageUrl(null);
-    // };
-
     const openImageInNewWindow = (imageUrl: string) => {
         window.open(imageUrl, 'blank', 'width=auto,height=auto');
     };
@@ -172,13 +164,19 @@ export default function SupportDetail () {
                             <div className='cs-detail-contents-title'>내용</div>
                             <div className='cs-detail-contents-box'>{contents}</div>
                         </div>
-                        <div>
-                            <div>
-                                {imageUrls.length ? imageUrls.map(url => <img key={url} src={url} width="150px" height="auto" title="file-viewer" onClick={() => openImageInNewWindow(url)}/>)
-                                : ( <p>첨부된 파일이 없습니다.</p> )}
-                                
+                        
+                        {imageUrls.length > 0 && (
+                        <div className="cs-write-bottom">
+                            <div className='cs-write-bottom-title'>첨부파일</div>
+                            <div className='cs-write-file-box'>
+                                <div className='cs-get-file-box'>
+                                {imageUrls.map(url => (
+                                <img key={url} src={url} width="auto" height="120" onClick={() => openImageInNewWindow(url)} />
+                                ))}
+                                </div>
                             </div>
                         </div>
+                        )}
                     </div>
                 </div>
                 {loginUserRole === 'ROLE_ADMIN' && !status && 
@@ -200,7 +198,6 @@ export default function SupportDetail () {
                     <div className='cs-detail-owner-button-box'>
                         {!status && <div className='customer-support-button' onClick={onUpdateClickHandler}>수정</div>}
                         <div className='customer-support-button' onClick={onDeleteClickHandler}>삭제</div>
-                        
                     </div>
                     }
                 </div>

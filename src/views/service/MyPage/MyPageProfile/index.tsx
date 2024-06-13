@@ -135,7 +135,8 @@ export default function MypageProfile() {
       }
 
       if (response.code === 'SU') {
-        setChangePasswordMessage('비밀번호가 변경되었습니다.');
+        alert('비밀번호가 변경되었습니다.');
+        window.location.reload();
         return;
       } else {
           alert('비밀번호 변경에 실패했습니다.');

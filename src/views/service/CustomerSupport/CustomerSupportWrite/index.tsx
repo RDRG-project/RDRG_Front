@@ -185,31 +185,26 @@ export default function SupportWrite() {
                         </div>
                     </div>
 
-                    <div className="cs-write-bottom">
-                        <div className='cs-write-bottom-title'>첨부파일</div>
-                        <input ref={fileInputRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler}/>
-                        <div 
-                            style={{ border: '2px dashed', padding: '10px', color: 'red', width: '88%'}}
-                            onDrop={onDropHandler}
-                            onDragOver={onDragOverHandler}
-                            onClick={onFileUploadButtonClickHandler} >
-                            드래그 앤 드롭으로 파일을 여기에 넣으세요.
-                            &nbsp;&nbsp;단, 파일 첨부는 최대 3개까지 가능합니다.
+                    <div className='cs-write-bottom'>
+                        <div className='cs-write-bottom-title'>파일첨부</div>
+                        <div className='cs-write-file-box'>
+                            <input ref={fileInputRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler} />
+                        <div className='cs-file-upload-button' onClick={onFileUploadButtonClickHandler} >사진 추가</div>
+                        <div>
+                        <div className="file-arrangement" onDrop={onDropHandler} onDragOver={onDragOverHandler} >
+                            {filePreviews.length === 0 && "파일을 여기에 넣으세요. 단, 파일 첨부는 최대 3개까지 가능합니다."}                            
+                            {filePreviews.map((preview, index) => (
+                            <div key={index} className="file-preview">
+                                <button className="image-delete-button" onClick={() => onFileDeleteButtonClickHandler(index)}>X</button>
+                                <img src={preview.url} alt={preview.name} className="file-preview-name" />
+                                <div>{preview.name}</div>
+                            </div>
+                            ))}
+                            </div>
+                        </div>
                         </div>
                     </div>
-
-                    <div className="file-arrangement">
-                        {filePreviews.map((preview, index) => (
-                            <div key={index}>
-                                <img src={preview.url} alt={preview.name} width="300" height="auto"/>
-                                <p>{preview.name}</p>
-                                <button style={{display: 'flex'}} onClick={() => onFileReviseButtonClickHandler(index)}>수정</button>
-                                <button onClick={() => onFileDeleteButtonClickHandler(index)}>삭제</button>
-                            </div>
-                        ))}
-                    </div>
                 </div>
-
                 <div className="cs-write-button">
                     <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
                     <div className='customer-support-button' onClick={onPostButtonClickHandler}>올리기</div>

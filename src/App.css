@@ -30,7 +30,7 @@
 
     padding: 8px 24px;
 
-    background-color: rgba(94, 73, 242, 1);
+    background-color: rgb(44, 41, 55, 1);
     border-radius: 40px;
     border: none;
 
@@ -242,14 +242,6 @@
 
     color: rgba(138,146,166,1);
 }
-
-/* body {
-    -ms-overflow-style: none;
-}
-
-::-webkit-scrollbar {
-    display: none;
-  } */
 
 .customer-support-button {
     box-sizing: border-box;
