@@ -247,12 +247,14 @@
 }
 
 .device-buttons {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .device-list {
     flex: 2;
     padding-left: 20px;
+    width: 800px;
 }
 
 .type-item {

@@ -99,16 +99,16 @@ export default function Rent() {
 
     return (
         <div id='rent-wrapper'>
-            <div className='rent-left-box'>
+            <div className='rent-top-box'>
                 {loginUserRole === 'ROLE_USER' &&
-                    <div className='rent-left-side'>
-                        <div className='rent-left-side-site'>
+                    <div className='rent-top-side'>
+                        <div className='rent-top-side-site'>
                             <RentSiteSelectBox value={rentSelect} onChange={onRentChangeHandler} />
                         </div>
-                        <div className='rent-left-side-site'>
+                        <div className='rent-top-side-site'>
                             <ReturnSiteSelectBox value={returnSelect} onChange={onReturnChangeHandler} />
                         </div>
-                        <div className='rent-left-side-date'>
+                        <div className='rent-top-side-date'>
                             <ReactDatePicker />
                         </div>
                         <div>

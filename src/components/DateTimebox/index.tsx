@@ -1,10 +1,9 @@
-// src/components/DatePickerComponent.tsx
 import React, { forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
 import './style.css';
-import { setHours, setMinutes, addHours, isAfter, isBefore, differenceInDays, differenceInHours } from 'date-fns';
+import { setHours, setMinutes, addHours, isAfter, differenceInDays, differenceInHours } from 'date-fns';
 import { useRentDateStore, useTotalRentTimeStore } from 'src/stores';
 
 interface CustomInputProps {
@@ -15,25 +14,23 @@ interface CustomInputProps {
 const ExampleCustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(
     ({ value, onClick }, ref) => (
         <button className="example-custom-input" onClick={onClick} ref={ref}>
-            {value}
+            {value || '날짜 선택'}
         </button>
     )
 );
-
-const isWeekday = (date: Date) => {
-    const day = date.getDay();
-    return day !== 0 && day !== 6;
-};
 
 const datePickerProps = (
     selected: Date | null,
     startDate: Date | null,
     endDate: Date | null,
-    onChange: (date: Date | null) => void
+    onChange: (date: Date | null) => void,
+    placeholderText: string
 ) => ({
     locale: ko,
-    dateFormatCalendar: "yyyy.MM.dd (eee)",
     selected,
+    onChange,
+    startDate,
+    endDate,
     showPopperArrow: false,
     minDate: new Date(),
     dateFormat: "yyyy년 MM월 dd일 HH시",
@@ -42,11 +39,7 @@ const datePickerProps = (
     timeFormat: "HH:mm",
     minTime: setHours(setMinutes(new Date(), 0), 8),
     maxTime: setHours(setMinutes(new Date(), 0), 18),
-    filterDate: isWeekday,
-    customInput: <ExampleCustomInput value={startDate ? startDate.toLocaleDateString() : ''} onClick={() => {}} />,
-    onChange,
-    startDate,
-    endDate
+    customInput: <ExampleCustomInput value={selected ? selected.toLocaleString() : placeholderText} />
 });
 
 const ReactDatePicker: React.FC = () => {
@@ -60,36 +53,36 @@ const ReactDatePicker: React.FC = () => {
             setEndDate(newEndDate);
             calculateTotalRentTime(date, newEndDate);
         }
-    }
+    };
     
     const onEndChangeHandler = (date: Date | null) => {
-        if (date !== null && (!startDate || isAfter(date, startDate))) {
+        if (date !== null && startDate && isAfter(date, startDate)) {
             setEndDate(date);
-            if (startDate) {
-                calculateTotalRentTime(startDate, date);
-            }
+            calculateTotalRentTime(startDate, date);
         }
-    }
+    };
 
     const calculateTotalRentTime = (start: Date, end: Date) => {
-        if (isBefore(start, end)) {
+        if (isAfter(end, start)) {
             const days = differenceInDays(end, start);
             const hours = differenceInHours(end, start) % 24;
             setTotalRentTime(`${days}일 ${hours}시간`);
         } else {
             setTotalRentTime(null);
         }
-    }
+    };
 
     return (
         <div className='date-picker-wrapper'>
-            <div className="rental-date">대여 날짜 및 시간</div>
-            <DatePicker {...datePickerProps(startDate, startDate, endDate, onStartChangeHandler)} />
-            <div className="return-date">반납 날짜 및 시간</div>
-            <DatePicker {...datePickerProps(endDate, startDate, endDate, onEndChangeHandler)} />
-            {totalRentTime !== null && (
-                <div className="total-rent-time">총 대여시간: {totalRentTime}</div>
-            )}
+            <div className='date-picker-range-box'>
+                <div className="rental-date">대여 날짜 및 시간
+                    <DatePicker {...datePickerProps(startDate, startDate, endDate, onStartChangeHandler, "대여 날짜 선택")} />
+                </div>                
+                <div className="return-date">반납 날짜 및 시간
+                    <DatePicker {...datePickerProps(endDate, startDate, endDate, onEndChangeHandler, "반납 날짜 선택")} />
+                </div>               
+            </div>            
+            {totalRentTime && <div className="total-rent-time">총 대여시간: {totalRentTime}</div>}
         </div>
     );
 };
