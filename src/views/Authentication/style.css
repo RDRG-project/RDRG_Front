@@ -7,13 +7,6 @@
     gap: 20px;
 }
 
-.circle{
-    width: 82px;
-    height: 82px;
-    border-radius: 50%;
-    background-color: rgba(196,196,196,1);
-}
-
 .authentication-container {
     display: flex;
     flex-direction: column;
@@ -74,9 +67,8 @@
     height: 100%;
 }
 
-.saveId{
+.save-id-container{
     display: flex;
-    flex-direction: row;
     gap: 5px;
 }
 
