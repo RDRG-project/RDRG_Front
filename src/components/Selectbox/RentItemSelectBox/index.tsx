@@ -16,7 +16,7 @@ interface Prop {
     value: string;
     onChange: (value: string) => void;
     rentViewList: DeviceListItem[];
-    setRentViewList: React.Dispatch<React.SetStateAction<DeviceListItem[]>>; // setRentViewList를 prop으로 받음
+    setRentViewList: React.Dispatch<React.SetStateAction<DeviceListItem[]>>; 
 }
 
 //                    component                    //
@@ -29,28 +29,30 @@ function RentItem({
     brand,
     price,
     devicesImgUrl,
-    place
-}: DeviceListItem) {
+    place,
+    onDeleteHandler,
+    addItemHandler
+}: DeviceListItem & { onDeleteHandler: (serialNumber: string) => void } & { addItemHandler: (item: DeviceListItem) => void }) {
 
     //                    state                    //
     const [isExplainFullVisible, setIsExplainFullVisible] = useState(false);
     const {loginUserRole} = useUserStore();
     const { basketItems, setBasketItems } = useBasketStore();
-    const [totalAmount, setTotalAmount] = useState<number>(0);
+    const { totalAmount, setTotalAmount } = useRentItemStore();
 
     //                    function                    //
     const isItemInBasket = basketItems.some(item => item.serialNumber === serialNumber);
+    const itemIndexInBasket = basketItems.findIndex(item => item.serialNumber === serialNumber);
 
     //                    event handler                    //
     const handleExplainClick = () => {
         setIsExplainFullVisible(!isExplainFullVisible);
     };
 
-    const closeButtonClickHandler = () => {
+    const explainCloseButtonClickHandler = () => {
         setIsExplainFullVisible(false);
     };
 
-    // 해제 버튼 클릭 핸들러
     const removeItemButtonClickHandler = (index: number) => {
         const itemToRemove = basketItems[index];
         setBasketItems(basketItems.filter((_, i) => i !== index));
@@ -72,6 +74,7 @@ function RentItem({
                     {isExplainFullVisible && (
                         <div className='device-detail-explain-full'>
                             <div className='explain-title'>상품정보</div>
+                            <div className='explain-close-button' onClick={explainCloseButtonClickHandler}>X</div>
                             <div>{deviceExplain}</div>
                         </div>
                     )}
@@ -81,10 +84,10 @@ function RentItem({
                 <div className='device-price'>{price.toLocaleString()}원</div>
                 <div className='device-put-box'>
                 {loginUserRole === 'ROLE_ADMIN' ?
-                    <div className='delete-button' >삭제</div> :
+                    <div className='delete-button' onClick={() => onDeleteHandler(serialNumber)}>삭제</div> :
                     isItemInBasket ?
-                        <div className='device-out-button' >해제</div> :
-                        <div className='device-put-button' >담기</div>
+                        <div className='device-out-button' onClick={() => removeItemButtonClickHandler(itemIndexInBasket)}>해제</div> :
+                        <div className='device-put-button' onClick={() => addItemHandler({ serialNumber, model, name, deviceExplain, type, brand, price, devicesImgUrl, place })}>담기</div>
                 }
                 </div>
             </div>
@@ -195,17 +198,9 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
                 <div className='type-notebook' onClick={onNotebookButtonClickHandler}>노트북</div>
                 {notebookState &&
                     <div className='type-notebook-detail'>
-                    {rentViewList && rentViewList.filter(item => item.type === '노트북').map(item =>
-                    <div key={item.serialNumber}>
-                        {item.name} {item.model}
-                        <RentItem {...item} />
-                            <div className='device-put-box'>
-                            {loginUserRole === 'ROLE_ADMIN' ?
-                                <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
-                                :
-                                <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
-                            }
-                            </div>
+                        {rentViewList && rentViewList.filter(item => item.type === '노트북').map(item =>
+                        <div key={item.serialNumber}>
+                            <RentItem {...item} onDeleteHandler={adminDeleteButtonClickHandler}  addItemHandler={addItemButtonClickHandler} />
                         </div>)}
                     </div>
                 }
@@ -213,51 +208,28 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
                     {tabletState &&
                         <div className='type-tablet-detail'>
                             {rentViewList && rentViewList.filter(item => item.type === '태블릿').map(item =>
-                                <div key={item.serialNumber}>
-                                    {item.name} {item.model}
-                                    <RentItem {...item} />
-                                    <div className='device-put-box'>
-                                        {loginUserRole === 'ROLE_ADMIN' ?
-                                            <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
-                                            :
-                                            <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
-                                        }
-                                    </div>
-                                </div>)}
+                            <div key={item.serialNumber}>
+                                <RentItem {...item} onDeleteHandler={adminDeleteButtonClickHandler} addItemHandler={addItemButtonClickHandler}/>
+                            </div>)}
                         </div>
                     }
                     <div className='type-game' onClick={onGameItButtonClickHandler}>게임기</div>
                     {gameItState &&
                         <div className='type-game-detail'>
                             {rentViewList && rentViewList.filter(item => item.type === '게임기').map(item =>
-                                <div key={item.serialNumber}>
-                                    {item.name} {item.model}
-                                    <RentItem {...item} />
-                                    <div className='device-put-box'>
-                                        {loginUserRole === 'ROLE_ADMIN' ?
-                                            <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
-                                            :
-                                            <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
-                                        }
-                                    </div>
-                                </div>)}
+                            <div key={item.serialNumber}>
+                                <RentItem {...item} onDeleteHandler={adminDeleteButtonClickHandler} addItemHandler={addItemButtonClickHandler}/>
+                            </div>)}
                         </div>
                     }
                     <div className='type-external-battery' onClick={onExternalBatteryButtonClickHandler}>보조배터리</div>
                     {externalBatteryState &&
                         <div className='type-tablet-detail'>
                             {rentViewList && rentViewList.filter(item => item.type === '보조배터리').map(item =>
-                                <div key={item.serialNumber}>
-                                    {item.name} {item.model}
-                                    <RentItem {...item} />
-                                    <div className='device-put-box'>
-                                        {loginUserRole === 'ROLE_ADMIN' ?
-                                            <div className='delete-button' onClick={() => adminDeleteButtonClickHandler(item.serialNumber)}>삭제</div>
-                                            :
-                                            <button onClick={() => addItemButtonClickHandler(item)}>담기</button>
-                                        }
-                                    </div>
-                                </div>)}
+                            <div key={item.serialNumber}>
+                                {item.name} {item.model}
+                                <RentItem {...item} onDeleteHandler={adminDeleteButtonClickHandler} addItemHandler={addItemButtonClickHandler}/>
+                            </div>)}
                         </div>
                     }
                 </>

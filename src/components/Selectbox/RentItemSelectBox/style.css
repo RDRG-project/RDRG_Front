@@ -75,6 +75,11 @@
     padding-bottom: 10px;
 }
 
+.explain-close-button {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 .explain-close-button:hover{
     cursor: pointer;
 }
