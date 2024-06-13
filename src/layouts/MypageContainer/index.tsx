@@ -118,7 +118,10 @@ export default function MypageContainer() {
   //                    render                    //
   return (
     <div id="mypage-wrapper">
+      {loginUserRole == 'ROLE_ADMIN' ?
+      <div className='mypage-image'>회원 관리</div> :
       <div className='mypage-image'>마이페이지</div>
+      }
       <SideNavigation path= {path}/>
       <div className="mypage-main-container">
         <Outlet />
