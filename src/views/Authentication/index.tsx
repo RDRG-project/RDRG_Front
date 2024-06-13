@@ -35,9 +35,6 @@ export function Sns () {
     return <></>;
 }
 
-//                    type                    //
-type AuthPage = 'sign-in' | 'sign-up';
-
 //                    interface                    //
 interface SnsContainerProps {
     title: string;
@@ -170,9 +167,9 @@ function SignIn({ onLinkClickHandler }: Props) {
                 <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} />
                 <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} onKeydownHandler={onPasswordKeydownHandler} message={message} error />
             </div>
-            <div className="saveId">
-                <input type="checkbox" className="saveId-cb" checked={saveId} onChange={onSaveIdChangeHandler} />
-                <div className="saveId">아이디 저장</div>
+            <div className="save-id-container">
+                <input type="checkbox" className="save-id-cb" checked={saveId} onChange={onSaveIdChangeHandler} />
+                <div className="save-id">아이디 저장</div>
             </div>
             <div className='authentication-button-container'>
                 <button className="primary-button full-width" onClick={onSignInButtonClickHandler}>로그인</button>
