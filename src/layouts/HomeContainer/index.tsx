@@ -51,7 +51,7 @@ function TopBar({path} : Props) {
     };
 
     const onRentClickHandler = () => {
-      if (loginUserRole !== 'ROLE_USER' && loginUserRole !== 'ROLE_ADMIN') {
+      if (cookies.accessToken == null) {
         alert('로그인 해주세요.');
         navigator(AUTH_ABSOLUTE_PATH);
       } 
@@ -60,9 +60,19 @@ function TopBar({path} : Props) {
       }
       
     };
-    const onCustomerSupportClickHandler = () => {navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH)};
+    const onCustomerSupportClickHandler = () => {
+      if (cookies.accessToken == null) {
+        alert('로그인 해주세요.');
+        navigator(AUTH_ABSOLUTE_PATH);
+      }
+      else {
+        navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
+      }
+    };
+
+
     const onMypageClickHandler = () => {
-      if (loginUserRole !== 'ROLE_USER' && loginUserRole !== 'ROLE_ADMIN') {
+      if (cookies.accessToken == null) {
           alert('로그인 해주세요.');
           navigator(AUTH_ABSOLUTE_PATH);
       } else {
@@ -76,23 +86,21 @@ function TopBar({path} : Props) {
     };
 
     //                    render                    //
-    // const buttonClass =  
-
     return (
       <div className='top-bar'>
         <div className="logo-container" onClick={onLogoClickHandler}>RDRG</div>
         <div className='top-navigation-container'>
           <div className={rentClass} onClick={onRentClickHandler}>
-            {loginUserRole === 'ROLE_USER' ? 
+            {loginUserRole === 'ROLE_USER' || !cookies.accessToken ?
             <div className="top-navigation-title">대여</div> :
-            <div className="top-navigation-title">기기 관리</div> 
+            <div className="top-navigation-title">기기 관리</div>
             }
           </div>
           <div className={customerSupportClass} onClick={onCustomerSupportClickHandler}>
             <div className="top-navigation-title">고객지원</div>
           </div>
           <div className={mypageSupportClass} onClick={onMypageClickHandler}>
-            {loginUserRole === 'ROLE_USER' ? 
+            {loginUserRole === 'ROLE_USER' || !cookies.accessToken ? 
             <div className="top-navigation-title">마이페이지</div> :
             <div className="top-navigation-title">회원 관리</div>
             }
@@ -117,7 +125,7 @@ function TopBar({path} : Props) {
     );
 }
 
-export default function RdrgContainer() {
+export default function HomeContainer() {
 
     //                    state                    //
     const { pathname } = useLocation();

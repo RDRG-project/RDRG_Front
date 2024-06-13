@@ -15,6 +15,9 @@
     justify-content: space-between;
     background-color: rgba(255,255,255,1);
     border: 1px solid rgba(216,216,216,1);
+    padding: 0px 10px;
+
+    font-family: "Noto Sans KR";
 }
 
 .logo-container{
@@ -41,9 +44,7 @@
 
 .top-navigation-title{
     color: #000;
-
-    font-family: "Source Sans 3";
-    font-size: 16px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
