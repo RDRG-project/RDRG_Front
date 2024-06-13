@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import './App.css';
 import { Route, Routes, useNavigate } from 'react-router';
 import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_PATH, CUSTOMER_SUPPORT_PATH, CUSTOMER_SUPPORT_UPDATE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_ABSOLUTE_PATH, HOME_COMPANY_ABSOLUTE_PATH, HOME_PLACE_ABSOLUTE_PATH, HOME_POLICY_ABSOLUTE_PATH, MYPAGE_DETAILS_ABSOLUTE_PATH, MYPAGE_DETAILS_PATH, MYPAGE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, MYPAGE_PROFILE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH, MYPAGE_UNREGISTER_PATH, RDRG_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, RENT_ADD_ABSOLUTE_PATH, RENT_CANCEL_ABSOLUTE_PATH, RENT_PATH } from './constants';
-import RdrgContainer from './layouts/HomeContainer';
 import Home from './views/Home';
 import CustomerSupportList from './views/service/CustomerSupport/CustomerSupportList';
 import MypageProfile from './views/service/MyPage/MyPageProfile';
@@ -23,6 +22,7 @@ import { useBasketStore } from './stores';
 import RentSuccess from './views/service/Rent/RentSuccess';
 import RentFailed from './views/service/Rent/RentFailed';
 import { RentAdd } from './views/service/Rent/RentAdd';
+import HomeContainer from './layouts/HomeContainer';
 
 // component : root 경로 컴포넌트 //
 function Index() {
@@ -43,7 +43,7 @@ function App() {
     return(
     <Routes>
         <Route index element = {<Index />} />
-        <Route path={RDRG_ABSOLUTE_PATH} element = {<RdrgContainer/>} >
+        <Route path={RDRG_ABSOLUTE_PATH} element = {<HomeContainer/>} >
             <Route path={HOME_ABSOLUTE_PATH} element = {<Home />} />
                 <Route path={HOME_COMPANY_ABSOLUTE_PATH} element = {<CompanyIntroduction />} />
                 <Route path={HOME_CLAUSE_ABSOLUTE_PATH} element = {<TermsAndConditions />} />

@@ -35,9 +35,6 @@ export function Sns () {
     return <></>;
 }
 
-//                    type                    //
-type AuthPage = 'sign-in' | 'sign-up';
-
 //                    interface                    //
 interface SnsContainerProps {
     title: string;
@@ -119,7 +116,6 @@ function SignIn({ onLinkClickHandler }: Props) {
     navigator(HOME_ABSOLUTE_PATH);
 };
 
-
     //                    event handler                    //
     const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setId(event.target.value);
@@ -170,9 +166,9 @@ function SignIn({ onLinkClickHandler }: Props) {
                 <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} />
                 <InputBox label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" onChangeHandler={onPasswordChangeHandler} onKeydownHandler={onPasswordKeydownHandler} message={message} error />
             </div>
-            <div className="saveId">
-                <input type="checkbox" className="saveId-cb" checked={saveId} onChange={onSaveIdChangeHandler} />
-                <div className="saveId">아이디 저장</div>
+            <div className="save-id-container">
+                <input id="save-id-cb" type="checkbox" checked={saveId} onChange={onSaveIdChangeHandler}/>
+                <label className="save-id" htmlFor="save-id-cb">아이디 저장</label>
             </div>
             <div className='authentication-button-container'>
                 <button className="primary-button full-width" onClick={onSignInButtonClickHandler}>로그인</button>
@@ -181,8 +177,6 @@ function SignIn({ onLinkClickHandler }: Props) {
         </div>
     );
 }
-
-
 
 //                    component                    //
 export function SignUp({ onLinkClickHandler }: Props) {
@@ -215,7 +209,6 @@ export function SignUp({ onLinkClickHandler }: Props) {
     const [isAuthNumberError, setAuthNumberError] = useState<boolean>(false);
 
     const isSignUpActive = isIdCheck && isEmailCheck && isAuthNumberCheck && isPasswordPattern && isEqualPassword;
-    const signUpButtonClass = `${isSignUpActive ? 'primary' : 'disable'}-button full-width`;
 
     //                    function                    //
     const idCheckResponse = (result: ResponseDto | null) => {
@@ -294,10 +287,6 @@ export function SignUp({ onLinkClickHandler }: Props) {
         const { value } = event.target;
         if (value.length <= 24) {
         setId(value);
-        // @Pattern(regexp="^[a-zA-Z0-9]{4,12}$") -> back 패턴
-        // const idPattern =    ;
-        // const isIdPattern = idPattern.test(value);
-        // setIdButtonStatus(isIdPattern);
         setIdButtonStatus(value !== '');
         setIdCheck(false);
         setIdMessage('');
@@ -409,8 +398,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
     };
 
     const onSignUpButtonClickHandler = () => {
-        if(!isSignUpActive) return;
-        if(!id || !password || !passwordCheck || !email || !authNumber) {
+        if(!isSignUpActive) {
             alert('모든 내용을 입력해주세요.');
             return;
         }
@@ -471,8 +459,6 @@ export default function Authentication() {
         authPage === 'sign-in' ? 
             <SignIn onLinkClickHandler={onLinkClickHandler} /> : 
             <SignUp onLinkClickHandler={onLinkClickHandler} />;
-    
-    // const signUpButtonClass = `${AuthenticationContents ? 'disable' : 'primary'}-button full-width`;
     
     const authenticationTitle =
         authPage === 'sign-in' ? '로그인': '회원가입';
