@@ -111,7 +111,7 @@ export default function Rent() {
                         <div className='rent-top-side-date'>
                             <ReactDatePicker />
                         </div>
-                        <div>
+                        <div className='search-button'>
                             <div className='button-class-role' onClick={searchButtonClickHandler}>검색하기</div>
                         </div>
                     </div>
