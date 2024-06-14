@@ -1,0 +1,182 @@
+.admin-rent-list-table-tr {
+    display: flex;
+    align-items: center;
+
+    border-bottom: 1px solid rgba(102, 102, 102, 0.25);
+    padding: 15px 24px;
+
+    color: #000;
+
+    font-family: "Noto Sans KR";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.admin-rent-list-status{
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap :20px;
+}
+
+.admin-rent-list-status-change {
+    display: flex;
+    width: 250px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.admin-rent-list-status-change select {
+    width: 80px;
+    height: 20px; 
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.admin-rent-list-status-change button {
+    width: 80px;
+    height: 20px; 
+    padding: 0;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+.admin-rent-list-name{
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-rent-list-rent-date, .admin-rent-list-return-date{
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-rent-list-user-id{
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-rent-list-page-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3px;
+    width: 150px;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.admin-rent-list-detail{
+    font-family: "Noto Sans KR";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    color: rgba(0,0,0,1);
+}
+
+.admin-rent-list-next-button{
+    width: 4px;
+    height: 8px;
+
+    background-image: url('../../../../../assets/image/rent-detail-button-image.png');
+    background-size: 100% 100%;
+}
+
+/*------------------------------------------------------*/
+#admin-rent-list-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-rent-list-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-rent-list-search-box{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.admin-rent-list-search-input-box{
+    border: 1px solid rgba(0,0,0,1);
+    border-radius: 6px;
+    padding: 8px 16px;
+    width: 168px;
+    background-color: rgba(255,255,255,1);
+}
+
+.admin-rent-list-search-input{
+    border: none;
+    outline: none;
+    background: none;
+    
+    font-family: "Noto Sans KR";
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 175%;
+  
+    color: rgba(64,64,64,1);
+}
+
+.admin-rent-list-table-status{
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-rent-list-table-status-change{
+    width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-rent-list-table-rent-date, .admin-rent-list-table-return-date, .admin-rent-list-table-rent-detail{
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-rent-list-table-title{
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-rent-list-table-id{
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
