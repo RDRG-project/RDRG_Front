@@ -34,7 +34,8 @@ const datePickerProps = (
     showPopperArrow: false,
     minDate: new Date(),
     dateFormat: "yyyy년 MM월 dd일",
-    customInput: <DateCustomInput value={startDate ? `${startDate.toLocaleDateString()} - ${endDate ? endDate.toLocaleDateString() : ''}` : placeholderText} />
+    customInput: <DateCustomInput value={startDate ? `${startDate.toLocaleDateString()} - ${endDate ? endDate.toLocaleDateString() : ''}` : placeholderText} />,
+    monthsShown: 2 // 두 달력을 동시에 표시
 });
 
 const ReactDatePicker: React.FC = () => {
