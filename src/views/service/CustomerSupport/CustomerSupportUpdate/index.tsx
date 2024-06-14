@@ -66,7 +66,6 @@ export default function SupportUpdate() {
         setImageUrls(imageUrl);
 
         const fileUpload = [];
-
         for (const url of imageUrl) {
             fileUpload.push(await convertUrlToFile(url));
         }
@@ -181,13 +180,6 @@ export default function SupportUpdate() {
         fileRef.current.click();
     };
 
-    const onFileReviseButtonClickHandler = (index: number) => {
-        setFileRevise(index);
-        if (fileRef.current) {
-            fileRef.current.click();
-        }
-    };
-
     const onFileDeleteButtonClickHandler = (index: number) => {
         const fileUpdate = fileUpload.filter((_, i) => i !== index);
         const showFileUpdate = filePreviews.filter((_, i) => i !== index);
@@ -271,41 +263,31 @@ export default function SupportUpdate() {
                             <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요. / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
                         </div>
                     </div>
-
-
-
-                    
-                        <div className="cs-write-bottom">
-                            <div className='cs-write-bottom-title'>첨부파일</div>
-                            <div className='cs-rewrite-file-box'>
-                                <div className='cs-get-file-box'>
-                            {imageUrls.length ? imageUrls.map((url, index) => (
-                            <div key={index} className="get-file-preview">
-                                <img src={url} width="auto" height="50" />
-                                <button className="image-delete-button" onClick={() => onImageDeleteClickHandler(index)}>X</button>
-                            </div>
-                            )) : (
-                            <p style={{ display: 'none'}}></p>
-                            )}</div>
+                    <div className="cs-write-bottom">
+                        <div className='cs-write-bottom-title'>첨부파일</div>
+                        <div className='cs-write-file-box'>                            
                             <input ref={fileRef} style={{ display: 'none' }} type="file" multiple onChange={onFileUploadChangeHandler} />
-                        <div className='cs-file-upload-button' onClick={onFileUploadButtonClickHandler} >내 PC</div>
-                        <div>
-                        <div className="file-arrangement" onDrop={onDropHandler} onDragOver={onDragOverHandler} >
-                        {filePreviews.length === 0 && <strong>파일 첨부는 최대 3개까지 가능합니다.</strong>}
-                            {filePreviews.map((preview, index) => (
+                            <div className='cs-file-upload-button' onClick={onFileUploadButtonClickHandler} >내 PC</div>
+                            <div>
+                                <div className="file-arrangement" onDrop={onDropHandler} onDragOver={onDragOverHandler} >
+                                {imageUrls.length ? imageUrls.map((url, index) => (
                                 <div key={index} className="file-preview">
-                                <button className="image-delete-button" onClick={() => onFileDeleteButtonClickHandler(index)}>X</button>
-                                <img src={preview.url} alt={preview.name} className="file-preview-name" />
-                                <div>{preview.name}</div>
+                                <button className="image-delete-button" onClick={() => onImageDeleteClickHandler(index)}>X</button>
+                                <img src={url} width="auto" height="50" className="file-preview-name"/>                                
                                 </div>
-                            ))}
+                                )) : ( null )} 
+                                {filePreviews.length === 0 && <strong>파일 첨부는 최대 3개까지 가능합니다.</strong>}
+                                {filePreviews.map((preview, index) => (
+                                    <div key={index} className="file-preview">
+                                    <button className="image-delete-button" onClick={() => onFileDeleteButtonClickHandler(index)}>X</button>
+                                    <img src={preview.url} alt={preview.name} className="file-preview-name" />
+                                    <div>{preview.name}</div>
+                                    </div>
+                                ))}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-
-
-
                 </div>               
                 <div className="cs-write-button">
                     <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
