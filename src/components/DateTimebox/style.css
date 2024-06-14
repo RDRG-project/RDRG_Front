@@ -1,31 +1,42 @@
 .date-picker-wrapper {
     display: flex;
     flex-direction: column;
+    width: 400px;
+    height: 120px;
     align-items: center;
     font-family: 'Noto Sans KR', sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .date-picker-range-box {
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.rental-date, .return-date {
-    margin: 10px 0;
+.rental-date {
+    /* margin: 10px 0; */
     font-size: 18px;
     font-weight: 500;
+    color: #333;
 }
 
-.calendar-button {
-    padding: 10px;
+.date-custom-input {
+    padding: 10px 15px;
     border-radius: 4px;
+    width: 400px;
     cursor: pointer;
-    color: white;
+    color: #fff;
     font-size: 16px;
     background-color: #d9534f;
     border: none;
+    transition: background-color 0.3s ease;
 }
 
-.calendar-button:hover {
+.example-custom-input:hover {
     background-color: #c9302c;
 }
 
@@ -64,4 +75,5 @@
     margin-top: 10px;
     font-weight: bold;
     color: #5bc0de;
+    font-size: 18px;
 }
