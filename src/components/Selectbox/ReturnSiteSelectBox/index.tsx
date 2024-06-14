@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './style.css';
 import { useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore } from 'src/stores';
 
@@ -31,6 +31,11 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
         setReturnSite(value);
         setReturnShow(true);
     };
+
+    //                    effect                    //
+    useEffect(() => {
+        setReturnSelectedItem(value || '');
+    }, [value]);
 
     //                    render                    //
     return (
