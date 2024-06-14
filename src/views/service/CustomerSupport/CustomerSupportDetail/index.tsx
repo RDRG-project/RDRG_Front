@@ -26,8 +26,6 @@ export default function SupportDetail () {
     const [comment, setComment] = useState<string | null>(null);
     const [commentRows, setCommentRows] = useState<number>(1);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
-
-    const [popupImageUrl, setPopupImageUrl] = useState<string | null>(null);
     
     //                    function                    //
     const navigator = useNavigate();
@@ -163,17 +161,20 @@ export default function SupportDetail () {
                         <div className='cs-detail-contents-container'>
                             <div className='cs-detail-contents-title'>내용</div>
                             <div className='cs-detail-contents-box'>{contents}</div>
-                        </div>
-                        
+                        </div>                        
                         {imageUrls.length > 0 && (
                         <div className="cs-write-bottom">
                             <div className='cs-write-bottom-title'>첨부파일</div>
                             <div className='cs-write-file-box'>
+                                
+                                <div>
                                 <div className='cs-get-file-box'>
                                 {imageUrls.map(url => (
-                                <img key={url} src={url} width="auto" height="120" onClick={() => openImageInNewWindow(url)} />
+                                <img key={url} src={url} width="50" height="auto"  onClick={() => openImageInNewWindow(url)} />
                                 ))}
                                 </div>
+                                </div>
+
                             </div>
                         </div>
                         )}
