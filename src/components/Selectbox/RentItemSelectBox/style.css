@@ -187,13 +187,7 @@
     cursor: pointer;
 }
 
-.select-open-button {
-    background-image: url('../../../assets/image/arrow-down.png');
-}
 
-.select-close-button {
-    background-image: url('../../../assets/image/arrow-up.png');
-}
 
 .device-put-box {
     display: flex;
@@ -277,4 +271,47 @@
     padding: 10px;
     border: 1px solid #ddd;
     margin-bottom: 10px;
+}
+
+.device-box-left,
+.device-box-middle,
+.device-box-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.device-box-left {
+    flex: 1;
+}
+
+.device-box-middle {
+    flex: 2;
+}
+
+.device-box-right {
+    flex: 1;
+}
+
+.device-brand,
+.device-detail-title,
+.device-price {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.device-detail {
+    font-size: 14px;
+}
+
+.device-box button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.device-box button:hover {
+    background-color: #45a049;
 }
