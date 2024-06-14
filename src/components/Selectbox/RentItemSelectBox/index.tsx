@@ -164,10 +164,7 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
                 <div></div>
             }
             <div className='select-it-box'>
-                {value === '' ?
-                    <div className='select-it-none'>대여 기기 목록</div> :
-                    <div className='select-it-item'>{value}</div>
-                }
+                <div className='select-it-none'>대여 기기 목록</div>                
                 <div className={selectListItItem ? 'select-close-button' : 'select-open-button'} onClick={() => setSelectListItItem(!selectListItItem)}></div>
             </div>
             {selectListItItem && (

@@ -17,6 +17,9 @@
     padding: 10px;
 
     font-family: 'Noto Sans KR';
+    
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .device-box-left {
@@ -78,6 +81,7 @@
 .explain-close-button {
     display: flex;
     flex-direction: row-reverse;
+    
 }
 
 .explain-close-button:hover{
@@ -108,9 +112,10 @@
 
     padding: 0px 13px;
 
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(255, 255, 255, 1);
     
-    border: 0.5px solid rgba(0,0,0,1);
+    border: 0.5px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
 
     font-size: 13px;
     font-style: normal;
@@ -132,6 +137,7 @@
     background-color: rgba(63,63,63,1);
     
     border: 0.5px solid rgba(255,255,255,1);
+    border-radius: 5px;
 
     font-family: "Noto Sans KR";
     font-size: 13px;
@@ -187,13 +193,7 @@
     cursor: pointer;
 }
 
-.select-open-button {
-    background-image: url('../../../assets/image/arrow-down.png');
-}
 
-.select-close-button {
-    background-image: url('../../../assets/image/arrow-up.png');
-}
 
 .device-put-box {
     display: flex;
@@ -255,6 +255,7 @@
     flex: 2;
     padding-left: 20px;
     width: 800px;
+    height: 100%;
 }
 
 .type-item {
@@ -263,18 +264,64 @@
     padding: 10px;
     margin-bottom: 10px;
     cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 1);
+    border: 1px solid rgba(0, 0, 0, 0.3);
     width: 200px;
+    border-radius: 10px;
 }
 
 .type-item-detail {
     display: flex;
     flex-direction: column;
-    min-height: 250px;
+    min-height: 100px;
     height: 100%;
     gap: 10px;
     background-color: #fff;
     padding: 10px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    margin-bottom: 0px;
+    justify-content: center;
+}
+
+.device-box-left,
+.device-box-middle,
+.device-box-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.device-box-left {
+    flex: 1;
+}
+
+.device-box-middle {
+    flex: 2;
+}
+
+.device-box-right {
+    flex: 1;
+}
+
+.device-brand,
+.device-detail-title,
+.device-price {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.device-detail {
+    font-size: 14px;
+}
+
+.device-box button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.device-box button:hover {
+    background-color: #45a049;
 }
