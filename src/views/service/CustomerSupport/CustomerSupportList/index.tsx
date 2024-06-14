@@ -1,8 +1,8 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import { BoardListItem } from 'src/types';
 import { useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
+import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH } from 'src/constants';
 import useUserStore from 'src/stores/user.store';
 import { useCookies } from 'react-cookie';
 import { GetBoardListResponseDto } from 'src/apis/board/dto/response';
