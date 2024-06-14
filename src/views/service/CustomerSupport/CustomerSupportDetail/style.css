@@ -198,3 +198,12 @@
 
     color: rgba(0,0,0,1);
 }
+
+.cs-get-file-box {
+    display: flex;
+    flex-direction: column;
+
+    color: antiquewhite;
+
+    gap: 30px;
+}
