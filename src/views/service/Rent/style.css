@@ -19,7 +19,7 @@ body {
     background-color: #fff;
 }
 
-/* 좌측 패널 */
+/* 탑 패널 */
 .rent-top-box {
     display: flex;
     flex-direction: row;
@@ -34,6 +34,22 @@ body {
     background-color: rgba(246, 243, 242, 1);
     width: 100%;
     justify-content: space-between;
+    align-items: center;
+}
+
+.rent-top-side-site,
+.rent-top-side-date {
+    font-size: 20px;
+    background-color: #fff;
+    padding: 10px;
+}
+
+/* 검색하기 or 새로고침 버튼 css */
+.search-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
 }
 
 .button-class-role {
@@ -57,12 +73,6 @@ body {
     background-color: rgb(20, 107, 165); /* Darker background on hover */
 }
 
-.rent-top-side-site,
-.rent-top-side-date {
-    font-size: 20px;
-    background-color: #fff;
-    padding: 10px;
-}
 
 /* 검색 결과 영역 */
 .rent-result {
@@ -93,6 +103,7 @@ body {
     border-radius: 10px;
     position: sticky;
     top: 20px;
+    gap: 20px;
     align-self: flex-start;
 }
 
@@ -102,148 +113,5 @@ body {
     margin-bottom: 20px;
 }
 
-.basket-items {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
 
-.basket-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
 
-.basket-item button {
-    background-color: #ff4d4d;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.basket-item button:hover {
-    background-color: #ff1a1a;
-}
-
-.payment-box {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.payment-top-box,
-.payment-bottom-box {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.payment-count {
-    font-weight: bold;
-}
-
-.payment-basket-delete button {
-    background-color: #ff4d4d;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.payment-basket-delete button:hover {
-    background-color: #ff1a1a;
-}
-
-.payment-sum {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.payment-box button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-.payment-box button:hover {
-    background-color: #45a049;
-}
-
-/* 날짜 선택기 */
-.example-custom-input {
-    background-color: #282c34;
-    color: white;
-    cursor: pointer;
-    width: 240px;
-    padding: 10px;
-    margin-bottom: 5px;
-    border: none;
-    border-radius: 4px;
-}
-
-/* 디바이스 선택 박스 */
-.device-box {
-    display: flex;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-}
-
-.device-box-left,
-.device-box-middle,
-.device-box-right {
-    display: flex;
-    flex-direction: column;
-}
-
-.device-box-left {
-    flex: 1;
-}
-
-.device-box-middle {
-    flex: 2;
-}
-
-.device-box-right {
-    flex: 1;
-}
-
-.device-brand,
-.device-detail-title,
-.device-price {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.device-detail {
-    font-size: 14px;
-}
-
-.device-box button {
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.device-box button:hover {
-    background-color: #45a049;
-}
