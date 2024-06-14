@@ -1,4 +1,4 @@
-import { differenceInHours } from "date-fns";
+import { differenceInDays } from "date-fns";
 import './style.css';
 import { useEffect, useState } from "react";
 import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentSelectStore, useRentSiteShowStore, useRentSiteStore, useRentStatusStore, useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore, useTabletStore, useTotalRentTimeStore, useUserStore } from "src/stores";
@@ -32,15 +32,14 @@ export default function Basket() {
 
     //                    function                    //
     const calculateRentDuration = (startDate: Date, endDate: Date) => {
-        const durationInHours = differenceInHours(endDate, startDate);
-        const durationInDays = Math.ceil(durationInHours / 24);
-        return { days: durationInDays, hours: durationInHours % 24 };
+        const durationInDays = differenceInDays(endDate, startDate);
+        return { days: durationInDays, hours: 0 };
     };
 
     const calculateItemPrice = (basePrice: number, startDate: Date | null, endDate: Date | null): number => {
         if (!startDate || !endDate) return 0;
-        const rentalHours = differenceInHours(endDate, startDate);
-        return basePrice * rentalHours;
+        const rentalDays = differenceInDays(endDate, startDate);
+        return basePrice + (rentalDays * 2000);
     };
 
     const calculateTotalPrice = () => {
@@ -109,6 +108,7 @@ export default function Basket() {
         </div>
     );
 }
+
 
 //                    component                    //
 export function Payment() {
