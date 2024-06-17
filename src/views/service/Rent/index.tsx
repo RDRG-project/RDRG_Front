@@ -49,22 +49,6 @@ export default function Rent() {
         setRentViewList(deviceList);
     };
 
-    const getAdminDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
-        const message =
-            !result ? '서버에 문제가 있습니다.' :
-            result.code === 'VF' ? '유효하지 않은 정보입니다.' :
-            result.code === 'AF' ? '관리자가 아닙니다.' :
-            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
-
-        if (!result || result.code !== 'SU') {
-            alert(message);
-            if (result?.code === 'AF') navigator(HOME_ABSOLUTE_PATH);
-            return;
-        }
-
-        const { deviceList } = result as GetDeviceListResponseDto;
-        setRentViewList(deviceList);
-    };
 
     //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
@@ -85,12 +69,6 @@ export default function Rent() {
         setRentItem(rentItem);
     };
 
-    const adminSearchButtonClickHandler = () => {
-        if (!cookies.accessToken) return;
-        if (loginUserRole === 'ROLE_ADMIN') {
-            getAdminRentListRequest(cookies.accessToken).then(getAdminDeviceListResponse);
-        }
-    }
     const userSearchButtonClickHandler = () => {
         if (!cookies.accessToken) return;
 
@@ -150,7 +128,6 @@ export default function Rent() {
             )}
             {loginUserRole === 'ROLE_ADMIN' &&
             <div className='rent-item'>
-                <div className='button-class-role' onClick={adminSearchButtonClickHandler}>새로고침</div>            
                 <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} rentViewList={rentViewList} setRentViewList={setRentViewList} />
             </div>}
         </div>
