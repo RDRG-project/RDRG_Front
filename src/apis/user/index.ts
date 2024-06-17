@@ -2,7 +2,7 @@ import axios from "axios";
 import { DELETE_USER_URL, GET_SIGN_IN_USER_REQUEST_URL, GET_USER_INFO_URL, PATCH_PASSWORD_URL } from "src/constants";
 import { bearerAuthorization, requestErrorHandler, requestHandler } from "..";
 import { GetSignInUserResponseDto, GetPersonalInfoResponseDto } from "./dto/response";
-import { ChangePWRequestDto } from "./dto/request";
+import { GetChangePWRequestDto } from "./dto/request";
 import ResponseDto from "../response.dto";
 
 // function : 로그인 유저 정보 반환 API 함수
@@ -22,7 +22,7 @@ export const getUserInfoRequest = async (userId: string, accessToken: string) =>
 };
 
 // function : 비밀번호 변경하기 API 함수
-export const patchPasswordRequest = async(requestBody:ChangePWRequestDto , accessToken: string) => {
+export const patchPasswordRequest = async(requestBody:GetChangePWRequestDto , accessToken: string) => {
     const result = await axios.patch(PATCH_PASSWORD_URL, requestBody, bearerAuthorization(accessToken))
         .then(requestHandler<ResponseDto>)
         .catch(requestErrorHandler)
