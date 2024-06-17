@@ -78,11 +78,14 @@ export default function Basket() {
     //                    render                    //
     return (
         <div className='selected-type-wrapper'>
-            <div className='basket-items'>
+            <div className='basket-container'>
                 {basketItems.map((item, index) => (
-                    <div key={index} className='basket-item'>
-                        {item.name}: {calculateItemPrice(item.price, startDate, endDate).toLocaleString()}원               
-                        <button onClick={() => removeItemButtonClickHandler(index)}>X</button>
+                    <div key={index} className='basket-box'>
+                        <div className='basket-item-name'>{item.name + item.model}</div>
+                        <div className='basket-item-bottom'>
+                            <div className='basket-item-price'>{calculateItemPrice(item.price, startDate, endDate).toLocaleString()}원</div>
+                            <button className='basket-item-remove-button' onClick={() => removeItemButtonClickHandler(index)}>X</button>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -94,7 +97,8 @@ export default function Basket() {
                     </div>
                 </div>
                 <div className='payment-bottom-box'>
-                    <div className='payment-sum'>총 합계금액: {totalAmount.toLocaleString()}원</div>
+                    <div className='payment-sum-title'>총 합계금액</div>
+                    <div className='payment-sum-title'>{totalAmount.toLocaleString()}원</div>
                 </div>
             </div>
         </div>
@@ -182,7 +186,7 @@ export function Payment() {
 
     //                    render                    //
     return (
-        <div>
+        <div className="payment-container">
             <button className="payment-button" onClick={onPaymentButtonClickHandler}>결제하기</button>
         </div>
     )

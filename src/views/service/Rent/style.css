@@ -6,7 +6,7 @@
     gap: 30px;
     padding: 20px;
     min-width: 1300px;
-    min-height: 800px;
+    min-height: 570px;
     background-color: white;
 }
 
@@ -35,7 +35,7 @@
     gap: 10px;
     height: 140px;
     font-size: 20px;
-    padding: 10px;
+    padding: 20px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -67,9 +67,8 @@
 }
 
 .button-class-role:hover {
-    background-color: rgb(20, 107, 165); /* Darker background on hover */
+    background-color: rgb(20, 107, 165);
 }
-
 
 /* 검색 결과 영역 */
 .rent-result {
@@ -97,7 +96,7 @@
 
 /* 장바구니 및 결제 */
 .rent-right-side {
-    width: 300px;
+    width: 400px;
     padding: 20px;
     background-color: #e0e0e0;
     border-radius: 10px;
@@ -105,13 +104,14 @@
     top: 20px;
     gap: 20px;
     align-self: flex-start;
+    
+    min-height: 275px;
 }
 
 .rent-right-side-top-basket {
     text-align: center;
+    font-family: "Noto Sans KR";
     font-size: 24px;
+    font-weight: 500;
     margin-bottom: 20px;
 }
-
-
-
