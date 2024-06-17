@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 400px;
-    height: 120px;
+    height: 140px;
     align-items: center;
     font-family: 'Noto Sans KR', sans-serif;
     padding: 20px;
@@ -15,13 +15,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
 }
 
 .rental-date {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Noto Sans KR';
     font-size: 18px;
     font-weight: 500;
-    color: #333;
 }
 
 .date-custom-input {
@@ -34,10 +34,6 @@
     background-color: #23284E;
     border: none;
     transition: background-color 0.3s ease;
-}
-
-.example-custom-input:hover {
-    background-color: #c9302c;
 }
 
 .react-datepicker {
@@ -98,7 +94,6 @@
 
 .total-rent-time {
     margin-top: 10px;
-    font-weight: bold;
-    color: #5bc0de;
+    font-weight: 600;
     font-size: 18px;
 }
