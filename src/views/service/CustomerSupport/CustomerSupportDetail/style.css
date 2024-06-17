@@ -203,7 +203,5 @@
     display: flex;
     flex-direction: column;
 
-    color: antiquewhite;
-
-    gap: 30px;
+    gap: 15px;
 }
