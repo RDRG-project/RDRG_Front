@@ -3,11 +3,12 @@ import './style.css'
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import { postBoardRequest } from "src/apis/board";
-import { PostBoardRequestDto } from "src/apis/board/dto/request";
+import { PostBoardRequestDto, } from "src/apis/board/dto/request";
 import ResponseDto from "src/apis/response.dto";
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH } from "src/constants";
 import useUserStore from "src/stores/user.store";
 import axios from "axios";
+import { BoardFileItem } from "src/types";
 
 //                    component                    //
 export default function SupportWrite() {
@@ -67,7 +68,7 @@ export default function SupportWrite() {
         if (!title.trim() || !contents.trim()) return; 
         if (!cookies.accessToken) return;
 
-        const urlList: string[] = [];
+        const urlList: BoardFileItem[] = [];
 
         for (const file of fileUpload) {
             const data = new FormData();
@@ -76,16 +77,15 @@ export default function SupportWrite() {
                 .then(response => response.data as string)
                 .catch(error => null);
             if (!url) continue;
-            
-            urlList.push(url);
+
+            urlList.push({ url, originalFileName: file.name });
         }
 
-        const requestBody: PostBoardRequestDto = { title, contents, urlList };
+        const requestBody: PostBoardRequestDto = { title, contents, fileList: urlList };
 
         postBoardRequest(requestBody, cookies.accessToken).then(postBoardResponse);
     };
 
-    // 첨부파일 업로드에 관힌 Handler
     const onFileUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || !event.target.files.length) return;
         uploadedFile(Array.from(event.target.files));
@@ -133,7 +133,6 @@ export default function SupportWrite() {
             fileInputRef.current.click();
         }
     };
-
 
     const onFileDeleteButtonClickHandler = (index: number) => {
         const fileUpdate = fileUpload.filter((_, i) => i !== index);

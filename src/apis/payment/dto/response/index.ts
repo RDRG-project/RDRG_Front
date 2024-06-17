@@ -17,7 +17,7 @@ export interface GetMyRentPageResponseDto extends ResponseDto {
 // description: 상세 대여 내역 불러오기 Response Body DTO
 export interface GetRentDetailResponseDto extends ResponseDto {
     rentNumber : number;
-    rent : RentDetailList[];
+    rentDetailList : RentDetailList[];
     rentDatetime : string;
     rentReturnDatetime : string;
     rentStatus : string;
