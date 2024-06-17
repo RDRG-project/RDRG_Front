@@ -26,7 +26,10 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
         // 이코드는 백에 장소를 넘겨주기 위해 사용한것
         setRentSite(itemValue);
         onChange(itemValue);
-        setRentShow(true);        
+    };
+
+    const onButtonClickHandler = () => {
+        setRentShow(!rentShow);
     };
 
     //                    effect                    //
@@ -39,6 +42,7 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
         <div id='rent-select-wrapper'>
             <div className='select-box-container'>
                 <div className='select-item-title'>대여지점</div>
+                <div className={rentShow ? 'spot-close-button' : 'spot-open-button'} onClick={onButtonClickHandler}></div>
             </div>
             {rentShow &&
                 <div className='select-list'>
