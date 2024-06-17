@@ -25,6 +25,7 @@ export default function SupportDetail () {
     const [comment, setComment] = useState<string | null>(null);
     const [commentRows, setCommentRows] = useState<number>(1);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
+    const [originalFileName, setOriginalFileName] = useState<string[]>([]);
     
     //                    function                    //
     const navigator = useNavigate();
@@ -47,7 +48,7 @@ export default function SupportDetail () {
             return;
         }
 
-        const { title, writerId, writeDatetime, contents, status, comment, imageUrl } = result as GetBoardResponseDto;
+        const { title, writerId, writeDatetime, contents, status, comment, imageUrl , originalFileName  } = result as GetBoardResponseDto;
         setTitle(title);
         setWriterId(writerId);
         setWriterDate(writeDatetime);
@@ -55,6 +56,7 @@ export default function SupportDetail () {
         setStatus(status);
         setComment(comment);
         setImageUrls(imageUrl);
+        setOriginalFileName(originalFileName);
     };
 
     const postCommentResponse = (result: ResponseDto | null) => {
@@ -131,6 +133,7 @@ export default function SupportDetail () {
     const openImageInNewWindow = (imageUrl: string) => {
         window.open(imageUrl, 'blank', 'width=auto,height=auto');
     };
+    
 
     //                    effect                    //
     useEffect(() => {
@@ -164,16 +167,17 @@ export default function SupportDetail () {
                         {imageUrls.length > 0 && (
                         <div className="cs-write-bottom">
                             <div className='cs-write-bottom-title'>첨부파일</div>
-                            <div className='cs-write-file-box'>
-                                
+                            <div className='cs-write-file-box'>                                
                                 <div>
                                 <div className='cs-get-file-box'>
-                                {imageUrls.map(url => (
-                                <img key={url} src={url} width="50" height="auto"  onClick={() => openImageInNewWindow(url)} />
+                                {imageUrls.map((url, index) => (
+                                <div key={index} className="file-preview">
+                                <img src={url} width="20" height="auto" onClick={() => openImageInNewWindow(url)} />
+                                <div onClick={() => openImageInNewWindow(url)}>{originalFileName[index]}</div>
+                                </div>
                                 ))}
                                 </div>
                                 </div>
-
                             </div>
                         </div>
                         )}
