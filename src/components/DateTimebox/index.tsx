@@ -78,7 +78,7 @@ const ReactDatePicker: React.FC<ReactDatePickerProps> = ({ rentSite }) => {
                     <DatePicker {...datePickerProps(startDate, endDate, onChangeHandler, "대여 및 반납 날짜 선택")} />
                 </div>
             </div>
-            {totalRentTime && <div className="total-rent-time">총 대여시간: {totalRentTime}</div>}
+            {totalRentTime && <div className="total-rent-time">총 대여기간 : {totalRentTime}</div>}
         </div>
     );
 };
