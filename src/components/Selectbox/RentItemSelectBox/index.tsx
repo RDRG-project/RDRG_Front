@@ -10,8 +10,9 @@ import { DeviceListItem } from 'src/types';
 import { useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
 import { HOME_ABSOLUTE_PATH, RENT_ADD_ABSOLUTE_PATH } from 'src/constants';
-import { deleteDeviceRequest } from 'src/apis/device';
+import { deleteDeviceRequest, getAdminRentListRequest } from 'src/apis/device';
 import ResponseDto from 'src/apis/response.dto';
+import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
 
 //                    interface                    //
 interface Prop {
@@ -112,9 +113,9 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
     const deleteDeviceResponse = (result: ResponseDto | null, serialNumber: string | number) => {
         const message =
             !result ? '서버에 문제가 있습니다.' :
-                result.code === 'VF' ? '유효하지 않은 기기 입니다.' :
-                    result.code === 'AF' ? '권한이 없습니다.' :
-                        result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+            result.code === 'VF' ? '유효하지 않은 기기 입니다.' :
+            result.code === 'AF' ? '권한이 없습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
         if (!result || result.code !== 'SU') {
             alert(message);
@@ -124,6 +125,23 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
 
         setRentViewList(prevList => prevList.filter(device => device.serialNumber !== serialNumber));
     }
+
+    const getAdminDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
+        const message =
+            !result ? '서버에 문제가 있습니다.' :
+            result.code === 'VF' ? '유효하지 않은 정보입니다.' :
+            result.code === 'AF' ? '관리자가 아닙니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+
+        if (!result || result.code !== 'SU') {
+            alert(message);
+            if (result?.code === 'AF') navigator(HOME_ABSOLUTE_PATH);
+            return;
+        }
+
+        const { deviceList } = result as GetDeviceListResponseDto;
+        setRentViewList(deviceList);
+    };
 
     //                    event handler                    //
 
@@ -149,10 +167,18 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
         setTotalAmount(totalAmount + item.price);
     };
 
+    //                    effect                    //
     useEffect(() => {
         setSelectListItItem(true);
     }, [selectListItItem]);
 
+    useEffect(() => {
+        if (loginUserRole === 'ROLE_ADMIN') {
+            getAdminRentListRequest(cookies.accessToken).then(getAdminDeviceListResponse);
+        }
+    }, [cookies.accessToken, loginUserRole]);
+
+    //                    render                    //
     const renderDeviceList = (type: string) => {
         return rentViewList.filter(item => item.type === type).map(item =>
             <div key={item.serialNumber}>
@@ -160,16 +186,14 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
             </div>
         );
     };
-
-    //                    render                    //
     return (
         <div id='select-type-wrapper'>
-            {loginUserRole === 'ROLE_ADMIN' ?
-                <div className='rent-admin-button' onClick={adminAddButtonClickHandler}>기기 추가</div> :
-                <div></div>
-            }
-            <div className='select-it-box'>
-                <div className='select-it-none'>대여 기기 목록</div>                
+            <div className='select-it-box' style={{ display: 'flex', alignItems: 'center' }}>
+                <div className='select-it-none' style={{ flexGrow: 1, textAlign: 'center' }}>대여 기기 목록</div>
+                {loginUserRole === 'ROLE_ADMIN' ?
+                <div className='rent-admin-button' onClick={adminAddButtonClickHandler} style={{ marginLeft: 'auto' }}>기기 추가</div> :
+                <div style={{ marginLeft: 'auto' }}></div>
+                }               
                 <div className={selectListItItem ? 'select-close-button' : 'select-open-button'} onClick={() => setSelectListItItem(!selectListItItem)}></div>
             </div>
             {selectListItItem && (
