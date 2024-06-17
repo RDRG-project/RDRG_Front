@@ -8,7 +8,7 @@ interface Prop {
 }
 
 //                    component                    //
-export default function PlaceSelectBox({ place, onChange }: Prop) {
+export default function PlaceSelectbox({ place, onChange }: Prop) {
 
     const placeList = [
         { name : '서울', place: '서울' },

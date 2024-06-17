@@ -4,12 +4,12 @@ import "./style.css";
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router';
 import { emailAuthCheckRequest, emailAuthRequest, idCheckRequest, signInRequest, signUpRequest } from 'src/apis/auth';
-import { EmailAuthCheckRequestDto, EmailAuthRequestDto, IdCheckRequestDto, SignInRequestDto, SignUpRequestDto } from 'src/apis/auth/dto/request';
-import { SignInResponseDto } from 'src/apis/auth/dto/response';
+import { PostSignInResponseDto } from 'src/apis/auth/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import InputBox from 'src/components/Inputbox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import useAuthenticationStore from 'src/stores/authentication.store';
+import { PostEmailAuthCheckRequestDto, PostEmailAuthRequestDto, PostIdCheckRequestDto, PostSignInRequestDto, PostSignUpRequestDto } from 'src/apis/auth/dto/request';
 
 //                    component                    //
 export function Sns () {
@@ -90,7 +90,7 @@ function SignIn({ onLinkClickHandler }: Props) {
     //                    function                    //
     const navigator = useNavigate();
 
-    const signInResponse = (result: SignInResponseDto | ResponseDto | null) => {
+    const signInResponse = (result: PostSignInResponseDto | ResponseDto | null) => {
     
     const message =
     !result ? '서버에 문제가 있습니다.' :
@@ -103,7 +103,7 @@ function SignIn({ onLinkClickHandler }: Props) {
     const isSuccess = result && result.code === 'SU';
     if (!isSuccess) return;
     
-    const { accessToken, expires } = result as SignInResponseDto;
+    const { accessToken, expires } = result as PostSignInResponseDto;
     const expiration = new Date(Date.now() + (expires * 1000));
     setCookie('accessToken', accessToken, { path: '/', expires: expiration });
     
@@ -139,7 +139,7 @@ function SignIn({ onLinkClickHandler }: Props) {
             return;
         }
 
-        const requestBody: SignInRequestDto = {
+        const requestBody: PostSignInRequestDto = {
             userId: id,
             userPassword: password
         }
@@ -367,7 +367,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
             return;
         }
 
-        const requestBody: IdCheckRequestDto = { userId: id };
+        const requestBody: PostIdCheckRequestDto = { userId: id };
         idCheckRequest(requestBody).then(idCheckResponse);
     };
 
@@ -383,7 +383,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
             return;
         }
 
-        const requestBody: EmailAuthRequestDto = { userEmail: email };
+        const requestBody: PostEmailAuthRequestDto = { userEmail: email };
         emailAuthRequest(requestBody).then(emailAuthResponse);
     };
 
@@ -391,7 +391,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
         if(!authNumberButtonStatus) return;
         if(!authNumber) return;
 
-        const requestBody: EmailAuthCheckRequestDto = {
+        const requestBody: PostEmailAuthCheckRequestDto = {
             userEmail: email,
             authNumber
         };
@@ -404,7 +404,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
             return;
         }
 
-        const requestBody: SignUpRequestDto = {
+        const requestBody: PostSignUpRequestDto = {
             userId: id,
             userPassword: password,
             userEmail: email,

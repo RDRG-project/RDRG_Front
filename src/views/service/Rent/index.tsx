@@ -81,7 +81,13 @@ export default function Rent() {
         setRentItem(rentItem);
     };
 
-    const searchButtonClickHandler = () => {
+    const adminSearchButtonClickHandler = () => {
+        if (!cookies.accessToken) return;
+        if (loginUserRole === 'ROLE_ADMIN') {
+            getAdminRentListRequest(cookies.accessToken).then(getAdminDeviceListResponse);
+        }
+    }
+    const userSearchButtonClickHandler = () => {
         if (!cookies.accessToken) return;
 
         if (loginUserRole === 'ROLE_USER') {
@@ -94,11 +100,6 @@ export default function Rent() {
             setRentSite(place);
             getRentPossibilityListRequest(start, end, place, cookies.accessToken).then(getDeviceListResponse);
         } 
-
-        if (loginUserRole === 'ROLE_ADMIN') {
-            getAdminRentListRequest(cookies.accessToken).then(getAdminDeviceListResponse);
-        }
-
         setShowRentComponents(true);
     };
 
@@ -118,18 +119,15 @@ export default function Rent() {
                             <ReactDatePicker />
                         </div>
                         <div className='search-button'>
-                            <div className='button-class-role' onClick={searchButtonClickHandler}>기기 검색하기</div>
+                            <div className='button-class-role' onClick={userSearchButtonClickHandler}>기기 검색하기</div>
                         </div>
                     </div>
                 }
             </div>
-            {showRentComponents && (
+            {showRentComponents &&(
                 <div className='rent-result'>
                     <div className='rent-content'>
                         <div className='rent-item'>
-                            {loginUserRole === 'ROLE_ADMIN' &&
-                                <div className='button-class-role' onClick={searchButtonClickHandler}>새로고침</div>
-                            }
                             <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} rentViewList={rentViewList} setRentViewList={setRentViewList} />
                         </div>
                         {loginUserRole === 'ROLE_USER' &&
@@ -146,6 +144,11 @@ export default function Rent() {
                     </div>
                 </div>
             )}
+            {loginUserRole === 'ROLE_ADMIN' &&
+            <div className='rent-item'>
+                <div className='button-class-role' onClick={adminSearchButtonClickHandler}>새로고침</div>            
+                <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} rentViewList={rentViewList} setRentViewList={setRentViewList} />
+            </div>}
         </div>
     );
 }

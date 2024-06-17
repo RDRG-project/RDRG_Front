@@ -1,7 +1,7 @@
 import axios from "axios";
 import { DELETE_USER_URL, GET_SIGN_IN_USER_REQUEST_URL, GET_USER_INFO_URL, PATCH_PASSWORD_URL } from "src/constants";
 import { bearerAuthorization, requestErrorHandler, requestHandler } from "..";
-import { GetSignInUserResponseDto, PersonalInfoResponseDto } from "./dto/response";
+import { GetSignInUserResponseDto, GetPersonalInfoResponseDto } from "./dto/response";
 import { ChangePWRequestDto } from "./dto/request";
 import ResponseDto from "../response.dto";
 
@@ -16,7 +16,7 @@ export const getSignInUserRequest = async (accessToken : string) => {
 // function : 로그인 유저 정보 불러오기 API 함수
 export const getUserInfoRequest = async (userId: string, accessToken: string) => {
     const result = await axios.get(GET_USER_INFO_URL(userId), bearerAuthorization(accessToken))
-        .then(requestHandler<PersonalInfoResponseDto>)
+        .then(requestHandler<GetPersonalInfoResponseDto>)
         .catch(requestErrorHandler)
     return result;
 };
