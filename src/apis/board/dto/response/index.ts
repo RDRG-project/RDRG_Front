@@ -1,5 +1,5 @@
 import ResponseDto from "src/apis/response.dto";
-import { BoardListItem, ItRentList } from "src/types";
+import { BoardListItem } from "src/types";
 
 // description: 문의 게시판 리스트 불러오기 Response Body DTO
 export interface GetBoardListResponseDto extends ResponseDto {

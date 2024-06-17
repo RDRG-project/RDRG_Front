@@ -6,6 +6,7 @@ import './style.css';
 import { addDays, isAfter, differenceInDays } from 'date-fns';
 import { useRentDateStore, useTotalRentTimeStore } from 'src/stores';
 
+//                    interface                    //
 interface CustomInputProps {
     value?: string;
     onClick?: () => void;
@@ -60,6 +61,7 @@ const ReactDatePicker: React.FC = () => {
         }
     };
 
+    //                    render                    //
     return (
         <div className='date-picker-wrapper'>
             <div className='date-picker-range-box'>

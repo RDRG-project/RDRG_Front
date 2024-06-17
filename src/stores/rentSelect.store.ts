@@ -1,4 +1,3 @@
-import { ItRentList } from "src/types";
 import { create } from "zustand";
 
 interface RentSelectStore {
