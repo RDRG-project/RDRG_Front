@@ -15,7 +15,10 @@ import { DeviceListItem } from 'src/types';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
 import Basket, { Payment } from 'src/components/BasketPayment';
 
+//                    component                    //
 export default function Rent() {
+
+    //                    state                    //
     const { loginUserRole } = useUserStore();
     const [rentSelect, setRentSelect] = useState<string>('');
     const [returnSelect, setReturnSelect] = useState<string>('');
@@ -27,6 +30,7 @@ export default function Rent() {
     const [rentViewList, setRentViewList] = useState<DeviceListItem[]>([]);
     const [showRentComponents, setShowRentComponents] = useState<boolean>(false);
 
+    //                    function                    //
     const navigator = useNavigate();
     const getDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
         const message =
@@ -62,6 +66,7 @@ export default function Rent() {
         setRentViewList(deviceList);
     };
 
+    //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
         setRentSelect(rentSelect);
         if (loginUserRole !== 'ROLE_USER') return;
@@ -94,18 +99,19 @@ export default function Rent() {
             getAdminRentListRequest(cookies.accessToken).then(getAdminDeviceListResponse);
         }
 
-        setShowRentComponents(true);  // Set state to show rent components
+        setShowRentComponents(true);
     };
 
+    //                    render                    //
     return (
         <div id='rent-wrapper'>
             <div className='rent-top-box'>
                 {loginUserRole === 'ROLE_USER' &&
-                    <div className='rent-top-side'>
-                        <div className='rent-top-side-site'>
+                    <div className='rent-top-bar-container'>
+                        <div className='rent-top-bar-rent-spot'>
                             <RentSiteSelectBox value={rentSelect} onChange={onRentChangeHandler} />
                         </div>
-                        <div className='rent-top-side-site'>
+                        <div className='rent-top-bar-return-spot'>
                             <ReturnSiteSelectBox value={returnSelect} onChange={onReturnChangeHandler} />
                         </div>
                         <div className='rent-top-side-date'>
