@@ -8,7 +8,7 @@ interface Prop {
 }
 
 //                    component                    //
-export default function TypeSelectbox({ type, onChange }: Prop) {
+export default function TypeSelectBox({ type, onChange }: Prop) {
 
     const typeList = [
         { name : '노트북', type: '노트북' },
