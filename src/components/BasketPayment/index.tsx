@@ -1,8 +1,8 @@
 import { differenceInDays } from "date-fns";
 import './style.css';
 import { useEffect, useState } from "react";
-import { useBasketStore, useBatteryStore, useNoteBookStore, useRentDateStore, useRentItemStore, useRentSelectStore, useRentSiteShowStore, useRentSiteStore, useRentStatusStore, useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore, useTabletStore, useTotalRentTimeStore, useUserStore } from "src/stores";
-import useGameItStore from "src/stores/gameIt.store";
+import { useBasketStore, useRentDateStore, useRentItemTotalAmountStore, useRentSelectStore, useRentSiteShowStore, useRentSiteStore, useRentStatusStore, useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore, useTotalRentTimeStore, useUserStore } from "src/stores";
+
 import { useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
 import { PostPaymentResponseDto } from "src/apis/payment/dto/response";
@@ -17,18 +17,14 @@ export default function Basket() {
 
     //                    state                    //
     const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
-    const { basketItems, setBasketItems } = useBasketStore();
-    const [totalAmount, setTotalAmount] = useState<number>(0);
+    const { basketItems, setBasketItems } = useBasketStore();    
+    const {totalAmount, setTotalAmount} = useRentItemTotalAmountStore();
     const { setRentShow } = useRentSiteShowStore();
     const { setRentSelectedItem } = useRentSelectStore();
     const { setReturnShow } = useReturnSiteShowStore();
     const { setReturnSelectedItem } = useReturnSelectStore();
     const { setTotalRentTime } = useTotalRentTimeStore();
     const [rentDuration, setRentDuration] = useState<{ days: number; hours: number }>({ days: 0, hours: 0 });
-    const { setNotebookState } = useNoteBookStore();
-    const { setTabletState } = useTabletStore();
-    const { setGameItState } = useGameItStore();
-    const { setExternalBatteryState } = useBatteryStore();
 
     //                    function                    //
     const calculateRentDuration = (startDate: Date, endDate: Date) => {
@@ -39,7 +35,7 @@ export default function Basket() {
     const calculateItemPrice = (basePrice: number, startDate: Date | null, endDate: Date | null): number => {
         if (!startDate || !endDate) return 0;
         const rentalDays = differenceInDays(endDate, startDate);
-        return basePrice + (rentalDays * 2000);
+        return rentalDays > 1 ? basePrice + ((rentalDays - 1) * 2000) : basePrice;
     };
 
     const calculateTotalPrice = () => {
@@ -68,10 +64,6 @@ export default function Basket() {
         setTotalAmount(0);
         setRentDuration({ days: 0, hours: 0 });
         setTotalRentTime('');
-        setNotebookState(false);
-        setTabletState(false);
-        setGameItState(false);
-        setExternalBatteryState(false);
     };
 
     //                    effect                    //
@@ -114,8 +106,7 @@ export default function Basket() {
 export function Payment() {
 
     //                    state                    //
-    const navigator = useNavigate();
-    const {loginUserRole} = useUserStore();
+    const { loginUserRole } = useUserStore();
     const [cookies] = useCookies();
     const { loginUserId } = useUserStore();
     const { rentSite, setRentSite } = useRentSiteStore();
@@ -124,12 +115,8 @@ export function Payment() {
     const { setReturnShow } = useReturnSiteShowStore();
     const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
     const { basketItems, setBasketItems } = useBasketStore();
-    const { totalAmount, setTotalAmount } = useRentItemStore();
+    const { totalAmount, setTotalAmount } = useRentItemTotalAmountStore();
     const { rentStatus, setRentStatus } = useRentStatusStore();
-    const { setNotebookState } = useNoteBookStore();
-    const { setTabletState } = useTabletStore();
-    const { setGameItState } = useGameItStore();
-    const { setExternalBatteryState } = useBatteryStore();
 
     //                    function                    //
     const navigate = useNavigate();
@@ -148,13 +135,13 @@ export function Payment() {
         
         const { nextRedirectPcUrl } = result as PostPaymentResponseDto;
         window.location.href = nextRedirectPcUrl;
-    }
+    };
 
     //                    event handler                    //
     const onPaymentButtonClickHandler = () => {
         if (loginUserRole !== 'ROLE_USER') {
-            alert('로그인 하라')
-            navigator(HOME_ABSOLUTE_PATH);
+            alert('로그인 하라');
+            navigate(HOME_ABSOLUTE_PATH);
         };
         const rentSerialNumber = basketItems.map(item => item.serialNumber);
 
@@ -171,6 +158,17 @@ export function Payment() {
             rentStatus
         };
 
+        postPaymentSaveRequest(requestBody, cookies.accessToken)
+            .then(result => {
+                PostPaymentSaveResponseDto(result);
+                navigate('/rent-success', {
+                    state: {
+                        basketItems,
+                        totalAmount
+                    }
+                });
+            });
+
         setRentSite('');
         setReturnSite('');
         setRentStatus('');
@@ -180,13 +178,6 @@ export function Payment() {
         setEndDate(new Date());
         setRentShow(false);
         setReturnShow(false);
-        setNotebookState(false);
-        setTabletState(false);
-        setGameItState(false);
-        setExternalBatteryState(false);
-
-        if (!cookies.accessToken) return;
-        postPaymentSaveRequest(requestBody, cookies.accessToken).then(PostPaymentSaveResponseDto);
     };
 
     //                    render                    //
@@ -194,5 +185,5 @@ export function Payment() {
         <div>
             <button className="payment-button" onClick={onPaymentButtonClickHandler}>결제하기</button>
         </div>
-    );
+    )
 }

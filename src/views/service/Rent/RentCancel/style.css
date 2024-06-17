@@ -1,0 +1,111 @@
+/* style.css */
+
+#rent-fail-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 700px;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.rent-fail-box {
+    width: 600px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.rent-fail-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: #407ef1;
+    color: white;
+}
+
+.rent-fail-top-left {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.rent-fail-top-right {
+    display: flex;
+    gap: 8px;
+}
+
+.rent-state {
+    padding: 4px 12px;
+    background-color: white;
+    color: #0f0f0f;
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+.rent-state-on {
+    padding: 4px 12px;
+    background-color: #47556e;
+    color: white;
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+.rent-fail-detail-box {
+    padding: 24px;
+    text-align: center;
+}
+
+.rent-fail-middle {
+    margin-bottom: 24px;
+}
+
+.rent-fail-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+.rent-fail-title .highlight {
+    font-weight: bold;
+    color: red;
+}
+
+.rent-fail-explain-box {
+    margin-top: 16px;
+}
+
+.rent-fail-explain-title {
+    font-size: 18px;
+    color: #777;
+    margin-bottom: 8px;
+}
+
+.rent-fail-explain-cs {
+    font-size: 14px;
+    color: #999;
+}
+
+.rent-fail-bottom {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.rent-fail-button {
+    padding: 12px 24px;
+    background-color: #e2e4e2;
+    font-weight: 300;
+    color: rgb(14, 14, 14);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.rent-fail-button:hover {
+    background-color: #7a7a7a;
+}

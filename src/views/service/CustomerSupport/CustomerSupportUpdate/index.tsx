@@ -10,6 +10,7 @@ import useUserStore from 'src/stores/user.store';
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
 import axios from 'axios';
 import { convertUrlToFile } from 'src/utils';
+import { BoardFileItem } from 'src/types';
 
 //                    component                    //
 export default function SupportUpdate() {
@@ -112,18 +113,18 @@ export default function SupportUpdate() {
         if (!title.trim() || !contents.trim()) return; 
         if (!cookies.accessToken || !receptionNumber) return;
 
-        const urlList: string[] = [];
+        const urlList: BoardFileItem[] = [];
 
         for (const file of fileUpload) {
             const data = new FormData();
             data.append('file', file);
             const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } }).then(response => response.data as string).catch(error => null);
             if (!url) continue;
-            
-            urlList.push(url);
+
+            urlList.push({ url, originalFileName: file.name });
         }
 
-        const requestBody: PutBoardRequestDto = { title, contents, urlList };
+        const requestBody: PutBoardRequestDto = { title, contents, fileList: urlList };
 
         putBoardRequest(receptionNumber, requestBody, cookies.accessToken).then(putBoardResponse);
     };

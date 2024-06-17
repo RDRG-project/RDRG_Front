@@ -399,6 +399,11 @@ export function SignUp({ onLinkClickHandler }: Props) {
     };
 
     const onSignUpButtonClickHandler = () => {
+        if (!isIdCheck) {
+            alert('아이디 중복확인을 해주세요.');
+            return;
+        }
+        
         if(!isSignUpActive) {
             alert('모든 내용을 입력해주세요.');
             return;

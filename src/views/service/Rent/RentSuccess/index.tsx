@@ -8,7 +8,7 @@ import ResponseDto from 'src/apis/response.dto';
 import { getSignInUserRequest } from 'src/apis/user';
 import { GetSignInUserResponseDto } from 'src/apis/user/dto/response';
 import { AUTH_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
-import { useUserStore } from 'src/stores';
+import { useRentItemTotalAmountStore, useUserStore } from 'src/stores';
 
 //                    component                    //
 export default function RentSuccess() {
@@ -19,6 +19,7 @@ export default function RentSuccess() {
     const { loginUserId } = useUserStore();
     const [reserveUserId, setReserveUserId] = useState<string>('');
     const [rentPlace, setRentPlace] = useState<string>('');
+    const { totalAmount, setTotalAmount } = useRentItemTotalAmountStore();
     const [rentTotalPrice, setRentTotalPrice] = useState<number>(0);
     const [rentalPeriod, setRentalPeriod] = useState<string>('');
 

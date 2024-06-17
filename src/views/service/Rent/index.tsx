@@ -74,6 +74,10 @@ export default function Rent() {
     };
 
     const onReturnChangeHandler = (returnSelect: string) => {
+        if (!rentSelect) {
+            alert('먼저 대여지점을 선택해주세요.');
+            return;
+        }
         setReturnSelect(returnSelect);
     };
 
@@ -116,7 +120,7 @@ export default function Rent() {
                             <ReturnSiteSelectBox value={returnSelect} onChange={onReturnChangeHandler} />
                         </div>
                         <div className='rent-top-side-date'>
-                            <ReactDatePicker />
+                            <ReactDatePicker rentSite={rentSelect}/>
                         </div>
                         <div className='search-button'>
                             <div className='button-class-role' onClick={userSearchButtonClickHandler}>기기 검색하기</div>
