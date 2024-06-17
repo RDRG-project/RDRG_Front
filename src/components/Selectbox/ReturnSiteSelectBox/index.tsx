@@ -21,10 +21,6 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
     const { setReturnSite } = useReturnSiteStore();
 
     //                    event handler                    //
-    const onButtonClickHandler = () => {
-        setReturnShow(!returnShow);
-    };
-
     const onItemClickHandler = (value: string) => {
         setReturnSelectedItem(value);
         onChange(value);
@@ -42,7 +38,6 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
         <div id='rent-select-wrapper'>
             <div className='select-box-container'>
                 <div className='select-item-title'>반납지점</div>
-                <div className={returnShow ? 'spot-close-button' : 'spot-open-button'} onClick={onButtonClickHandler}></div>
             </div>
             {returnShow &&
                 <div className='select-list'>
