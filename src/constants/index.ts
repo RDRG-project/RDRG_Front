@@ -15,6 +15,8 @@ export const CUSTOMER_SUPPORT_DETAIL_PATH = ':receptionNumber'; // 문의 내역
 export const CUSTOMER_SUPPORT_UPDATE_PATH = 'update/:receptionNumber'; // 문의 내역 수정
 
 export const RENT_PATH = 'rent'; // 대여화면
+export const RENT_SUCCESS_PATH = 'pay/success' // 대여 성공화면
+export const RENT_FAIL_PATH = 'pay/fail/:rentNumber' // 대여 실패 화면
 export const RENT_CANCEL_ABSOLUTE_PATH = 'pay/cancel/:rentNumber'; // 결제 취소 화면
 
 export const MYPAGE_PATH = 'mypage'; //마이페이지 화면
@@ -26,12 +28,12 @@ export const MYPAGE_UNREGISTER_PATH = 'unregister'; //회원탈퇴 화면
 // description : Navigation 절대 URL PATH
 export const RDRG_ABSOLUTE_PATH = RDRG_PATH; // 공통 레이아웃 절대 경로
 export const HOME_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}`; // 홈화면 절대경로
-export const AUTH_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${AUTH_PATH}`; // 로그인 , 회원가입 화면 절대경로
-
 export const HOME_COMPANY_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}/${HOME_COMPANY_PATH}`; // 회사소개 화면 절대경로
 export const HOME_CLAUSE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}/${HOME_CLAUSE_PATH}`;   // 이용약관 화면 절대경로
 export const HOME_POLICY_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}/${HOME_POLICY_PATH}`;   // 개인정보처리방침 화면 절대경로
 export const HOME_PLACE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}/${HOME_PLACE_PATH}`;     // 지점안내 화면 절대경로
+
+export const AUTH_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${AUTH_PATH}`; // 로그인 , 회원가입 화면 절대경로
 
 export const CUSTOMER_SUPPORT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}`; // 고객지원 화면 절대경로
 export const CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${CUSTOMER_SUPPORT_PATH}/${CUSTOMER_SUPPORT_WRITE_PATH}`; // 문의 내역 글쓰기 화면 절대경로
@@ -48,7 +50,7 @@ export const MYPAGE_DETAILS_ABSOLUTE_PATH = (rentNumber: string | number) => `${
 export const MYPAGE_UNREGISTER_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_UNREGISTER_PATH}`; // 회원탈퇴 화면 절대경로
 
 // description : API URL PATH
-// 도메인 및 기본 경로
+//! 도메인 및 기본 경로
 export const SERVER_DOMAIN_URL = 'http://localhost:4500';
 export const SERVER_API_URL = `${SERVER_DOMAIN_URL}/rdrg`;
 

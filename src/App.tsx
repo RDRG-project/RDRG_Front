@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import { Route, Routes, useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_PATH, CUSTOMER_SUPPORT_PATH, CUSTOMER_SUPPORT_UPDATE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_ABSOLUTE_PATH, HOME_COMPANY_ABSOLUTE_PATH, HOME_PLACE_ABSOLUTE_PATH, HOME_POLICY_ABSOLUTE_PATH, MYPAGE_DETAILS_ABSOLUTE_PATH, MYPAGE_DETAILS_PATH, MYPAGE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, MYPAGE_PROFILE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH, MYPAGE_UNREGISTER_PATH, RDRG_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, RENT_ADD_ABSOLUTE_PATH, RENT_CANCEL_ABSOLUTE_PATH, RENT_PATH } from './constants';
+import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_PATH, CUSTOMER_SUPPORT_PATH, CUSTOMER_SUPPORT_UPDATE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_ABSOLUTE_PATH, HOME_COMPANY_ABSOLUTE_PATH, HOME_PLACE_ABSOLUTE_PATH, HOME_POLICY_ABSOLUTE_PATH, MYPAGE_DETAILS_ABSOLUTE_PATH, MYPAGE_DETAILS_PATH, MYPAGE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, MYPAGE_PROFILE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH, MYPAGE_UNREGISTER_PATH, RDRG_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH, RENT_ADD_ABSOLUTE_PATH, RENT_CANCEL_ABSOLUTE_PATH, RENT_FAIL_PATH, RENT_PATH, RENT_SUCCESS_PATH } from './constants';
 import Home from './views/Home';
 import CustomerSupportList from './views/service/CustomerSupport/CustomerSupportList';
 import MypageProfile from './views/service/MyPage/MyPageProfile';
@@ -23,6 +23,7 @@ import RentSuccess from './views/service/Rent/RentSuccess';
 import RentFailed from './views/service/Rent/RentFailed';
 import { RentAdd } from './views/service/Rent/RentAdd';
 import HomeContainer from './layouts/HomeContainer';
+import RentCancel from './views/service/Rent/RentCancel';
 
 // component : root 경로 컴포넌트 //
 function Index() {
@@ -42,7 +43,6 @@ function Index() {
 function App() {
     return(
     <Routes>
-        <Route index element = {<Index />} />
         <Route path={RDRG_ABSOLUTE_PATH} element = {<HomeContainer/>} >
             <Route path={HOME_ABSOLUTE_PATH} element = {<Home />} />
                 <Route path={HOME_COMPANY_ABSOLUTE_PATH} element = {<CompanyIntroduction />} />
@@ -58,9 +58,9 @@ function App() {
             </Route>
             <Route path={RENT_PATH} element={<Rent/>}/>
             <Route path={RENT_ADD_ABSOLUTE_PATH} element={<RentAdd/>}/>
-            <Route path='pay/success' element={<RentSuccess />} />
-            <Route path={RENT_CANCEL_ABSOLUTE_PATH} element={<RentFailed />} />
-
+            <Route path={RENT_SUCCESS_PATH} element={<RentSuccess />} />
+            <Route path={RENT_FAIL_PATH} element={<RentFailed/>} />
+            <Route path={RENT_CANCEL_ABSOLUTE_PATH} element={<RentCancel />} />
             <Route path={MYPAGE_PATH} element={<MypageContainer/>}>
                 <Route path={MYPAGE_PROFILE_PATH} element={<MypageProfile />}/>
                 <Route path={MYPAGE_UNREGISTER_PATH} element={<MypageUnRegister />}/>

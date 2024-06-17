@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './style.css';
 import {
     useBasketStore,
-    useBatteryStore,
-    useNoteBookStore,
-    useRentItemStore,
+    useRentItemTotalAmountStore,
     useRentListStore,
-    useTabletStore,
     useUserStore
 } from 'src/stores/index';
 import { DeviceListItem } from 'src/types';
@@ -14,7 +11,6 @@ import { useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
 import { HOME_ABSOLUTE_PATH, RENT_ADD_ABSOLUTE_PATH } from 'src/constants';
 import { deleteDeviceRequest } from 'src/apis/device';
-import useGameItStore from 'src/stores/gameIt.store';
 import ResponseDto from 'src/apis/response.dto';
 
 //                    interface                    //
@@ -44,7 +40,7 @@ function RentItem({
     const [isExplainFullVisible, setIsExplainFullVisible] = useState(false);
     const { loginUserRole } = useUserStore();
     const { basketItems, setBasketItems } = useBasketStore();
-    const { totalAmount, setTotalAmount } = useRentItemStore();
+    const { totalAmount, setTotalAmount } = useRentItemTotalAmountStore();
 
     const isItemInBasket = basketItems.some(item => item.serialNumber === serialNumber);
     const itemIndexInBasket = basketItems.findIndex(item => item.serialNumber === serialNumber);
@@ -109,7 +105,7 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
     const [cookies] = useCookies();
     const { selectListItItem, setSelectListItItem } = useRentListStore();
     const { basketItems, setBasketItems } = useBasketStore();
-    const { totalAmount, setTotalAmount } = useRentItemStore();
+    const { totalAmount, setTotalAmount } = useRentItemTotalAmountStore();
     const [selectedType, setSelectedType] = useState<string | null>(null);
 
     //                    function                    //
