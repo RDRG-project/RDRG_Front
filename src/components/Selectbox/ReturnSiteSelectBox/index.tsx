@@ -27,6 +27,10 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
         setReturnSite(value);
         setReturnShow(true);
     };
+    
+    const onButtonClickHandler = () => {
+        setReturnShow(!returnShow);
+    };
 
     //                    effect                    //
     useEffect(() => {
@@ -38,6 +42,7 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
         <div id='rent-select-wrapper'>
             <div className='select-box-container'>
                 <div className='select-item-title'>반납지점</div>
+                <div className={returnShow ? 'spot-close-button' : 'spot-open-button'} onClick={onButtonClickHandler}></div>
             </div>
             {returnShow &&
                 <div className='select-list'>
