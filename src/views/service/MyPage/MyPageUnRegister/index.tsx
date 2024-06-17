@@ -12,10 +12,8 @@ export default function MypageUnRegister() {
     //                    state                    //
     const { loginUserId, loginUserRole, logoutUser } = useUserStore();
     const [ cookies, setCookies, removeCookies ] = useCookies();
-    const [password, setPassword] = useState<string>('');
     const [userId, setUserId] = useState<string>('');
     const [isChecked ,setIsChecked] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>('');
 
     //                    function                    //
     const navigator = useNavigate();

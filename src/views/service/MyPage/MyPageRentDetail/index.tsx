@@ -43,8 +43,8 @@ export default function MypageRentDetail() {
             return;
         }
         
-        const {rentDetailList, rentDatetime, rentReturnDatetime, rentStatus, rentTotalPrice, rentPlace, rentReturnPlace} = result as GetRentDetailResponseDto;
-        setRent(rentDetailList);
+        const {rent, rentDatetime, rentReturnDatetime, rentStatus, rentTotalPrice, rentPlace, rentReturnPlace} = result as GetRentDetailResponseDto;
+        setRent(rent);
         setRentDatetime(rentDatetime);
         setRentReturnDatetime(rentReturnDatetime);
         setRentStatus(rentStatus);

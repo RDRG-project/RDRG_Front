@@ -1,14 +1,14 @@
-import { ItRentList } from "src/types";
+import { DeviceListItem } from "src/types";
 import { create } from "zustand";
 
 interface BasketStore {
-    basketItems: ItRentList[];
-    setBasketItems: (basketItems: ItRentList[]) => void;
+    basketItems: DeviceListItem[];
+    setBasketItems: (basketItems: DeviceListItem[]) => void;
 }
 
 const useBasketStore = create<BasketStore>(set => ({
     basketItems: [],
-    setBasketItems: (basketItems: ItRentList[]) => set(state => ({ ...state, basketItems }))
+    setBasketItems: (basketItems: DeviceListItem[]) => set(state => ({ ...state, basketItems }))
 }));
 
 export default useBasketStore;

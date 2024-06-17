@@ -268,7 +268,7 @@ export default function AdminRentList () {
             }
     
             const { adminRentList } = result as GetAdminRentPageResponseDto;
-     
+            
             changeRentList(adminRentList);
     
             setCurrentPage(!adminRentList.length ? 0 : 1);

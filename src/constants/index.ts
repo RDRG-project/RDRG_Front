@@ -52,7 +52,7 @@ export const MYPAGE_UNREGISTER_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_P
 export const SERVER_DOMAIN_URL = 'http://localhost:4500';
 export const SERVER_API_URL = `${SERVER_DOMAIN_URL}/rdrg`;
 
-// Auth 모듈
+//* Auth 모듈
 export const SERVER_AUTH_MODULE_URL = `${SERVER_API_URL}/auth`;
 // 로그인
 export const POST_SIGN_IN_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/sign-in`;
@@ -65,7 +65,7 @@ export const POST_EMAIL_AUTH_CHECK_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/emai
 // 회원 가입
 export const POST_SIGN_UP_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/sign-up`;
 
-// User 모듈
+//* User 모듈
 export const SERVER_USER_MODULE_URL = `${SERVER_API_URL}/user`;
 // 로그인 유저 정보 반환
 export const GET_SIGN_IN_USER_REQUEST_URL = `${SERVER_USER_MODULE_URL}/`;
@@ -76,14 +76,14 @@ export const PATCH_PASSWORD_URL = `${SERVER_USER_MODULE_URL}/changePw`;
 // 회원 탈퇴
 export const DELETE_USER_URL = (userId: string) => `${SERVER_USER_MODULE_URL}/${userId}`;
 
-// FileUpload 모듈
+//* FileUpload 모듈
 export const SERVER_FILE_UPLOAD_URL = `${SERVER_API_URL}/file`;
 // 파일 업로드
 export const POST_UPLOAD_URL = `${SERVER_FILE_UPLOAD_URL}/upload`;
 // 파일 불러오기
 export const GET_FILE_CALL_URL = (fileName: number| string) => `${SERVER_FILE_UPLOAD_URL}/${fileName}`;
 
-// payment 모듈
+//* payment 모듈
 export const SERVER_PAYMENT_MODULE_URL = `${SERVER_API_URL}/payment`;
 // 결제 정보 저장
 export const POST_PAYMENT_SAVE_REQUEST_URL = `${SERVER_PAYMENT_MODULE_URL}/save`
@@ -91,20 +91,18 @@ export const POST_PAYMENT_SAVE_REQUEST_URL = `${SERVER_PAYMENT_MODULE_URL}/save`
 export const GET_RESERVE_REQUEST_URL = (userId: string) => `${SERVER_PAYMENT_MODULE_URL}/${userId}`;
 // 나의 대여 내역(사용자) 불러오기
 export const GET_MYRENTPAGE_URL = `${SERVER_PAYMENT_MODULE_URL}/myrentpage`;
-
 // 관리자 전체 대여내역 불러오기
 export const GET_ADMIN_RENT_PAGE = `${SERVER_PAYMENT_MODULE_URL}/adminrentpage`;
 // 관리자 검색대여 내역 불러오기
 export const GET_ADMIN_SEARCH_WORD = `${SERVER_PAYMENT_MODULE_URL}/adminrent/search`;
 // 대여 상태 변경
 export const PATCH_RENT_STATUS = (rentNumber: number | string) => `${SERVER_PAYMENT_MODULE_URL}/${rentNumber}`;
-
 // 대여 상세내역 불러오기
 export const GET_RENT_DETAIL_URL = (rentNumber: number| string) => `${GET_MYRENTPAGE_URL}/${rentNumber}`;
 // 대여내역 삭제
 export const DELETE_RENT_CANCEL = (rentNumber: string | number) => `${SERVER_PAYMENT_MODULE_URL}/${rentNumber}`;
 
-// device 모듈
+//* device 모듈
 export const SERVER_DEVICE_MODULE_URL = `${SERVER_API_URL}/device`;
 // 기기 리스트 불러오기
 export const GET_DEVICE_URL = `${SERVER_DEVICE_MODULE_URL}/list`
@@ -117,7 +115,7 @@ export const GET_ADMIN_LIST = `${SERVER_DEVICE_MODULE_URL}/adminlist`;
 // IT 기기 삭제
 export const DELETE_IT_URL = (serialNumber: number | string) => `${SERVER_DEVICE_MODULE_URL}/${serialNumber}`;
 
-// 문의게시판(board) 모듈
+//* 문의게시판(board) 모듈
 export const SERVER_BOARD_MODULE_URL = `${SERVER_API_URL}/board`;
 // 문의 게시물 작성
 export const POST_BOARD_REQUEST_URL = `${SERVER_BOARD_MODULE_URL}/`;
