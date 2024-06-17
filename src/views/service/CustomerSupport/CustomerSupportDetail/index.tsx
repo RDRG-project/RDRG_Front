@@ -8,7 +8,6 @@ import ResponseDto from 'src/apis/response.dto';
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
 import { deleteBoardRequest, postCommentRequest, getBoardRequest } from 'src/apis/board';
 import { PostCommentRequestDto } from 'src/apis/board/dto/request';
-import axios from 'axios';
 
 //                    component                    //
 export default function SupportDetail () {

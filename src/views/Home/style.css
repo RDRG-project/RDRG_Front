@@ -1,20 +1,20 @@
-#home-wrapper{
-  display: flex;
-  flex-direction: column;
+#home-wrapper {
+    display: flex;
+    flex-direction: column;
 
 }
 
-.main-image{
- background-image: url(../../assets/image/home-image.jpg);
- height: 580px;
+.main-image {
+    background-image: url(../../assets/image/home-image.jpg);
+    height: 580px;
 }
 
-.main-rent{
-  background-image: url(../../assets/image/home-rent.jpg);
-  height: 550px;
+.main-rent {
+    background-image: url(../../assets/image/home-rent.jpg);
+    height: 550px;
 }
 
-.main-guideline{
-  background-image: url(../../assets/image/home-guideline.jpg);
-  height: 550px;
+.main-guideline {
+    background-image: url(../../assets/image/home-guideline.jpg);
+    height: 550px;
 }
