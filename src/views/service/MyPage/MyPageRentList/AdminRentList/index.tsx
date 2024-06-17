@@ -73,7 +73,6 @@ function AdminRentListItem({
             <div className='admin-rent-list-status'>
                 <div className='cs-status-disable-button'>{rentStatus}</div>
             </div>
-            {rentStatus !== '대여 취소' && (
             <div className='admin-rent-list-status-change'>
                 <select value={selectedStatus} onChange={onStatusChange}>
                     <option value = "결제 완료">결제 완료</option>
@@ -83,7 +82,6 @@ function AdminRentListItem({
                 </select>
                 <button onClick={onStatusChangeHandler}>적용</button>
             </div>
-            )}
             <div className='admin-rent-list-name'>{displayName}</div>
             <div className='admin-rent-list-user-id'>{userId}</div>
             <div className='admin-rent-list-rent-date'>{formatDate(rentDatetime)}</div>
