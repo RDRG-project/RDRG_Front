@@ -1,16 +1,16 @@
-// description: Q&A 작성 Request Body DTO //
+// description: 문의 게시물 작성 Request Body DTO //
 export interface PostBoardRequestDto {
     title: string;
     contents: string;
     urlList: string[];
 }
 
-// description: Q&A Comment Request Body DTO //
+// description: 문의 게시물 답글 작성 Request Body DTO //
 export interface PostCommentRequestDto {
     comment: string;
 }
 
-// description: Q&A 수정 Request Body DTO //
+// description: 문의 게시물 수정 Request Body DTO //
 export interface PutBoardRequestDto {
     title: string;
     contents: string;

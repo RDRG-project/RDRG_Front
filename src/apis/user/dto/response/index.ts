@@ -7,7 +7,8 @@ export interface GetSignInUserResponseDto extends ResponseDto{
     userRole: string;
 }
 
-    export interface PersonalInfoResponseDto extends ResponseDto {
-        userId: string;
-        userEmail: string;
-    }
+// description : 유저 정보 불러오기 Response Body Dto
+export interface GetPersonalInfoResponseDto extends ResponseDto {
+    userId: string;
+    userEmail: string;
+}
