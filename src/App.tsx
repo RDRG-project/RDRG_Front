@@ -43,6 +43,7 @@ function Index() {
 function App() {
     return(
     <Routes>
+        <Route index element = {<Index />} />
         <Route path={RDRG_ABSOLUTE_PATH} element = {<HomeContainer/>} >
             <Route path={HOME_ABSOLUTE_PATH} element = {<Home />} />
                 <Route path={HOME_COMPANY_ABSOLUTE_PATH} element = {<CompanyIntroduction />} />
