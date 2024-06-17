@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { AUTH_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH } from 'src/constants';
 import InputBox from 'src/components/Inputbox';
 import { useCookies } from 'react-cookie';
-import { PersonalInfoResponseDto } from 'src/apis/user/dto/response';
+import { GetPersonalInfoResponseDto } from 'src/apis/user/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import { getUserInfoRequest, patchPasswordRequest } from 'src/apis/user';
 
@@ -30,7 +30,7 @@ export default function MypageProfile() {
   //                    function                    //
   const navigator = useNavigate();
 
-  const personalInfoResponseDto = (result: PersonalInfoResponseDto | ResponseDto | null) => {
+  const personalInfoResponseDto = (result: GetPersonalInfoResponseDto | ResponseDto | null) => {
   
     const message =
       !result ? '서버에 문제가 있습니다.' :
@@ -44,7 +44,7 @@ export default function MypageProfile() {
       if (result?.code === 'AF') navigator(HOME_PATH); return;
     }
 
-    const {userId, userEmail} = result as PersonalInfoResponseDto;
+    const {userId, userEmail} = result as GetPersonalInfoResponseDto;
 
     setUserId(userId);
     setUserEmail(userEmail);

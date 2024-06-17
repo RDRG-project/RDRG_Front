@@ -8,8 +8,8 @@ import { DeviceAddRequestDto } from "src/apis/device/dto/request";
 import ResponseDto from "src/apis/response.dto";
 import { RENT_ABSOLUTE_PATH } from "src/constants";
 import { useUserStore } from "src/stores";
-import TypeSelectBox from "src/components/Selectbox/RentItemSelectBox/TypeSelectBox";
-import PlaceSelectBox from "src/components/Selectbox/RentItemSelectBox/placeSelectBox";
+import TypeSelectBox from "src/components/Selectbox/RentItemSelectBox/TypeSelectbox";
+import PlaceSelectBox from "src/components/Selectbox/RentItemSelectBox/placeSelectbox";
 
 //                    component                    //
 export function RentAdd() {

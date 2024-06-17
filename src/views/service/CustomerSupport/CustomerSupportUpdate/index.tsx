@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './style.css'
-
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router';
 import { getBoardRequest, putBoardRequest } from 'src/apis/board';
