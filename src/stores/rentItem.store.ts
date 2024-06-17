@@ -1,4 +1,3 @@
-import { DeviceListItem } from "src/types";
 import { create } from "zustand";
 
 interface rentItemStore {
