@@ -21,16 +21,15 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
     const { setRentSite } = useRentSiteStore();
 
     //                    event handler                    //
-    const onButtonClickHandler = () => {
-        setRentShow(!rentShow);
-    };
-
     const onItemClickHandler = (itemValue: string) => {
         setRentSelectedItem(itemValue);
         // 이코드는 백에 장소를 넘겨주기 위해 사용한것
         setRentSite(itemValue);
         onChange(itemValue);
-        setRentShow(true);        
+    };
+
+    const onButtonClickHandler = () => {
+        setRentShow(!rentShow);
     };
 
     //                    effect                    //

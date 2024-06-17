@@ -21,15 +21,15 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
     const { setReturnSite } = useReturnSiteStore();
 
     //                    event handler                    //
-    const onButtonClickHandler = () => {
-        setReturnShow(!returnShow);
-    };
-
     const onItemClickHandler = (value: string) => {
         setReturnSelectedItem(value);
         onChange(value);
         setReturnSite(value);
         setReturnShow(true);
+    };
+    
+    const onButtonClickHandler = () => {
+        setReturnShow(!returnShow);
     };
 
     //                    effect                    //
