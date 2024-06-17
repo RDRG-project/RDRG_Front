@@ -7,6 +7,12 @@ export interface BoardListItem {
     writeDatetime: string;
 }
 
+// description board 모듈 (문의 게시물 작성 Request Body)의 interface
+export interface BoardFileItem {
+    url: string;
+    originalFileName: string; 
+}
+
 // description device (DeviceListResponseDto)의 interface
 export interface DeviceListItem {
     serialNumber: string;

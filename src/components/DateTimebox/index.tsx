@@ -12,6 +12,10 @@ interface CustomInputProps {
     onClick?: () => void;
 }
 
+interface ReactDatePickerProps {
+    rentSite: string;
+}
+
 const DateCustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(
     ({ value, onClick }, ref) => (
         <button className="date-custom-input" onClick={onClick} ref={ref}>
@@ -39,11 +43,15 @@ const datePickerProps = (
     monthsShown: 2 // 두 달력을 동시에 표시
 });
 
-const ReactDatePicker: React.FC = () => {
+const ReactDatePicker: React.FC<ReactDatePickerProps> = ({ rentSite }) => {
     const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();
     const { totalRentTime, setTotalRentTime } = useTotalRentTimeStore();
 
     const onChangeHandler = (dates: [Date | null, Date | null]) => {
+        if (!rentSite) {
+            alert('먼저 대여지점을 선택해주세요.');
+            return;
+        }
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
