@@ -12,6 +12,13 @@ import axios from 'axios';
 import { convertUrlToFile } from 'src/utils';
 import { BoardFileItem } from 'src/types';
 
+
+//                   interface                    //
+interface UploadFile {
+    file: File;
+    originalFileName: string;
+}
+
 //                    component                    //
 export default function SupportUpdate() {
 
@@ -26,7 +33,7 @@ export default function SupportUpdate() {
     const [title, setTitle] = useState<string>('');
     const [contents, setContents] = useState<string>('');
 
-    const [fileUpload , setFileUpload] = useState<File[]>([]);
+    const [fileUpload , setFileUpload] = useState<UploadFile[]>([]);
     const [filePreviews, setFilePreviews] = useState<{name: string, url: string}[]>([]);
     const [fileRevise, setFileRevise] = useState<number | null>(null);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -48,7 +55,7 @@ export default function SupportUpdate() {
             return;
         }
 
-        const { writerId, title, contents, status, imageUrl } = result as GetBoardResponseDto;
+        const { writerId, title, contents, status, imageUrl,  originalFileName } = result as GetBoardResponseDto;
         if (writerId !== loginUserId) {
             alert('권한이 없습니다.');
             navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
@@ -66,11 +73,17 @@ export default function SupportUpdate() {
         setImageUrls(imageUrl);
 
         const fileUpload = [];
-        for (const url of imageUrl) {
-            fileUpload.push(await convertUrlToFile(url));
+        for (let index = 0; index < imageUrl.length; index++) {
+            const file = await convertUrlToFile(imageUrl[index]);
+            fileUpload.push({file, originalFileName: originalFileName[index]});
         }
         setFileUpload(fileUpload);
-
+        
+        const filePreviews = originalFileName.map((name, index) => ({
+            name,
+            url: imageUrl[index]
+        }));
+        setFilePreviews(filePreviews);
     };
 
     const putBoardResponse = (result: ResponseDto | null) => {
@@ -109,19 +122,22 @@ export default function SupportUpdate() {
         contentsRef.current.style.height = `${contentsRef.current.scrollHeight}px`;
     };
 
-    const onPostButtonClickHandler = async () => {
+    const onPutButtonClickHandler = async () => {
         if (!title.trim() || !contents.trim()) return; 
         if (!cookies.accessToken || !receptionNumber) return;
 
         const urlList: BoardFileItem[] = [];
 
-        for (const file of fileUpload) {
+        for (const fileItem of fileUpload) {
             const data = new FormData();
-            data.append('file', file);
-            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } }).then(response => response.data as string).catch(error => null);
+            data.append('file', fileItem.file);
+            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } })
+                .then(response => response.data as string)
+                .catch(error => null);
+            
             if (!url) continue;
 
-            urlList.push({ url, originalFileName: file.name });
+            urlList.push({ url, originalFileName: fileItem.originalFileName });
         }
 
         const requestBody: PutBoardRequestDto = { title, contents, fileList: urlList };
@@ -158,7 +174,8 @@ export default function SupportUpdate() {
 
         if (fileRevise !== null) {
             let updatedFiles = fileUpload.filter((item, index) => index !== fileRevise);
-            updatedFiles = [...updatedFiles, ...fileList];
+            const uploadFileList = fileList.map(file => ({file, originalFileName: file.name}));
+            updatedFiles = [...updatedFiles, ...uploadFileList];
             setFileUpload(updatedFiles);
 
             let updatedPreviews = filePreviews.filter((item, index) => index !== fileRevise);
@@ -167,7 +184,8 @@ export default function SupportUpdate() {
 
             setFileRevise(null);
         } else {
-            setFileUpload([...fileUpload, ...fileList]);
+            const uploadFileList = fileList.map(file => ({file, originalFileName: file.name}));
+            setFileUpload([...fileUpload, ...uploadFileList]);
             setFilePreviews([...filePreviews, ...newPreviewList]);
         }
         if (fileRef.current) {
@@ -185,15 +203,6 @@ export default function SupportUpdate() {
         const showFileUpdate = filePreviews.filter((_, i) => i !== index);
         setFileUpload(fileUpdate);
         setFilePreviews(showFileUpdate);
-    };
-
-    const onImageDeleteClickHandler = (index: number) => {
-        // const updatedImageUrls = imageUrls.filter((_, idx) => idx !== index);
-        const updatedImageUrls = imageUrls.filter((url, i) => i !== index);
-        const updateFileUpload = fileUpload.filter((file, i) => i !== index);
-
-        setImageUrls(updatedImageUrls);
-        setFileUpload(updateFileUpload);
     };
 
     const onDragOverHandler = (event: React.DragEvent) => {
@@ -216,8 +225,8 @@ export default function SupportUpdate() {
             name: file.name,
             url: URL.createObjectURL(file)
         }));
-    
-        setFileUpload([...fileUpload, ...files]);
+        const uploadFileList = files.map(file => ({file, originalFileName: file.name}));
+        setFileUpload([...fileUpload, ...uploadFileList]);
         setFilePreviews([...filePreviews, ...newFilePreviews]);
     };
 
@@ -270,17 +279,11 @@ export default function SupportUpdate() {
                             <div className='cs-file-upload-button' onClick={onFileUploadButtonClickHandler} >내 PC</div>
                             <div>
                                 <div className="file-arrangement" onDrop={onDropHandler} onDragOver={onDragOverHandler} >
-                                {imageUrls.length ? imageUrls.map((url, index) => (
-                                <div key={index} className="file-preview">
-                                <button className="image-delete-button" onClick={() => onImageDeleteClickHandler(index)}>X</button>
-                                <img src={url} width="auto" height="50" className="file-preview-name"/>                                
-                                </div>
-                                )) : ( null )} 
                                 {filePreviews.length === 0 && <strong>파일 첨부는 최대 3개까지 가능합니다.</strong>}
                                 {filePreviews.map((preview, index) => (
                                     <div key={index} className="file-preview">
                                     <button className="image-delete-button" onClick={() => onFileDeleteButtonClickHandler(index)}>X</button>
-                                    <img src={preview.url} alt={preview.name} className="file-preview-name" />
+                                    <img src={preview.url} alt={preview.name} className="file-preview-name" width="auto" height="50" />
                                     <div>{preview.name}</div>
                                     </div>
                                 ))}
@@ -291,7 +294,7 @@ export default function SupportUpdate() {
                 </div>               
                 <div className="cs-write-button">
                     <div className='customer-support-button' onClick={onCancelButtonClickHandler}>취소</div>
-                    <div className='customer-support-button' onClick={onPostButtonClickHandler}>수정</div>
+                    <div className='customer-support-button' onClick={onPutButtonClickHandler}>수정</div>
                 </div>
             </div>
         </>
