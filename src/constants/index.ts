@@ -1,8 +1,8 @@
 // description : Navigation URL PATH
-export const SNS_PATH = '/sns/:accessToken/:expires'; // sns 화면
-export const AUTH_PATH = 'auth'; // 로그인 , 회원가입 화면
 export const RDRG_PATH = '/rdrg' // 공통 레이아웃
 export const HOME_PATH = 'home' // 홈화면
+export const SNS_PATH = '/sns/:accessToken/:expires'; // sns 화면
+export const AUTH_PATH = 'auth'; // 로그인 , 회원가입 화면
 
 export const HOME_COMPANY_PATH = 'company' // 회사소개
 export const HOME_CLAUSE_PATH = 'clause' // 이용약관
@@ -15,9 +15,10 @@ export const CUSTOMER_SUPPORT_DETAIL_PATH = ':receptionNumber'; // 문의 내역
 export const CUSTOMER_SUPPORT_UPDATE_PATH = 'update/:receptionNumber'; // 문의 내역 수정
 
 export const RENT_PATH = 'rent'; // 대여화면
+export const RENT_ADD_PATH = 'add'; //대여 추가화면
 export const RENT_SUCCESS_PATH = 'pay/success' // 대여 성공화면
 export const RENT_FAIL_PATH = 'pay/fail/:rentNumber' // 대여 실패 화면
-export const RENT_CANCEL_ABSOLUTE_PATH = 'pay/cancel/:rentNumber'; // 결제 취소 화면
+export const RENT_CANCEL_PATH = 'pay/cancel/:rentNumber'; // 결제 취소 화면
 
 export const MYPAGE_PATH = 'mypage'; //마이페이지 화면
 export const MYPAGE_PROFILE_PATH = 'profile'; //프로필 화면
@@ -42,7 +43,7 @@ export const CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH = (receptionNumber: string | 
 
 export const RENT_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${RENT_PATH}`; // 대여화면 절대경로
 
-export const RENT_ADD_ABSOLUTE_PATH = `${RENT_ABSOLUTE_PATH}/add` // 기기추가 절대 경로
+export const RENT_ADD_ABSOLUTE_PATH = `${RENT_ABSOLUTE_PATH}/${RENT_ADD_PATH}` // 기기추가 절대 경로
 
 export const MYPAGE_PROFILE_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_PROFILE_PATH}`; // 프로필 화면 절대경로
 export const MYPAGE_RENT_DETAIL_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_RENT_DETAIL_PATH}`; // 나의 대여내역 화면 절대경로
