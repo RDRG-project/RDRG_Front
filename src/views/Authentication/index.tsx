@@ -26,9 +26,7 @@ export function Sns () {
         if (!accessToken || !expires) return;
         const expiration = new Date(Date.now() + (Number(expires) * 1000));
         setCookie('accessToken', accessToken, { path: '/', expires: expiration });
-
         navigator(HOME_ABSOLUTE_PATH);
-
     }, []);
 
     //                    render                    //

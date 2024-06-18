@@ -9,6 +9,8 @@ import { HOME_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from 'src/constants';
 
 //                    component                    //
 export default function RentFailed() {
+
+    //                    state                    //
     const [cookies] = useCookies();
     const { rentNumber } = useParams();
     const { loginUserId } = useUserStore();
@@ -31,6 +33,7 @@ export default function RentFailed() {
 
         alert('대여에 실패했습니다.');
     };
+
     //                    event handler                    //
     const reRentButtonClickHandler = () => {
         navigator(RENT_ABSOLUTE_PATH);

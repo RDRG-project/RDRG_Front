@@ -13,6 +13,7 @@ import PlaceSelectBox from "src/components/Selectbox/RentItemSelectBox/addPlaceS
 
 //                    component                    //
 export function RentAdd() {
+    
     //                    state                    //
     const contentsRef = useRef<HTMLTextAreaElement | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);

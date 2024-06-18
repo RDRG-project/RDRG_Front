@@ -69,18 +69,13 @@ export default function MypageProfile() {
     }, [cookies.accessToken, userId]);
 
     //                    event handler                    //
-
-
-    // 회원탈퇴 버튼 클릭 시 회원탈퇴 페이지로 이동
     const onUnRegisterClickHandler = () => { navigator(MYPAGE_UNREGISTER_ABSOLUTE_PATH) };
 
-    // 현재 비밀번호 입력
     const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
         setMessage('');
     };
 
-    // 새 비밀번호 입력
     const onNewPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setNewPassword(value);
@@ -103,7 +98,6 @@ export default function MypageProfile() {
         setPasswordCheckMessage(passwordCheckMessage);
     };
 
-    // 새 비밀번호 확인
     const onNewPasswordCheckChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setNewPasswordCheck(value);
@@ -117,7 +111,6 @@ export default function MypageProfile() {
         setPasswordCheckMessage(passwordCheckMessage);
     };
 
-    // 비빌번호 변경 구현
     const onChangePasswordClickHandler = async () => {
         if (!isPasswordPattern || !isEqualPassword) {
             setChangePasswordMessage('비밀번호를 올바르게 입력해주세요.');

@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router';
 import ResponseDto from 'src/apis/response.dto';
 import { dateFormat } from 'src/utils';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import { getAdminRentListRequest, getRentPossibilityListRequest } from 'src/apis/device';
+import { getRentPossibilityListRequest } from 'src/apis/device';
 import { DeviceListItem } from 'src/types';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
 import Basket, { Payment } from 'src/components/BasketPayment';
