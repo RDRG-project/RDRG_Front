@@ -10,6 +10,7 @@ interface Prop {
 
 //                    component                    //
 export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
+    
     const RentSiteListItem = [
         { name: '서울', value: '서울' },
         { name: '부산', value: '부산' }

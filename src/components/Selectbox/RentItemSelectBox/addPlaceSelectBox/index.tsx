@@ -13,8 +13,8 @@ export default function PlaceSelectBox({ place, onChange }: Prop) {
     const placeList = [
         { name : '서울', place: '서울' },
         { name : '부산', place: '부산' }
-
     ];
+    
     //                    state                    //
     const [show, setShow] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
