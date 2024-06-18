@@ -44,11 +44,13 @@ function App() {
     <Routes>
         <Route index element = {<Index />} />
         <Route path={RDRG_PATH} element = {<HomeContainer/>} >
-            <Route path={HOME_PATH} element = {<Home />} />
+            <Route path={HOME_PATH}>
+                <Route index element={<Home />}/>
                 <Route path={HOME_COMPANY_PATH} element = {<CompanyIntroduction />} />
                 <Route path={HOME_CLAUSE_PATH} element = {<TermsAndConditions />} />
                 <Route path={HOME_POLICY_PATH} element = {<PersonalInformationProcessingPolicy />} />
                 <Route path={HOME_PLACE_PATH} element = {<BranchInformation />} />
+            </Route>
             <Route path={AUTH_PATH} element = {<Authentication/>} />
             <Route path={CUSTOMER_SUPPORT_PATH} >
                 <Route index element={< CustomerSupportList/>} />
