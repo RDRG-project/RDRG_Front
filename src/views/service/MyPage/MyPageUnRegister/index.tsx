@@ -7,6 +7,7 @@ import ResponseDto from 'src/apis/response.dto';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import { useNavigate } from 'react-router';
 
+//                    component                    //
 export default function MypageUnRegister() {
 
     //                    state                    //
