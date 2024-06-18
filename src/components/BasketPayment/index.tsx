@@ -2,7 +2,6 @@ import { differenceInDays } from "date-fns";
 import './style.css';
 import { useEffect, useState } from "react";
 import { useBasketStore, useRentDateStore, useRentItemTotalAmountStore, useRentSelectStore, useRentSiteShowStore, useRentSiteStore, useRentStatusStore, useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore, useTotalRentTimeStore, useUserStore } from "src/stores";
-
 import { useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
 import { PostPaymentResponseDto } from "src/apis/payment/dto/response";
@@ -104,7 +103,6 @@ export default function Basket() {
         </div>
     );
 }
-
 
 //                    component                    //
 export function Payment() {
