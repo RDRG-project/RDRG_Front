@@ -25,7 +25,6 @@ function TopBar({ path }: Props) {
     const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
 
     //                    state                    //
-
     const { setAuthPage } = useAuthenticationStore();
     const { loginUserRole } = useUserStore();
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -77,7 +76,7 @@ function TopBar({ path }: Props) {
             alert('로그인 해주세요.');
             navigator(AUTH_ABSOLUTE_PATH);
         } else {
-            navigator(MYPAGE_PATH); // MYPAGE_PATH로 이동을 해서 MypageContainer에서 IF문으로 운영자인지 아닌지 확인하여 운영자면 대여내역 유저면 프로필로 이동 시켜주기 위해서 변경
+            navigator(MYPAGE_PATH);
         }
     };
 
@@ -126,6 +125,7 @@ function TopBar({ path }: Props) {
     );
 }
 
+//                    component                    //
 export default function HomeContainer() {
 
     //                    state                    //

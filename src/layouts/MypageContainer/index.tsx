@@ -15,10 +15,9 @@ interface Props {
 //                    component                    //
 function SideNavigation({ path }: Props) {
 
+    //                    state                    //
     const profileClass = `mypage-navigation-item${path === '프로필 관리' ? ' active' : ''}`
     const rentDetailClass = `mypage-navigation-item${path === '대여 내역' ? ' active' : ''}`
-
-    const { pathname } = useLocation();
     const { loginUserRole } = useUserStore();
 
     //                    function                    //
@@ -55,36 +54,16 @@ function SideNavigation({ path }: Props) {
     }
 }
 
+//                    component                    //
 export default function MypageContainer() {
 
     //                    state                    //
     const { pathname } = useLocation();
-    //   const {setLoginUserId, setLoginUserRole} = useUserStore();
-    //   const [cookies] = useCookies();
     const [path, setPath] = useState<Path>('');
-
     const { loginUserRole } = useUserStore();
 
     //                    function                    //
     const navigator = useNavigate();
-
-    //   const getSignInUserResponse = (result : GetSignInUserResponseDto | ResponseDto | null) => {
-
-    //     const message = 
-    //       !result ? '서버에 문제가 있습니다.' :
-    //       result.code === 'AF' ? '인증에 실패했습니다.' :
-    //       result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
-
-    //     if (!result || result.code !== 'SU') {
-    //       alert(message);
-    //       navigator(AUTH_ABSOLUTE_PATH);
-    //       return;
-    //     }
-
-    //     const {userId, userRole} = result as GetSignInUserResponseDto;
-    //     setLoginUserId(userId);
-    //     setLoginUserRole(userRole);
-    //   };
 
     //                    effect                    //
     useEffect(() => {
@@ -95,7 +74,7 @@ export default function MypageContainer() {
         setPath(path);
     }, [pathname]);
 
-    useEffect(() => { // 관리자면 대여내역으로 이동 유저면 프로필로 이동
+    useEffect(() => {
         if (pathname === '/rdrg/mypage') {
             if (loginUserRole === 'ROLE_ADMIN') {
                 navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH);
@@ -104,16 +83,6 @@ export default function MypageContainer() {
             }
         }
     }, [loginUserRole, pathname, navigator]);
-
-
-    //   useEffect(() => {
-    //     if (!cookies.accessToken) {
-    //       navigator(AUTH_ABSOLUTE_PATH);
-    //       return;
-    //     }
-
-    //     getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse);
-    //   },[cookies.accessToken]);
 
     //                    render                    //
     return (
