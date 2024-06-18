@@ -70,7 +70,6 @@ function TopBar({ path }: Props) {
         }
     };
 
-
     const onMypageClickHandler = () => {
         if (cookies.accessToken == null) {
             alert('로그인 해주세요.');
