@@ -56,8 +56,10 @@ function App() {
                 <Route path={CUSTOMER_SUPPORT_DETAIL_PATH} element={<SupportDetail/>} />
                 <Route path={CUSTOMER_SUPPORT_UPDATE_PATH} element={<SupportUpdate/>} />
             </Route>
-            <Route path={RENT_PATH} element={<Rent/>}/>
-            <Route path={RENT_ADD_PATH} element={<RentAdd/>}/>
+            <Route path={RENT_PATH} >
+                <Route index element={<Rent/>}/>
+                <Route path={RENT_ADD_PATH} element={<RentAdd/>}/>
+            </Route>
             <Route path={RENT_SUCCESS_PATH} element={<RentSuccess />} />
             <Route path={RENT_FAIL_PATH} element={<RentFailed/>} />
             <Route path={RENT_CANCEL_PATH} element={<RentCancel />} />
