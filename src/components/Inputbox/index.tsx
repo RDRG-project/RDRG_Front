@@ -20,6 +20,7 @@ export interface InputBoxProps {
 //                    component                    //
 export default function InputBox({ label, type, value, placeholder, onChangeHandler, buttonTitle, buttonStatus, onButtonClickHandler, message, error, onKeydownHandler }: InputBoxProps) {
 
+    //                    function                    //
     const buttonClass = buttonStatus ? 'input-primary-button' : 'input-disable-button';
     const messageClass = 'input-message ' + (error ? 'error' : 'primary');
 

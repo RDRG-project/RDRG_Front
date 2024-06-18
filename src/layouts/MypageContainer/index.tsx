@@ -23,7 +23,6 @@ function SideNavigation({ path }: Props) {
     //                    function                    //
     const navigator = useNavigate();
 
-
     //                    event handler                    //
     const onProfileClickHandler = () => { navigator(MYPAGE_PROFILE_ABSOLUTE_PATH) };
     const onRentDetailClickHandler = () => { navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH) };

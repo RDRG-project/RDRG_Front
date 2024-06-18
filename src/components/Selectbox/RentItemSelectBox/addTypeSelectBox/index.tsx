@@ -15,8 +15,8 @@ export default function TypeSelectBox({ type, onChange }: Prop) {
         { name : '태블릿', type: '태블릿' },
         { name : '게임기', type: '게임기' },
         { name : '보조배터리', type: '보조배터리' }
-
     ];
+    
     //                    state                    //
     const [show, setShow] = useState<boolean>(false);
     const [name, setName] = useState<string>('');

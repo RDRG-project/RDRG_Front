@@ -10,6 +10,7 @@ interface Prop {
 
 //                    component                    //
 export default function RentSiteSelectBox({ value, onChange }: Prop) {
+
     const RentSiteListItem = [
         { name: '서울', value: '서울' },
         { name: '부산', value: '부산' }
@@ -23,7 +24,6 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
     //                    event handler                    //
     const onItemClickHandler = (itemValue: string) => {
         setRentSelectedItem(itemValue);
-        // 이코드는 백에 장소를 넘겨주기 위해 사용한것
         setRentSite(itemValue);
         onChange(itemValue);
     };
