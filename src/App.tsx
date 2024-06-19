@@ -23,6 +23,7 @@ import RentFailed from './views/service/Rent/RentFailed';
 import { RentAdd } from './views/service/Rent/RentAdd';
 import HomeContainer from './layouts/HomeContainer';
 import RentCancel from './views/service/Rent/RentCancel';
+import NotFound from './views/NotFound';
 
 // component : root 경로 컴포넌트 //
 function Index() {
@@ -74,6 +75,7 @@ function App() {
                 </Route>
             </Route>
         </Route>
+        <Route path="*" element={<NotFound />}/>
     </Routes>
     );
 }
