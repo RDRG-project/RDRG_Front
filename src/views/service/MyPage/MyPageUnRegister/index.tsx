@@ -1,18 +1,24 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import './style.css'
-import { useUserStore } from 'src/stores';
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
-import { deleteUserRequest } from 'src/apis/user';
-import ResponseDto from 'src/apis/response.dto';
-import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import { useNavigate } from 'react-router';
+
+import { useUserStore } from 'src/stores';
+
+import ResponseDto from 'src/apis/response.dto';
+import { deleteUserRequest } from 'src/apis/user';
+
+import { HOME_ABSOLUTE_PATH } from 'src/constants';
+
+import './style.css'
 
 //                    component                    //
 export default function MypageUnRegister() {
 
     //                    state                    //
-    const { loginUserId, loginUserRole, logoutUser } = useUserStore();
     const [ cookies, setCookies, removeCookies ] = useCookies();
+
+    const { loginUserId, logoutUser } = useUserStore();
+
     const [userId, setUserId] = useState<string>('');
     const [isChecked ,setIsChecked] = useState<boolean>(false);
 
@@ -29,15 +35,14 @@ export default function MypageUnRegister() {
             alert(message);
             return;
         }
+
         logoutUser();
         removeCookies('accessToken');
         navigator(HOME_ABSOLUTE_PATH);
     };
 
     //                    event handler                    //
-    const onCheckBoxHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setIsChecked(event.target.checked);
-    };    
+    const onCheckBoxHandler = (event: ChangeEvent<HTMLInputElement>) => setIsChecked(event.target.checked);  
 
     const userDeleteClickHandler = () => {
         if (loginUserId !== userId) return;
@@ -77,4 +82,4 @@ export default function MypageUnRegister() {
             <button className='final-check-button' onClick={userDeleteClickHandler} disabled={!isChecked}>탈 퇴 하 기</button>
         </div>
     );
-}
+};

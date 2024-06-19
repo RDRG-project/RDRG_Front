@@ -1,27 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import "./style.css";
-import { GetRentDetailResponseDto } from 'src/apis/payment/dto/response';
-import ResponseDto from 'src/apis/response.dto';
-import { HOME_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
-import { useNavigate, useParams } from 'react-router';
-import { RentDetailList } from 'src/types';
+import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
+import { useNavigate, useParams } from 'react-router';
+
+import { RentDetailList } from 'src/types';
+
+import ResponseDto from 'src/apis/response.dto';
 import { getRentDetailRequest } from 'src/apis/payment';
+import { GetRentDetailResponseDto } from 'src/apis/payment/dto/response';
+
+import { HOME_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
+
+import "./style.css";
 
 //                    component                    //
 export default function MypageRentDetail() {
 
     //                    state                    //
-    const {rentNumber} = useParams();
-
     const [cookies] = useCookies();
-    const [rent, setRent] = useState<RentDetailList[]>([]);
-    const [rentDatetime, setRentDatetime] = useState<string>('');
-    const [rentReturnDatetime, setRentReturnDatetime] = useState<string>('');
-    const [rentStatus, setRentStatus] = useState<string>('');
-    const [rentTotalPrice, setRentTotalPrice] = useState<number>(0);
+
+    const {rentNumber} = useParams();
     const [rentPlace, setRentPlace] = useState<string>('');
+    const [rent, setRent] = useState<RentDetailList[]>([]);
+    const [rentStatus, setRentStatus] = useState<string>('');
+    const [rentDatetime, setRentDatetime] = useState<string>('');
+    const [rentTotalPrice, setRentTotalPrice] = useState<number>(0);
     const [rentReturnPlace, setRentReturnPlace] = useState<string>('');
+    const [rentReturnDatetime, setRentReturnDatetime] = useState<string>('');
 
     //                    function                    //
     const navigator = useNavigate();
@@ -69,7 +73,7 @@ export default function MypageRentDetail() {
                     <div className='mp-rent-detail-content-box'>
                         <div className='mp-rent-detail-items-box'>
                             {rent.map((item, index) => (
-                                    <div className='mp-rent-detail-item' key={index}>{item.name} <span>{item.price}원</span></div>
+                                <div className='mp-rent-detail-item' key={index}>{item.name} <span>{item.price}원</span></div>
                             ))}
                         </div>
                         <div className='mp-rent-detail-items-divide'></div>
@@ -96,4 +100,4 @@ export default function MypageRentDetail() {
             </div>
         </div>
     );
-}
+};

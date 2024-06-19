@@ -1,31 +1,31 @@
-import { differenceInDays } from "date-fns";
-import './style.css';
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { PostPaymentResponseDto } from "src/apis/payment/dto/response";
-import ResponseDto from "src/apis/response.dto";
-import { HOME_ABSOLUTE_PATH } from "src/constants";
-import { PostPaymentSaveRequestDto } from "src/apis/payment/dto/request";
-import { postPaymentSaveRequest } from "src/apis/payment";
+import { useNavigate } from "react-router";
+
+import { differenceInDays } from "date-fns";
+
 import { useBasketStore, useRentDateStore, useRentListStore, useRentStore, useReturnStore, useUserStore } from "src/stores";
+
+import ResponseDto from "src/apis/response.dto";
+import { postPaymentSaveRequest } from "src/apis/payment";
+import { PostPaymentSaveRequestDto } from "src/apis/payment/dto/request";
+import { PostPaymentResponseDto } from "src/apis/payment/dto/response";
+
+import { HOME_ABSOLUTE_PATH } from "src/constants";
 import { dateFormat } from "src/utils";
+
+import './style.css';
 
 //                    component                    //
 export default function Basket() {
 
     //                    state                    //
-    const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
-    const { basketItems, setBasketItems, totalAmount, setTotalAmount } = useBasketStore();
     const { setRentShow, setRentSelectedItem } = useRentStore();
     const { setReturnShow, setReturnSelectedItem } = useReturnStore();
+    const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();
+    const { basketItems, setBasketItems, totalAmount, setTotalAmount } = useBasketStore();
 
     //                    function                    //
-    const calculateRentDuration = (startDate: Date, endDate: Date) => {
-        const durationInDays = differenceInDays(endDate, startDate);
-        return { days: durationInDays, hours: 0 };
-    };
-
     const calculateItemPrice = (basePrice: number, startDate: Date | null, endDate: Date | null): number => {
         if (!startDate || !endDate) return 0;
         const rentalDays = differenceInDays(endDate, startDate);
@@ -61,7 +61,6 @@ export default function Basket() {
     //                    effect                    //
     useEffect(() => {
         if (startDate && endDate) {
-            const duration = calculateRentDuration(startDate, endDate);
             setTotalAmount(calculateTotalPrice());
         }
     }, [startDate, endDate, basketItems]);
@@ -100,13 +99,14 @@ export default function Basket() {
 export function Payment() {
 
     //                    state                    //
-    const { loginUserId ,loginUserRole } = useUserStore();
     const [cookies] = useCookies();
+
+    const { loginUserId ,loginUserRole } = useUserStore();
+    const { rentStatus, setRentStatus } = useRentListStore();
     const { rentSite, setRentSite, setRentShow } = useRentStore();
     const { returnSite, setReturnSite, setReturnShow } = useReturnStore();
-    const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
+    const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();
     const { basketItems, setBasketItems, totalAmount, setTotalAmount } = useBasketStore();
-    const { rentStatus, setRentStatus } = useRentListStore();
 
     //                    function                    //
     const navigate = useNavigate();
@@ -121,7 +121,7 @@ export function Payment() {
         if (!result || result.code !== 'SU') {
             alert(message);
             return;
-        } 
+        }; 
         
         const { nextRedirectPcUrl } = result as PostPaymentResponseDto;
         window.location.href = nextRedirectPcUrl;
@@ -130,9 +130,10 @@ export function Payment() {
     //                    event handler                    //
     const onPaymentButtonClickHandler = () => {
         if (loginUserRole !== 'ROLE_USER') {
-            alert('로그인 하라');
+            alert('로그인을 해주세요.');
             navigate(HOME_ABSOLUTE_PATH);
         };
+
         const rentSerialNumber = basketItems.map(item => item.serialNumber);
 
         if (!startDate || !endDate) return;
@@ -149,14 +150,9 @@ export function Payment() {
         };
 
         postPaymentSaveRequest(requestBody, cookies.accessToken)
-            .then(result => {
+            .then(result => { 
                 PostPaymentSaveResponseDto(result);
-                navigate('/rent-success', {
-                    state: {
-                        basketItems,
-                        totalAmount
-                    }
-                });
+                navigate('/rent-success', {state: {basketItems,totalAmount}});
             });
 
         setRentSite('');

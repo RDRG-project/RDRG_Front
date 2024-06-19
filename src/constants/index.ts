@@ -1,4 +1,4 @@
-// description : Navigation URL PATH
+// description : Navigation URL PATH //
 export const RDRG_PATH = '/rdrg'; // 공통 레이아웃
 export const HOME_PATH = 'home'; // 홈화면
 export const SNS_PATH = '/sns/:accessToken/:expires'; // sns 화면
@@ -26,7 +26,7 @@ export const MYPAGE_RENT_DETAIL_PATH = 'myrentpage'; //나의 대여내역 화�
 export const MYPAGE_DETAILS_PATH = ':rentNumber'; //나의 대여 상세내역 화면
 export const MYPAGE_UNREGISTER_PATH = 'unregister'; //회원탈퇴 화면
 
-// description : Navigation 절대 URL PATH
+// description : Navigation 절대 URL PATH //
 export const RDRG_ABSOLUTE_PATH = RDRG_PATH; // 공통 레이아웃 절대 경로
 export const HOME_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}`; // 홈화면 절대경로
 export const HOME_COMPANY_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${HOME_PATH}/${HOME_COMPANY_PATH}`; // 회사소개 화면 절대경로
@@ -50,7 +50,7 @@ export const MYPAGE_RENT_DETAIL_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_
 export const MYPAGE_DETAILS_ABSOLUTE_PATH = (rentNumber: string | number) => `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_RENT_DETAIL_PATH}/${rentNumber}`; // 나의 대여 상세내역 화면 절대경로
 export const MYPAGE_UNREGISTER_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_PATH}/${MYPAGE_UNREGISTER_PATH}`; // 회원탈퇴 화면 절대경로
 
-// description : API URL PATH
+// description : API URL PATH //
 //! 도메인 및 기본 경로
 export const SERVER_DOMAIN_URL = 'http://localhost:4500';
 export const SERVER_API_URL = `${SERVER_DOMAIN_URL}/rdrg`;
@@ -135,16 +135,14 @@ export const PUT_BOARD_URL = (receptionNumber: number | string) => `${SERVER_BOA
 export const DELETE_BOARD_URL = (receptionNumber: number | string) => `${SERVER_BOARD_MODULE_URL}/${receptionNumber}`;
 
 
-// description: 게시물 상수
+// description: 게시물 상수 //
 export const COUNT_PER_PAGE = 5;
 export const COUNT_PER_SECTION = 5;
 
 export const USER_RENT_LIST_COUNT_PER_PAGE = 3;
 export const ADMIN_RENT_LIST_COUNT_PER_PAGE = 10;
 
-// description: 패턴 형식
+// description: 패턴 형식 //
 export const ID_PATTERN = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,23}$/;
-export const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_\-+=\[\]{}|\\;:‘“<>.,?\/]).{8,19}$/;
 export const EMAIL_PATTERN = /^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,4}$/;
-
-
+export const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_\-+=\[\]{}|\\;:‘“<>.,?\/]).{8,19}$/;

@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import './style.css';
-import {useBasketStore, useRentDateStore, useRentListStore,useUserStore} from 'src/stores/index';
-import { DeviceListItem } from 'src/types';
-import { useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
-import { HOME_ABSOLUTE_PATH, RENT_ADD_ABSOLUTE_PATH } from 'src/constants';
-import { deleteDeviceRequest, getAdminRentListRequest } from 'src/apis/device';
+import { useNavigate } from 'react-router';
+
+import {useBasketStore, useRentDateStore, useRentListStore,useUserStore} from 'src/stores/index';
+
+import { DeviceListItem } from 'src/types';
+
 import ResponseDto from 'src/apis/response.dto';
+import { deleteDeviceRequest, getAdminRentListRequest } from 'src/apis/device';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
+
+import { HOME_ABSOLUTE_PATH, RENT_ADD_ABSOLUTE_PATH } from 'src/constants';
+
+import './style.css';
 
 //                    interface                    //
 interface Prop {
@@ -33,22 +38,18 @@ function RentItem({
 }: DeviceListItem & { onDeleteHandler: (serialNumber: string) => void } & { addItemHandler: (item: DeviceListItem) => void }) {
 
     //                    state                    //
-    const [isExplainFullVisible, setIsExplainFullVisible] = useState(false);
     const { loginUserRole } = useUserStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentDateStore();
 
+    const [isExplainFullVisible, setIsExplainFullVisible] = useState(false);
     const isItemInBasket = basketItems.some(item => item.serialNumber === serialNumber);
     const itemIndexInBasket = basketItems.findIndex(item => item.serialNumber === serialNumber);
 
     //                    event handler                    //
-    const handleExplainClick = () => {
-        setIsExplainFullVisible(!isExplainFullVisible);
-    };
+    const handleExplainClick = () => setIsExplainFullVisible(!isExplainFullVisible);
 
-    const explainCloseButtonClickHandler = () => {
-        setIsExplainFullVisible(false);
-    };
+    const explainCloseButtonClickHandler = () => setIsExplainFullVisible(false);
 
     const removeItemButtonClickHandler = (index: number) => {
         const itemToRemove = basketItems[index];
@@ -93,18 +94,21 @@ function RentItem({
 }
 
 //                    component                    //
-export default function RentSelectBox({ value, onChange, rentViewList, setRentViewList }: Prop) {
+export default function RentSelectBox({ rentViewList, setRentViewList }: Prop) {
 
     //                    state                    //
-    const navigator = useNavigate();
-    const { loginUserRole } = useUserStore();
     const [cookies] = useCookies();
-    const { selectListItItem, setSelectListItItem } = useRentListStore();
+
+    const { loginUserRole } = useUserStore();
     const { basketItems, setBasketItems } = useBasketStore();
     const { totalAmount, setTotalAmount } = useRentDateStore();
+    const { selectListItItem, setSelectListItItem } = useRentListStore();
+    
     const [selectedType, setSelectedType] = useState<string | null>(null);
 
     //                    function                    //
+    const navigator = useNavigate();
+
     const deleteDeviceResponse = (result: ResponseDto | null, serialNumber: string | number) => {
         const message =
             !result ? '서버에 문제가 있습니다.' :
@@ -119,7 +123,7 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
         }
 
         setRentViewList(prevList => prevList.filter(device => device.serialNumber !== serialNumber));
-    }
+    };
 
     const getAdminDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
         const message =
@@ -139,7 +143,6 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
     };
 
     //                    event handler                    //
-
     const adminAddButtonClickHandler = () => {
         if (loginUserRole !== 'ROLE_ADMIN' || !cookies.accessToken) return;
         navigator(RENT_ADD_ABSOLUTE_PATH);
@@ -153,9 +156,7 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
         deleteDeviceRequest(serialNumber, cookies.accessToken).then(result => deleteDeviceResponse(result, serialNumber));
     };
 
-    const onTypeButtonClickHandler = (type: string) => {
-        setSelectedType(selectedType === type ? null : type);
-    };
+    const onTypeButtonClickHandler = (type: string) => setSelectedType(selectedType === type ? null : type);
 
     const addItemButtonClickHandler = (item: DeviceListItem) => {
         setBasketItems([...basketItems, item]);
@@ -181,6 +182,7 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
             </div>
         );
     };
+    
     return (
         <div id='select-type-wrapper'>
             <div className='select-it-box' style={{ display: 'flex', alignItems: 'center' }}>

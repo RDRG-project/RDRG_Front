@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import './style.css';
+import { useEffect } from 'react';
+
 import { useRentStore } from 'src/stores';
+
+import './style.css';
 
 const RentSiteListItem = [
     { name: '서울', value: '서울' },
@@ -21,14 +23,12 @@ export default function RentSiteSelectBox({ value, onChange }: Prop) {
 
     //                    event handler                    //
     const onItemClickHandler = (itemValue: string) => {
-        setRentSelectedItem(itemValue);
-        setRentSite(itemValue);
         onChange(itemValue);
+        setRentSite(itemValue);
+        setRentSelectedItem(itemValue);
     };
 
-    const onButtonClickHandler = () => {
-        setRentShow(!rentShow);
-    };
+    const onButtonClickHandler = () => setRentShow(!rentShow);
 
     //                    effect                    //
     useEffect(() => {

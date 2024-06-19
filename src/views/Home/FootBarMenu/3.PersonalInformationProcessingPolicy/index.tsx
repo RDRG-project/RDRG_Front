@@ -1,4 +1,3 @@
-import React from 'react'
 import './style.css'
 
 //                    component                    //
@@ -101,5 +100,5 @@ export default function PersonalInformationProcessingPolicy() {
                 </p>
             </div>
         </div>
-    )
-}
+    );
+};

@@ -1,4 +1,3 @@
-import React from 'react'
 import './style.css'
 
 //                    component                    //
@@ -41,5 +40,5 @@ export default function BranchInformation() {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

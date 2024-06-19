@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
-import './style.css';
+import { useEffect } from 'react';
+
 import { useReturnStore } from 'src/stores';
+
+import './style.css';
 
 const RentSiteListItem = [
     { name: '서울', value: '서울' },
@@ -21,15 +23,14 @@ export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
 
     //                    event handler                    //
     const onItemClickHandler = (value: string) => {
-        setReturnSelectedItem(value);
+        
         onChange(value);
-        setReturnSite(value);
         setReturnShow(true);
+        setReturnSite(value);
+        setReturnSelectedItem(value);
     };
     
-    const onButtonClickHandler = () => {
-        setReturnShow(!returnShow);
-    };
+    const onButtonClickHandler = () => setReturnShow(!returnShow);
 
     //                    effect                    //
     useEffect(() => {

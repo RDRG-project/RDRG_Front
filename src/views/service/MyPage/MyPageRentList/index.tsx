@@ -1,6 +1,8 @@
-import { useUserStore } from "src/stores";
 import UserRentList from "./UserRentList";
 import AdminRentList from "./AdminRentList";
+
+import { useUserStore } from "src/stores";
+
 import "./style.css";
 
 //                    component                    //
@@ -19,4 +21,4 @@ export default function MypageRentList() {
             )}
         </div>
     );
-}
+};

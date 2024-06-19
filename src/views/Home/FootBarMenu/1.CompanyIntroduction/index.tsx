@@ -1,4 +1,3 @@
-import React from 'react'
 import './style.css'
 
 //                    component                    //
@@ -28,5 +27,5 @@ export default function CompanyIntroduction() {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

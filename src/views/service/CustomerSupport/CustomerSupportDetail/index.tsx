@@ -1,30 +1,35 @@
-import useUserStore from 'src/stores/user.store'
-import './style.css'
-import { useNavigate, useParams } from 'react-router';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { GetBoardResponseDto } from 'src/apis/board/dto/response';
+import { useNavigate, useParams } from 'react-router';
+
+import useUserStore from 'src/stores/user.store'
+
 import ResponseDto from 'src/apis/response.dto';
-import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
 import { deleteBoardRequest, postCommentRequest, getBoardRequest } from 'src/apis/board';
 import { PostCommentRequestDto } from 'src/apis/board/dto/request';
+import { GetBoardResponseDto } from 'src/apis/board/dto/response';
+
+import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_UPDATE_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH } from 'src/constants';
+
+import './style.css'
 
 //                    component                    //
 export default function SupportDetail () {
 
     //                    state                    //
-    const { loginUserId, loginUserRole } = useUserStore();
-    const { receptionNumber } = useParams();
-
     const [cookies] = useCookies();
+
+    const { loginUserId, loginUserRole } = useUserStore();
+
+    const { receptionNumber } = useParams();
     const [title, setTitle] = useState<string>('');
     const [writerId, setWriterId] = useState<string>('');
-    const [writeDate, setWriterDate] = useState<string>('');
     const [contents, setContents] = useState<string>('');
     const [status, setStatus] = useState<boolean>(false);
-    const [comment, setComment] = useState<string | null>(null);
-    const [commentRows, setCommentRows] = useState<number>(1);
+    const [writeDate, setWriterDate] = useState<string>('');
     const [imageUrls, setImageUrls] = useState<string[]>([]);
+    const [commentRows, setCommentRows] = useState<number>(1);
+    const [comment, setComment] = useState<string | null>(null);
     const [originalFileName, setOriginalFileName] = useState<string[]>([]);
     
     //                    function                    //
@@ -48,7 +53,7 @@ export default function SupportDetail () {
             return;
         }
 
-        const { title, writerId, writeDatetime, contents, status, comment, imageUrl , originalFileName  } = result as GetBoardResponseDto;
+        const { title, writerId, writeDatetime, contents, status, comment, imageUrl , originalFileName } = result as GetBoardResponseDto;
         setTitle(title);
         setWriterId(writerId);
         setWriterDate(writeDatetime);
@@ -76,7 +81,7 @@ export default function SupportDetail () {
     
         if (!receptionNumber || !cookies.accessToken) return;
         getBoardRequest(receptionNumber, cookies.accessToken).then(getBoardResponse);
-    } ;
+    };
 
     const deleteBoardResponse = (result: ResponseDto | null) => {
         const message = 
@@ -92,16 +97,14 @@ export default function SupportDetail () {
         }
 
         navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
-
     };
 
     //                    event handler                    //
     const onCommentChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
         if (status || loginUserRole !== 'ROLE_ADMIN') return;
         const comment = event.target.value;
-        setComment(comment);
-
         const commentRows = comment.split('\n').length;
+        setComment(comment);
         setCommentRows(commentRows);
     };
 
@@ -113,9 +116,7 @@ export default function SupportDetail () {
         postCommentRequest(receptionNumber, requestBody, cookies.accessToken).then(postCommentResponse);
     };
 
-    const onListClickHandler = () => {
-        navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
-    };
+    const onListClickHandler = () => navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
 
     const onUpdateClickHandler = () => {
         if (!receptionNumber || loginUserId !== writerId || status) return;
@@ -130,10 +131,7 @@ export default function SupportDetail () {
         deleteBoardRequest(receptionNumber, cookies.accessToken).then(deleteBoardResponse);
     };
 
-    const openImageInNewWindow = (imageUrl: string) => {
-        window.open(imageUrl, 'blank', 'width=auto,height=auto');
-    };
-    
+    const openImageInNewWindow = (imageUrl: string) => window.open(imageUrl, 'blank', 'width=auto,height=auto');
 
     //                    effect                    //
     useEffect(() => {
@@ -143,6 +141,7 @@ export default function SupportDetail () {
 
     //                    render                    //
     const coveredWriterId = writerId !== '' && (writerId[0] + '*'.repeat(writerId.length - 1));
+    
     return (
         <>
             <div className='cs-image'>문의게시판</div>

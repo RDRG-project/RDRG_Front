@@ -1,4 +1,5 @@
-import React, { ChangeEvent, KeyboardEvent } from "react";
+import { ChangeEvent, KeyboardEvent } from "react";
+
 import './style.css';
 
 //                    interface                    //
@@ -23,6 +24,7 @@ export default function InputBox({ label, type, value, placeholder, onChangeHand
     //                    render                    //
     const buttonClass = buttonStatus ? 'input-primary-button' : 'input-disable-button';
     const messageClass = 'input-message ' + (error ? 'error' : 'primary');
+    
     return (
         <div className="input-box">
             <div className="input-label label">{label}</div>

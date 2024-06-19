@@ -1,5 +1,6 @@
-import { DeviceListItem } from "src/types";
 import { create } from "zustand";
+
+import { DeviceListItem } from "src/types";
 
 interface BasketStore {
     basketItems: DeviceListItem[];

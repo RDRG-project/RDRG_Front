@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react';
-import "./style.css";
-import { RentItem } from 'src/types';
-import { useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, COUNT_PER_SECTION, MYPAGE_DETAILS_ABSOLUTE_PATH, USER_RENT_LIST_COUNT_PER_PAGE } from 'src/constants';
-import ResponseDto from 'src/apis/response.dto';
-import { GetMyRentPageResponseDto } from 'src/apis/payment/dto/response';
-import { getMyRentPageRequest, patchRentStatusRequest } from 'src/apis/payment';
+import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router';
+
 import { useUserStore } from 'src/stores';
+
 import { usePagination } from 'src/hooks';
+
+import { RentItem } from 'src/types';
+
+import ResponseDto from 'src/apis/response.dto';
+import { getMyRentPageRequest, patchRentStatusRequest } from 'src/apis/payment';
+import { GetMyRentPageResponseDto } from 'src/apis/payment/dto/response';
+
+import { AUTH_ABSOLUTE_PATH, COUNT_PER_SECTION, MYPAGE_DETAILS_ABSOLUTE_PATH, USER_RENT_LIST_COUNT_PER_PAGE } from 'src/constants';
+
+import "./style.css";
 
 //                    component                    //
 function RentListItem({
@@ -19,10 +25,12 @@ function RentListItem({
     rentReturnDatetime,
     totalPrice
     }:RentItem) {
+
+    //                    state                    //
+    const [cookies] = useCookies();
     
     //                    function                    //
     const navigator = useNavigate();
-    const [cookies] = useCookies();
 
     const formatDate = (datetime: string) => {
         return datetime.split(' ')[0];
@@ -36,14 +44,11 @@ function RentListItem({
     const displayName = additionalCount > 0 ? `${mainName} 외 ${additionalCount}건` : mainName;
 
     const onCancelHandler = async() => {
-        if (!cookies.accessToken){
-            return;
-        }
-
+        if (!cookies.accessToken) return;
+        
         const confirmCancel = window.confirm("대여를 취소하시겠습니까?")
-        if (!confirmCancel) {
-            return;
-        }
+        if (!confirmCancel) return;
+        
 
         try {
             const requestBody = {
@@ -85,16 +90,29 @@ function RentListItem({
             </div>
         </div>
     );
-}
+};
 
 //                    component                    //
 export default function UserRentList() {
 
     //                    state                    //
     const [cookies] = useCookies();
+
     const { loginUserRole } = useUserStore();
 
-    const {currentPage, viewList, pageList, setCurrentPage, setCurrentSection, changeBoardList,  onPageClickHandler, onPreSectionClickHandler, onPrePageClickHandler, onNextPageClickHandler, onNextSectionClickHandler} = usePagination<RentItem>(USER_RENT_LIST_COUNT_PER_PAGE, COUNT_PER_SECTION);
+    const {
+        currentPage, 
+        viewList, 
+        pageList, 
+        setCurrentPage, 
+        setCurrentSection, 
+        changeBoardList,  
+        onPageClickHandler, 
+        onPreSectionClickHandler, 
+        onPrePageClickHandler, 
+        onNextPageClickHandler, 
+        onNextSectionClickHandler
+    } = usePagination<RentItem>(USER_RENT_LIST_COUNT_PER_PAGE, COUNT_PER_SECTION);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -106,26 +124,26 @@ export default function UserRentList() {
         }
 
         const message =
-        result.code === 'VF' ? '인증에 실패했습니다.' : 
-        result.code === 'AF' ? '권한이 없습니다.' :
-        result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+            result.code === 'VF' ? '인증에 실패했습니다.' : 
+            result.code === 'AF' ? '권한이 없습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
         if (result.code !== 'SU') {
-        alert(message);
-        if (result?.code === 'AF') navigator(AUTH_ABSOLUTE_PATH);
-        return;
+            alert(message);
+            if (result?.code === 'AF') navigator(AUTH_ABSOLUTE_PATH);
+            return;
         }
 
         const { rentList } = result as GetMyRentPageResponseDto;
         if (!rentList || !rentList.length) {
             alert('대여 목록을 찾을 수 없습니다.');
             return;
-        }    
-        changeBoardList(rentList);
+        }   
 
+        changeBoardList(rentList);
         setCurrentPage(!rentList.length ? 0 : 1);
         setCurrentSection(!rentList.length ? 0 : 1);
-    }
+    };
 
     //                    effect                    //
     useEffect(() => {
@@ -156,4 +174,4 @@ export default function UserRentList() {
             </div>
         </div>
     );
-}
+};

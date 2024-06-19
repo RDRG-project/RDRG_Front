@@ -1,7 +1,8 @@
-import React from 'react'
-import './style.css'
 import { useNavigate } from 'react-router-dom';
+
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
+
+import './style.css'
 
 //                    component                    //
 export default function NotFound() {

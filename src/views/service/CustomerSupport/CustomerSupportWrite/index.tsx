@@ -1,30 +1,37 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import './style.css'
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
-import { postBoardRequest } from "src/apis/board";
-import { PostBoardRequestDto, } from "src/apis/board/dto/request";
-import ResponseDto from "src/apis/response.dto";
-import { CUSTOMER_SUPPORT_ABSOLUTE_PATH } from "src/constants";
-import useUserStore from "src/stores/user.store";
+
 import axios from "axios";
+
+import useUserStore from "src/stores/user.store";
+
 import { BoardFileItem } from "src/types";
+
+import ResponseDto from "src/apis/response.dto";
+import { postBoardRequest } from "src/apis/board";
+import { PostBoardRequestDto } from "src/apis/board/dto/request";
+
+import { CUSTOMER_SUPPORT_ABSOLUTE_PATH } from "src/constants";
+
+import './style.css'
 
 //                    component                    //
 export default function SupportWrite() {
+
     //                    state                    //
-    const contentsRef = useRef<HTMLTextAreaElement | null>(null);
-    const fileRef = useRef<HTMLInputElement | null>(null);
-    const { loginUserRole } = useUserStore();
     const [cookies] = useCookies();
+
+    const { loginUserRole } = useUserStore();
+
+    const fileRef = useRef<HTMLInputElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const contentsRef = useRef<HTMLTextAreaElement | null>(null);
     const [title, setTitle] = useState<string>('');
     const [contents, setContents] = useState<string>('');
-
     const [fileUpload , setFileUpload] = useState<File[]>([]);
     const [filePreviews, setFilePreviews] = useState<{name: string, url: string}[]>([]);
     const [fileRevise, setFileRevise] = useState<number | null>(null);
-
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -44,7 +51,6 @@ export default function SupportWrite() {
         }
 
         navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
-
     };
 
     //                    event handler                    //
@@ -73,7 +79,7 @@ export default function SupportWrite() {
         for (const file of fileUpload) {
             const data = new FormData();
             data.append('file', file);
-            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } })
+            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } } )
                 .then(response => response.data as string)
                 .catch(error => null);
             if (!url) continue;
@@ -118,9 +124,7 @@ export default function SupportWrite() {
         } 
     };
 
-    const onDragOverHandler = (event: React.DragEvent) => {
-        event.preventDefault();
-    };
+    const onDragOverHandler = (event: React.DragEvent) => event.preventDefault();
 
     const onDropHandler = (event: React.DragEvent) => {
         event.preventDefault();
@@ -145,16 +149,9 @@ export default function SupportWrite() {
         }
     };
 
-    const onFileReviseButtonClickHandler = (index: number) => {
-        setFileRevise(index);
-        if (fileRef.current) {
-            fileRef.current.click();
-        }
-    }
-
     const onCancelButtonClickHandler = () => {
         navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
-    }
+    };
 
     //                    effect                    //
     useEffect(() => {
@@ -176,14 +173,12 @@ export default function SupportWrite() {
                             <input className='cs-write-title-input' placeholder='제목을 입력해주세요' value={title} onChange={onTitleChangeHandler}/>
                         </div>
                     </div>
-
                     <div className="cs-write-middle">
                         <div className='cs-write-middle-title'>내용</div>
                         <div className='cs-write-contents-box'>
                             <textarea ref={contentsRef} className='cs-write-contents-textarea' placeholder='내용을 입력해주세요 / 1000자' maxLength={1000} value={contents} onChange={onContentsChangeHandler}/>
                         </div>
                     </div>
-
                     <div className='cs-write-bottom'>
                         <div className='cs-write-bottom-title'>파일첨부</div>
                         <div className='cs-write-file-box'>
