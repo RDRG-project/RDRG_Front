@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
-import {
-    useBasketStore,
-    useRentItemTotalAmountStore,
-    useRentListStore,
-    useUserStore
-} from 'src/stores/index';
+import {useBasketStore, useRentDateStore, useRentListStore,useUserStore} from 'src/stores/index';
 import { DeviceListItem } from 'src/types';
 import { useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
@@ -41,7 +36,7 @@ function RentItem({
     const [isExplainFullVisible, setIsExplainFullVisible] = useState(false);
     const { loginUserRole } = useUserStore();
     const { basketItems, setBasketItems } = useBasketStore();
-    const { totalAmount, setTotalAmount } = useRentItemTotalAmountStore();
+    const { totalAmount, setTotalAmount } = useRentDateStore();
 
     const isItemInBasket = basketItems.some(item => item.serialNumber === serialNumber);
     const itemIndexInBasket = basketItems.findIndex(item => item.serialNumber === serialNumber);
@@ -106,7 +101,7 @@ export default function RentSelectBox({ value, onChange, rentViewList, setRentVi
     const [cookies] = useCookies();
     const { selectListItItem, setSelectListItItem } = useRentListStore();
     const { basketItems, setBasketItems } = useBasketStore();
-    const { totalAmount, setTotalAmount } = useRentItemTotalAmountStore();
+    const { totalAmount, setTotalAmount } = useRentDateStore();
     const [selectedType, setSelectedType] = useState<string | null>(null);
 
     //                    function                    //

@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import './style.css';
-import { useRentSiteShowStore, useRentSelectStore, useRentSiteStore } from 'src/stores';
+import { useRentStore } from 'src/stores';
+
+const RentSiteListItem = [
+    { name: '서울', value: '서울' },
+    { name: '부산', value: '부산' }
+];
 
 //                    interface                    //
 interface Prop {
@@ -11,15 +16,8 @@ interface Prop {
 //                    component                    //
 export default function RentSiteSelectBox({ value, onChange }: Prop) {
 
-    const RentSiteListItem = [
-        { name: '서울', value: '서울' },
-        { name: '부산', value: '부산' }
-    ];
-
     //                    state                    //
-    const { rentShow, setRentShow } = useRentSiteShowStore();
-    const { rentSelectedItem, setRentSelectedItem } = useRentSelectStore();
-    const { setRentSite } = useRentSiteStore();
+    const { rentShow, setRentShow, rentSelectedItem, setRentSelectedItem, setRentSite } = useRentStore();
 
     //                    event handler                    //
     const onItemClickHandler = (itemValue: string) => {
