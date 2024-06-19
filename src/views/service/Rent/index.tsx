@@ -3,17 +3,17 @@ import './style.css';
 import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox';
 import { useCookies } from 'react-cookie';
 import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
-import { useRentDateStore, useRentSiteStore, useUserStore } from 'src/stores/index';
 import ReactDatePicker from 'src/components/DateTimebox';
 import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import { useNavigate } from 'react-router';
 import ResponseDto from 'src/apis/response.dto';
 import { dateFormat } from 'src/utils';
 import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import { getAdminRentListRequest, getRentPossibilityListRequest } from 'src/apis/device';
+import { getRentPossibilityListRequest } from 'src/apis/device';
 import { DeviceListItem } from 'src/types';
 import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
 import Basket, { Payment } from 'src/components/BasketPayment';
+import { useRentDateStore, useRentStore, useUserStore } from 'src/stores';
 
 //                    component                    //
 export default function Rent() {
@@ -23,7 +23,7 @@ export default function Rent() {
     const [rentSelect, setRentSelect] = useState<string>('');
     const [returnSelect, setReturnSelect] = useState<string>('');
     const [rentItem, setRentItem] = useState<string>('');
-    const { rentSite, setRentSite } = useRentSiteStore();
+    const { rentSite, setRentSite } = useRentStore();
     const [cookies] = useCookies();
     const { startDate, endDate } = useRentDateStore();
     const [place, setPlace] = useState<string>(rentSite);
@@ -49,22 +49,6 @@ export default function Rent() {
         setRentViewList(deviceList);
     };
 
-    const getAdminDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
-        const message =
-            !result ? '서버에 문제가 있습니다.' :
-            result.code === 'VF' ? '유효하지 않은 정보입니다.' :
-            result.code === 'AF' ? '관리자가 아닙니다.' :
-            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
-
-        if (!result || result.code !== 'SU') {
-            alert(message);
-            if (result?.code === 'AF') navigator(HOME_ABSOLUTE_PATH);
-            return;
-        }
-
-        const { deviceList } = result as GetDeviceListResponseDto;
-        setRentViewList(deviceList);
-    };
 
     //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
@@ -85,12 +69,6 @@ export default function Rent() {
         setRentItem(rentItem);
     };
 
-    const adminSearchButtonClickHandler = () => {
-        if (!cookies.accessToken) return;
-        if (loginUserRole === 'ROLE_ADMIN') {
-            getAdminRentListRequest(cookies.accessToken).then(getAdminDeviceListResponse);
-        }
-    }
     const userSearchButtonClickHandler = () => {
         if (!cookies.accessToken) return;
 
@@ -150,7 +128,6 @@ export default function Rent() {
             )}
             {loginUserRole === 'ROLE_ADMIN' &&
             <div className='rent-item'>
-                <div className='button-class-role' onClick={adminSearchButtonClickHandler}>새로고침</div>            
                 <RentSelectBox value={rentItem} onChange={onRentItemChangeHandler} rentViewList={rentViewList} setRentViewList={setRentViewList} />
             </div>}
         </div>

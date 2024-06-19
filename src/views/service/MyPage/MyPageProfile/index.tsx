@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import "./style.css";
 import { useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, HOME_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH } from 'src/constants';
+import { AUTH_ABSOLUTE_PATH, HOME_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH, PASSWORD_PATTERN } from 'src/constants';
 import InputBox from 'src/components/Inputbox';
 import { useCookies } from 'react-cookie';
 import { GetPersonalInfoResponseDto } from 'src/apis/user/dto/response';
@@ -69,23 +69,18 @@ export default function MypageProfile() {
     }, [cookies.accessToken, userId]);
 
     //                    event handler                    //
-
-
-    // 회원탈퇴 버튼 클릭 시 회원탈퇴 페이지로 이동
     const onUnRegisterClickHandler = () => { navigator(MYPAGE_UNREGISTER_ABSOLUTE_PATH) };
 
-    // 현재 비밀번호 입력
     const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
         setMessage('');
     };
 
-    // 새 비밀번호 입력
     const onNewPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setNewPassword(value);
 
-        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_\-+=\[\]{}|\\;:‘“<>.,?\/]).{8,19}$/;
+        const passwordPattern = PASSWORD_PATTERN;
         const isPasswordPattern = passwordPattern.test(value);
         setPasswordPattern(isPasswordPattern);
 
@@ -103,7 +98,6 @@ export default function MypageProfile() {
         setPasswordCheckMessage(passwordCheckMessage);
     };
 
-    // 새 비밀번호 확인
     const onNewPasswordCheckChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setNewPasswordCheck(value);
@@ -117,7 +111,6 @@ export default function MypageProfile() {
         setPasswordCheckMessage(passwordCheckMessage);
     };
 
-    // 비빌번호 변경 구현
     const onChangePasswordClickHandler = async () => {
         if (!isPasswordPattern || !isEqualPassword) {
             setChangePasswordMessage('비밀번호를 올바르게 입력해주세요.');

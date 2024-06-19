@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import './style.css';
-import { useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore } from 'src/stores';
+import { useReturnStore } from 'src/stores';
+
+const RentSiteListItem = [
+    { name: '서울', value: '서울' },
+    { name: '부산', value: '부산' }
+];
 
 //                    interface                    //
 interface Prop {
@@ -10,15 +15,9 @@ interface Prop {
 
 //                    component                    //
 export default function ReturnSiteSelectBox({ value, onChange }: Prop) {
-    const RentSiteListItem = [
-        { name: '서울', value: '서울' },
-        { name: '부산', value: '부산' }
-    ];
 
     //                    state                    //
-    const { returnShow, setReturnShow } = useReturnSiteShowStore();
-    const { returnSelectedItem, setReturnSelectedItem } = useReturnSelectStore();
-    const { setReturnSite } = useReturnSiteStore();
+    const { returnShow, setReturnShow, returnSelectedItem, setReturnSelectedItem, setReturnSite } = useReturnStore();
 
     //                    event handler                    //
     const onItemClickHandler = (value: string) => {

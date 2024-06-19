@@ -1,30 +1,24 @@
 import { differenceInDays } from "date-fns";
 import './style.css';
 import { useEffect, useState } from "react";
-import { useBasketStore, useRentDateStore, useRentItemTotalAmountStore, useRentSelectStore, useRentSiteShowStore, useRentSiteStore, useRentStatusStore, useReturnSelectStore, useReturnSiteShowStore, useReturnSiteStore, useTotalRentTimeStore, useUserStore } from "src/stores";
-
 import { useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
 import { PostPaymentResponseDto } from "src/apis/payment/dto/response";
 import ResponseDto from "src/apis/response.dto";
 import { HOME_ABSOLUTE_PATH } from "src/constants";
 import { PostPaymentSaveRequestDto } from "src/apis/payment/dto/request";
-import { dateTimeFormat } from "src/utils";
 import { postPaymentSaveRequest } from "src/apis/payment";
+import { useBasketStore, useRentDateStore, useRentListStore, useRentStore, useReturnStore, useUserStore } from "src/stores";
+import { dateFormat } from "src/utils";
 
 //                    component                    //
 export default function Basket() {
 
     //                    state                    //
     const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
-    const { basketItems, setBasketItems } = useBasketStore();    
-    const {totalAmount, setTotalAmount} = useRentItemTotalAmountStore();
-    const { setRentShow } = useRentSiteShowStore();
-    const { setRentSelectedItem } = useRentSelectStore();
-    const { setReturnShow } = useReturnSiteShowStore();
-    const { setReturnSelectedItem } = useReturnSelectStore();
-    const { setTotalRentTime } = useTotalRentTimeStore();
-    const [rentDuration, setRentDuration] = useState<{ days: number; hours: number }>({ days: 0, hours: 0 });
+    const { basketItems, setBasketItems, totalAmount, setTotalAmount } = useBasketStore();
+    const { setRentShow, setRentSelectedItem } = useRentStore();
+    const { setReturnShow, setReturnSelectedItem } = useReturnStore();
 
     //                    function                    //
     const calculateRentDuration = (startDate: Date, endDate: Date) => {
@@ -62,15 +56,12 @@ export default function Basket() {
         setEndDate(new Date());
         setBasketItems([]);
         setTotalAmount(0);
-        setRentDuration({ days: 0, hours: 0 });
-        setTotalRentTime('');
     };
 
     //                    effect                    //
     useEffect(() => {
         if (startDate && endDate) {
             const duration = calculateRentDuration(startDate, endDate);
-            setRentDuration(duration);
             setTotalAmount(calculateTotalPrice());
         }
     }, [startDate, endDate, basketItems]);
@@ -105,22 +96,17 @@ export default function Basket() {
     );
 }
 
-
 //                    component                    //
 export function Payment() {
 
     //                    state                    //
-    const { loginUserRole } = useUserStore();
+    const { loginUserId ,loginUserRole } = useUserStore();
     const [cookies] = useCookies();
-    const { loginUserId } = useUserStore();
-    const { rentSite, setRentSite } = useRentSiteStore();
-    const { returnSite, setReturnSite } = useReturnSiteStore();
-    const { setRentShow } = useRentSiteShowStore();
-    const { setReturnShow } = useReturnSiteShowStore();
+    const { rentSite, setRentSite, setRentShow } = useRentStore();
+    const { returnSite, setReturnSite, setReturnShow } = useReturnStore();
     const { startDate, endDate, setStartDate, setEndDate } = useRentDateStore();
-    const { basketItems, setBasketItems } = useBasketStore();
-    const { totalAmount, setTotalAmount } = useRentItemTotalAmountStore();
-    const { rentStatus, setRentStatus } = useRentStatusStore();
+    const { basketItems, setBasketItems, totalAmount, setTotalAmount } = useBasketStore();
+    const { rentStatus, setRentStatus } = useRentListStore();
 
     //                    function                    //
     const navigate = useNavigate();
@@ -156,8 +142,8 @@ export function Payment() {
             rentSerialNumber,
             rentPlace: rentSite, 
             rentReturnPlace: returnSite, 
-            rentDatetime: dateTimeFormat(startDate), 
-            rentReturnDatetime: dateTimeFormat(endDate),
+            rentDatetime: dateFormat(startDate), 
+            rentReturnDatetime: dateFormat(endDate),
             rentTotalPrice: totalAmount,
             rentStatus
         };

@@ -7,7 +7,7 @@ import { emailAuthCheckRequest, emailAuthRequest, idCheckRequest, signInRequest,
 import { PostSignInResponseDto } from 'src/apis/auth/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import InputBox from 'src/components/Inputbox';
-import { HOME_ABSOLUTE_PATH } from 'src/constants';
+import { EMAIL_PATTERN, HOME_ABSOLUTE_PATH, ID_PATTERN, PASSWORD_PATTERN, SNS_SIGN_IN_REQUEST_URL } from 'src/constants';
 import useAuthenticationStore from 'src/stores/authentication.store';
 import { PostEmailAuthCheckRequestDto, PostEmailAuthRequestDto, PostIdCheckRequestDto, PostSignInRequestDto, PostSignUpRequestDto } from 'src/apis/auth/dto/request';
 
@@ -26,9 +26,7 @@ export function Sns () {
         if (!accessToken || !expires) return;
         const expiration = new Date(Date.now() + (Number(expires) * 1000));
         setCookie('accessToken', accessToken, { path: '/', expires: expiration });
-
         navigator(HOME_ABSOLUTE_PATH);
-
     }, []);
 
     //                    render                    //
@@ -44,11 +42,11 @@ interface SnsContainerProps {
 function SnsContainer({ title }: SnsContainerProps) {
 
     //                    state                    //
-    const {authPage, setAuthPage} = useAuthenticationStore();
+    const {authPage} = useAuthenticationStore();
 
     //                    event handler                    //
     const onSnsButtonClickHandler = (type: 'kakao' | 'naver') => {
-        window.location.href = 'http://localhost:4500/rdrg/auth/oauth2/' + type; 
+        window.location.href = SNS_SIGN_IN_REQUEST_URL(type);
         
     };
 
@@ -299,7 +297,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
         if (value.length <=20 ) {
         setPassword(value);
 
-        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_\-+=\[\]{}|\\;:‘“<>.,?\/]).{8,19}$/;
+        const passwordPattern = PASSWORD_PATTERN;
         const isPasswordPattern = passwordPattern.test(value);
         setPasswordPattern(isPasswordPattern);
 
@@ -358,7 +356,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
         if(!idButtonStatus) return;
         if(!id || !id.trim()) return;
 
-        const idPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,23}$/;
+        const idPattern = ID_PATTERN;
         const isIdPattern = idPattern.test(id);
         if (!isIdPattern) {
             setIdMessage('사용할 수 없는 아이디 형식 입니다.');
@@ -374,7 +372,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
     const onEmailButtonClickHandler = () => {
         if(!emailButtonStatus) return;
 
-        const emailPattern = /^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,4}$/;
+        const emailPattern = EMAIL_PATTERN;
         const isEmailPattern = emailPattern.test(email);
         if (!isEmailPattern) {
             setEmailMessage('이메일 형식이 아닙니다.');

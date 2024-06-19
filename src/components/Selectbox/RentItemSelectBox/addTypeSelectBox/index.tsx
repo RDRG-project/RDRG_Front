@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import './style.css'
 
+const typeList = [
+    { name : '노트북', type: '노트북' },
+    { name : '태블릿', type: '태블릿' },
+    { name : '게임기', type: '게임기' },
+    { name : '보조배터리', type: '보조배터리' }
+];
+
 //                    interface                    //
 interface Prop {
     type: string;
@@ -9,14 +16,7 @@ interface Prop {
 
 //                    component                    //
 export default function TypeSelectBox({ type, onChange }: Prop) {
-
-    const typeList = [
-        { name : '노트북', type: '노트북' },
-        { name : '태블릿', type: '태블릿' },
-        { name : '게임기', type: '게임기' },
-        { name : '보조배터리', type: '보조배터리' }
-
-    ];
+    
     //                    state                    //
     const [show, setShow] = useState<boolean>(false);
     const [name, setName] = useState<string>('');

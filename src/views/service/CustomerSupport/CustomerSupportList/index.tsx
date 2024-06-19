@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import './style.css'
+
 import { BoardListItem } from 'src/types';
 import { useNavigate } from 'react-router';
+import { useCookies } from 'react-cookie';
 import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH } from 'src/constants';
 import useUserStore from 'src/stores/user.store';
-import { useCookies } from 'react-cookie';
+
 import { GetBoardListResponseDto } from 'src/apis/board/dto/response';
 import ResponseDto from 'src/apis/response.dto';
 import { getBoardListRequest } from 'src/apis/board';
+import { usePagination } from 'src/hooks';
+
+import './style.css'
 
 //                    component                    //
 function ListItem ({ 
@@ -44,60 +48,18 @@ function ListItem ({
 
 //                    component                    //
 export default function CustomerSupportList() {
+
     //                    state                    //
     const {loginUserRole} = useUserStore();
 
     const [cookies] = useCookies();
 
-    const [boardList, setBoardList] = useState<BoardListItem[]>([]);
-    const [viewList, setViewList] = useState<BoardListItem[]>([]);
-    const [totalLength, setTotalLength] = useState<number>(0);
-    const [totalPage, setTotalPage] = useState<number>(1);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [pageList, setPageList] = useState<number[]>([1]);
-    const [totalSection, setTotalSection] = useState<number>(1);
-    const [currentSection, setCurrentSection] = useState<number>(1);
+    const {currentPage, viewList, pageList, setCurrentPage, setCurrentSection, changeBoardList,  onPageClickHandler, onPreSectionClickHandler, onPrePageClickHandler, onNextPageClickHandler, onNextSectionClickHandler} = usePagination<BoardListItem>(COUNT_PER_PAGE, COUNT_PER_SECTION);
+
     const [isToggleOn, setToggleOn] = useState<boolean>(false);
 
     //                    function                    //
     const navigator = useNavigate();
-
-    const changePage = (boardList: BoardListItem[], totalLength: number) => {
-        if (!currentPage) return;
-        const startIndex = (currentPage - 1) * COUNT_PER_PAGE;
-        let endIndex = currentPage * COUNT_PER_PAGE;
-        if (endIndex > totalLength - 1) endIndex = totalLength;
-        const viewList = boardList.slice(startIndex, endIndex);
-        setViewList(viewList);
-    };
-
-    const changeSection = (totalPage: number) => {
-        if (!currentSection) return;
-        const startPage = (currentSection * COUNT_PER_SECTION) - (COUNT_PER_SECTION - 1);
-        let endPage = currentSection * COUNT_PER_SECTION;
-        if (endPage > totalPage) endPage = totalPage;
-        const pageList: number[] = [];
-        for (let page = startPage; page <= endPage; page++) pageList.push(page);
-        setPageList(pageList);
-    };
-
-    const changeBoardList = (boardList: BoardListItem[]) => {
-        if (isToggleOn) boardList = boardList.filter(board => !board.status);
-        setBoardList(boardList);
-
-        const totalLength = boardList.length;
-        setTotalLength(totalLength);
-
-        const totalPage = Math.floor((totalLength - 1) / COUNT_PER_PAGE) + 1;
-        setTotalPage(totalPage);
-
-        const totalSection = Math.floor((totalPage - 1) / COUNT_PER_SECTION) + 1;
-        setTotalSection(totalSection);
-
-        changePage(boardList, totalLength);
-
-        changeSection(totalPage);
-    };
 
     const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | null) => {
         const message = 
@@ -114,7 +76,7 @@ export default function CustomerSupportList() {
         }
 
         const { boardList } = result as GetBoardListResponseDto;
-        changeBoardList(boardList);
+        changeBoardList(boardList, isToggleOn);
 
         setCurrentPage(!boardList.length ? 0 : 1);
         setCurrentSection(!boardList.length ? 0 : 1);
@@ -131,53 +93,11 @@ export default function CustomerSupportList() {
         setToggleOn(!isToggleOn);
     };
 
-    const onPageClickHandler = (page: number) => {
-        setCurrentPage(page);
-    };
-
-    const onPreSectionClickHandler = () => {
-        if (currentSection <= 1) return;
-        setCurrentSection(currentSection - 1);
-        setCurrentPage((currentSection - 1) * COUNT_PER_SECTION);
-    };
-
-    const onNextSectionClickHandler = () => {
-        if (currentSection === totalSection) return;
-        setCurrentSection(currentSection + 1);
-        setCurrentPage(currentSection * COUNT_PER_SECTION + 1);
-    };
-
-    const onNextPageClickHandler = () => {
-        if (currentPage === totalPage) return;
-        if (currentPage % COUNT_PER_SECTION === 0) {
-            setCurrentSection(currentSection + 1);
-        }
-        setCurrentPage(currentPage + 1);
-    }
-
-    const onPrePageClickHandler = () => {
-        if (currentPage <= 1) return;
-        if ((currentPage - 1) % COUNT_PER_SECTION === 0) {
-            setCurrentSection(currentSection - 1); // Move to the previous section
-        }
-        setCurrentPage(currentPage - 1);
-    }
-
     //                    effect                    //
     useEffect(() => {
         if (!cookies.accessToken) return;
         getBoardListRequest(cookies.accessToken).then(getBoardListResponse);
     }, [isToggleOn]);
-
-    useEffect(() => {
-        if (!boardList.length) return;
-        changePage(boardList, totalLength);
-    }, [currentPage]);
-
-    useEffect(() => {
-        if (!boardList.length) return;
-        changeSection(totalPage);
-    }, [currentSection]);
 
     //                    render                    //
     const toggleClass = isToggleOn ? 'toggle-active' : 'toggle';

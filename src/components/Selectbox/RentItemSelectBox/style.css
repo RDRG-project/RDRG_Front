@@ -3,11 +3,22 @@
     justify-content: left;
     width: 70px;
     padding: 10px;
-    background-color: rgba(61, 156, 235, 0.5);
-    color: #000000;
+    background-color: rgb(38, 133, 197);
+    color: white;
     border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 3px;
+    border-radius: 10px; 
+    font-family: Arial, sans-serif; 
+    font-size: 16px; 
+    color: white; 
+    border: none; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    transition: background-color 0.3s ease; 
+    margin-left: auto;
+}
+
+.rent-admin-button:hover {
+    background-color: rgb(20, 107, 165);
 }
 
 /* 기기정보 */
@@ -173,6 +184,8 @@
 }
 
 .select-it-none {
+    flex-grow: 1;
+    text-align: center;
     font-size: 20px;
     font-weight: 500;
     line-height: 175%;

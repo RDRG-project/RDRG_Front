@@ -20,12 +20,7 @@ interface Props {
 //                    component                    //
 function TopBar({ path }: Props) {
 
-    const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
-    const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
-    const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
-
     //                    state                    //
-
     const { setAuthPage } = useAuthenticationStore();
     const { loginUserRole } = useUserStore();
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -71,13 +66,12 @@ function TopBar({ path }: Props) {
         }
     };
 
-
     const onMypageClickHandler = () => {
         if (cookies.accessToken == null) {
             alert('로그인 해주세요.');
             navigator(AUTH_ABSOLUTE_PATH);
         } else {
-            navigator(MYPAGE_PATH); // MYPAGE_PATH로 이동을 해서 MypageContainer에서 IF문으로 운영자인지 아닌지 확인하여 운영자면 대여내역 유저면 프로필로 이동 시켜주기 위해서 변경
+            navigator(MYPAGE_PATH);
         }
     };
 
@@ -87,6 +81,9 @@ function TopBar({ path }: Props) {
     };
 
     //                    render                    //
+    const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
+    const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
+    const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
     return (
         <div className='top-bar'>
             <div className="logo-container" onClick={onLogoClickHandler}>RDRG</div>
@@ -126,6 +123,7 @@ function TopBar({ path }: Props) {
     );
 }
 
+//                    component                    //
 export default function HomeContainer() {
 
     //                    state                    //
@@ -141,8 +139,8 @@ export default function HomeContainer() {
 
         const message =
             !result ? '서버에 문제가 있습니다.' :
-                result.code === 'AF' ? '인증에 실패했습니다.' :
-                    result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+            result.code === 'AF' ? '인증에 실패했습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
         if (!result || result.code !== 'SU') {
             alert(message);
@@ -159,8 +157,8 @@ export default function HomeContainer() {
     useEffect(() => {
         const path =
             pathname === RENT_ABSOLUTE_PATH ? '대여' :
-                pathname === CUSTOMER_SUPPORT_ABSOLUTE_PATH ? '고객지원' :
-                    pathname === MYPAGE_PROFILE_ABSOLUTE_PATH ? '마이페이지' : '';
+            pathname === CUSTOMER_SUPPORT_ABSOLUTE_PATH ? '고객지원' :
+            pathname === MYPAGE_PROFILE_ABSOLUTE_PATH ? '마이페이지' : '';
 
         setPath(path);
     }, [pathname]);
@@ -175,27 +173,18 @@ export default function HomeContainer() {
     }, [cookies.accessToken]);
 
     //                event handler               //
-    const onIntroductionClickHandler = () => {
-        navigator(HOME_COMPANY_ABSOLUTE_PATH);
-    };
+    const onIntroductionClickHandler = () => navigator(HOME_COMPANY_ABSOLUTE_PATH);
 
-    const onClauseClickHandler = () => {
-        navigator(HOME_CLAUSE_ABSOLUTE_PATH);
-    };
+    const onClauseClickHandler = () => navigator(HOME_CLAUSE_ABSOLUTE_PATH);
 
-    const onPolicyClickHandler = () => {
-        navigator(HOME_POLICY_ABSOLUTE_PATH);
-    };
+    const onPolicyClickHandler = () => navigator(HOME_POLICY_ABSOLUTE_PATH);
 
-    const onPlaceClickHandler = () => {
-        navigator(HOME_PLACE_ABSOLUTE_PATH);
-    };
+    const onPlaceClickHandler = () => navigator(HOME_PLACE_ABSOLUTE_PATH);
 
-    const onCustomerSupportClickHandler = () => {
-        navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH)
-    };
+    const onCustomerSupportClickHandler = () => navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
 
     //                    render                    //
+    
     return (
         <div id='rdrg-wrapper'>
             <TopBar path={path} />

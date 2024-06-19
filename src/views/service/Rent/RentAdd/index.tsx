@@ -13,9 +13,9 @@ import PlaceSelectBox from "src/components/Selectbox/RentItemSelectBox/addPlaceS
 
 //                    component                    //
 export function RentAdd() {
+    
     //                    state                    //
     const contentsRef = useRef<HTMLTextAreaElement | null>(null);
-    const fileRef = useRef<HTMLInputElement | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const { loginUserRole } = useUserStore();
@@ -150,68 +150,68 @@ export function RentAdd() {
 
     //                    render                    //
     return (
-        <div id='device-add-page-container'>
-            <div className='device-add-page-image'>기기 등록</div>
-            <div className="device-write-wrapper">
-                <div className="device-write-container">
-                    <div className='device-write-serial'>
-                        <div className='device-write-title'>serialNumber</div>
-                        <div className='device-write-serialNumber-box'>
-                            <input className='device-write-serialNumber-input' placeholder='시리얼 넘버를 입력해주세요' value={serialNumber} onChange={onSerialNumberChangeHandler} />
+        <div id='device-add-page-wrapper'>
+            <div className='device-add-page-title'>기기 등록</div>
+            <div className="device-add-page-container">
+                <div className="device-add-container">
+                    <div className='device-add-box'>
+                        <div className='device-add-title'>serialNumber</div>
+                        <div className='device-add-input-box'>
+                            <input className='device-add-input' placeholder='시리얼 넘버를 입력해주세요' value={serialNumber} onChange={onSerialNumberChangeHandler} />
                         </div>
                     </div>
-                    <div className='device-write-model'>
-                        <div className='device-write-title'>model</div>
-                        <div className='device-write-model-box'>
-                            <input className='device-write-model-input' placeholder='모델을 입력해주세요' value={model} onChange={onModelChangeHandler} />
+                    <div className='device-add-box'>
+                        <div className='device-add-title'>model</div>
+                        <div className='device-add-input-box'>
+                            <input className='device-add-input' placeholder='모델을 입력해주세요' value={model} onChange={onModelChangeHandler} />
                         </div>
                     </div>
-                    <div className='device-write-name'>
-                        <div className='device-write-title'>name</div>
-                        <div className='device-write-name-box'>
-                            <input className='device-write-title-input' placeholder='제품명을 입력해주세요' value={name} onChange={onNameChangeHandler} />
+                    <div className='device-add-box'>
+                        <div className='device-add-title'>name</div>
+                        <div className='device-add-input-box'>
+                            <input className='device-add-input' placeholder='제품명을 입력해주세요' value={name} onChange={onNameChangeHandler} />
                         </div>
                     </div>
-                    <div className="device-write-explain">
-                        <div className='device-write-middle-title'>deviceExplain</div>
-                        <div className='device-write-contents-box'>
-                            <textarea ref={contentsRef} className='device-write-contents-textarea' placeholder='내용을 입력해주세요 / 1000자' maxLength={1000} value={deviceExplain} onChange={onDeviceExplainChangeHandler} />
+                    <div className="device-add-box">
+                        <div className='device-add-title'>deviceExplain</div>
+                        <div className='device-add-input-box'>
+                            <textarea ref={contentsRef} className='device-add-input textarea' placeholder='내용을 입력해주세요 / 1000자' maxLength={1000} value={deviceExplain} onChange={onDeviceExplainChangeHandler} />
                         </div>
                     </div>
-                    <div className='device-write-type'>
-                        <div className='device-write-title'>type</div>
-                        <div className='device-write-title-box'>
+                    <div className='device-add-box'>
+                        <div className='device-add-title'>type</div>
+                        <div className='device-add-input-box'>
                             <TypeSelectBox type={type} onChange={setType} />
                         </div>
                     </div>
-                    <div className='device-write-place'>
-                        <div className='device-write-title'>place</div>
-                        <div className='device-write-title-box'>
+                    <div className='device-add-box'>
+                        <div className='device-add-title'>place</div>
+                        <div className='device-add-input-box'>
                             <PlaceSelectBox place={place} onChange={setPlace} />
                         </div>
                     </div>
-                    <div className='device-write-brand'>
-                        <div className='device-write-title'>brand</div>
-                        <div className='device-write-title-box'>
-                            <input className='device-write-title-input' placeholder='제조사를 입력해주세요' value={brand} onChange={onBrandChangeHandler} />
+                    <div className='device-add-box'>
+                        <div className='device-add-title'>brand</div>
+                        <div className='device-add-input-box'>
+                            <input className='device-add-input' placeholder='제조사를 입력해주세요' value={brand} onChange={onBrandChangeHandler} />
                         </div>
                     </div>
-                    <div className='device-write-price'>
-                        <div className='device-write-title'>price</div>
-                        <div className='device-write-title-box'>
-                            <input className='device-write-title-input' placeholder='시간당 대여 금액을 입력해주세요' value={price} onChange={onPriceChangeHandler} />
+                    <div className='device-add-box'>
+                        <div className='device-add-title'>price</div>
+                        <div className='device-add-input-box'>
+                            <input className='device-add-input' placeholder='시간당 대여 금액을 입력해주세요' value={price} onChange={onPriceChangeHandler} />
                         </div>
                     </div>
                     <div className="device-write-bottom">
                         <div
                             className='device-write-bottom-title'
-                            style={{ border: '1px dashed', padding: '10px', color: 'red', width: '100%', height: 'auto' }}
+                            style={{ border: '1px dashed', padding: '10px', color: 'red', width: '580px', height: 'auto' }}
                             onClick={onFileUploadButtonClickHandler} >
                             {filePreviews.length === 0 && "이미지 추가"}
                             {filePreviews.map((preview, index) => (
                             <div key={index} style={{ flexDirection: 'column' }}>
-                            <img src={preview.url} alt={preview.name} width="auto" height="300" />
-                        </div>
+                                <img src={preview.url} alt={preview.name} width="auto" height="300" />
+                            </div>
                             ))}
                     </div>
                     <input ref={fileInputRef} type="file" onChange={onFileUploadChangeHandler} style={{ display: 'none' }} />
