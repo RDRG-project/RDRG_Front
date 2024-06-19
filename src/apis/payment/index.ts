@@ -65,12 +65,8 @@ export const getAdminRentPageRequest = async (accessToken: string) => {
 // function: 관리자 검색 대여 내역 불러오기 API 함수
 export const getAdminSearchWordRequest = async (word:string ,accessToken: string) => {
     const config = {...bearerAuthorization(accessToken), params: {word}};
-
-    try {
-        const response = await axios.get(GET_ADMIN_SEARCH_WORD, config);
-        return requestHandler<GetAdminRentPageResponseDto>(response);
-    } catch (error) {
-        return requestErrorHandler(error);
-    }
-    
+    const result = await axios.get(GET_ADMIN_SEARCH_WORD, config)
+        .then(requestHandler<GetAdminRentPageResponseDto>)
+        .catch(requestErrorHandler)
+    return result;
 };
