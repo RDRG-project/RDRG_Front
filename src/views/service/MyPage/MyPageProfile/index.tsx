@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import "./style.css";
 import { useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, HOME_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH } from 'src/constants';
+import { AUTH_ABSOLUTE_PATH, HOME_PATH, MYPAGE_UNREGISTER_ABSOLUTE_PATH, PASSWORD_PATTERN } from 'src/constants';
 import InputBox from 'src/components/Inputbox';
 import { useCookies } from 'react-cookie';
 import { GetPersonalInfoResponseDto } from 'src/apis/user/dto/response';
@@ -80,7 +80,7 @@ export default function MypageProfile() {
         const { value } = event.target;
         setNewPassword(value);
 
-        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_\-+=\[\]{}|\\;:‘“<>.,?\/]).{8,19}$/;
+        const passwordPattern = PASSWORD_PATTERN;
         const isPasswordPattern = passwordPattern.test(value);
         setPasswordPattern(isPasswordPattern);
 

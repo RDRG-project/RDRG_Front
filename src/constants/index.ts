@@ -59,6 +59,7 @@ export const SERVER_API_URL = `${SERVER_DOMAIN_URL}/rdrg`;
 export const SERVER_AUTH_MODULE_URL = `${SERVER_API_URL}/auth`;
 // 로그인
 export const POST_SIGN_IN_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/sign-in`;
+export const SNS_SIGN_IN_REQUEST_URL = (type: string) => `${SERVER_AUTH_MODULE_URL}/oauth2/${type}`;
 // 아이디 중복 확인
 export const POST_ID_CHECK_REQUEST_URL = `${SERVER_AUTH_MODULE_URL}/id-check`;
 // 이메일 인증
@@ -140,5 +141,10 @@ export const COUNT_PER_SECTION = 5;
 
 export const USER_RENT_LIST_COUNT_PER_PAGE = 3;
 export const ADMIN_RENT_LIST_COUNT_PER_PAGE = 10;
+
+// description: 패턴 형식
+export const ID_PATTERN = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,23}$/;
+export const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_\-+=\[\]{}|\\;:‘“<>.,?\/]).{8,19}$/;
+export const EMAIL_PATTERN = /^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,4}$/;
 
 
