@@ -7,9 +7,9 @@ import { PostPaymentResponseDto } from "src/apis/payment/dto/response";
 import ResponseDto from "src/apis/response.dto";
 import { HOME_ABSOLUTE_PATH } from "src/constants";
 import { PostPaymentSaveRequestDto } from "src/apis/payment/dto/request";
-import { dateTimeFormat } from "src/utils";
 import { postPaymentSaveRequest } from "src/apis/payment";
 import { useBasketStore, useRentDateStore, useRentListStore, useRentStore, useReturnStore, useUserStore } from "src/stores";
+import { dateFormat } from "src/utils";
 
 //                    component                    //
 export default function Basket() {
@@ -142,8 +142,8 @@ export function Payment() {
             rentSerialNumber,
             rentPlace: rentSite, 
             rentReturnPlace: returnSite, 
-            rentDatetime: dateTimeFormat(startDate), 
-            rentReturnDatetime: dateTimeFormat(endDate),
+            rentDatetime: dateFormat(startDate), 
+            rentReturnDatetime: dateFormat(endDate),
             rentTotalPrice: totalAmount,
             rentStatus
         };

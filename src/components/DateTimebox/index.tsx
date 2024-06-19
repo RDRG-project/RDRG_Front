@@ -6,16 +6,16 @@ import './style.css';
 import { useRentDateStore } from 'src/stores';
 
 //                    interface                    //
-interface CustomInputProps {
+interface DateInputProps {
     value?: string;
     onClick?: () => void;
-}
-
-interface ReactDatePickerProps {
+};
+interface RentSiteDateProps {
     rentSite: string;
-}
+};
 
-const DateCustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(
+//                    component                    //
+const DateCustomInput = forwardRef<HTMLButtonElement, DateInputProps>(
     ({ value, onClick }, ref) => (
         <button className="date-custom-input" onClick={onClick} ref={ref}>
             {value || '날짜 선택'}
@@ -23,6 +23,7 @@ const DateCustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(
     )
 );
 
+//                    function                    //
 const datePickerProps = (
     startDate: Date | null,
     endDate: Date | null,
@@ -42,9 +43,13 @@ const datePickerProps = (
     monthsShown: 2
 });
 
-const ReactDatePicker: React.FC<ReactDatePickerProps> = ({ rentSite }) => {
+//                    component                    //
+export default function ReactDatePicker({rentSite}:RentSiteDateProps) {
+
+    //                    state                    //
     const { startDate, setStartDate, endDate, setEndDate, totalRentTime } = useRentDateStore();
 
+    //                    event handler                    //
     const onChangeHandler = (dates: [Date | null, Date | null]) => {
         if (!rentSite) {
             alert('먼저 대여지점을 선택해주세요.');
@@ -68,5 +73,3 @@ const ReactDatePicker: React.FC<ReactDatePickerProps> = ({ rentSite }) => {
         </div>
     );
 };
-
-export default ReactDatePicker;
