@@ -20,10 +20,6 @@ interface Props {
 //                    component                    //
 function TopBar({ path }: Props) {
 
-    const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
-    const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
-    const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
-
     //                    state                    //
     const { setAuthPage } = useAuthenticationStore();
     const { loginUserRole } = useUserStore();
@@ -85,6 +81,9 @@ function TopBar({ path }: Props) {
     };
 
     //                    render                    //
+    const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
+    const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
+    const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
     return (
         <div className='top-bar'>
             <div className="logo-container" onClick={onLogoClickHandler}>RDRG</div>
@@ -140,8 +139,8 @@ export default function HomeContainer() {
 
         const message =
             !result ? '서버에 문제가 있습니다.' :
-                result.code === 'AF' ? '인증에 실패했습니다.' :
-                    result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+            result.code === 'AF' ? '인증에 실패했습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
 
         if (!result || result.code !== 'SU') {
             alert(message);
@@ -158,8 +157,8 @@ export default function HomeContainer() {
     useEffect(() => {
         const path =
             pathname === RENT_ABSOLUTE_PATH ? '대여' :
-                pathname === CUSTOMER_SUPPORT_ABSOLUTE_PATH ? '고객지원' :
-                    pathname === MYPAGE_PROFILE_ABSOLUTE_PATH ? '마이페이지' : '';
+            pathname === CUSTOMER_SUPPORT_ABSOLUTE_PATH ? '고객지원' :
+            pathname === MYPAGE_PROFILE_ABSOLUTE_PATH ? '마이페이지' : '';
 
         setPath(path);
     }, [pathname]);
@@ -174,27 +173,18 @@ export default function HomeContainer() {
     }, [cookies.accessToken]);
 
     //                event handler               //
-    const onIntroductionClickHandler = () => {
-        navigator(HOME_COMPANY_ABSOLUTE_PATH);
-    };
+    const onIntroductionClickHandler = () => navigator(HOME_COMPANY_ABSOLUTE_PATH);
 
-    const onClauseClickHandler = () => {
-        navigator(HOME_CLAUSE_ABSOLUTE_PATH);
-    };
+    const onClauseClickHandler = () => navigator(HOME_CLAUSE_ABSOLUTE_PATH);
 
-    const onPolicyClickHandler = () => {
-        navigator(HOME_POLICY_ABSOLUTE_PATH);
-    };
+    const onPolicyClickHandler = () => navigator(HOME_POLICY_ABSOLUTE_PATH);
 
-    const onPlaceClickHandler = () => {
-        navigator(HOME_PLACE_ABSOLUTE_PATH);
-    };
+    const onPlaceClickHandler = () => navigator(HOME_PLACE_ABSOLUTE_PATH);
 
-    const onCustomerSupportClickHandler = () => {
-        navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH)
-    };
+    const onCustomerSupportClickHandler = () => navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
 
     //                    render                    //
+    
     return (
         <div id='rdrg-wrapper'>
             <TopBar path={path} />
