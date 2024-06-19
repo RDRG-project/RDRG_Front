@@ -3,8 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
 import './style.css';
-import { addDays, isAfter, differenceInDays } from 'date-fns';
-import { useRentDateStore, useTotalRentTimeStore } from 'src/stores';
+import { useRentDateStore } from 'src/stores';
 
 //                    interface                    //
 interface CustomInputProps {
@@ -44,8 +43,7 @@ const datePickerProps = (
 });
 
 const ReactDatePicker: React.FC<ReactDatePickerProps> = ({ rentSite }) => {
-    const { startDate, setStartDate, endDate, setEndDate } = useRentDateStore();
-    const { totalRentTime, setTotalRentTime } = useTotalRentTimeStore();
+    const { startDate, setStartDate, endDate, setEndDate, totalRentTime } = useRentDateStore();
 
     const onChangeHandler = (dates: [Date | null, Date | null]) => {
         if (!rentSite) {
@@ -55,18 +53,6 @@ const ReactDatePicker: React.FC<ReactDatePickerProps> = ({ rentSite }) => {
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
-        if (start && end) {
-            calculateTotalRentTime(start, end);
-        }
-    };
-
-    const calculateTotalRentTime = (start: Date, end: Date) => {
-        if (isAfter(end, start)) {
-            const days = differenceInDays(end, start);
-            setTotalRentTime(`${days}일`);
-        } else {
-            setTotalRentTime(null);
-        }
     };
 
     //                    render                    //
