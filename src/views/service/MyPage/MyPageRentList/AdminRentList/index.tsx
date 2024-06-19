@@ -1,14 +1,20 @@
 import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
-import "./style.css";
-import { AdminRentItem} from 'src/types';
-import { useNavigate } from 'react-router';
-import { ADMIN_RENT_LIST_COUNT_PER_PAGE, AUTH_ABSOLUTE_PATH, COUNT_PER_SECTION, MYPAGE_DETAILS_ABSOLUTE_PATH } from 'src/constants';
-import ResponseDto from 'src/apis/response.dto';
-import { GetAdminRentPageResponseDto} from 'src/apis/payment/dto/response';
-import { getAdminRentPageRequest, getAdminSearchWordRequest, patchRentStatusRequest } from 'src/apis/payment';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router';
+
 import { useUserStore } from 'src/stores';
+
 import { usePagination } from 'src/hooks';
+
+import { AdminRentItem} from 'src/types';
+
+import ResponseDto from 'src/apis/response.dto';
+import { getAdminRentPageRequest, getAdminSearchWordRequest, patchRentStatusRequest } from 'src/apis/payment';
+import { GetAdminRentPageResponseDto} from 'src/apis/payment/dto/response';
+
+import { ADMIN_RENT_LIST_COUNT_PER_PAGE, AUTH_ABSOLUTE_PATH, COUNT_PER_SECTION, MYPAGE_DETAILS_ABSOLUTE_PATH } from 'src/constants';
+
+import "./style.css";
 
 //                    component                    //
 function AdminRentListItem({
@@ -20,10 +26,28 @@ function AdminRentListItem({
     rentStatus
     }:AdminRentItem) {
     
+    //                    state                    //
+    const [ cookies ] = useCookies();
+    const [ selectedStatus, setSelectedStatus ] = useState<string>('');
+
     //                    function                    //
     const navigator = useNavigate();
-    const [ cookies ] = useCookies();
-    const [ selectedStatus, setSelectedStatus ] = useState(rentStatus);
+
+    const patchRentStatusResponse = (result : ResponseDto | null) => {
+        const message =
+            !result ? '서버에 문제가 있습니다.' :
+            result.code === 'VF' ? '존재하지 않은 예약내역입니다.' :
+            result.code === 'AF' ? '권한이 없습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+    
+            if (!result || result.code !== 'SU') {
+                alert(message)
+                return;
+            } else {
+                alert('상태가 변경되었습니다.');
+                window.location.reload();
+            };
+        };
 
     //                    effect                 //
     useEffect(() => {
@@ -37,30 +61,12 @@ function AdminRentListItem({
     const additionalCount = name.length - 1;
     const displayName = additionalCount > 0 ? `${mainName} 외 ${additionalCount}건` : mainName;
 
-    const onStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedStatus(event.target.value);
-    };
+    const onStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => setSelectedStatus(event.target.value);
 
-    const onStatusChangeHandler = async () => {
-        if (!cookies.accessToken){
-            return;
-        }
-
-        try {
-            const requestBody = {
-                rentStatus : selectedStatus,
-            };
-        
-        const result = await patchRentStatusRequest(cookies.accessToken, rentNumber, requestBody);
-        if (result && result.code === 'SU') {
-            alert('상태가 변경되었습니다.');
-            window.location.reload();
-        } else {
-            alert ('상태 변경에 실패하였습니다.');
-                }
-        } catch (error) {
-            alert('상태 변경 중 오류가 발생했습니다.');
-        }
+    const onStatusChangeHandler = () => {
+        if (!cookies.accessToken) return;
+        const requestBody = { rentStatus: selectedStatus };
+        patchRentStatusRequest(cookies.accessToken, rentNumber, requestBody).then(patchRentStatusResponse);
     };
 
     const formatDate = (datetime: string) => {
@@ -92,18 +98,31 @@ function AdminRentListItem({
             </div>
         </div>
     );
-}
+};
 
 //                    component                    //
 export default function AdminRentList () {
 
     //                    state                    //
     const [cookies] = useCookies();
+
     const { loginUserRole } = useUserStore();
-    
-    const {currentPage, viewList, pageList, setCurrentPage, setCurrentSection, changeBoardList,  onPageClickHandler, onPreSectionClickHandler, onPrePageClickHandler, onNextPageClickHandler, onNextSectionClickHandler} = usePagination<AdminRentItem>(ADMIN_RENT_LIST_COUNT_PER_PAGE, COUNT_PER_SECTION);
 
     const [word, setWord] = useState<string>('');
+
+    const {
+        currentPage, 
+        viewList, 
+        pageList, 
+        setCurrentPage, 
+        setCurrentSection, 
+        changeBoardList,  
+        onPageClickHandler, 
+        onPreSectionClickHandler, 
+        onPrePageClickHandler, 
+        onNextPageClickHandler, 
+        onNextSectionClickHandler
+    } = usePagination<AdminRentItem>(ADMIN_RENT_LIST_COUNT_PER_PAGE, COUNT_PER_SECTION);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -129,11 +148,11 @@ export default function AdminRentList () {
             alert('대여 목록을 찾을 수 없습니다.');
             return;
         }
-        changeBoardList(adminRentList);
 
+        changeBoardList(adminRentList);
         setCurrentPage(!adminRentList.length ? 0 : 1);
         setCurrentSection(!adminRentList.length ? 0 : 1);
-    }
+    };
 
     //                    effect                    //
     useEffect(() => {
@@ -150,7 +169,7 @@ export default function AdminRentList () {
     const onSearchWordKeydownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== 'Enter') return;
         onSearchButtonClickHandler();
-    }
+    };
     
     const onSearchWordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const word = event.target.value;
@@ -171,7 +190,6 @@ export default function AdminRentList () {
             const { adminRentList } = result as GetAdminRentPageResponseDto;
             
             changeBoardList(adminRentList);
-    
             setCurrentPage(!adminRentList.length ? 0 : 1);
             setCurrentSection(!adminRentList.length ? 0 : 1);
         });
@@ -213,4 +231,4 @@ export default function AdminRentList () {
             </div>
         </div>
     );
-}
+};

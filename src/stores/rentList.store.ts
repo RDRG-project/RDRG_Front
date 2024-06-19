@@ -1,24 +1,22 @@
-import { DeviceListItem } from "src/types";
 import { create } from "zustand";
+import { DeviceListItem } from "src/types";
 
 interface rentListStore {
     selectListItItem: boolean;
-    setSelectListItItem: (selectListItItem: boolean) => void;
     rentStatus: string;
-    setRentStatus: (rentStatus: string) => void;
     rentViewList: DeviceListItem[];
+    setSelectListItItem: (selectListItItem: boolean) => void;
+    setRentStatus: (rentStatus: string) => void;
     setRentViewList: (rentViewList: DeviceListItem[]) => void;
 }
 
 const useRentListStore = create<rentListStore>(set => ({
     selectListItItem: false,
-    setSelectListItItem: (selectListItItem: boolean) => set(state => ({ ...state, selectListItItem })),
-
     rentStatus: '',
-    setRentStatus: (rentStatus: string) => set(state => ({ ...state, rentStatus })),
     rentViewList: [],
+    setSelectListItItem: (selectListItItem: boolean) => set(state => ({ ...state, selectListItItem })),
+    setRentStatus: (rentStatus: string) => set(state => ({ ...state, rentStatus })),
     setRentViewList: (rentViewList: DeviceListItem[]) => set(state => ({ ...state, rentViewList }))
 }));
-
 
 export default useRentListStore;

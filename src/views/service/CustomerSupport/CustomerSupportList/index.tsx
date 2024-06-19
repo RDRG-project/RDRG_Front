@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react'
-
-import { BoardListItem } from 'src/types';
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
-import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH } from 'src/constants';
+import { useNavigate } from 'react-router';
+
 import useUserStore from 'src/stores/user.store';
 
-import { GetBoardListResponseDto } from 'src/apis/board/dto/response';
+import { usePagination } from 'src/hooks';
+
+import { BoardListItem } from 'src/types';
+
 import ResponseDto from 'src/apis/response.dto';
 import { getBoardListRequest } from 'src/apis/board';
-import { usePagination } from 'src/hooks';
+import { GetBoardListResponseDto } from 'src/apis/board/dto/response';
+
+import { AUTH_ABSOLUTE_PATH, COUNT_PER_PAGE, COUNT_PER_SECTION, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH, CUSTOMER_SUPPORT_WRITE_ABSOLUTE_PATH } from 'src/constants';
 
 import './style.css'
 
@@ -43,25 +46,37 @@ function ListItem ({
             <div className='cs-list-table-write-date'>{writeDatetime}</div>
         </div>
     );
-}
+};
 
 
 //                    component                    //
 export default function CustomerSupportList() {
 
     //                    state                    //
-    const {loginUserRole} = useUserStore();
-
     const [cookies] = useCookies();
 
-    const {currentPage, viewList, pageList, setCurrentPage, setCurrentSection, changeBoardList,  onPageClickHandler, onPreSectionClickHandler, onPrePageClickHandler, onNextPageClickHandler, onNextSectionClickHandler} = usePagination<BoardListItem>(COUNT_PER_PAGE, COUNT_PER_SECTION);
+    const {loginUserRole} = useUserStore();
 
     const [isToggleOn, setToggleOn] = useState<boolean>(false);
+    const {
+        currentPage, 
+        viewList, 
+        pageList, 
+        setCurrentPage, 
+        setCurrentSection, 
+        changeBoardList,  
+        onPageClickHandler, 
+        onPreSectionClickHandler, 
+        onPrePageClickHandler, 
+        onNextPageClickHandler, 
+        onNextSectionClickHandler
+    } = usePagination<BoardListItem>(COUNT_PER_PAGE, COUNT_PER_SECTION);
 
     //                    function                    //
     const navigator = useNavigate();
 
     const getBoardListResponse = (result: GetBoardListResponseDto | ResponseDto | null) => {
+
         const message = 
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'AF' ? '인증에 실패했습니다.' : 
@@ -76,8 +91,8 @@ export default function CustomerSupportList() {
         }
 
         const { boardList } = result as GetBoardListResponseDto;
-        changeBoardList(boardList, isToggleOn);
 
+        changeBoardList(boardList, isToggleOn);
         setCurrentPage(!boardList.length ? 0 : 1);
         setCurrentSection(!boardList.length ? 0 : 1);
     };
@@ -101,6 +116,7 @@ export default function CustomerSupportList() {
 
     //                    render                    //
     const toggleClass = isToggleOn ? 'toggle-active' : 'toggle';
+
     return (
         <div id='cs-wrapper'>
             <div className='cs-image'>문의게시판</div>
@@ -140,4 +156,4 @@ export default function CustomerSupportList() {
             </div>
         </div>
     );
-}
+};

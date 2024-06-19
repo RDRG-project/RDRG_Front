@@ -1,17 +1,23 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import './style.css'
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router';
-import { getBoardRequest, putBoardRequest } from 'src/apis/board';
-import { GetBoardResponseDto } from 'src/apis/board/dto/response';
-import ResponseDto from 'src/apis/response.dto';
-import { PutBoardRequestDto } from 'src/apis/board/dto/request';
-import useUserStore from 'src/stores/user.store';
-import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
+
 import axios from 'axios';
-import { convertUrlToFile } from 'src/utils';
+
+import useUserStore from 'src/stores/user.store';
+
 import { BoardFileItem } from 'src/types';
 
+import { convertUrlToFile } from 'src/utils';
+
+import ResponseDto from 'src/apis/response.dto';
+import { getBoardRequest, putBoardRequest } from 'src/apis/board';
+import { PutBoardRequestDto } from 'src/apis/board/dto/request';
+import { GetBoardResponseDto } from 'src/apis/board/dto/response';
+
+import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
+
+import './style.css'
 
 //                   interface                    //
 interface UploadFile {
@@ -23,16 +29,16 @@ interface UploadFile {
 export default function SupportUpdate() {
 
     //                    state                    //
+    const [cookies] = useCookies();
+    
+    const { loginUserId, loginUserRole } = useUserStore();
+
+    const { receptionNumber } = useParams();
     const fileRef = useRef<HTMLInputElement | null>(null);
     const contentsRef = useRef<HTMLTextAreaElement | null>(null);
-
-    const { loginUserId, loginUserRole } = useUserStore();
-    const { receptionNumber } = useParams();
-    const [cookies] = useCookies();
     const [writerId, setWriterId] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [contents, setContents] = useState<string>('');
-
     const [fileUpload , setFileUpload] = useState<UploadFile[]>([]);
     const [filePreviews, setFilePreviews] = useState<{name: string, url: string}[]>([]);
     const [fileRevise, setFileRevise] = useState<number | null>(null);
@@ -42,6 +48,7 @@ export default function SupportUpdate() {
     const navigator = useNavigate();
 
     const getBoardResponse = async (result: GetBoardResponseDto | ResponseDto | null) => {
+
         const message =
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'VF' ? '올바르지 않은 접수 번호입니다.' :
@@ -56,11 +63,13 @@ export default function SupportUpdate() {
         }
 
         const { writerId, title, contents, status, imageUrl,  originalFileName } = result as GetBoardResponseDto;
+
         if (writerId !== loginUserId) {
             alert('권한이 없습니다.');
             navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
             return;
         }
+
         if (status) {
             alert('답변이 완료된 게시물입니다.');
             navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
@@ -73,20 +82,24 @@ export default function SupportUpdate() {
         setImageUrls(imageUrl);
 
         const fileUpload = [];
+
         for (let index = 0; index < imageUrl.length; index++) {
             const file = await convertUrlToFile(imageUrl[index]);
             fileUpload.push({file, originalFileName: originalFileName[index]});
         }
+
         setFileUpload(fileUpload);
         
         const filePreviews = originalFileName.map((name, index) => ({
             name,
             url: imageUrl[index]
         }));
+
         setFilePreviews(filePreviews);
     };
 
     const putBoardResponse = (result: ResponseDto | null) => {
+
         const message =
             !result ? '서버에 문제가 있습니다.' :
             result.code === 'AF' ? '권한이 없습니다.' :
@@ -101,8 +114,8 @@ export default function SupportUpdate() {
         }
 
         if (!receptionNumber) return;
-        navigator(CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH(receptionNumber))
 
+        navigator(CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH(receptionNumber))
     };
 
 
@@ -166,6 +179,7 @@ export default function SupportUpdate() {
         const fileList = Array.from(files);
 
         const newPreviewList = [];
+
         for (const file of fileList) {
             const name = file.name;
             const url = URL.createObjectURL(file);
@@ -205,9 +219,7 @@ export default function SupportUpdate() {
         setFilePreviews(showFileUpdate);
     };
 
-    const onDragOverHandler = (event: React.DragEvent) => {
-        event.preventDefault();
-    };
+    const onDragOverHandler = (event: React.DragEvent) => event.preventDefault();
     
     const onDropHandler = (event: React.DragEvent) => {
         event.preventDefault();
@@ -225,7 +237,9 @@ export default function SupportUpdate() {
             name: file.name,
             url: URL.createObjectURL(file)
         }));
+
         const uploadFileList = files.map(file => ({file, originalFileName: file.name}));
+
         setFileUpload([...fileUpload, ...uploadFileList]);
         setFilePreviews([...filePreviews, ...newFilePreviews]);
     };
@@ -241,6 +255,7 @@ export default function SupportUpdate() {
 
     //                    effect                    //
     let effectFlag = false;
+
     useEffect(() => {
         if (!receptionNumber || !cookies.accessToken) return;
         if (!loginUserRole) return;
@@ -264,7 +279,6 @@ export default function SupportUpdate() {
                         <div className='cs-write-title-box'>
                             <input className='cs-write-title-input' placeholder='제목을 입력해주세요.' value={title} onChange={onTitleChangeHandler}/>
                         </div>
-                        
                     </div>                    
                     <div className="cs-write-middle">
                         <div className='cs-write-middle-title'>내용</div>
@@ -299,4 +313,4 @@ export default function SupportUpdate() {
             </div>
         </>
     );
-}
+};

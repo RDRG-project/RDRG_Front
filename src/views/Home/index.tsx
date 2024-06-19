@@ -1,5 +1,5 @@
-import React from 'react'
 import "../../layouts/HomeContainer/index"
+
 import './style.css'
 
 //                    component                    //
@@ -13,4 +13,4 @@ export default function Home() {
             <div className='main-guideline'></div>
         </div>
     );
-}
+};

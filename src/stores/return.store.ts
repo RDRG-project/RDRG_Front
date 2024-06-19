@@ -2,20 +2,20 @@ import { create } from "zustand";
 
 interface ReturnStore {
     returnSite: string;
-    setReturnSite: (rentSite: string) => void;
     returnSelectedItem: string;
-    setReturnSelectedItem: (returnSelectedItem: string) => void;
     returnShow: boolean;
+    setReturnSite: (rentSite: string) => void;
+    setReturnSelectedItem: (returnSelectedItem: string) => void;
     setReturnShow: (returnShow: boolean) => void;
 }
 
 const useReturnStore = create<ReturnStore>((set => ({
     returnSite: '',
-    setReturnSite: (returnSite: string) => set(state => ({ ...state, returnSite })),
     returnSelectedItem: '',
-    setReturnSelectedItem: (returnSelectedItem: string) => set(state => ({ ...state, returnSelectedItem })),
     returnShow: false,
+    setReturnSite: (returnSite: string) => set(state => ({ ...state, returnSite })),
+    setReturnSelectedItem: (returnSelectedItem: string) => set(state => ({ ...state, returnSelectedItem })),
     setReturnShow: (returnShow: boolean) => set(state => ({ ...state, returnShow }))
-})))
+})));
 
 export default useReturnStore;

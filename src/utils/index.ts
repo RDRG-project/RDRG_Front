@@ -1,6 +1,8 @@
-// descript: yyyy-MM-dd
-export const dateFormat = (date: Date) => `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}-${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`;
+// description yyyy-MM-dd //
+export const dateFormat = (date: Date) => 
+    `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}-${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`;
 
+// description 첨부파일 URL //
 export const convertUrlToFile = async (url: string) => {
     const response = await fetch(url);
     const data = await response.blob();

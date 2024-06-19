@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import './style.css'
+import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { MYPAGE_PROFILE_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
+
 import { useUserStore } from 'src/stores';
+
+import { MYPAGE_PROFILE_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
+
+import './style.css'
 
 //                    type                    //
 type Path = '프로필 관리' | '대여 내역' | '';
 
 //                    interface                    //
-interface Props {
-    path: Path;
-}
+interface Props { path: Path; }
 
 //                    component                    //
 function SideNavigation({ path }: Props) {
@@ -28,6 +29,7 @@ function SideNavigation({ path }: Props) {
     //                    render                    //
     const profileClass = `mypage-navigation-item${path === '프로필 관리' ? ' active' : ''}`;
     const rentDetailClass = `mypage-navigation-item${path === '대여 내역' ? ' active' : ''}`;
+
     if (loginUserRole !== 'ROLE_ADMIN') {
         return (
             <div className="mypage-navigation-container">
@@ -57,9 +59,10 @@ function SideNavigation({ path }: Props) {
 export default function MypageContainer() {
 
     //                    state                    //
+    const { loginUserRole } = useUserStore();
+
     const { pathname } = useLocation();
     const [path, setPath] = useState<Path>('');
-    const { loginUserRole } = useUserStore();
 
     //                    function                    //
     const navigator = useNavigate();

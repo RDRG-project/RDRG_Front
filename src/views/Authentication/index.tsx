@@ -1,22 +1,26 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
-import "./style.css";
-
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router';
-import { emailAuthCheckRequest, emailAuthRequest, idCheckRequest, signInRequest, signUpRequest } from 'src/apis/auth';
-import { PostSignInResponseDto } from 'src/apis/auth/dto/response';
-import ResponseDto from 'src/apis/response.dto';
+
 import InputBox from 'src/components/Inputbox';
-import { EMAIL_PATTERN, HOME_ABSOLUTE_PATH, ID_PATTERN, PASSWORD_PATTERN, SNS_SIGN_IN_REQUEST_URL } from 'src/constants';
+
 import useAuthenticationStore from 'src/stores/authentication.store';
+
+import ResponseDto from 'src/apis/response.dto';
+import { emailAuthCheckRequest, emailAuthRequest, idCheckRequest, signInRequest, signUpRequest } from 'src/apis/auth';
 import { PostEmailAuthCheckRequestDto, PostEmailAuthRequestDto, PostIdCheckRequestDto, PostSignInRequestDto, PostSignUpRequestDto } from 'src/apis/auth/dto/request';
+import { PostSignInResponseDto } from 'src/apis/auth/dto/response';
+
+import { EMAIL_PATTERN, HOME_ABSOLUTE_PATH, ID_PATTERN, PASSWORD_PATTERN, SNS_SIGN_IN_REQUEST_URL } from 'src/constants';
+
+import "./style.css";
 
 //                    component                    //
 export function Sns () {
 
     //                    state                    //
-    const { accessToken, expires } = useParams();
     const [cookies, setCookie] = useCookies();
+    const { accessToken, expires } = useParams();
 
     //                    function                    //
     const navigator = useNavigate();
@@ -31,12 +35,10 @@ export function Sns () {
 
     //                    render                    //
     return <></>;
-}
+};
 
 //                    interface                    //
-interface SnsContainerProps {
-    title: string;
-}
+interface SnsContainerProps { title: string; }
 
 //                    component                    //
 function SnsContainer({ title }: SnsContainerProps) {
@@ -45,17 +47,13 @@ function SnsContainer({ title }: SnsContainerProps) {
     const {authPage} = useAuthenticationStore();
 
     //                    event handler                    //
-    const onSnsButtonClickHandler = (type: 'kakao' | 'naver') => {
-        window.location.href = SNS_SIGN_IN_REQUEST_URL(type);
-        
-    };
+    const onSnsButtonClickHandler = (type: 'kakao' | 'naver') => window.location.href = SNS_SIGN_IN_REQUEST_URL(type);
 
     //                    render                    //
     return (
         <div className="authentication-sns-container">
             {authPage === 'sign-in' ?
-            <div className="sns-container-title">{title}</div> 
-            :
+            <div className="sns-container-title">{title}</div> :
             <div className='sns-container-divide'>
                 <div className='guide-line'></div>
                 <div className="sns-container-title">{title}</div>
@@ -68,22 +66,21 @@ function SnsContainer({ title }: SnsContainerProps) {
             </div>
         </div>
     );
-}
+};
 
 //                    interface                    //
-interface Props {
-    onLinkClickHandler: () => void
-}
+interface Props { onLinkClickHandler: () => void }
 
 //                    component                    //
-function SignIn({ onLinkClickHandler }: Props) {
+function SignIn( { onLinkClickHandler }: Props ) {
 
     //                    state                    //
     const [cookies, setCookie, removeCookie] = useCookies();
-    const [id, setId] = useState<string>(cookies.savedId || '');
-    const [password, setPassword] = useState<string>('');
-    const [saveId, setSaveId] = useState<boolean>(!!cookies.savedId);
+    
     const [message, setMessage] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [id, setId] = useState<string>(cookies.savedId || '');
+    const [saveId, setSaveId] = useState<boolean>(!!cookies.savedId);
 
     //                    function                    //
     const navigator = useNavigate();
@@ -128,10 +125,9 @@ function SignIn({ onLinkClickHandler }: Props) {
     const onPasswordKeydownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== 'Enter') return;
         onSignInButtonClickHandler();
-    }
+    };
 
     const onSignInButtonClickHandler = () => {
-        
         if (!id || !password) {
             setMessage('아이디와 비밀번호를 모두 입력하세요.');
             return;
@@ -145,9 +141,7 @@ function SignIn({ onLinkClickHandler }: Props) {
         
     };
 
-    const onSaveIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setSaveId(event.target.checked);
-    };
+    const onSaveIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => setSaveId(event.target.checked);
 
     //                    effect                    //
     useEffect(() => {
@@ -174,7 +168,7 @@ function SignIn({ onLinkClickHandler }: Props) {
             <SnsContainer title="SNS로 간편하게 시작하기" />
         </div>
     );
-}
+};
 
 //                    component                    //
 export function SignUp({ onLinkClickHandler }: Props) {
@@ -223,7 +217,6 @@ export function SignUp({ onLinkClickHandler }: Props) {
         setIdMessage(idMessage);
         setIdError(idError);
         setIdCheck(idCheck);
-
     };
 
     const emailAuthResponse = (result: ResponseDto | null) => {
@@ -241,7 +234,6 @@ export function SignUp({ onLinkClickHandler }: Props) {
         setEmailMessage(emailMessage);
         setEmailCheck(emailCheck);
         setEmailError(emailError);
-
     };
 
     const emailAuthCheckResponse = (result: ResponseDto | null) => {
@@ -258,7 +250,6 @@ export function SignUp({ onLinkClickHandler }: Props) {
         setAuthNumberMessage(authNumberMessage);
         setAuthNumberCheck(authNumberCheck);
         setAuthNumberError(authNumberError);
-
     };
 
     const signUpResponse = (result: ResponseDto | null) => {
@@ -278,7 +269,6 @@ export function SignUp({ onLinkClickHandler }: Props) {
         }
         alert('환영합니다! 회원가입이 성공적으로 완료되었습니다.');
         onLinkClickHandler();
-
     };
 
     //                    event handler                    //
@@ -393,6 +383,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
             userEmail: email,
             authNumber
         };
+
         emailAuthCheckRequest(requestBody).then(emailAuthCheckResponse);
     };
 
@@ -413,6 +404,7 @@ export function SignUp({ onLinkClickHandler }: Props) {
             userEmail: email,
             authNumber
         }
+
         signUpRequest(requestBody).then(signUpResponse);
     };
 
@@ -422,17 +414,13 @@ export function SignUp({ onLinkClickHandler }: Props) {
             <div className="authentication-input-container">
                 <InputBox label="아이디" type="text" value={id} placeholder="아이디를 입력해주세요" onChangeHandler={onIdChangeHandler} 
                 buttonTitle="중복 확인" buttonStatus={idButtonStatus} onButtonClickHandler={onIdButtonClickHandler} message={idMessage} error={isIdError} maxLength={24} />
-
                 <InputBox  label="비밀번호" type="password" value={password} placeholder="비밀번호를 입력해주세요" 
                 onChangeHandler={onPasswordChangeHandler} message={passwordMessage} error maxLength={20} />
-
                 <InputBox label="비밀번호 확인" type="password" value={passwordCheck} placeholder="비밀번호를 입력해주세요" 
                 onChangeHandler={onPasswordCheckChangeHandler} message={passwordCheckMessage} error maxLength={20} />
-
                 <InputBox label="이메일" type="text" value={email} placeholder="이메일을 입력해주세요" 
                 onChangeHandler={onEmailChangeHandler} buttonTitle="이메일 인증" buttonStatus={emailButtonStatus} 
                 onButtonClickHandler={onEmailButtonClickHandler} message={emailMessage} error={isEmailError} maxLength={30} />
-
                 <InputBox label="인증번호" type="text" value={authNumber} placeholder="인증번호 4자리를 입력해주세요" 
                 onChangeHandler={onAuthNumberChangeHandler} buttonTitle="인증 확인" buttonStatus={authNumberButtonStatus} 
                 onButtonClickHandler={onAuthNumberButtonClickHandler} message={authNumberMessage} error={isAuthNumberError} maxLength={4} />
@@ -440,11 +428,9 @@ export function SignUp({ onLinkClickHandler }: Props) {
             <div className="authentication-button-container">
                 <div className='primary-button full-width' onClick={onSignUpButtonClickHandler}>회원가입</div>
             </div>
-
         </div>
     );
-}
-
+};
 
 //                    component                    //
 export default function Authentication() {
@@ -464,8 +450,7 @@ export default function Authentication() {
             <SignIn onLinkClickHandler={onLinkClickHandler} /> : 
             <SignUp onLinkClickHandler={onLinkClickHandler} />;
     
-    const authenticationTitle =
-        authPage === 'sign-in' ? '로그인': '회원가입';
+    const authenticationTitle = authPage === 'sign-in' ? '로그인': '회원가입';
     
     //                    render                    //
     return (
@@ -485,8 +470,7 @@ export default function Authentication() {
                         <div className='guide-line'></div>
                     </div>
                     <div className='disable-button full-width' onClick={onLinkClickHandler}>회원가입</div>
-                </div>
-                :
+                </div> :
                 <div className='authentication-sign-up-container'>
                     <SnsContainer title="SNS 회원가입" />
                     <div className='disable-button full-width' onClick={onLinkClickHandler}>로그인</div>
@@ -495,5 +479,4 @@ export default function Authentication() {
             </div>
         </div>
     );
-}
-
+};

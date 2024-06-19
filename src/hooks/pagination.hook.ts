@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 
+//                    component                    //
 const usePagination = <T>(countPerPage : number, countPerSection : number) => {
 
     //                    state                    //
-    const [boardList, setBoardList] = useState<T[]>([]);
     const [viewList, setViewList] = useState<T[]>([]);
-    const [totalLength, setTotalLength] = useState<number>(0);
-    const [totalPage, setTotalPage] = useState<number>(1);
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [boardList, setBoardList] = useState<T[]>([]);
     const [pageList, setPageList] = useState<number[]>([1]);
+    const [totalPage, setTotalPage] = useState<number>(1);
+    const [totalLength, setTotalLength] = useState<number>(0);
     const [totalSection, setTotalSection] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const [currentSection, setCurrentSection] = useState<number>(1);
 
     //                    function                    //
@@ -54,9 +55,7 @@ const usePagination = <T>(countPerPage : number, countPerSection : number) => {
     };
 
     //                    event handler                    //
-    const onPageClickHandler = (page: number) => {
-        setCurrentPage(page);
-    };
+    const onPageClickHandler = (page: number) => setCurrentPage(page);
 
     const onPreSectionClickHandler = () => {
         if (currentSection <= 1) return;
@@ -76,7 +75,7 @@ const usePagination = <T>(countPerPage : number, countPerSection : number) => {
             setCurrentSection(currentSection + 1);
         }
         setCurrentPage(currentPage + 1);
-    }
+    };
 
     const onPrePageClickHandler = () => {
         if (currentPage <= 1) return;
@@ -84,7 +83,7 @@ const usePagination = <T>(countPerPage : number, countPerSection : number) => {
             setCurrentSection(currentSection - 1);
         }
         setCurrentPage(currentPage - 1);
-    }
+    };
 
     //                    effect                    //
     useEffect(() => {

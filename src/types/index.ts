@@ -1,4 +1,4 @@
-// description board 모듈 (BoardListResponseDto)의 interface
+// description board 모듈 (BoardListResponseDto)의 interface //
 export interface BoardListItem {
     receptionNumber: number;
     status: boolean;
@@ -7,13 +7,13 @@ export interface BoardListItem {
     writeDatetime: string;
 }
 
-// description board 모듈 (문의 게시물 작성 Request Body)의 interface
+// description board 모듈 (문의 게시물 작성 Request Body)의 interface //
 export interface BoardFileItem {
     url: string;
     originalFileName: string; 
 }
 
-// description device (DeviceListResponseDto)의 interface
+// description device (DeviceListResponseDto)의 interface //
 export interface DeviceListItem {
     serialNumber: string;
     model: string;
@@ -26,7 +26,7 @@ export interface DeviceListItem {
     place?:string;
 }
 
-// description payment 모듈 (MyRentPageResponseDto)의 interface
+// description payment 모듈 (MyRentPageResponseDto)의 interface //
 export interface RentItem {
     rentNumber : number;
     name: string[];
@@ -36,13 +36,13 @@ export interface RentItem {
     rentStatus: string;
 }
 
-// description payment 모듈 (RentDetailResponseDto)의 interface
+// description payment 모듈 (RentDetailResponseDto)의 interface //
 export interface RentDetailList{
     name : string;
     price : number;
 }
 
-// description payment 모듈 (AdminRentPageResponseDto)의 interface
+// description payment 모듈 (AdminRentPageResponseDto)의 interface //
 export interface AdminRentItem {
     rentNumber: number;
     userId?: string;
@@ -53,7 +53,7 @@ export interface AdminRentItem {
     rentStatus: string;
 }
 
-// description payment 모듈 (RentDetailResponseDto)의 interface
+// description payment 모듈 (RentDetailResponseDto)의 interface //
 export interface RentalPeriod {
     rentalPeriod: string;
 }

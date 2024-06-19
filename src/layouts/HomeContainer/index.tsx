@@ -1,31 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import './style.css'
-import { Outlet, useLocation, useNavigate } from 'react-router';
-import { AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_ABSOLUTE_PATH, HOME_COMPANY_ABSOLUTE_PATH, HOME_PLACE_ABSOLUTE_PATH, HOME_POLICY_ABSOLUTE_PATH, MYPAGE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from '../../constants';
-import useUserStore from 'src/stores/user.store';
+import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
-import ResponseDto from 'src/apis/response.dto';
-import { GetSignInUserResponseDto } from 'src/apis/user/dto/response';
-import { getSignInUserRequest } from 'src/apis/user';
+import { Outlet, useLocation, useNavigate } from 'react-router';
+
+import useUserStore from 'src/stores/user.store';
 import useAuthenticationStore from 'src/stores/authentication.store';
+
+import ResponseDto from 'src/apis/response.dto';
+import { getSignInUserRequest } from 'src/apis/user';
+import { GetSignInUserResponseDto } from 'src/apis/user/dto/response';
+
+import { 
+    AUTH_ABSOLUTE_PATH, CUSTOMER_SUPPORT_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_ABSOLUTE_PATH, HOME_COMPANY_ABSOLUTE_PATH, 
+    HOME_PLACE_ABSOLUTE_PATH, HOME_POLICY_ABSOLUTE_PATH, MYPAGE_PATH, MYPAGE_PROFILE_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH 
+} from '../../constants';
+
+import './style.css'
 
 //                    type                    //
 type Path = '대여' | '고객지원' | '마이페이지' | '';
 
 //                    interface                    //
-interface Props {
-    path: Path;
-}
+interface Props { path: Path; }
 
 //                    component                    //
 function TopBar({ path }: Props) {
 
     //                    state                    //
-    const { setAuthPage } = useAuthenticationStore();
-    const { loginUserRole } = useUserStore();
     const [cookies, setCookie, removeCookie] = useCookies();
 
+    const { loginUserRole } = useUserStore();
+    const { setAuthPage } = useAuthenticationStore();
+
     const location = useLocation();
+
     const isAuthPage = location.pathname === AUTH_ABSOLUTE_PATH;
 
     //                    function                    //
@@ -42,9 +49,7 @@ function TopBar({ path }: Props) {
         navigator(AUTH_ABSOLUTE_PATH);
     };
 
-    const onLogoClickHandler = () => {
-        navigator(HOME_ABSOLUTE_PATH);
-    };
+    const onLogoClickHandler = () => navigator(HOME_ABSOLUTE_PATH);
 
     const onRentClickHandler = () => {
         if (cookies.accessToken == null) {
@@ -54,8 +59,8 @@ function TopBar({ path }: Props) {
         else {
             navigator(RENT_ABSOLUTE_PATH)
         }
-
     };
+
     const onCustomerSupportClickHandler = () => {
         if (cookies.accessToken == null) {
             alert('로그인 해주세요.');
@@ -84,6 +89,7 @@ function TopBar({ path }: Props) {
     const rentClass = `top-navigation-item${path === '대여' ? ' active' : ''}`
     const customerSupportClass = `top-navigation-item${path === '고객지원' ? ' active' : ''}`
     const mypageSupportClass = `top-navigation-item${path === '마이페이지' ? ' active' : ''}`
+
     return (
         <div className='top-bar'>
             <div className="logo-container" onClick={onLogoClickHandler}>RDRG</div>
@@ -127,9 +133,11 @@ function TopBar({ path }: Props) {
 export default function HomeContainer() {
 
     //                    state                    //
-    const { pathname } = useLocation();
-    const { setLoginUserId, setLoginUserRole } = useUserStore();
     const [cookies] = useCookies();
+    
+    const { setLoginUserId, setLoginUserRole } = useUserStore();
+    
+    const { pathname } = useLocation();
     const [path, setPath] = useState<Path>('');
 
     //                    function                    //
@@ -173,18 +181,17 @@ export default function HomeContainer() {
     }, [cookies.accessToken]);
 
     //                event handler               //
-    const onIntroductionClickHandler = () => navigator(HOME_COMPANY_ABSOLUTE_PATH);
+    const onPlaceClickHandler = () => navigator(HOME_PLACE_ABSOLUTE_PATH);
 
     const onClauseClickHandler = () => navigator(HOME_CLAUSE_ABSOLUTE_PATH);
 
     const onPolicyClickHandler = () => navigator(HOME_POLICY_ABSOLUTE_PATH);
 
-    const onPlaceClickHandler = () => navigator(HOME_PLACE_ABSOLUTE_PATH);
+    const onIntroductionClickHandler = () => navigator(HOME_COMPANY_ABSOLUTE_PATH);
 
     const onCustomerSupportClickHandler = () => navigator(CUSTOMER_SUPPORT_ABSOLUTE_PATH);
 
     //                    render                    //
-    
     return (
         <div id='rdrg-wrapper'>
             <TopBar path={path} />

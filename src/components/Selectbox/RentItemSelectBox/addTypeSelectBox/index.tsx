@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+
 import './style.css'
 
 const typeList = [
@@ -18,13 +19,11 @@ interface Prop {
 export default function TypeSelectBox({ type, onChange }: Prop) {
     
     //                    state                    //
-    const [show, setShow] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
+    const [show, setShow] = useState<boolean>(false);
 
     //                    event handler                    //
-    const onBoxClickHandler = () => {
-        setShow(!show);
-    };
+    const onBoxClickHandler = () => setShow(!show);
 
     const onItemClickHandler = (type: string) => {
         typeList.forEach(item => {
