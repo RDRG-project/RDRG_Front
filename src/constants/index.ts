@@ -137,9 +137,8 @@ export const DELETE_BOARD_URL = (receptionNumber: number | string) => `${SERVER_
 // description: 게시물 상수
 export const COUNT_PER_PAGE = 5;
 export const COUNT_PER_SECTION = 5;
-export const RENT_DETAIL_COUNT_PER_PAGE = 3;
-export const RENT_DETAIL_COUNT_PER_SECTION = 5;
+
+export const USER_RENT_LIST_COUNT_PER_PAGE = 3;
 export const ADMIN_RENT_LIST_COUNT_PER_PAGE = 10;
-export const ADMIN_RENT_LIST_COUNT_PER_SECTION = 5;
 
 
