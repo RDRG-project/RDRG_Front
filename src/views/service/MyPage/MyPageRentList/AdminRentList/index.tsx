@@ -2,12 +2,13 @@ import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import "./style.css";
 import { AdminRentItem} from 'src/types';
 import { useNavigate } from 'react-router';
-import { ADMIN_RENT_LIST_COUNT_PER_PAGE, ADMIN_RENT_LIST_COUNT_PER_SECTION, AUTH_ABSOLUTE_PATH, MYPAGE_DETAILS_ABSOLUTE_PATH, RENT_DETAIL_COUNT_PER_PAGE, RENT_DETAIL_COUNT_PER_SECTION } from 'src/constants';
+import { ADMIN_RENT_LIST_COUNT_PER_PAGE, AUTH_ABSOLUTE_PATH, COUNT_PER_SECTION, MYPAGE_DETAILS_ABSOLUTE_PATH } from 'src/constants';
 import ResponseDto from 'src/apis/response.dto';
 import { GetAdminRentPageResponseDto} from 'src/apis/payment/dto/response';
 import { getAdminRentPageRequest, getAdminSearchWordRequest, patchRentStatusRequest } from 'src/apis/payment';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from 'src/stores';
+import { usePagination } from 'src/hooks';
 
 //                    component                    //
 function AdminRentListItem({
@@ -16,7 +17,6 @@ function AdminRentListItem({
     name,
     rentDatetime,
     rentReturnDatetime,
-    totalPrice,
     rentStatus
     }:AdminRentItem) {
     
@@ -101,60 +101,12 @@ export default function AdminRentList () {
     const [cookies] = useCookies();
     const { loginUserRole } = useUserStore();
     
-    const [adminRentList, setAdminRentList] = useState<AdminRentItem[]>([]);
-    const [viewList, setViewList] = useState<AdminRentItem[]>([]);
+    const {currentPage, viewList, pageList, setCurrentPage, setCurrentSection, changeBoardList,  onPageClickHandler, onPreSectionClickHandler, onPrePageClickHandler, onNextPageClickHandler, onNextSectionClickHandler} = usePagination<AdminRentItem>(ADMIN_RENT_LIST_COUNT_PER_PAGE, COUNT_PER_SECTION);
 
-    const [totalLength, setTotalLength] = useState<number>(0);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [pageList, setPageList] = useState<number[]>([1]);
-    const [currentSection, setCurrentSection] = useState<number>(1);
-    const [totalSection, setTotalSection] = useState<number>(1);
-    const [totalPage, setTotalPage] = useState<number>(1);
     const [word, setWord] = useState<string>('');
 
     //                    function                    //
     const navigator = useNavigate();
-
-    const changePage = (rentList: AdminRentItem[], totalLength: number) => {
-        if (!currentPage) return;
-        const startIndex = (currentPage - 1) * ADMIN_RENT_LIST_COUNT_PER_PAGE;
-        let endIndex = currentPage * ADMIN_RENT_LIST_COUNT_PER_PAGE;
-        if (endIndex > totalLength - 1) endIndex = totalLength;
-        const viewList = rentList.slice(startIndex, endIndex);
-        setViewList(viewList);
-    };
-
-    const changeSection = (totalPage: number) => {
-        if (!currentSection) return;
-        const startPage = (currentSection * ADMIN_RENT_LIST_COUNT_PER_SECTION) - (ADMIN_RENT_LIST_COUNT_PER_SECTION - 1);
-        let endPage = currentSection * ADMIN_RENT_LIST_COUNT_PER_SECTION;
-        if (endPage > totalPage) endPage = totalPage;
-        const pageList: number[] = [];
-        for (let page = startPage; page <= endPage; page++) pageList.push(page);
-        setPageList(pageList);
-    };
-
-    const changeRentList = (rentList: AdminRentItem[]) => {
-        if (!rentList || rentList.length === 0) {
-            alert('대여 목록을 찾을 수 없습니다.');
-            return;
-        }
-
-        setAdminRentList(rentList);
-
-        const totalLength = rentList.length;
-        setTotalLength(totalLength);
-
-        const totalPage = Math.floor((totalLength - 1) / ADMIN_RENT_LIST_COUNT_PER_PAGE) + 1;
-        setTotalPage(totalPage);
-
-        const totalSection = Math.floor((totalPage - 1) / ADMIN_RENT_LIST_COUNT_PER_SECTION) + 1;
-        setTotalSection(totalSection);
-
-        changePage(rentList, totalLength);
-
-        changeSection(totalPage);
-    };
 
     const getAdminRentRentPageResponse = (result : GetAdminRentPageResponseDto | ResponseDto | null) => {
         if (!result) {
@@ -177,7 +129,7 @@ export default function AdminRentList () {
             alert('대여 목록을 찾을 수 없습니다.');
             return;
         }
-        changeRentList(adminRentList);
+        changeBoardList(adminRentList);
 
         setCurrentPage(!adminRentList.length ? 0 : 1);
         setCurrentSection(!adminRentList.length ? 0 : 1);
@@ -193,50 +145,8 @@ export default function AdminRentList () {
             getAdminRentPageRequest(cookies.accessToken).then(getAdminRentRentPageResponse);
         } 
     }, [cookies.accessToken, loginUserRole, navigator]);
-    
-    useEffect(() => {
-        if (!adminRentList.length) return;
-        changePage(adminRentList, totalLength);
-    }, [currentPage, adminRentList, totalLength]);
-        
-    useEffect(() => {
-        if (!adminRentList.length) return;
-        changeSection(totalPage);
-    }, [currentSection, adminRentList.length, totalPage]);
 
     //                    event handler                    //
-    const onPreSectionClickHandler = () => {
-        if (currentSection <= 1) return;
-        setCurrentSection(currentSection - 1);
-        setCurrentPage((currentSection - 1) * ADMIN_RENT_LIST_COUNT_PER_SECTION);
-    };
-    
-    const onNextSectionClickHandler = () => {
-        if (currentSection === totalSection) return;
-        setCurrentSection(currentSection + 1);
-        setCurrentPage(currentSection * ADMIN_RENT_LIST_COUNT_PER_SECTION + 1);
-    };
-    
-    const onPrePageClickHandler = () => {
-        if (currentPage <= 1) return;
-        if ((currentPage - 1) % ADMIN_RENT_LIST_COUNT_PER_SECTION === 0) {
-            setCurrentSection(currentSection - 1);
-        }
-        setCurrentPage(currentPage - 1);
-    };
-    
-    const onNextPageClickHandler = () => {
-        if (currentPage === totalPage) return;
-        if (currentPage % ADMIN_RENT_LIST_COUNT_PER_SECTION === 0) {
-            setCurrentSection(currentSection + 1);
-        }
-        setCurrentPage(currentPage + 1);
-    };
-    
-    const onPageClickHandler = (page: number) => {
-        setCurrentPage(page);
-    };
-
     const onSearchWordKeydownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== 'Enter') return;
         onSearchButtonClickHandler();
@@ -251,15 +161,6 @@ export default function AdminRentList () {
         if (!word) return;
         if (!cookies.accessToken) return;
     
-        setAdminRentList([]);
-        setViewList([]);
-        setTotalLength(0);
-        setCurrentPage(1);
-        setCurrentSection(1);
-        setPageList([1]);
-        setTotalSection(1);
-        setTotalPage(1);
-    
         getAdminSearchWordRequest(word, cookies.accessToken).then((result) => {
             console.log("Search Word:", result);
             if (!result) {
@@ -269,7 +170,7 @@ export default function AdminRentList () {
     
             const { adminRentList } = result as GetAdminRentPageResponseDto;
             
-            changeRentList(adminRentList);
+            changeBoardList(adminRentList);
     
             setCurrentPage(!adminRentList.length ? 0 : 1);
             setCurrentSection(!adminRentList.length ? 0 : 1);
