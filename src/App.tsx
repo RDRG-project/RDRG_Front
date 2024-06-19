@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import { Route, Routes, useNavigate } from 'react-router';
-import { AUTH_PATH, CUSTOMER_SUPPORT_DETAIL_PATH, CUSTOMER_SUPPORT_PATH, CUSTOMER_SUPPORT_UPDATE_PATH, CUSTOMER_SUPPORT_WRITE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_PATH, HOME_COMPANY_PATH, HOME_PATH, HOME_PLACE_PATH, HOME_POLICY_PATH, MYPAGE_DETAILS_PATH, MYPAGE_PATH, MYPAGE_PROFILE_PATH, MYPAGE_RENT_DETAIL_PATH, MYPAGE_UNREGISTER_PATH, RDRG_PATH, RENT_ADD_PATH, RENT_CANCEL_PATH, RENT_FAIL_PATH, RENT_PATH, RENT_SUCCESS_PATH } from './constants';
+import { AUTH_PATH, CUSTOMER_SUPPORT_DETAIL_PATH, CUSTOMER_SUPPORT_PATH, CUSTOMER_SUPPORT_UPDATE_PATH, CUSTOMER_SUPPORT_WRITE_PATH, HOME_ABSOLUTE_PATH, HOME_CLAUSE_PATH, HOME_COMPANY_PATH, HOME_PATH, HOME_PLACE_PATH, HOME_POLICY_PATH, MYPAGE_DETAILS_PATH, MYPAGE_PATH, MYPAGE_PROFILE_PATH, MYPAGE_RENT_DETAIL_PATH, MYPAGE_UNREGISTER_PATH, RDRG_PATH, RENT_ADD_PATH, RENT_CANCEL_PATH, RENT_FAIL_PATH, RENT_PATH, RENT_SUCCESS_PATH, SNS_PATH } from './constants';
 import Home from './views/Home';
 import CustomerSupportList from './views/service/CustomerSupport/CustomerSupportList';
 import MypageProfile from './views/service/MyPage/MyPageProfile';
@@ -15,7 +15,7 @@ import CompanyIntroduction from './views/Home/FootBarMenu/1.CompanyIntroduction'
 import TermsAndConditions from './views/Home/FootBarMenu/2.TermsAndConditions';
 import PersonalInformationProcessingPolicy from './views/Home/FootBarMenu/3.PersonalInformationProcessingPolicy';
 import BranchInformation from './views/Home/FootBarMenu/4.BranchInformation';
-import Authentication from './views/Authentication';
+import Authentication, { Sns } from './views/Authentication';
 import MypageRentList from './views/service/MyPage/MyPageRentList';
 import MypageRentDetail from './views/service/MyPage/MyPageRentDetail';
 import RentSuccess from './views/service/Rent/RentSuccess';
@@ -44,6 +44,7 @@ function App() {
     return(
     <Routes>
         <Route index element = {<Index />} />
+        <Route path={SNS_PATH} element={<Sns/>} />
         <Route path={RDRG_PATH} element = {<HomeContainer/>} >
             <Route path={HOME_PATH}>
                 <Route index element={<Home />}/>

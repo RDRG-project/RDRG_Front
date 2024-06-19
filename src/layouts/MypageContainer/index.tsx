@@ -16,8 +16,6 @@ interface Props {
 function SideNavigation({ path }: Props) {
 
     //                    state                    //
-    const profileClass = `mypage-navigation-item${path === '프로필 관리' ? ' active' : ''}`
-    const rentDetailClass = `mypage-navigation-item${path === '대여 내역' ? ' active' : ''}`
     const { loginUserRole } = useUserStore();
 
     //                    function                    //
@@ -28,6 +26,8 @@ function SideNavigation({ path }: Props) {
     const onRentDetailClickHandler = () => { navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH) };
 
     //                    render                    //
+    const profileClass = `mypage-navigation-item${path === '프로필 관리' ? ' active' : ''}`;
+    const rentDetailClass = `mypage-navigation-item${path === '대여 내역' ? ' active' : ''}`;
     if (loginUserRole !== 'ROLE_ADMIN') {
         return (
             <div className="mypage-navigation-container">
@@ -68,7 +68,7 @@ export default function MypageContainer() {
     useEffect(() => {
         const path =
             pathname === MYPAGE_PROFILE_ABSOLUTE_PATH ? '프로필 관리' :
-                pathname === MYPAGE_RENT_DETAIL_ABSOLUTE_PATH ? '대여 내역' : '';
+            pathname === MYPAGE_RENT_DETAIL_ABSOLUTE_PATH ? '대여 내역' : '';
 
         setPath(path);
     }, [pathname]);

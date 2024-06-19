@@ -42,7 +42,7 @@ interface SnsContainerProps {
 function SnsContainer({ title }: SnsContainerProps) {
 
     //                    state                    //
-    const {authPage, setAuthPage} = useAuthenticationStore();
+    const {authPage} = useAuthenticationStore();
 
     //                    event handler                    //
     const onSnsButtonClickHandler = (type: 'kakao' | 'naver') => {
