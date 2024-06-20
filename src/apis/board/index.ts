@@ -2,13 +2,13 @@ import axios from "axios";
 
 import ResponseDto from "../response.dto";
 import { bearerAuthorization, requestErrorHandler, requestHandler } from "..";
-import { PostBoardRequestDto, PostCommentRequestDto, PutBoardRequestDto } from "./dto/request";
+import { BoardRequestDto, PostCommentRequestDto,  } from "./dto/request";
 import { GetBoardListResponseDto, GetBoardResponseDto } from "./dto/response";
 
 import { DELETE_BOARD_URL, GET_BOARD_LIST_URL, GET_BOARD_URL, POST_BOARD_REQUEST_URL, POST_COMMENT_REQUEST_URL, PUT_BOARD_URL } from "src/constants";
 
 // function: 문의 게시물 작성 API 함수 //
-export const postBoardRequest = async (requestBody: PostBoardRequestDto, accessToken: string) => {
+export const postBoardRequest = async (requestBody: BoardRequestDto, accessToken: string) => {
     const result = await axios.post(POST_BOARD_REQUEST_URL, requestBody, bearerAuthorization(accessToken))
         .then(requestHandler<ResponseDto>)
         .catch(requestErrorHandler);
@@ -48,7 +48,7 @@ export const deleteBoardRequest = async (receptionNumber: number | string, acces
 };
 
 // function: 문의 게시물 수정 API 함수 //
-export const putBoardRequest = async (receptionNumber:  number | string, requestBody: PutBoardRequestDto, accessToken: string) => {
+export const putBoardRequest = async (receptionNumber:  number | string, requestBody: BoardRequestDto, accessToken: string) => {
     const result = await axios.put(PUT_BOARD_URL(receptionNumber), requestBody, bearerAuthorization(accessToken))
         .then(requestHandler<ResponseDto>)
         .catch(requestErrorHandler);

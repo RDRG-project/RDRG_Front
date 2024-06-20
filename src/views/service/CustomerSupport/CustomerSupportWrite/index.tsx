@@ -2,15 +2,14 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 
-import axios from "axios";
-
 import useUserStore from "src/stores/user.store";
 
 import { BoardFileItem } from "src/types";
 
 import ResponseDto from "src/apis/response.dto";
 import { postBoardRequest } from "src/apis/board";
-import { PostBoardRequestDto } from "src/apis/board/dto/request";
+import { imageUploadRequest } from "src/apis/fileUpload";
+import { BoardRequestDto } from "src/apis/board/dto/request";
 
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH } from "src/constants";
 
@@ -24,7 +23,6 @@ export default function SupportWrite() {
 
     const { loginUserRole } = useUserStore();
 
-    const fileRef = useRef<HTMLInputElement | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const contentsRef = useRef<HTMLTextAreaElement | null>(null);
     const [title, setTitle] = useState<string>('');
@@ -79,15 +77,13 @@ export default function SupportWrite() {
         for (const file of fileUpload) {
             const data = new FormData();
             data.append('file', file);
-            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } } )
-                .then(response => response.data as string)
-                .catch(error => null);
+            const url: string | null = await imageUploadRequest(data, cookies.accessToken);
             if (!url) continue;
 
             urlList.push({ url, originalFileName: file.name });
         }
 
-        const requestBody: PostBoardRequestDto = { title, contents, fileList: urlList };
+        const requestBody: BoardRequestDto = { title, contents, fileList: urlList };
 
         postBoardRequest(requestBody, cookies.accessToken).then(postBoardResponse);
     };

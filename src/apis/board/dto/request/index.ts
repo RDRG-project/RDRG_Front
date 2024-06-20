@@ -1,7 +1,7 @@
 import { BoardFileItem } from "src/types";
 
-// description: 문의 게시물 작성 Request Body DTO //
-export interface PostBoardRequestDto {
+// description: 문의 게시물 작성 및 수정 Request Body DTO //
+export interface BoardRequestDto {
     title: string;
     contents: string;
     fileList: BoardFileItem[];
@@ -10,11 +10,4 @@ export interface PostBoardRequestDto {
 // description: 문의 게시물 답글 작성 Request Body DTO //
 export interface PostCommentRequestDto {
     comment: string;
-}
-
-// description: 문의 게시물 수정 Request Body DTO //
-export interface PutBoardRequestDto {
-    title: string;
-    contents: string;
-    fileList: BoardFileItem[];
 }

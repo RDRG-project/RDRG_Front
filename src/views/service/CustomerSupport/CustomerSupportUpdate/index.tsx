@@ -2,8 +2,6 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router';
 
-import axios from 'axios';
-
 import useUserStore from 'src/stores/user.store';
 
 import { BoardFileItem } from 'src/types';
@@ -12,7 +10,8 @@ import { convertUrlToFile } from 'src/utils';
 
 import ResponseDto from 'src/apis/response.dto';
 import { getBoardRequest, putBoardRequest } from 'src/apis/board';
-import { PutBoardRequestDto } from 'src/apis/board/dto/request';
+import { imageUploadRequest } from 'src/apis/fileUpload';
+import { BoardRequestDto } from 'src/apis/board/dto/request';
 import { GetBoardResponseDto } from 'src/apis/board/dto/response';
 
 import { CUSTOMER_SUPPORT_ABSOLUTE_PATH, CUSTOMER_SUPPORT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
@@ -36,7 +35,6 @@ export default function SupportUpdate() {
     const { receptionNumber } = useParams();
     const fileRef = useRef<HTMLInputElement | null>(null);
     const contentsRef = useRef<HTMLTextAreaElement | null>(null);
-    const [writerId, setWriterId] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [contents, setContents] = useState<string>('');
     const [fileUpload , setFileUpload] = useState<UploadFile[]>([]);
@@ -78,7 +76,6 @@ export default function SupportUpdate() {
 
         setTitle(title);
         setContents(contents);
-        setWriterId(writerId);
         setImageUrls(imageUrl);
 
         const fileUpload = [];
@@ -144,16 +141,14 @@ export default function SupportUpdate() {
         for (const fileItem of fileUpload) {
             const data = new FormData();
             data.append('file', fileItem.file);
-            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } })
-                .then(response => response.data as string)
-                .catch(error => null);
+            const url: string | null = await imageUploadRequest(data, cookies.accessToken);
             
             if (!url) continue;
 
             urlList.push({ url, originalFileName: fileItem.originalFileName });
         }
 
-        const requestBody: PutBoardRequestDto = { title, contents, fileList: urlList };
+        const requestBody: BoardRequestDto = { title, contents, fileList: urlList };
 
         putBoardRequest(receptionNumber, requestBody, cookies.accessToken).then(putBoardResponse);
     };
