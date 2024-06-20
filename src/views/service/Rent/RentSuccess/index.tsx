@@ -1,47 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import './style.css'
+import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { useNavigate, useParams } from 'react-router'
+
+import { useUserStore } from 'src/stores';
+
+import ResponseDto from 'src/apis/response.dto';
 import { getReserveRequest } from 'src/apis/payment';
 import { ReserveResponseDto } from 'src/apis/payment/dto/response';
-import ResponseDto from 'src/apis/response.dto';
-import { getSignInUserRequest } from 'src/apis/user';
-import { GetSignInUserResponseDto } from 'src/apis/user/dto/response';
-import { AUTH_ABSOLUTE_PATH, HOME_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
-import { useRentDateStore, useUserStore } from 'src/stores';
+
+import { HOME_ABSOLUTE_PATH, MYPAGE_RENT_DETAIL_ABSOLUTE_PATH } from 'src/constants';
+
+import './style.css'
 
 //                    component                    //
 export default function RentSuccess() {
 
     //                    state                    //
-    const [ cookies ] = useCookies();
-    const { rentNumber } = useParams();
+    const [cookies] = useCookies();
+
     const { loginUserId } = useUserStore();
-    const [reserveUserId, setReserveUserId] = useState<string>('');
+
+    const { rentNumber } = useParams();
     const [rentPlace, setRentPlace] = useState<string>('');
-    const { totalAmount, setTotalAmount } = useRentDateStore();
-    const [rentTotalPrice, setRentTotalPrice] = useState<number>(0);
     const [rentalPeriod, setRentalPeriod] = useState<string>('');
+    const [reserveUserId, setReserveUserId] = useState<string>('');
+    const [rentTotalPrice, setRentTotalPrice] = useState<number>(0);
 
     //                    function                    //
     const navigator = useNavigate();
-
-    const getSignInUserResponse = (result : GetSignInUserResponseDto | ResponseDto | null) => {
-
-        const message = 
-            !result ? '서버에 문제가 있습니다.' :
-            result.code === 'AF' ? '인증에 실패했습니다.' :
-            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
-        
-        if (!result || result.code !== 'SU') {
-            alert(message);
-            navigator(AUTH_ABSOLUTE_PATH);
-            return;
-        }
-    
-        const {userId} = result as GetSignInUserResponseDto;
-        getReserveRequest(userId, cookies.accessToken).then(getReserveResponse);
-    };
 
     const getReserveResponse = (result: ReserveResponseDto | ResponseDto | null) => {
         const message = 
@@ -61,16 +47,13 @@ export default function RentSuccess() {
         setRentTotalPrice(rentTotalPrice);
         setRentalPeriod(rentalPeriod);
 
-        // 결제 성공시 rent_status "결제 완료" 변경 코드
         completePaymentRequest(Number(rentNumber), rentTotalPrice);
-
-    }
+    };
 
     //                    event handler                    //
     const onMainClickHandler = () => navigator(HOME_ABSOLUTE_PATH);
     const onRentClickHandler = () => navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH);
 
-    // 결제 성공시 rent_status "결제 완료" 변경 코드
     const completePaymentRequest = (rentNumber : number, paymentAmount : number) => {
         fetch('/complete_payment',{
             method: 'POST',
@@ -87,10 +70,7 @@ export default function RentSuccess() {
 
     //                    effect                    //
     useEffect(() => {
-        console.log(`accessToken: ${cookies.accessToken}`);
-        console.log(`loginUserId: ${loginUserId}`);
         if (!loginUserId || !cookies.accessToken) return;
-        // getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse);
         getReserveRequest(loginUserId, cookies.accessToken).then(getReserveResponse);
     }, [loginUserId]);
 
@@ -126,5 +106,5 @@ export default function RentSuccess() {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

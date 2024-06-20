@@ -1,37 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import './style.css';
-import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox';
+import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
-import ReactDatePicker from 'src/components/DateTimebox';
-import { HOME_ABSOLUTE_PATH } from 'src/constants';
 import { useNavigate } from 'react-router';
-import ResponseDto from 'src/apis/response.dto';
-import { dateFormat } from 'src/utils';
-import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
-import { getRentPossibilityListRequest } from 'src/apis/device';
-import { DeviceListItem } from 'src/types';
-import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
+
+import ReactDatePicker from 'src/components/DateTimebox';
 import Basket, { Payment } from 'src/components/BasketPayment';
+import RentSelectBox from 'src/components/Selectbox/RentItemSelectBox';
+import RentSiteSelectBox from 'src/components/Selectbox/RentSiteSelectBox';
+import ReturnSiteSelectBox from 'src/components/Selectbox/ReturnSiteSelectBox';
+
 import { useRentDateStore, useRentStore, useUserStore } from 'src/stores';
+
+import { DeviceListItem } from 'src/types';
+
+import { dateFormat } from 'src/utils';
+
+import ResponseDto from 'src/apis/response.dto';
+import { getRentPossibilityListRequest } from 'src/apis/device';
+import { GetDeviceListResponseDto } from 'src/apis/device/dto/response';
+
+import { HOME_ABSOLUTE_PATH } from 'src/constants';
+
+import './style.css';
 
 //                    component                    //
 export default function Rent() {
 
     //                    state                    //
+    const [cookies] = useCookies();
+
     const { loginUserRole } = useUserStore();
+    const { rentSite, setRentSite } = useRentStore();
+    const { startDate, endDate } = useRentDateStore();
+
+    const [rentItem, setRentItem] = useState<string>('');
+    const [place, setPlace] = useState<string>(rentSite);
     const [rentSelect, setRentSelect] = useState<string>('');
     const [returnSelect, setReturnSelect] = useState<string>('');
-    const [rentItem, setRentItem] = useState<string>('');
-    const { rentSite, setRentSite } = useRentStore();
-    const [cookies] = useCookies();
-    const { startDate, endDate } = useRentDateStore();
-    const [place, setPlace] = useState<string>(rentSite);
     const [rentViewList, setRentViewList] = useState<DeviceListItem[]>([]);
     const [showRentComponents, setShowRentComponents] = useState<boolean>(false);
 
     //                    function                    //
     const navigator = useNavigate();
+
     const getDeviceListResponse = (result: GetDeviceListResponseDto | ResponseDto | null) => {
         const message =
             !result ? '서버에 문제가 있습니다.' :
@@ -49,7 +59,6 @@ export default function Rent() {
         setRentViewList(deviceList);
     };
 
-
     //                    event handler                    //
     const onRentChangeHandler = (rentSelect: string) => {
         setRentSelect(rentSelect);
@@ -65,9 +74,7 @@ export default function Rent() {
         setReturnSelect(returnSelect);
     };
 
-    const onRentItemChangeHandler = (rentItem: string) => {
-        setRentItem(rentItem);
-    };
+    const onRentItemChangeHandler = (rentItem: string) => setRentItem(rentItem);
 
     const userSearchButtonClickHandler = () => {
         if (!cookies.accessToken) return;
@@ -132,4 +139,4 @@ export default function Rent() {
             </div>}
         </div>
     );
-}
+};

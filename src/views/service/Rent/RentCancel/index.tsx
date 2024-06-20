@@ -1,17 +1,25 @@
-import React, { useEffect } from 'react';
-import './style.css';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { useNavigate, useParams } from 'react-router';
+
+import { useUserStore } from 'src/stores';
+
 import ResponseDto from 'src/apis/response.dto';
 import { deleteRentCancelRequest } from 'src/apis/payment';
-import { useCookies } from 'react-cookie';
-import { useUserStore } from 'src/stores';
-import { useNavigate, useParams } from 'react-router';
+
 import { HOME_ABSOLUTE_PATH, RENT_ABSOLUTE_PATH } from 'src/constants';
+
+import './style.css';
 
 //                    component                    //
 export default function RentCancel() {
+
+    //                    state                    //
     const [cookies] = useCookies();
-    const { rentNumber } = useParams();
+    
     const { loginUserId } = useUserStore();
+
+    const { rentNumber } = useParams();
 
     //                    function                    //
     const navigator = useNavigate();
@@ -31,14 +39,11 @@ export default function RentCancel() {
 
         alert('결제를 실패했습니다.');
     };
-    //                    event handler                    //
-    const reRentButtonClickHandler = () => {
-        navigator(RENT_ABSOLUTE_PATH);
-    };
 
-    const homeButtonClickHandler = () => {
-        navigator(HOME_ABSOLUTE_PATH);
-    }
+    //                    event handler                    //
+    const reRentButtonClickHandler = () => navigator(RENT_ABSOLUTE_PATH);
+
+    const homeButtonClickHandler = () => navigator(HOME_ABSOLUTE_PATH);
 
     //                    effect                    //
     useEffect(() => {
@@ -81,4 +86,4 @@ export default function RentCancel() {
             </div>
         </div>
     );
-}
+};

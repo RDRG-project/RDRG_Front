@@ -1,25 +1,32 @@
-import axios from "axios";
-import './style.css';
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
-import { PostDeviceAddRequest } from "src/apis/device";
-import { DeviceAddRequestDto } from "src/apis/device/dto/request";
-import ResponseDto from "src/apis/response.dto";
-import { RENT_ABSOLUTE_PATH } from "src/constants";
-import { useUserStore } from "src/stores";
+
+import axios from "axios";
+
 import TypeSelectBox from "src/components/Selectbox/RentItemSelectBox/addTypeSelectBox";
 import PlaceSelectBox from "src/components/Selectbox/RentItemSelectBox/addPlaceSelectBox";
+
+import { useUserStore } from "src/stores";
+
+import ResponseDto from "src/apis/response.dto";
+import { PostDeviceAddRequest } from "src/apis/device";
+import { DeviceAddRequestDto } from "src/apis/device/dto/request";
+
+import { RENT_ABSOLUTE_PATH } from "src/constants";
+
+import './style.css';
 
 //                    component                    //
 export function RentAdd() {
     
     //                    state                    //
-    const contentsRef = useRef<HTMLTextAreaElement | null>(null);
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [cookies] = useCookies();
 
     const { loginUserRole } = useUserStore();
-    const [cookies] = useCookies();
+
+    const contentsRef = useRef<HTMLTextAreaElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [serialNumber, setSerialNumber] = useState<string>('');
     const [model, setModel] = useState<string>('');
     const [name, setName] = useState<string>('');
@@ -28,7 +35,6 @@ export function RentAdd() {
     const [brand, setBrand] = useState<string>('');
     const [price, setPrice] = useState<number>(0);
     const [place, setPlace] = useState<string>('');
-
     const [fileUpload, setFileUpload] = useState<File[]>([]);
     const [filePreviews, setFilePreviews] = useState<{ name: string, url: string }[]>([]);
 
@@ -121,7 +127,7 @@ export function RentAdd() {
     const uploadedFile = (files: File[]) => {
         if (files.length === 0) return;
         const filePreviewsToAdd = files.map(file => {
-            return { name: file.name, url: URL.createObjectURL(file) };
+            return {name: file.name, url: URL.createObjectURL(file)};
         });
 
         const fileToAdd = files[0];
@@ -137,9 +143,7 @@ export function RentAdd() {
         }
     };
 
-    const onCancelButtonClickHandler = () => {
-        navigator(RENT_ABSOLUTE_PATH);
-    };
+    const onCancelButtonClickHandler = () => navigator(RENT_ABSOLUTE_PATH);
 
     useEffect(() => {
         if (loginUserRole !== 'ROLE_ADMIN') {
