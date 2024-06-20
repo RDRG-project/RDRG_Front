@@ -2,8 +2,6 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 
-import axios from "axios";
-
 import TypeSelectBox from "src/components/Selectbox/RentItemSelectBox/addTypeSelectBox";
 import PlaceSelectBox from "src/components/Selectbox/RentItemSelectBox/addPlaceSelectBox";
 
@@ -11,6 +9,7 @@ import { useUserStore } from "src/stores";
 
 import ResponseDto from "src/apis/response.dto";
 import { PostDeviceAddRequest } from "src/apis/device";
+import { imageUploadRequest } from "src/apis/fileUpload";
 import { DeviceAddRequestDto } from "src/apis/device/dto/request";
 
 import { RENT_ABSOLUTE_PATH } from "src/constants";
@@ -106,9 +105,7 @@ export function RentAdd() {
         for (const file of fileUpload) {
             const data = new FormData();
             data.append('file', file);
-            const url = await axios.post("http://localhost:4500/rdrg/file/upload", data, { headers: { 'Content-Type': 'multipart/form-data' } })
-                .then(response => response.data as string)
-                .catch(error => null);
+            const url: string | null = await imageUploadRequest(data, cookies.accessToken);
             if (!url) continue;
 
             urlList.push(url);
