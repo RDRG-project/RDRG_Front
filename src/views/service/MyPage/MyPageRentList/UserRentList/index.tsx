@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router';
 
@@ -28,13 +28,29 @@ function RentListItem({
 
     //                    state                    //
     const [cookies] = useCookies();
+
+    const {loginUserRole} = useUserStore();
     
     //                    function                    //
     const navigator = useNavigate();
 
-    const formatDate = (datetime: string) => {
-        return datetime.split(' ')[0];
+    const patchRentStatusResponse = (result: ResponseDto | null) => {
+        const message =
+            !result ? '서버에 문제가 있습니다.' :
+            result.code === 'VF' ? '존재하지 않은 예약내역입니다.' :
+            result.code === 'AF' ? '권한이 없습니다.' :
+            result.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+
+            if (!result || result.code !== 'SU') {
+                alert(message)
+                return;
+            } else {
+                alert('대여 취소가 되었습니다.');
+                window.location.reload();
+            };
     };
+
+    const formatDate = (datetime: string) => {return datetime.split(' ')[0]};
 
     //                    event handler                    //
     const onClickHandler = () => navigator(MYPAGE_DETAILS_ABSOLUTE_PATH(rentNumber));
@@ -43,29 +59,12 @@ function RentListItem({
     const additionalCount = name.length - 1;
     const displayName = additionalCount > 0 ? `${mainName} 외 ${additionalCount}건` : mainName;
 
-    const onCancelHandler = async() => {
-        if (!cookies.accessToken) return;
+    const onCancelHandler = () => {
+        if (loginUserRole !== 'ROLE_USER') return;
+        const requestBody = { rentStatus: '대여 취소' };
         
-        const confirmCancel = window.confirm("대여를 취소하시겠습니까?")
-        if (!confirmCancel) return;
-        
-
-        try {
-            const requestBody = {
-                rentStatus : "대여 취소"
-            };
-
-            const result = await patchRentStatusRequest(cookies.accessToken ,rentNumber, requestBody);
-            if (result && result.code === 'SU') {
-                alert('취소되었습니다.');
-                window.location.reload();
-            } else {
-                alert('대여 상태 변경에 실패했습니다.')
-            }
-        } catch (error) {
-            alert('대여 상태 변경 중 오류가 발생했습니다.');
-        }
-    }
+        patchRentStatusRequest(cookies.accessToken, rentNumber, requestBody).then(patchRentStatusResponse)
+    };
 
     //                    render                    //
     return (
@@ -84,8 +83,8 @@ function RentListItem({
                         <div className='user-rent-list-next-button'></div>
                     </div>
                 </div>
-                {rentStatus !== '대여 취소' && (
-                    <div className='user-rent-list-cancel-button' onClick={onCancelHandler}> 대여 취소</div>
+                {rentStatus == '결제 완료' && (
+                <div className='user-rent-list-cancel-button' onClick={onCancelHandler}>대여 취소</div>
                 )}
             </div>
         </div>

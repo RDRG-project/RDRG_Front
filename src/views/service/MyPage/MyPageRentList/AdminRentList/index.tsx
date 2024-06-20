@@ -28,6 +28,7 @@ function AdminRentListItem({
     
     //                    state                    //
     const [ cookies ] = useCookies();
+
     const [ selectedStatus, setSelectedStatus ] = useState<string>('');
 
     //                    function                    //
@@ -47,7 +48,7 @@ function AdminRentListItem({
                 alert('상태가 변경되었습니다.');
                 window.location.reload();
             };
-        };
+    };
 
     //                    effect                 //
     useEffect(() => {
@@ -66,12 +67,11 @@ function AdminRentListItem({
     const onStatusChangeHandler = () => {
         if (!cookies.accessToken) return;
         const requestBody = { rentStatus: selectedStatus };
+
         patchRentStatusRequest(cookies.accessToken, rentNumber, requestBody).then(patchRentStatusResponse);
     };
 
-    const formatDate = (datetime: string) => {
-        return datetime.split(' ')[0];
-    };
+    const formatDate = (datetime: string) => {return datetime.split(' ')[0]};
 
     //                    render                    //
     return (
@@ -177,8 +177,7 @@ export default function AdminRentList () {
     };
     
     const onSearchButtonClickHandler = () => {
-        if (!word) return;
-        if (!cookies.accessToken) return;
+        if (!word && !cookies.accessToken) return;
     
         getAdminSearchWordRequest(word, cookies.accessToken).then((result) => {
             console.log("Search Word:", result);
