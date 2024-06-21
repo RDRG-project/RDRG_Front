@@ -152,7 +152,6 @@ export function Payment() {
         postPaymentSaveRequest(requestBody, cookies.accessToken)
             .then(result => { 
                 PostPaymentSaveResponseDto(result);
-                navigate('/rent-success', {state: {basketItems,totalAmount}});
             });
 
         setRentSite('');
