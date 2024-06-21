@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.701149ae.css",
+    "main.js": "/static/js/main.ad1e8525.js",
+    "static/media/mypage-image.png": "/static/media/mypage-image.1aba8554c82f9fc8522a.png",
+    "static/media/customer-support-image.png": "/static/media/customer-support-image.91669c25faeb62ece9a0.png",
+    "static/media/home-image.jpg": "/static/media/home-image.070701ecfdaac973a3fc.jpg",
+    "static/media/busan-image.jpg": "/static/media/busan-image.94ddcb1920acc54037fb.jpg",
+    "static/media/company-image.png": "/static/media/company-image.f1d06e50f307695c0b03.png",
+    "static/media/seoul-image.jpg": "/static/media/seoul-image.961795b03235b9ea7e44.jpg",
+    "static/media/home-guideline.jpg": "/static/media/home-guideline.bcdb98edc5c2b91c31c0.jpg",
+    "static/media/home-rent.jpg": "/static/media/home-rent.7aa53237fe465274cff6.jpg",
+    "static/media/favicon.PNG": "/static/media/favicon.fefe6b551a58df7ea43d.PNG",
+    "index.html": "/index.html",
+    "main.701149ae.css.map": "/static/css/main.701149ae.css.map",
+    "main.ad1e8525.js.map": "/static/js/main.ad1e8525.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.701149ae.css",
+    "static/js/main.ad1e8525.js"
+  ]
+}
