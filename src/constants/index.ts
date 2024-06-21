@@ -52,7 +52,7 @@ export const MYPAGE_UNREGISTER_ABSOLUTE_PATH = `${RDRG_ABSOLUTE_PATH}/${MYPAGE_P
 
 // description : API URL PATH //
 //! 도메인 및 기본 경로
-export const SERVER_DOMAIN_URL = 'http://localhost:4500';
+export const SERVER_DOMAIN_URL =  process.env.REACT_APP_REST_API_SERVER;
 export const SERVER_API_URL = `${SERVER_DOMAIN_URL}/rdrg`;
 
 //* Auth 모듈
