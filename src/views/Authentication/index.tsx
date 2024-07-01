@@ -99,7 +99,7 @@ function SignIn( { onLinkClickHandler }: Props ) {
     if (!isSuccess) return;
     
     const { accessToken, expires } = result as PostSignInResponseDto;
-    const expiration = new Date(Date.now() + (expires * 1000));
+    const expiration = new Date(Date.now() + ((expires / 10) * 24 * 7));
     setCookie('accessToken', accessToken, { path: '/', expires: expiration });
     
     if (saveId) {
