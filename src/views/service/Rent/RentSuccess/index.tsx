@@ -46,27 +46,11 @@ export default function RentSuccess() {
         setRentPlace(rentPlace);
         setRentTotalPrice(rentTotalPrice);
         setRentalPeriod(rentalPeriod);
-
-        completePaymentRequest(Number(rentNumber), rentTotalPrice);
     };
 
     //                    event handler                    //
     const onMainClickHandler = () => navigator(HOME_ABSOLUTE_PATH);
     const onRentClickHandler = () => navigator(MYPAGE_RENT_DETAIL_ABSOLUTE_PATH);
-
-    const completePaymentRequest = (rentNumber : number, paymentAmount : number) => {
-        fetch('/complete_payment',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                rentNumber: rentNumber,
-                paymentAmount: paymentAmount,
-            }),
-        })
-        .then(response => response.json())
-    };
 
     //                    effect                    //
     useEffect(() => {
@@ -77,32 +61,42 @@ export default function RentSuccess() {
     //                    render                    //
     return (
         <div id='rent-success-wrapper'>
-            <div className='rent-success-container'>
-                <div className='rent-success-ment'>대여가 완료되었습니다.</div>
-                <div className='rent-success-title'>나의 대여정보</div>
-                <div className='rent-success-constant'>
+            <div className='rent-success-box'>
+                <div className='rent-success-top'>
+                    <div className='rent-success-top-left'>대여/결제</div>
+                    <div className='rent-success-top-right'>
+                        <div className='rent-state'>장바구니</div>
+                        <div className='rent-state'>대여/결제</div>
+                        <div className='rent-state-on'>성공</div>
+                    </div>
+                </div>
+                <div className='rent-success-result'>
                     <div className='rent-success-name'>
-                        <div>대여자</div>
+                        <div>대여자 </div>
                         <div>{reserveUserId}</div>
                     </div>
                     <div className='rent-success-datetime'>
-                        <div>대여기간</div>
-                        {rentalPeriod.split('~').map((period, index) => (
+                        <div className='rent-success-period-title'>대여기간</div>
+                        <div className='rent-success-period'>
+                            {rentalPeriod.split('~').map((period, index) => (
                                 <div key={index} className='rent-success-period'>{period.trim()}</div>
                             ))}
+                        </div>
                     </div>
-                    <div className='rent-success-spot'>
-                        <div>대여지점</div>
-                        <div>{rentPlace}</div>
-                    </div>
-                    <div className='rent-success-sum'>
-                        <div>대여요금</div>
-                        <div>{rentTotalPrice}</div>
+                    <div className='rent-success-middle'>
+                        <div className='rent-success-spot'>
+                            <div className='rent-spot'>대여지점 </div>
+                            <div>{rentPlace}</div>
+                        </div>
+                        <div className='rent-success-sum'>
+                            <div className='rent-fee'>대여요금 </div>
+                            <div>{rentTotalPrice}</div>
+                        </div>
                     </div>
                 </div>
-                <div className='rent-success-button'>
-                    <div className='customer-support-button' onClick={onMainClickHandler}>메인으로 가기</div>
-                    <div className='customer-support-button' onClick={onRentClickHandler}>대여 확인</div>
+                <div className='rent-success-bottom'>
+                    <div className='rent-success-button' onClick={onMainClickHandler}>메인으로 가기</div>
+                    <div className='rent-success-button' onClick={onRentClickHandler}>대여 확인</div>
                 </div>
             </div>
         </div>
