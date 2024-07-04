@@ -20,7 +20,6 @@ export default function RentSuccess() {
 
     const { loginUserId } = useUserStore();
 
-    const { rentNumber } = useParams();
     const [rentPlace, setRentPlace] = useState<string>('');
     const [rentalPeriod, setRentalPeriod] = useState<string>('');
     const [reserveUserId, setReserveUserId] = useState<string>('');
